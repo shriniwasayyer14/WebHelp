@@ -1,0 +1,22 @@
+{
+  "name": "Intro_JS",
+  "version": "0.1",
+  "description": "Intro js project",
+  "main": "main.js",
+  "keywords": [
+    "intro",
+    "help"
+  ],
+  "authors": [
+    "sayyer"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

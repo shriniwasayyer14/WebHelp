@@ -1,0 +1,631 @@
+/*
+Last edited by:$Author: lhe $
+on:$Date: 2014/10/01 16:28:59 $
+Filename:$RCSfile: core.css,v $
+Revision:$Revision: 1.11 $
+*/
+/*
+========================================
+CSS Color Variables Reference for Aladdin UI
+========================================
+grey1				DBDBDB
+grey2				787878
+grey3				555555
+blue				325CBA
+navy				092A59
+green				3CB54B
+tan					B98F2F
+red					BB4B31
+cyan				32A0BA
+blue1				F1F3FA
+blue2				C9D4ED
+blue3				A1B5DD
+blue4				7A95CC
+blue5				5474B9
+blue6				325CBA
+blue7				274891
+blue8				213569
+blue9				102040
+blue10				D111B
+bluetint1			849DD0
+bluetint2			ADBEE2
+bluetint3			D7DFF1
+navytint1			6C809C
+navytint2			9DAABD
+navytint3			CEBDDE
+greentint1			8DCC92
+greentint2			B3DBB6
+greentint3			D8ECDA
+tantint1			D5BC81
+tantint2			E3D3AC
+tantint3			F0E8D5
+redtint1			D69383
+redtint2			E4B7AD
+redtint3			F1DBD5
+cyantint1			85C6D5
+cyantint2			ADD9E3
+cyantint3			D6ECF1
+*/
+/* Aladdinized CSS for Angular Grid */
+.ai-tableTitle {
+  color: white;
+  background-color: #008CCF;
+  height: inherit;
+  text-decoration: none;
+  font-weight: bold;
+  text-align: center;
+}
+
+/* Some extra non-variable bootstrap overrides */
+.nav-tabs > li.active > a {
+  color: white !important;
+}
+
+.btn {
+  min-height: 31px;
+  font-size: 12px;
+}
+
+.btn.light {
+  background-color: white;
+}
+
+.btn.light.hasborder {
+  border: 1px solid #DBDBDB;
+}
+
+.btn.light:hover, .btn.light:focus {
+  color: #008CCF;
+  background-color: #E5EEF5;
+}
+
+.btn.light.hasborder:hover {
+  border: 1px solid #008CCF;
+}
+
+.detached .nav-tabs > li > a {
+  border-radius: 4px 4px 4px 4px;
+  padding-top: 6px;
+  padding-bottom: 6px;
+  border: 1px solid #CCCCCC;
+}
+
+.detached .nav-tabs:hover > li > a {
+  border-radius: 4px 4px 4px 4px;
+  padding-top: 6px;
+  padding-bottom: 6px;
+}
+
+.nav-tabs > li > a {
+  cursor: pointer;
+}
+
+.navbar-nav.navbar-right:last-child {
+  margin-right: 0px;
+}
+
+.table > thead > tr > th {
+  padding: 2px;
+  vertical-align: middle;
+  text-align: center;
+  background-color: #dbdbdb;
+  border-bottom: 1px solid #777777;
+}
+
+.modal-header .close {
+  color: white;
+  font-weight: normal;
+  text-shadow: none;
+  opacity: 1;
+  filter: alpha(opacity=100);
+  margin-top: -10px;
+}
+
+/* Other CSS starts here */
+body {
+  font-family: Tahoma, Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+}
+
+.clickable {
+  cursor: pointer;
+  cursor: hand;
+}
+
+h2 {
+  font-size: 12px;
+}
+
+h3 {
+  font-size: 125%;
+}
+
+input.highlighted {
+  background-color: #D1E1F3;
+}
+
+input.shaded {
+  background-color: #DBDBDB;
+}
+
+input.invalid, input.error, input.ng-invalid.ng-touched {
+  background-color: #F1DBD5;
+}
+
+a {
+  color: #005DA0;
+  white-space: nowrap;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+.numeric {
+  text-align: right;
+}
+
+/* Class for scrolling on touch screens */
+.scrollable {
+  overflow: auto;
+  -webkit-transition-property: top, bottom;
+  transition-property: top, bottom;
+  -webkit-transition-duration: .2s, .2s;
+  transition-duration: .2s, .2s;
+  -webkit-transition-timing-function: linear, linear;
+  transition-timing-function: linear, linear;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* General UI Styling */
+.ai-header {
+  background: #008CCF;
+  background-image: url('/images/appimages/newUI/header/Aladdin_Interface_Background_02.png');
+  background-image: url('/images/appimages/newUI/header/Aladdin_Interface_Background_02.png'), url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4gPHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJncmFkIiBncmFkaWVudFVuaXRzPSJvYmplY3RCb3VuZGluZ0JveCIgeDE9IjAuMCIgeTE9IjAuNSIgeDI9IjEuMCIgeTI9IjAuNSI+PHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzAwOGNjZiIvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iIzAwNWRhMCIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZ3JhZCkiIC8+PC9zdmc+IA==');
+  background-size: 100%;
+  background-image: url('/images/appimages/newUI/header/Aladdin_Interface_Background_02.png'), -webkit-gradient(linear, 0% 50%, 100% 50%, color-stop(0%, #008ccf), color-stop(100%, #005da0));
+  background-image: url('/images/appimages/newUI/header/Aladdin_Interface_Background_02.png'), -moz-linear-gradient(left, #008ccf, #005da0);
+  background-image: url('/images/appimages/newUI/header/Aladdin_Interface_Background_02.png'), -webkit-linear-gradient(left, #008ccf, #005da0);
+  background-image: url('/images/appimages/newUI/header/Aladdin_Interface_Background_02.png'), linear-gradient(to right, #008ccf, #005da0);
+  background-position: center;
+  background-repeat: no-repeat;
+  font-size: 100%;
+  overflow: hidden;
+  width: 100%;
+  color: white;
+  min-width: 480px;
+  position: fixed;
+  height: 42px;
+  z-index: 10;
+}
+.ai-header .ai-header-title {
+  float: left;
+  font-family: "Arial", Tahoma, Arial, sans-serif;
+  font-size: 2.0075em;
+  margin: 10px 0px 0px 10px;
+  line-height: 17px;
+}
+.ai-header .ai-header-controls {
+  float: right;
+  margin: 12px 10px 0px 0px;
+}
+.ai-header .ai-header-logo {
+  float: right;
+  background-image: url('/images/appimages/newUI/header/Aladdin_Logo_Single_Line_White.png');
+  width: 145px;
+  height: 17px;
+  margin: 10px 15px 0px 0px;
+}
+.ai-header .ai-header-menu {
+  margin: 14px 0px 0px 20px;
+  font-size: 1.00375em;
+  height: 30px;
+  clear: both;
+}
+.ai-header .ai-header-menu:empty {
+  height: 0px;
+  display: none;
+}
+
+.ai-navbar {
+  border-bottom: 1px solid #DBDBDB;
+  padding-left: 10px;
+  height: 40px;
+  top: 42px;
+  background-color: white;
+}
+.ai-navbar .nav {
+  display: inline-block;
+  vertical-align: "middle";
+  *vertical-align: auto;
+  *zoom: 1;
+  *display: inline;
+  cursor: pointer;
+}
+.ai-navbar .nav a {
+  text-decoration: none;
+  font-weight: bold;
+  color: #333333;
+}
+.ai-navbar .nav-right {
+  float: right;
+  padding: 10px;
+  padding-right: 10px;
+}
+.ai-navbar .nav-left {
+  float: left;
+  padding-top: 10px;
+  padding-right: 10px;
+}
+.ai-navbar .nav-button {
+  width: 16px;
+  height: 16px;
+  margin-right: 10px;
+}
+
+.ai-tabBar ul.nav.nav-tabs {
+  height: 26px;
+}
+
+.ai-sidebar {
+  position: fixed;
+  top: 42px;
+  right: 0;
+  left: 0;
+  height: 100%;
+  width: auto;
+  background: #777777;
+  color: white;
+}
+.ai-sidebar .nav a {
+  text-decoration: none;
+  color: white;
+  border-bottom: 1px solid #DBDBDB;
+  padding: 10px 0px 10px 20px;
+  height: 40px;
+}
+.ai-sidebar .nav-stacked > li + li {
+  margin-top: 0px;
+}
+.ai-sidebar .active > a,
+.ai-sidebar .active > a:hover,
+.ai-sidebar .active > a:focus {
+  color: #fff;
+  font-weight: bold;
+  background-color: #333333;
+  border-bottom: 1px solid #777777;
+}
+
+.ai-content {
+  position: fixed;
+  top: 42px;
+  right: 0;
+  left: 0;
+  height: 100%;
+  z-index: 2;
+  background: white;
+  min-width: 300px;
+  -webkit-overflow-scrolling: touch;
+  -webkit-transform: translate3d(0, 0, 0);
+  -moz-transform: translate3d(0, 0, 0);
+  -ms-transform: translate3d(0, 0, 0);
+  -o-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
+}
+
+.ai-content-shifted {
+  left: 180px;
+}
+
+.ai-content-unshifted {
+  left: 0;
+}
+
+.ai-mainwindow {
+  height: 100%;
+  overflow: auto;
+}
+
+/* Table and Grid Styles */
+.gridStyle {
+  width: 100%;
+}
+
+.ai-tableContainer {
+  border: 1px solid #EBEBEB;
+}
+
+.ai-table {
+  border-collapse: collapse;
+}
+
+.ai-tableTitle {
+  border-left: 1px solid #EBEBEB;
+  border-right: 1px solid #EBEBEB;
+  width: 100%;
+}
+.ai-tableTitle input {
+  width: auto;
+  text-align: center;
+  height: 28px;
+  background-color: #005DA0;
+  border: 1px solid white;
+  outline: none;
+}
+.ai-tableTitle span {
+  padding-top: 2px;
+}
+.ai-tableTitle img {
+  margin-top: -3px;
+}
+
+.ai-makeNewTab {
+  border: 1px solid #CCCCCC;
+  border-radius: 4px 4px 4px 4px;
+  box-sizing: border-box;
+  background-color: white;
+  font-weight: bold;
+  color: #005DA0;
+  display: block;
+  padding: 6px 10px 6px 10px;
+}
+.ai-makeNewTab a:hover {
+  text-decoration: none;
+}
+.ai-makeNewTab .fa {
+  color: #DBDBDB;
+}
+
+.ai-falseTab {
+  float: left;
+  margin-right: 2px;
+}
+
+.ai-makeNewTab:hover .fa, .ai-makeNewTab:focus .fa {
+  color: #37B34A;
+}
+
+.ai-makeNewTab:hover, .ai-makeNewTab:focus {
+  background-color: #CCCCCC;
+}
+
+.ai-titleCenter {
+  padding-top: 2px;
+}
+
+.ai-tableTitle > div {
+  display: inline-block;
+}
+
+.ai-tableTitle > .ai-titleRight {
+  float: right;
+  padding-right: 1px;
+}
+
+.ai-table > thead > tr > td, .ai-table > thead > tr > th {
+  border-collapse: collapse;
+  font-size: 12px;
+  border: 1px solid #EBEBEB;
+  background-color: #DBDBDB;
+  height: inherit;
+  text-align: center;
+}
+
+.ai-tableCell, .ai-table > tbody > tr > td, .ai-table > tr > td {
+  border-collapse: collapse;
+  font-size: 12px;
+  border: 1px solid #EBEBEB;
+  height: inherit;
+}
+.ai-tableCell .numeric, .ai-table > tbody > tr > td .numeric, .ai-table > tr > td .numeric {
+  text-align: right;
+}
+
+.ai-tableFooter, .ai-table > tfoot, .ai-tableFooter > .ngTotalSelectContainer {
+  background-color: #EBEBEB;
+  color: #777777;
+}
+.ai-tableFooter .ai-tableCell, .ai-tableFooter td, .ai-tableFooter .ngCell, .ai-tableFooter .ngFooterCell, .ai-table > tfoot .ai-tableCell, .ai-table > tfoot td, .ai-table > tfoot .ngCell, .ai-table > tfoot .ngFooterCell, .ai-tableFooter > .ngTotalSelectContainer .ai-tableCell, .ai-tableFooter > .ngTotalSelectContainer td, .ai-tableFooter > .ngTotalSelectContainer .ngCell, .ai-tableFooter > .ngTotalSelectContainer .ngFooterCell {
+  color: #777777;
+  background-color: #EBEBEB;
+}
+.ai-tableFooter .numeric, .ai-table > tfoot .numeric, .ai-tableFooter > .ngTotalSelectContainer .numeric {
+  text-align: right;
+}
+
+/* Tabs */
+.ai-tabBar {
+  position: relative;
+}
+
+.ai-tabControls {
+  float: right;
+  padding-right: 2px;
+}
+
+.ai-tabLabel {
+  display: inline-block;
+  padding-left: 10px !important;
+  padding-right: 10px !important;
+}
+
+/* Dropdown menu styles */
+.ai-dropdown .category {
+  padding-left: 10px;
+}
+
+/* Modals */
+.ai-modal-title {
+  height: 20px;
+  background-color: #008CCF;
+  background-image: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4gPHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJncmFkIiBncmFkaWVudFVuaXRzPSJvYmplY3RCb3VuZGluZ0JveCIgeDE9IjAuMCIgeTE9IjAuNSIgeDI9IjEuMCIgeTI9IjAuNSI+PHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzAwOGNjZiIvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iIzAwNWRhMCIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZ3JhZCkiIC8+PC9zdmc+IA==');
+  background-size: 100%;
+  background-image: -webkit-gradient(linear, 0% 50%, 100% 50%, color-stop(0%, #008ccf), color-stop(100%, #005da0));
+  background-image: -moz-linear-gradient(left, #008ccf, #005da0);
+  background-image: -webkit-linear-gradient(left, #008ccf, #005da0);
+  background-image: linear-gradient(to right, #008ccf, #005da0);
+  padding-left: 10px;
+  color: white;
+  vertical-align: middle;
+  border: none;
+}
+
+.ai-modal-content {
+  background-color: white;
+}
+
+.ui-ta-editor {
+  min-height: 300px;
+  height: auto;
+  overflow: hidden;
+  font-family: inherit;
+  font-size: 100%;
+  margin: 20px 0;
+}
+
+.ai-bodyDropdown {
+  position: absolute !important;
+  top: 0px;
+  left: 0px;
+  z-index: 20;
+}
+
+.fa.validationIcon {
+  margin-left: -14px;
+  margin-right: 2px;
+  width: 16px;
+}
+
+.fa.validationIcon.valid {
+  color: #8DCC92;
+}
+
+.ai-inputField {
+  width: 20%;
+  display: inline;
+}
+
+.ai-tab-heading {
+  background-color: #EEEEEE;
+  border: 1px solid #CCCCCC;
+}
+
+div.nowrap {
+  margin: 0px;
+  padding: 0px;
+  display: inherit;
+  position: inherit;
+  white-space: nowrap;
+}
+
+#userActionsContainer {
+  float: right;
+  min-height: 36px;
+}
+
+#userActionsContainer.focused,
+#userActionsContainer.focused .user-utils-container {
+  box-shadow: 0 5px 13px rgba(0, 0, 0, 0.11);
+  -moz-box-shadow: 0 5px 13px rgba(0, 0, 0, 0.11);
+  -webkit-box-shadow: 0 5px 13px rgba(0, 0, 0, 0.11);
+  background-color: #EEEEEE;
+}
+
+#userActionsContainer .user-utils-container {
+  position: absolute;
+  top: 36px;
+  z-index: 999999;
+}
+
+#userActionsContainer .user-utils {
+  display: none;
+  text-align: right;
+  padding-right: 20px;
+  padding-bottom: 10px;
+}
+
+#userActionsContainer.focused .user-utils {
+  display: block;
+}
+
+#userActionsButton {
+  background: url('/images/appimages/newUI/L2/S_Z/View_profile.png') no-repeat 5px center;
+  padding-left: 25px;
+  float: none;
+}
+
+#userActionsButton:hover {
+  color: #008ccf;
+  background-color: #e5eef5;
+}
+
+.component-apb #bodyWrapper {
+  box-shadow: none;
+  -moz-box-shadow: none;
+  -webkit-box-shadow: none;
+  padding: 0;
+  position: relative;
+  overflow: hidden;
+  margin: 0 auto;
+}
+
+.display-none {
+  display: none;
+  visibility: hidden;
+}
+
+.sign-in-required-background {
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  z-index: 99999;
+  opacity: 0.75;
+  background: black;
+}
+
+.sign-in-required-container {
+  position: fixed;
+  top: 30%;
+  left: 30%;
+  width: 40%;
+  background-color: #fff;
+  margin: 0 auto;
+  z-index: 100000;
+  display: block;
+  -webkit-box-shadow: 0px 10px 16px 5px rgba(50, 50, 50, 0.75);
+  -moz-box-shadow: 0px 10px 16px 5px rgba(50, 50, 50, 0.75);
+  box-shadow: 0px 10px 16px 5px rgba(50, 50, 50, 0.75);
+}
+
+.sign-in-required {
+  padding: 50px;
+  margin: auto;
+  width: 300px;
+  z-index: 99999;
+  color: #414042;
+}
+
+.sign-in-button-container {
+  margin: auto;
+  text-align: center;
+}
+
+.sign-in-button-container .sign-in-required-button {
+  font-size: 12px;
+}
+
+.sign-in-required-text {
+  margin: 0 auto;
+  text-align: center;
+  z-index: 999999;
+  font-size: 16px;
+  margin-bottom: 10px;
+}

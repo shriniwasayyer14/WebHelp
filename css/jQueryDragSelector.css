@@ -1,0 +1,42 @@
+.selection {
+    position: absolute;
+    border: 1px solid #89B;
+    background: #BCE;
+    background-color: #BEC;
+    border-color: #8B9;
+}
+
+.size2 {
+    height: 118px;
+    line-height: 118px;
+}
+
+.size3 {
+    height: 178px;
+    line-height: 178px;
+}
+
+.drop {
+    float: left;
+    border: 1px dashed #888;
+    background: #EEE;
+    text-align: center;
+    padding: 20px;
+    margin: 0 10px 10px 0;
+}
+
+.dragSelectedElement {
+    background-color: #cbcbcb;
+    border-color: #5b5b5b;
+}
+
+.fadedDragSelectedElement {
+    zoom: 1;
+    filter: alpha(opacity=75);
+    opacity: 0.75;
+    -webkit-transition: opacity .5s ease-in-out;
+    -moz-transition: opacity .5s ease-in-out;
+    -ms-transition: opacity .5s ease-in-out;
+    -o-transition: opacity .5s ease-in-out;
+    transition: opacity .5s ease-in-out;
+}
