@@ -36,7 +36,6 @@ function createStepForThisElement(arrayOfElems) {
         "<div contenteditable>I'm editable</div>;",
         "<div contenteditable>I'm editable</div>"])
         .draw();
-
 }
 
 function removeThisStep() {
