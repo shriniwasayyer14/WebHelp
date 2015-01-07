@@ -51,10 +51,12 @@ var jQueryDragSelector = {
                         })
                         .popover('show');
                     /*TODO: I need to find a better way than binding global onclick events to the buttons*/
+                } else {
+                    alertNoSelection();
                 }
             });
 
-        jQuery('div, input, select, textarea, button, a')
+        jQuery('div, input, textarea, button, a')
             .drop("start", function (ev, dd) {
                 jQuery(this).addClass("active");
             })
@@ -98,7 +100,9 @@ var jQueryDragSelector = {
         jQuery.drop({
             multi: true
         });
+        this.isOn = true;
     },
+    isOn: false,
     selectedObjects: [],
     confirmSelection: function (confirmBoolean) {
         jQuery(jQuery('.dragSelectedElement')[0]).popover('destroy');
@@ -133,9 +137,10 @@ var jQueryDragSelector = {
         this.selectedObjects = arrayOfObjects;
         this.off();
     },
-    off : function() {
+    off: function () {
         jQuery(document).unbind("draginit").unbind("dragstart").unbind("drag").unbind("dragend");
-        jQuery('div, input, select, textarea, button, a').unbind("drop");
+        jQuery('div, input, textarea, button, a').unbind("drop");
+        this.isOn = false;
     }
 };
 
