@@ -1,81 +1,100 @@
 <!DOCTYPE html>
 <html>
-    <head>
+<head>
     <title>Intro JS</title>
-        <script src="js/main.js"></script>
-        <script src="js/vendor/jquery-1.11.1.js"></script>
-        <script src="bower_components/jquery-ui/jquery-ui.min.js"></script>
-        <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-        <script src="js/vendor/BootSideMenu.js"></script>
-        <script src="bower_components/DataTables/media/js/jquery.dataTables.min.js"></script>
-        <script src="js/vendor/jquery.dataTables.rowReordering.js"></script>
-        <script src="js/vendor/jquery.event.drag-2.2.js"></script>
-        <script src="js/vendor/jquery.event.drag.live-2.2.js"></script>
-        <script src="js/vendor/jquery.event.drop-2.2.js"></script>
-        <script src="js/vendor/jquery.event.drop.live-2.2.js"></script>
-        <script src="js/jQueryDragSelector.js"></script>
-        <style>
-            #brs_header { background-image:url("/images/appimages/header_name_goes_here.jpg"); }
-            #app_footer { background-image:url("/images/appimages/footer_name_goes_here.jpg"); }
-        </style>
+    <script src="js/main.js"></script>
+    <script src="js/vendor/jquery-1.11.1.js"></script>
+    <script src="bower_components/jquery-ui/jquery-ui.min.js"></script>
+    <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="js/vendor/BootSideMenu.js"></script>
+    <script src="bower_components/DataTables/media/js/jquery.dataTables.min.js"></script>
+    <script src="js/vendor/jquery.dataTables.rowReordering.js"></script>
+    <script src="js/vendor/jquery.event.drag-2.2.js"></script>
+    <script src="js/vendor/jquery.event.drag.live-2.2.js"></script>
+    <script src="js/vendor/jquery.event.drop-2.2.js"></script>
+    <script src="js/vendor/jquery.event.drop.live-2.2.js"></script>
+    <script src="js/jQueryDragSelector.js"></script>
+    <style>
+        #brs_header {
+            background-image: url("/images/appimages/header_name_goes_here.jpg");
+        }
 
-        <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
-        <link rel="stylesheet" href="bower_components/DataTables/media/css/jquery.dataTables.min.css"/>
-        <link rel="stylesheet" href="bower_components/DataTables/media/css/jquery.dataTables_themeroller.css"/>
-        <link rel="stylesheet" href="css/BootSideMenu.css"/>
-        <link rel="stylesheet" href="css/jQueryDragSelector.css"/>
-        <link rel="stylesheet" href="css/core.css" />
-        <link rel="stylesheet" href="css/main.css" />
-    </head>
-    <body>
-        <div id="testInputDiv" style="padding-top: 10px;padding-left: 10px;height:99%;width:70%;">
-            <form action="#" method="post">
-                <div>
-                    <label for="name">Text Input:</label>
-                    <input type="text" name="name" id="name" value="" tabindex="1" />
-                </div>
-                <div>
-                    <h4>Radio Button Choice</h4>
-                    <label for="radio-choice-1">Choice 1</label>
-                    <input type="radio" name="radio-choice-1" id="radio-choice-1" tabindex="2" value="choice-1" />
+        #app_footer {
+            background-image: url("/images/appimages/footer_name_goes_here.jpg");
+        }
+    </style>
 
-                    <label for="radio-choice-2">Choice 2</label>
-                    <input type="radio" name="radio-choice-2" id="radio-choice-2" tabindex="3" value="choice-2" />
-                </div>
-
-                <div>
-                    <label for="textarea">Textarea:</label>
-                    <textarea cols="40" rows="8" name="textarea" id="textarea"></textarea>
-                </div>
-
-                <div>
-                    <label for="checkbox">Checkbox:</label>
-                    <input type="checkbox" name="checkbox" id="checkbox" />
-                </div>
-
-                <div>
-                    <input type="submit" value="Submit" />
-                </div>
-                <div>
-                    <input type="submit" value="Submit2" />
-                </div>
-            </form>
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css"/>
+    <link rel="stylesheet" href="bower_components/DataTables/media/css/jquery.dataTables.min.css"/>
+    <link rel="stylesheet" href="bower_components/DataTables/media/css/jquery.dataTables_themeroller.css"/>
+    <link rel="stylesheet" href="css/BootSideMenu.css"/>
+    <link rel="stylesheet" href="css/jQueryDragSelector.css"/>
+    <link rel="stylesheet" href="css/core.css"/>
+    <link rel="stylesheet" href="css/main.css"/>
+</head>
+<body>
+<div id="testInputDiv" style="padding-top: 10px;padding-left: 10px;height:99%;width:70%;">
+    <form action="#" method="post">
+        <div>
+            <label for="name">Text Input:</label>
+            <input type="text" name="name" id="name" value="" tabindex="1"/>
         </div>
-    <div id="demo">
-        <div class="jumbotron">
-            <h3>Configure your intro steps</h3>
-            <p>Click on 'Add Step', select an element and enter a description!</p>
-            <p><a class="btn btn-primary btn-lg" href="#" role="button" onClick="startSelectionOfElement();">Add Step</a></p>
+        <div>
+            <h4>Radio Button Choice</h4>
+            <label for="radio-choice-1">Choice 1</label>
+            <input type="radio" name="radio-choice-1" id="radio-choice-1" tabindex="2" value="choice-1"/>
+
+            <label for="radio-choice-2">Choice 2</label>
+            <input type="radio" name="radio-choice-2" id="radio-choice-2" tabindex="3" value="choice-2"/>
         </div>
-        <section contenteditable="true">
+
+        <div>
+            <label for="textarea">Textarea:</label>
+            <textarea cols="40" rows="8" name="textarea" id="textarea"></textarea>
+        </div>
+
+        <div>
+            <label for="checkbox">Checkbox:</label>
+            <input type="checkbox" name="checkbox" id="checkbox"/>
+        </div>
+
+        <div>
+            <input type="submit" value="Submit"/>
+        </div>
+
+        <div>
+            <label for="select-choice">Select Dropdown Choice:</label>
+            <select name="select-choice" id="select-choice">
+                <option value="Choice 1">Choice 1</option>
+                <option value="Choice 2">Choice 2</option>
+                <option value="Choice 3">Choice 3</option>
+            </select>
+        </div>
+    </form>
+</div>
+<div id="demo">
+    <div class="jumbotron">
+        <h3>Configure your intro steps</h3>
+
+        <p>Click on 'Add Step', select an element and enter a description!</p>
+
+        <p><a class="btn btn-primary btn-lg" href="#" role="button" onClick="startSelectionOfElement();">Add Step</a>
+        </p>
+    </div>
+    <div class="alert alert-warning" id="noElementsSelectedDiv" style="display: none;">
+        <button type="button" class="close" onclick="jQuery('#noElementsSelectedDiv').hide();" aria-label="Close"><span
+                aria-hidden="true">&times;</span></button>
+        No elements were selected, please try again
+    </div>
+    <section contenteditable="true">
         <table id="stepsTable" class="table table-bordered table-hover">
         </table>
-        </section>
-    </div>
-    <script>
-        $(document).ready(function() {
-            init();
-        });
-    </script>
-    </body>
+    </section>
+</div>
+<script>
+    $(document).ready(function () {
+        init();
+    });
+</script>
+</body>
 </html>
