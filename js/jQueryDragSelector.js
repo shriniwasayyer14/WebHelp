@@ -51,8 +51,6 @@ var jQueryDragSelector = {
                         })
                         .popover('show');
                     /*TODO: I need to find a better way than binding global onclick events to the buttons*/
-                } else {
-                    jQuery('#selectedElements').html("");
                 }
             });
 
@@ -136,7 +134,8 @@ var jQueryDragSelector = {
         this.off();
     },
     off : function() {
-        jQuery(document).unbind("draginit dragstart drag dragend");
+        jQuery(document).unbind("draginit").unbind("dragstart").unbind("drag").unbind("dragend");
+        jQuery('div, input, select, textarea, button, a').unbind("drop");
     }
 };
 
