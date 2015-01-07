@@ -45,7 +45,5 @@ function removeThisStep() {
 
 function alertNoSelection() {
     $('#noElementsSelectedDiv').show();
-    if (!jQueryDragSelector.isOn) {
-        jQueryDragSelector.on();
-    }
+    jQueryDragSelector.on();
 }
