@@ -26,8 +26,8 @@
 }
 
 .dragSelectedElement {
-    background-color: #cbcbcb;
-    border-color: #5b5b5b;
+    background-color: #efefef;
+    /*border-color: #5b5b5b;*/
 }
 
 .fadedDragSelectedElement {
