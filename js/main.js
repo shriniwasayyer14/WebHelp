@@ -27,14 +27,15 @@ function createStepForThisElement(arrayOfElems) {
     var t = $("#stepsTable").DataTable();
     var elemText = "";
     for (var i = 0; i < arrayOfElems.length; i++) {
-        elemText += arrayOfElems[i].attribute + " ";
+        elemText += arrayOfElems[i].value + "&";
     }
+    elemText = elemText.substring(0, elemText.length -1 );
     t.row.add([
         "<span class='glyphicon glyphicon-remove' aria-hidden='true' onclick='removeThisStep()'></span>",
-        "<input type='text'>I'm editable</input>",
-        "<div contenteditable>" + elemText + "</div>",
-        "<div contenteditable>I'm editable</div>;",
-        "<div contenteditable>I'm editable</div>"])
+        "I'm editable",
+         elemText,
+        "Blah Blah Blah",
+        "I'm editable"])
         .draw();
 }
 
@@ -46,4 +47,33 @@ function removeThisStep() {
 function alertNoSelection() {
     $('#noElementsSelectedDiv').show();
     jQueryDragSelector.on();
+}
+
+function preview() {
+    var rows = $("#stepsTable").DataTable().rows().data();
+    if(rows.length <= 0) {
+        alert("Please create intro steps!");
+        return;
+    }
+    var preview = introJs();
+    var previewSteps = new Array();
+
+    // Add the start of preview welcome message
+    previewSteps.push({
+        intro:"Welcome to 'Test App'>"
+    });
+    for(var n=0;n<rows.length;n++) {
+       var elemAttribVal = rows[n][2];
+       var elem = document.querySelector("#"+elemAttribVal); // Assuming the elem attrib is an id for now
+        var content = rows[n][3];
+
+        previewSteps.push({
+            element:elem,
+            intro:content,
+            position:'bottom'
+        });
+    }
+
+    preview.setOptions({steps:previewSteps});
+    preview.start();
 }
