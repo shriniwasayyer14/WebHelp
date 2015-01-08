@@ -35,11 +35,11 @@ function createStepForThisElement(arrayOfElems) {
     for (var i = 0; i < arrayOfElems.length; i++) {
         elemText += arrayOfElems[i].value + "&";
     }
-    elemText = elemText.substring(0, elemText.length -1 );
+    elemText = elemText.substring(0, elemText.length - 1);
     t.row.add([
         "<span class='glyphicon glyphicon-remove' aria-hidden='true' onclick='removeThisStep()'></span>",
         "I'm editable",
-         elemText,
+        elemText,
         "Blah Blah Blah",
         "I'm editable"])
         .draw();
@@ -57,8 +57,8 @@ function alertNoSelection() {
 
 function preview() {
     var rows = $("#stepsTable").DataTable().rows().data();
-    if(rows.length <= 0) {
-        alert("Please create intro steps!");
+    if (rows.length <= 0) {
+        jQuery('#noStepsInPreviewDiv').show();
         return;
     }
     var preview = introJs();
@@ -66,20 +66,20 @@ function preview() {
 
     // Add the start of preview welcome message
     previewSteps.push({
-        intro:"Welcome to 'Test App'>"
+        intro: "Welcome to 'Test App'>"
     });
-    for(var n=0;n<rows.length;n++) {
-       var elemAttribVal = rows[n][2];
-       var elem = document.querySelector("#"+elemAttribVal); // Assuming the elem attrib is an id for now
+    for (var n = 0; n < rows.length; n++) {
+        var elemAttribVal = rows[n][2];
+        var elem = document.querySelector("#" + elemAttribVal); // Assuming the elem attrib is an id for now
         var content = rows[n][3];
 
         previewSteps.push({
-            element:elem,
-            intro:content,
-            position:'bottom'
+            element: elem,
+            intro: content,
+            position: 'bottom'
         });
     }
 
-    preview.setOptions({steps:previewSteps});
+    preview.setOptions({steps: previewSteps});
     preview.start();
 }
