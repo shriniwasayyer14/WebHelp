@@ -43,7 +43,7 @@ var jQueryDragSelector = {
                             .popover({
                                 html: true,
                                 trigger: 'manual',
-                                placement: 'top',
+                                placement: 'auto top',
                                 content: '<div>Go ahead with this selection ?</div>' +
                                 '<div class="btn-group">' +
                                 '<button type="button" class="btn btn-success" onclick="jQueryDragSelector.confirmSelection(true)">Yes</button>' +
