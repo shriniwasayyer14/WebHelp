@@ -84,7 +84,10 @@
             <button data-toggle="tooltip" data-placement="top"
                     title="Click and drag over elements on the page to select them"
                     class="btn btn-primary btn-lg" href="#" role="button" id="startDragDropButton"
-                    onClick="startSelectionOfElement();">Add Step
+                    onClick="startSelectionOfElement(true);">Add Step on element
+            </button>
+            <button class="btn btn-default btn-lg" href="#" role="button" id="startEmptyStepButton"
+                    onClick="startSelectionOfElement(false);">Add Step on page
             </button>
             <button class="btn btn-danger btn-lg" href="#" id="cancelDragDropButton" role="button"
                     onClick="jQueryDragSelector.off();">Cancel

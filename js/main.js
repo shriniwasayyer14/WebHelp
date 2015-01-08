@@ -19,14 +19,18 @@ function init() {
     ).rowReordering();
 }
 
-function startSelectionOfElement() {
-    jQueryDragSelector.on();
-    jQuery("#startDragDropButton").tooltip({
-        trigger: 'manual'
-    }).tooltip("show");
-    setTimeout(function () {
-        jQuery("#startDragDropButton").tooltip('hide');
-    }, 3000);
+function startSelectionOfElement(selectElement) {
+    if (selectElement) {
+        jQueryDragSelector.on();
+        jQuery("#startDragDropButton").tooltip({
+            trigger: 'manual'
+        }).tooltip("show");
+        setTimeout(function () {
+            jQuery("#startDragDropButton").tooltip('hide');
+        }, 3000);
+    } else {
+        createStepForThisElement([]);
+    }
 }
 
 function createStepForThisElement(arrayOfElems) {
@@ -70,14 +74,20 @@ function preview() {
     });
     for (var n = 0; n < rows.length; n++) {
         var elemAttribVal = rows[n][2];
-        var elem = document.querySelector("#" + elemAttribVal); // Assuming the elem attrib is an id for now
         var content = rows[n][3];
-
-        previewSteps.push({
-            element: elem,
-            intro: content,
-            position: 'bottom'
-        });
+        if (elemAttribVal) {
+            var elem = document.querySelector("#" + elemAttribVal); // Assuming the elem attrib is an id for now
+            previewSteps.push({
+                element: elem,
+                intro: content,
+                position: 'bottom'
+            });
+        } else {
+            previewSteps.push({
+                intro: content,
+                position: 'bottom'
+            });
+        }
     }
 
     preview.setOptions({steps: previewSteps});
