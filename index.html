@@ -78,8 +78,16 @@
 
         <p>Click on 'Add Step', select an element and enter a description!</p>
 
-        <p><a class="btn btn-primary btn-lg" href="#" role="button" onClick="startSelectionOfElement();">Add Step</a>
-        </p>
+        <div class="btn-group">
+            <button data-toggle="tooltip" data-placement="top"
+                    title="Click and drag over elements on the page to select them"
+                    class="btn btn-primary btn-lg" href="#" role="button" id="startDragDropButton"
+                    onClick="startSelectionOfElement();">Add Step
+            </button>
+            <button class="btn btn-danger btn-lg" href="#" id="cancelDragDropButton" role="button"
+                    onClick="jQueryDragSelector.off();">Cancel
+            </button>
+        </div>
     </div>
     <div class="alert alert-warning" id="noElementsSelectedDiv" style="display: none;">
         <button type="button" class="close" onclick="jQuery('#noElementsSelectedDiv').hide();" aria-label="Close"><span

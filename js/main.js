@@ -21,6 +21,12 @@ function init() {
 
 function startSelectionOfElement() {
     jQueryDragSelector.on();
+    jQuery("#startDragDropButton").tooltip({
+        trigger: 'manual'
+    }).tooltip("show");
+    setTimeout(function () {
+        jQuery("#startDragDropButton").tooltip('hide');
+    }, 3000);
 }
 
 function createStepForThisElement(arrayOfElems) {
