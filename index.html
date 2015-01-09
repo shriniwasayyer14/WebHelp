@@ -76,22 +76,57 @@
     </form>
 </div>
 <div id="demo">
-    <div class="jumbotron">
-        <h3>Configure your intro steps</h3>
+    <div class="tabbable"> <!-- Only required for left/right tabs -->
+        <ul class="nav nav-tabs">
+            <li class="active"><a href="#availableSequences" data-toggle="tab">Available Sequences</a></li>
+            <li><a href="#addSequence" data-toggle="tab">Add Sequence</a></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane active" id="availableSequences">
+                Placeholder where you can search for existing sequences
+            </div>
+            <div class="tab-pane" id="addSequence">
+                <div class="jumbotron">
+                    <h3>Create a new sequence</h3>
 
-        <p>Click on 'Add Step', select an element and enter a description!</p>
-
-        <div class="btn-group">
-            <button data-toggle="tooltip" data-placement="top"
-                    title="Click and drag over elements on the page to select them"
-                    class="btn btn-primary btn-lg" href="#" role="button" id="startDragDropButton"
-                    onClick="startSelectionOfElement();">Add Step
-            </button>
-            <button class="btn btn-danger btn-lg" href="#" id="cancelDragDropButton" role="button"
-                    onClick="jQueryDragSelector.off();">Cancel
-            </button>
+                    <div class="btn-group">
+                        <button data-toggle="tooltip" data-placement="top"
+                                title="Click and drag over elements on the page to select them"
+                                class="btn btn-primary btn-lg" href="#" role="button" id="startDragDropButton"
+                                onClick="startSelectionOfElement(true);">Add Step on element
+                        </button>
+                        <button class="btn btn-default btn-lg" href="#" role="button" id="startEmptyStepButton"
+                                onClick="startSelectionOfElement(false);">Add Step on page
+                        </button>
+                        <button class="btn btn-danger btn-lg" href="#" id="cancelDragDropButton" role="button"
+                                onClick="jQueryDragSelector.off();">Cancel
+                        </button>
+                    </div>
+                </div>
+                <div class="alert alert-warning" id="noElementsSelectedDiv" style="display: none;">
+                    <button type="button" class="close" onclick="jQuery('#noElementsSelectedDiv').hide();"
+                            aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    No elements were selected, please try again
+                </div>
+                <div class="alert alert-warning" id="noStepsInPreviewDiv" style="display: none;">
+                    <button type="button" class="close" onclick="jQuery('#noStepsInPreviewDiv').hide();"
+                            aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    No steps to preview. Please add steps.
+                </div>
+                <section contenteditable="true">
+                    <table id="stepsTable" class="table table-bordered table-hover">
+                    </table>
+                </section>
+                <button type="button" class="btn btn-default centered" aria-label="Left Align" style="margin-top:20px;"
+                        onclick="preview();">
+                    <span class="glyphicon glyphicon-play" aria-hidden="true"></span> Preview
+                </button>
+            </div>
         </div>
     </div>
+<<<<<<< HEAD
     <div class="alert alert-warning" id="noElementsSelectedDiv" style="display: none;">
         <button type="button" class="close" onclick="jQuery('#noElementsSelectedDiv').hide();" aria-label="Close"><span
                 aria-hidden="true">&times;</span></button>
@@ -108,6 +143,8 @@
     <button type="button" class="btn btn-default centered" aria-label="Left Align" style="margin-top:20px;" onclick="save();">
         <span class="glyphicon glyphicon-save" aria-hidden="true"></span> Save
     </button>
+=======
+>>>>>>> 215aef3dd2d2676431d1b52baa96206807b0547d
 </div>
 <script>
     $(document).ready(function () {
