@@ -15,6 +15,7 @@
     <script src="js/vendor/jquery.event.drop.live-2.2.js"></script>
     <script src="js/jQueryDragSelector.js"></script>
     <script src="bower_components/intro.js/minified/intro.min.js"></script>
+    <script src="js/tableEdit.js"></script>
     <style>
         #brs_header {
             background-image: url("/images/appimages/header_name_goes_here.jpg");
@@ -100,8 +101,12 @@
         <table id="stepsTable" class="table table-bordered table-hover">
         </table>
     </section>
-    <button type="button" class="btn btn-default centered" aria-label="Left Align" style="margin-top:20px;" onclick="preview();">
+    <button type="button" class="btn btn-default actionButton" aria-label="Left Align" style="margin-top:20px;" onclick="preview();">
         <span class="glyphicon glyphicon-play" aria-hidden="true"></span> Preview
+    </button>
+
+    <button type="button" class="btn btn-default centered" aria-label="Left Align" style="margin-top:20px;" onclick="save();">
+        <span class="glyphicon glyphicon-save" aria-hidden="true"></span> Save
     </button>
 </div>
 <script>

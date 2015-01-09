@@ -9,14 +9,26 @@ function init() {
     t = $("#stepsTable").dataTable({
             "sDom": "",
             "aoColumns": [
-                {"sTitle": ""},
-                {"sTitle": "Step Name"},
-                {"sTitle": "Page Element"},
-                {"sTitle": "Content"},
-                {"sTitle": "Styling Options"}
+                {
+                    "sTitle": "",
+                    "sWidth":"10%"
+                },
+                {
+                    "sTitle": "Step",
+                    "sWidth":"25%"
+                },
+                {
+                    "sTitle": "Element",
+                    "sWidth":"15%"
+                },
+                {
+                    "sTitle": "Content",
+                    "sWidth":"50%"
+                }
             ]
         }
     ).rowReordering();
+    makeEditable();
 }
 
 function startSelectionOfElement() {
@@ -40,9 +52,9 @@ function createStepForThisElement(arrayOfElems) {
         "<span class='glyphicon glyphicon-remove' aria-hidden='true' onclick='removeThisStep()'></span>",
         "I'm editable",
          elemText,
-        "Blah Blah Blah",
-        "I'm editable"])
+        "Blah Blah Blah"])
         .draw();
+    makeEditable();
 }
 
 function removeThisStep() {
@@ -82,4 +94,28 @@ function preview() {
 
     preview.setOptions({steps:previewSteps});
     preview.start();
+}
+
+function save()
+{
+    $.ajax({
+        type:"POST",
+        url:"https://dev.blackrock.com:8558/weblications/WebQuery/WebHelp.epl",
+        data: {
+            "owner":"sayyer",
+            "type":"test",
+            "tool":"Test App",
+            "url":"WebHelp",
+            "data":new Array({title:"title",elem:"elem",elemAttrib:"elemAttrib",description:"Testing"})
+        },
+        success: function(data, success) {
+            console.log(data);
+        }
+    });
+}
+
+function makeEditable() {
+    $("#stepsTable").tableEdit({
+        columnsTr:"1,3"
+    });
 }
