@@ -123,28 +123,29 @@
                         onclick="preview();">
                     <span class="glyphicon glyphicon-play" aria-hidden="true"></span> Preview
                 </button>
+                <div class="alert alert-warning" id="noElementsSelectedDiv" style="display: none;">
+                    <button type="button" class="close" onclick="jQuery('#noElementsSelectedDiv').hide();"
+                            aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    No elements were selected, please try again
+                </div>
+                <section contenteditable="true">
+                    <table id="stepsTable" class="table table-bordered table-hover">
+                    </table>
+                </section>
+                <button type="button" class="btn btn-default actionButton" aria-label="Left Align"
+                        style="margin-top:20px;" onclick="preview();">
+                    <span class="glyphicon glyphicon-play" aria-hidden="true"></span> Preview
+                </button>
+
+                <button type="button" class="btn btn-default centered" aria-label="Left Align" style="margin-top:20px;"
+                        onclick="save();">
+                    <span class="glyphicon glyphicon-save" aria-hidden="true"></span> Save
+                </button>
             </div>
         </div>
     </div>
-<<<<<<< HEAD
-    <div class="alert alert-warning" id="noElementsSelectedDiv" style="display: none;">
-        <button type="button" class="close" onclick="jQuery('#noElementsSelectedDiv').hide();" aria-label="Close"><span
-                aria-hidden="true">&times;</span></button>
-        No elements were selected, please try again
-    </div>
-    <section contenteditable="true">
-        <table id="stepsTable" class="table table-bordered table-hover">
-        </table>
-    </section>
-    <button type="button" class="btn btn-default actionButton" aria-label="Left Align" style="margin-top:20px;" onclick="preview();">
-        <span class="glyphicon glyphicon-play" aria-hidden="true"></span> Preview
-    </button>
 
-    <button type="button" class="btn btn-default centered" aria-label="Left Align" style="margin-top:20px;" onclick="save();">
-        <span class="glyphicon glyphicon-save" aria-hidden="true"></span> Save
-    </button>
-=======
->>>>>>> 215aef3dd2d2676431d1b52baa96206807b0547d
 </div>
 <script>
     $(document).ready(function () {
