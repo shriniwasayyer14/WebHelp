@@ -1,12 +1,12 @@
 /* Calling the side menu option where the steps will be listed*/
 
 function init() {
-    $('#demo').BootSideMenu({
+    jQuery('#demo').BootSideMenu({
         side: "right", // left or right
         autoClose: true // auto close when page loads
     });
 
-    t = $("#stepsTable").dataTable({
+    t = jQuery("#stepsTable").dataTable({
             "sDom": "",
             "aoColumns": [
                 {"sTitle": ""},
@@ -17,6 +17,14 @@ function init() {
             ]
         }
     ).rowReordering();
+    t = jQuery("#stepsTable").DataTable();
+    t.row.add([
+        "<span class='glyphicon glyphicon-remove' aria-hidden='true' onclick='removeThisStep()'></span>",
+        "",
+        "",
+        "Introduction to 'Test App'",
+        ""
+    ]).draw();
 }
 
 function startSelectionOfElement(selectElement) {
@@ -34,7 +42,7 @@ function startSelectionOfElement(selectElement) {
 }
 
 function createStepForThisElement(arrayOfElems) {
-    var t = $("#stepsTable").DataTable();
+    var t = jQuery("#stepsTable").DataTable();
     var elemText = "";
     for (var i = 0; i < arrayOfElems.length; i++) {
         elemText += arrayOfElems[i].value + "&";
@@ -50,28 +58,24 @@ function createStepForThisElement(arrayOfElems) {
 }
 
 function removeThisStep() {
-    var t = $("#stepsTable").DataTable();
-    t.row($(event.target).parents('tr')).remove().draw();
+    var t = jQuery("#stepsTable").DataTable();
+    t.row(jQuery(event.target).parents('tr')).remove().draw();
 }
 
 function alertNoSelection() {
-    $('#noElementsSelectedDiv').show();
+    jQuery('#noElementsSelectedDiv').show();
     jQueryDragSelector.on();
 }
 
 function preview() {
-    var rows = $("#stepsTable").DataTable().rows().data();
+    var rows = jQuery("#stepsTable").DataTable().rows().data();
     if (rows.length <= 0) {
         jQuery('#noStepsInPreviewDiv').show();
         return;
     }
     var preview = introJs();
-    var previewSteps = new Array();
+    var previewSteps = [];
 
-    // Add the start of preview welcome message
-    previewSteps.push({
-        intro: "Welcome to 'Test App'>"
-    });
     for (var n = 0; n < rows.length; n++) {
         var elemAttribVal = rows[n][2];
         var content = rows[n][3];
@@ -84,8 +88,7 @@ function preview() {
             });
         } else {
             previewSteps.push({
-                intro: content,
-                position: 'bottom'
+                intro: content
             });
         }
     }
