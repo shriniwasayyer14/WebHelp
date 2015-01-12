@@ -32,11 +32,9 @@ function init() {
     } else {
         moveTableDivsToModal();
         showIntroOnStartup();
+        createNewNavigationButton();
     }
-
     populateCurrentSequences();
-    createNewNavigationButton();
-
 }
 
 function showIntroOnStartup() {
