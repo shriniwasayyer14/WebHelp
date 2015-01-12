@@ -3,7 +3,7 @@
 function init() {
     var parameters = getWindowParameters();
 
-    if ((parameters['create'] != undefined) && (parameters['create'] === true)) {
+    if (parameters['create'] != undefined) {
         jQuery('#demo').BootSideMenu({
             side: "right", // left or right
             autoClose: true // auto close when page loads
