@@ -26,7 +26,12 @@ function init() {
         }
     });
 
-    t = jQuery("#stepsTable").dataTable({
+    setUpAddEditTable();
+    populateCurrentSequences();
+}
+
+function setUpAddEditTable() {
+    var t = jQuery("#stepsTable").dataTable({
             "sDom": "",
             "aoColumns": [
                 {
@@ -49,7 +54,6 @@ function init() {
         }
     ).rowReordering();
     makeEditable();
-    populateCurrentSequences();
 }
 
 function startSelectionOfElement(selectElement) {
@@ -332,9 +336,28 @@ function playThisSequence() {
 
 function editThisSequence() {
     var t = jQuery("#availableSequencesList").DataTable();
+    var thisSequenceTitle = t.row(jQuery(event.target).parents('tr')).data()[1];
     //t.row(jQuery(event.target).parents('tr')).remove().draw();
-    var stepsForThisSequence = retrieveLocalStorage()[t.row(jQuery(event.target).parents('tr')).data()[1]];
-    //TODO: finish this to make tables editable!
+    var stepsForThisSequence = retrieveLocalStorage()[thisSequenceTitle];
+    var stepsTable = jQuery("#stepsTable").DataTable();
+    stepsTable.clear().draw();
+    jQuery.each(stepsForThisSequence.data, function (index, element) {
+        var title = jQuery(element.intro).children('h3').text() || '';
+        var text = jQuery(element.intro).children('p').text() || '';
+        var elementId = element.element || '';
+        if (elementId.split('#').length > 1) {
+            elementId = elementId.split('#')[1];
+        }
+        stepsTable.row.add([
+            "<span class='glyphicon glyphicon-remove' aria-hidden='true' onclick='removeThisStep()'></span>",
+            title,
+            elementId,
+            text])
+            .draw();
+    });
+    makeEditable();
+    jQuery('#sequenceTitleSetter').val(thisSequenceTitle);
+    jQuery('.nav-tabs a[href=#addSequence]').tab('show');
 }
 
 function removeThisSequence() {
