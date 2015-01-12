@@ -1,33 +1,75 @@
 /* Calling the side menu option where the steps will be listed*/
 
 function init() {
+    var parameters = getWindowParameters();
 
-    jQuery('#demo').BootSideMenu({
-        side: "right", // left or right
-        autoClose: true // auto close when page loads
-    });
+    if (parameters['create'] != undefined) {
+        jQuery('#demo').BootSideMenu({
+            side: "right", // left or right
+            autoClose: true // auto close when page loads
+        });
 
-    //Add function to click of toggle so that page gets resized
-    jQuery('.toggler').click(function () {
-        var toggler = jQuery(this);
-        var container = toggler.parent();
-        var containerWidth = container.width();
-        var status = container.attr('data-status');
-        if (!status) {
-            status = "opened";
-        }
-        var bodyWidth = jQuery("body").width();
-        if (status === "opened") {
-            /*This part is slightly confusing. If the status is 'opened',
-             then it's going to be closed in the next step and vice versa*/
-            jQuery('#ai-content, .ai-header, .ai-navbar').css('width', bodyWidth);
-        } else {
-            jQuery('#ai-content, .ai-header, .ai-navbar').css('width', bodyWidth - containerWidth - 20);
-        }
-    });
+        //Add function to click of toggle so that page gets resized
+        jQuery('.toggler').click(function () {
+            var toggler = jQuery(this);
+            var container = toggler.parent();
+            var containerWidth = container.width();
+            var status = container.attr('data-status');
+            if (!status) {
+                status = "opened";
+            }
+            var bodyWidth = jQuery("body").width();
+            if (status === "opened") {
+                /*This part is slightly confusing. If the status is 'opened',
+                 then it's going to be closed in the next step and vice versa*/
+                jQuery('#ai-content, .ai-header, .ai-navbar').css('width', bodyWidth);
+            } else {
+                jQuery('#ai-content, .ai-header, .ai-navbar').css('width', bodyWidth - containerWidth - 20);
+            }
+        });
 
-    setUpAddEditTable();
+        setUpAddEditTable();
+    } else {
+        moveTableDivsToModal();
+        showIntroOnStartup();
+    }
+
     populateCurrentSequences();
+    createNewNavigationButton();
+
+}
+
+function showIntroOnStartup() {
+    var availableSequences = retrieveLocalStorage();
+    if (availableSequences['Introduction']) {
+        playSequence('Introduction');
+    }
+}
+
+function moveTableDivsToModal() {
+    jQuery("#demo").appendTo("#contentConsumptionModal .modal-body");
+    jQuery('.nav-tabs a[href=#addSequence]').hide();
+}
+
+function createNewNavigationButton() {
+    var dropdownButtonHtml = '<button class="nav-right btn light" id="contentConsumptionNavButton" >' +
+        '<i class="fa fa-info-circle"></i> ' +
+        'App Help</button>';
+
+    /*var dropdownButtonHtml = '<div class="btn btn-group nav-right">' +
+     '<button type="button" class="nav-right btn light dropdown-toggle" data-toggle="dropdown" aria-expanded="false"> Action ' +
+     '<span class="caret"></span> ' +
+     '</button> ' +
+     '<ul class="dropdown-menu" role="menu"> ' +
+     '<li><a id="#dropdownButtonForNewSequences">What\'s new ?</a></li> ' +
+     '<li><a id="#dropdownButtonForAllSequences">All sequences</a></li> ' +
+     '</ul>' +
+     '</div>';*/
+
+    jQuery('.ai-navbar .nav-right:last-of-type').after(dropdownButtonHtml);
+    jQuery('#contentConsumptionNavButton').click(function () {
+        jQuery('#contentConsumptionModal').modal('show');
+    });
 }
 
 function setUpAddEditTable() {
@@ -238,7 +280,7 @@ function populateCurrentSequences() {
         var t = jQuery("#availableSequencesList").dataTable({
                 "sDom": '<"top"f<"clear">>', //It should be a searchable table
                 "oLanguage": {
-                    "sSearch": "Search titles and content: "
+                    "sSearch": "Search title and content: "
                 },
                 "aoColumns": [
                     {
@@ -257,7 +299,7 @@ function populateCurrentSequences() {
                         "sWidth": "10%"
                     },
                     {
-                        "sTitle": "",
+                        "sTitle": "Data",
                         "bVisible": false,
                         "bSearchable": true
                     }
@@ -270,7 +312,7 @@ function populateCurrentSequences() {
             var a = jQuery("#newSequencesList").dataTable({
                     "sDom": '<"top"f<"clear">>', //It should be a searchable table
                     "oLanguage": {
-                        "sSearch": "Search titles and content: "
+                        "sSearch": "Search title and content: "
                     },
                     "aoColumns": [
                         {
@@ -289,7 +331,7 @@ function populateCurrentSequences() {
                             "sWidth": "10%"
                         },
                         {
-                            "sTitle": "",
+                            "sTitle": "Data",
                             "bVisible": false,
                             "bSearchable": true
                         }
@@ -344,16 +386,24 @@ function destroyAndRedrawTable() {
     ).rowReordering();
 }
 
-function playThisSequence() {
-    var t = jQuery("#availableSequencesList").DataTable();
-    //t.row(jQuery(event.target).parents('tr')).remove().draw();
-    var stepsForThisSequence = retrieveLocalStorage()[t.row(jQuery(event.target).parents('tr')).data()[1]];
+function playSequence(sequenceName) {
+    var stepsForThisSequence = retrieveLocalStorage()[sequenceName];
     var play = introJs();
     play.setOptions({
         steps: stepsForThisSequence.data
     });
     jQuery('.toggler').trigger('click'); //Close the side menu
+    if (jQuery('#contentConsumptionModal').is(':visible')) {
+        jQuery('#contentConsumptionModal').modal('hide');
+    }
     play.start();
+}
+
+function playThisSequence() {
+    var t = jQuery("#availableSequencesList").DataTable();
+    //t.row(jQuery(event.target).parents('tr')).remove().draw();
+    var sequenceName = [t.row(jQuery(event.target).parents('tr')).data()[1]];
+    playSequence(sequenceName);
 }
 
 function editThisSequence() {
@@ -388,4 +438,27 @@ function removeThisSequence() {
     delete storedSteps[t.row(jQuery(event.target).parents('tr')).data()[1]];
     localStorage.setItem('WebHelp', JSON.stringify(storedSteps));
     populateCurrentSequences();
+}
+
+function getWindowParameters() {
+    // This function is anonymous, is executed immediately and
+    // the return value is assigned to QueryString!
+    var query_string = {};
+    var query = window.location.search.substring(1);
+    var vars = query.split("&");
+    for (var i = 0; i < vars.length; i++) {
+        var pair = vars[i].split("=");
+        // If first entry with this name
+        if (typeof query_string[pair[0]] === "undefined") {
+            query_string[pair[0]] = pair[1];
+            // If second entry with this name
+        } else if (typeof query_string[pair[0]] === "string") {
+            var arr = [query_string[pair[0]], pair[1]];
+            query_string[pair[0]] = arr;
+            // If third or later entry with this name
+        } else {
+            query_string[pair[0]].push(pair[1]);
+        }
+    }
+    return query_string;
 }

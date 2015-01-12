@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns="http://www.w3.org/1999/html">
 <head>
     <title>Intro JS</title>
     <script src="js/main.js"></script>
@@ -66,7 +66,7 @@
                 <div id="search_box_well" class="well">
                     <div class="input-append input-group" id="input_box_div">
                         <div class="input-group-btn">
-                            <button type="submit" disabled class="btn btn-default" id='input_form_button'
+                            <button type="submit" class="btn btn-default" id='input_form_button'
                                     title='Show/Hide Interpretation' onclick="showInputInterpretation();">
                                 <span id='input_interpretation_icon' class="fa fa-info-circle"></span>
                             </button>
@@ -77,78 +77,118 @@
                                     onclick="parse();">
                                 <i class="fa fa-search"></i>
                             </button>
-                            <button class="btn btn-default" id='shareLinkButton' title='Share current link'
-                                    style="display:none;" onclick="promptToCopyLinkInNewPromptWindow()">
-                                <span class="fa fa-share-alt"></span>
-                            </button>
                         </div>
                     </div>
-                </div>
-            </div>
-            <div id="demo">
-                <div class="tabbable"> <!-- Only required for left/right tabs -->
-                    <ul class="nav nav-tabs">
-                        <li><a href="#availableSequences" data-toggle="tab">Available Sequences</a></li>
-                        <li class="active"><a href="#addSequence" data-toggle="tab">Add Sequence</a></li>
-                    </ul>
-                    <div class="tab-content">
-                        <div class="tab-pane" id="availableSequences">
-                            Placeholder where you can search for existing sequences
-                        </div>
-                        <div class="tab-pane active" id="addSequence">
-                            <div class="jumbotron">
-                                <h3>Create a new sequence</h3>
-
-                                <div class="btn-group">
-                                    <button data-toggle="tooltip" data-placement="top"
-                                            title="Click and drag over elements on the page to select them"
-                                            class="btn btn-primary btn-lg" href="#" role="button"
-                                            id="startDragDropButton"
-                                            onClick="startSelectionOfElement(true);">Add Step on element
-                                    </button>
-                                    <button class="btn btn-default btn-lg" href="#" role="button"
-                                            id="startEmptyStepButton"
-                                            onClick="startSelectionOfElement(false);">Add Step on page
-                                    </button>
-                                    <button class="btn btn-danger btn-lg" href="#" id="cancelDragDropButton"
-                                            role="button"
-                                            onClick="jQueryDragSelector.off();">Cancel
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="alert alert-warning" id="noElementsSelectedDiv" style="display: none;">
-                                <button type="button" class="close" onclick="jQuery('#noElementsSelectedDiv').hide();"
-                                        aria-label="Close"><span
-                                        aria-hidden="true">&times;</span></button>
-                                No elements were selected, please try again
-                            </div>
-                            <div class="alert alert-warning" id="noStepsInPreviewDiv" style="display: none;">
-                                <button type="button" class="close" onclick="jQuery('#noStepsInPreviewDiv').hide();"
-                                        aria-label="Close"><span
-                                        aria-hidden="true">&times;</span></button>
-                                No steps to preview. Please add steps.
-                            </div>
-                            <section contenteditable="true">
-                                <table id="stepsTable" class="table table-bordered table-hover">
-                                </table>
-                            </section>
-                            <button type="button" class="btn btn-default actionButton" aria-label="Left Align"
-                                    style="margin-top:20px;" onclick="preview();">
-                                <span class="glyphicon glyphicon-play" aria-hidden="true"></span> Preview
-                            </button>
-
-                            <button type="button" class="btn btn-default centered" aria-label="Left Align"
-                                    style="margin-top:20px;"
-                                    onclick="save();">
-                                <span class="glyphicon glyphicon-save" aria-hidden="true"></span> Save
-                            </button>
-                        </div>
+                    <div align="left" class="suggestionDiv">Suggestions for you:<br>
+                        <ul class="list-group" id="userSuggestions">
+                            <li class="userSuggestion list-group-item list-group-item-success"><i
+                                    class="fa fa-search"></i> ZURN-CS-US returns and duration last 1 year
+                            </li>
+                            <li class="userSuggestion list-group-item list-group-item-success"><i
+                                    class="fa fa-search"></i> BRGAX-AGG spread, nav and returns last 5 months
+                            </li>
+                            <li class="userSuggestion list-group-item list-group-item-success"><i
+                                    class="fa fa-search"></i> BBO nav
+                            </li>
+                            <li class="userSuggestion list-group-item list-group-item-success"><i
+                                    class="fa fa-search"></i> BARBF-AGG spread, convexity, duration and nav q2 2014
+                            </li>
+                            <li class="userSuggestion list-group-item list-group-item-success"><i
+                                    class="fa fa-search"></i> BR-LO krd1 for 2014
+                            </li>
+                            <li class="userSuggestion list-group-item list-group-item-success"><i
+                                    class="fa fa-search"></i> ZURN-CS-US, BRGAX-AGG, BBO, BARBF-AGG, BR-LO nav and
+                                returns for the last 6 months
+                            </li>
+                        </ul>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+<div id="demo">
+    <div class="tabbable"> <!-- Only required for left/right tabs -->
+        <ul class="nav nav-tabs">
+            <li class="active"><a href="#availableSequences" data-toggle="tab">Available Sequences</a></li>
+            <li><a href="#addSequence" data-toggle="tab">Add/Edit Sequence</a></li>
+            <li><a href="#whatsNew" data-toggle="tab">What's New?<span class="badge" id="newItemsBadge"/></a></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane active" id="availableSequences">
+                <div id="availableSequencesContent">
+                    Placeholder where you can search for existing sequences
+                </div>
+            </div>
+            <div class="tab-pane" id="whatsNew">
+                <div id="whatsNewContent">
+                    No new items yet!
+                </div>
+            </div>
+            <div class="tab-pane" id="addSequence">
+                <div class="jumbotron">
+                    <h3>Create a new sequence</h3>
+
+                    <div class="btn-group">
+                        <button data-toggle="tooltip" data-placement="top"
+                                title="Click and drag over elements on the page to select them"
+                                class="btn btn-primary btn-lg" href="#" role="button"
+                                id="startDragDropButton"
+                                onClick="startSelectionOfElement(true);">Add Step on element
+                        </button>
+                        <button class="btn btn-default btn-lg" href="#" role="button"
+                                id="startEmptyStepButton"
+                                onClick="startSelectionOfElement(false);">Add Step on page
+                        </button>
+                        <button class="btn btn-danger btn-lg" href="#" id="cancelDragDropButton"
+                                role="button"
+                                onClick="jQueryDragSelector.off();">Cancel
+                        </button>
+                    </div>
+                </div>
+                <div class="alert alert-warning" id="noElementsSelectedDiv" style="display: none;">
+                    <button type="button" class="close" onclick="jQuery('#noElementsSelectedDiv').hide();"
+                            aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    No elements were selected, please try again
+                </div>
+                <div class="alert alert-warning" id="noStepsInPreviewDiv" style="display: none;">
+                    <button type="button" class="close" onclick="jQuery('#noStepsInPreviewDiv').hide();"
+                            aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    No steps to preview. Please add steps.
+                </div>
+                <section contenteditable="true">
+                    <div><input id="sequenceTitleSetter" value="Sequence title"/></div>
+                    <table id="stepsTable" class="table table-bordered table-hover">
+                    </table>
+                </section>
+                <button type="button" class="btn btn-default actionButton" aria-label="Left Align"
+                        style="margin-top:20px;" onclick="preview();">
+                    <span class="glyphicon glyphicon-play" aria-hidden="true"></span> Preview
+                </button>
+                <button type="button" class="btn btn-default centered" aria-label="Left Align"
+                        style="margin-top:20px;"
+                        onclick="save();">
+                    <span class="glyphicon glyphicon-save" aria-hidden="true"></span> Save
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="contentConsumptionModal" class="modal">
+    <div class="modal-dialog">
+        <div class="modal-content" style="width: 800px;">
+            <div class="modal-header ai-modal-title">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                Available sequences
+            </div>
+            <div class="modal-body"></div>
+            <div class="modal-footer">
+                <button data-dismiss="modal" class="btn btn-default">Close</button>
+            </div>
+        </div>
+    </div>
 </div>
 
 <script>
