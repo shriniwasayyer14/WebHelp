@@ -199,6 +199,7 @@ function populateCurrentSequences() {
     var retrievedHtml = '';
     var retrievedNewHtml = '';
     var retrievedSequences = retrieveLocalStorage();
+    var numNewItems = 0;
     if (retrievedSequences) {
         //retrievedHtml += '<h3 id="availableSequencesHeader"></h3>';
         retrievedHtml += '<table id="availableSequencesList">';
@@ -208,6 +209,7 @@ function populateCurrentSequences() {
             "<td>" + key + "</td>" +
             "<td><span class='glyphicon glyphicon-edit' aria-hidden='true' onclick='editThisSequence()'></td>" +
             "<td><span class='glyphicon glyphicon-remove' aria-hidden='true' onclick='removeThisSequence()'></td>" +
+            "<td>" + JSON.stringify(value) + "</td>" +
             "</tr>";
 
             if (value.isNew) {
@@ -219,9 +221,10 @@ function populateCurrentSequences() {
                 "<td>" + key + "</td>" +
                 "<td><span class='glyphicon glyphicon-edit' aria-hidden='true' onclick='editThisSequence()'></td>" +
                 "<td><span class='glyphicon glyphicon-remove' aria-hidden='true' onclick='removeThisSequence()'></td>" +
+                "<td>" + JSON.stringify(value) + "</td>" +
                 "</tr>";
-
                 retrievedSequences[key]['isNew'] = false;
+                numNewItems += 1;
             }
         });
         retrievedHtml += '</table>';
@@ -230,11 +233,13 @@ function populateCurrentSequences() {
         }
         localStorage.setItem('WebHelp', JSON.stringify(retrievedSequences));
         jQuery('#availableSequencesContent').html(retrievedHtml);
-        jQuery('#whatsNewContent').html(retrievedNewHtml);
         //listFilter(jQuery('#availableSequencesHeader'), jQuery('#availableSequencesList'));
 
         var t = jQuery("#availableSequencesList").dataTable({
                 "sDom": '<"top"f<"clear">>', //It should be a searchable table
+                "oLanguage": {
+                    "sSearch": "Search titles and content: "
+                },
                 "aoColumns": [
                     {
                         "sTitle": "",
@@ -250,14 +255,23 @@ function populateCurrentSequences() {
                     {
                         "sTitle": "",
                         "sWidth": "10%"
+                    },
+                    {
+                        "sTitle": "",
+                        "bVisible": false,
+                        "bSearchable": true
                     }
                 ]
             }
         );
 
         if (retrievedNewHtml != '') {
-            var a = jQuery("#whatsNewContent").dataTable({
+            jQuery('#whatsNewContent').html(retrievedNewHtml);
+            var a = jQuery("#newSequencesList").dataTable({
                     "sDom": '<"top"f<"clear">>', //It should be a searchable table
+                    "oLanguage": {
+                        "sSearch": "Search titles and content: "
+                    },
                     "aoColumns": [
                         {
                             "sTitle": "",
@@ -273,11 +287,19 @@ function populateCurrentSequences() {
                         {
                             "sTitle": "",
                             "sWidth": "10%"
+                        },
+                        {
+                            "sTitle": "",
+                            "bVisible": false,
+                            "bSearchable": true
                         }
                     ]
                 }
             );
         }
+        /*if (numNewItems > 0) {
+         jQuery('#newItemsBadge').html(numNewItems.toString());
+         }*/
     }
 }
 
