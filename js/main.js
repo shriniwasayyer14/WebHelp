@@ -54,9 +54,9 @@ function createStepForThisElement(arrayOfElems) {
     elemText = elemText.substring(0, elemText.length - 1);
     t.row.add([
         "<span class='glyphicon glyphicon-remove' aria-hidden='true' onclick='removeThisStep()'></span>",
-        "I'm editable",
-         elemText,
-        "Blah Blah Blah"])
+        "Editable title",
+        elemText,
+        "Editable content"])
         .draw();
     makeEditable();
 }
@@ -72,7 +72,8 @@ function alertNoSelection() {
 }
 
 function preview() {
-    var rows = $("#stepsTable").DataTable().rows().data();
+    destroyAndRedrawTable();
+    var rows = jQuery("#stepsTable").DataTable().rows().data();
     if (rows.length <= 0) {
         jQuery('#noStepsInPreviewDiv').show();
         return;
@@ -82,6 +83,7 @@ function preview() {
 
     for (var n = 0; n < rows.length; n++) {
         var elemAttribVal = rows[n][2];
+        var stepTitle = rows[n][1];
         var content = rows[n][3];
         if (elemAttribVal) {
             var elem = document.querySelector("#" + elemAttribVal); // Assuming the elem attrib is an id for now
@@ -92,7 +94,7 @@ function preview() {
             });
         } else {
             previewSteps.push({
-                intro: content
+                intro: '<div><h3>' + stepTitle + '</h3><p>' + content + '</p></div>'
             });
         }
     }
@@ -101,26 +103,53 @@ function preview() {
     preview.start();
 }
 
-function save()
-{
-    $.ajax({
-        type:"POST",
-        url:"https://dev.blackrock.com:8558/weblications/WebQuery/WebHelp.epl",
+function save() {
+    destroyAndRedrawTable();
+    jQuery.ajax({
+        type: "POST",
+        url: "https://dev.blackrock.com:8558/weblications/WebQuery/WebHelp.epl",
         data: {
-            "owner":"sayyer",
-            "type":"test",
-            "tool":"Test App",
-            "url":"WebHelp",
-            "data":new Array({title:"title",elem:"elem",elemAttrib:"elemAttrib",description:"Testing"})
+            "owner": "sayyer",
+            "type": "test",
+            "tool": "Test App",
+            "url": "WebHelp",
+            "data": new Array({title: "title", elem: "elem", elemAttrib: "elemAttrib", description: "Testing"})
         },
-        success: function(data, success) {
+        success: function (data, success) {
             console.log(data);
         }
     });
 }
 
 function makeEditable() {
-    $("#stepsTable").tableEdit({
-        columnsTr:"1,3"
+    jQuery("#stepsTable").tableEdit({
+        columnsTr: "1,3"
     });
+}
+
+function destroyAndRedrawTable() {
+    //Destroy and reinitialize the table to get the edited data
+    jQuery("#stepsTable").dataTable().fnDestroy();
+    var t = jQuery("#stepsTable").dataTable({
+            "sDom": "",
+            "aoColumns": [
+                {
+                    "sTitle": "",
+                    "sWidth": "10%"
+                },
+                {
+                    "sTitle": "Step",
+                    "sWidth": "25%"
+                },
+                {
+                    "sTitle": "Element",
+                    "sWidth": "15%"
+                },
+                {
+                    "sTitle": "Content",
+                    "sWidth": "50%"
+                }
+            ]
+        }
+    ).rowReordering();
 }
