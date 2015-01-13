@@ -1,10 +1,16 @@
 /* Calling the side menu option where the steps will be listed*/
 
-function init() {
+function initWebHelp(webHelpElementMap) {
     var parameters = getWindowParameters();
 
+    var elementsToScale = '#ai-content, .ai-header, .ai-navbar';
+
+    if (webHelpElementMap) {
+        elementsToScale = webHelpElementMap.elementsToScale || elementsToScale;
+    }
+
     if (parameters['create'] != undefined) {
-        jQuery('#demo').BootSideMenu({
+        jQuery('#webHelpMainContent').BootSideMenu({
             side: "right", // left or right
             autoClose: true // auto close when page loads
         });
@@ -22,9 +28,9 @@ function init() {
             if (status === "opened") {
                 /*This part is slightly confusing. If the status is 'opened',
                  then it's going to be closed in the next step and vice versa*/
-                jQuery('#ai-content, .ai-header, .ai-navbar').css('width', bodyWidth);
+                jQuery(elementsToScale).css('width', bodyWidth);
             } else {
-                jQuery('#ai-content, .ai-header, .ai-navbar').css('width', bodyWidth - containerWidth - 20);
+                jQuery(elementsToScale).css('width', bodyWidth - containerWidth - 20);
             }
         });
 
@@ -45,7 +51,7 @@ function showIntroOnStartup() {
 }
 
 function moveTableDivsToModal() {
-    jQuery("#demo").appendTo("#contentConsumptionModal .modal-body");
+    jQuery("#webHelpMainContent").appendTo("#contentConsumptionModal .modal-body");
     jQuery('.nav-tabs a[href=#addSequence]').hide();
 }
 
