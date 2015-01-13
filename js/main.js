@@ -4,9 +4,11 @@ function initWebHelp(webHelpElementMap) {
     var parameters = getWindowParameters();
 
     var elementsToScale = '#ai-content, .ai-header, .ai-navbar';
+    var navbarButtonElement = '.ai-header .ai-header-title';
 
     if (webHelpElementMap) {
         elementsToScale = webHelpElementMap.elementsToScale || elementsToScale;
+        navbarButtonElement = webHelpElementMap.navbarButtonElement || navbarButtonElement;
     }
 
     if (parameters['create'] != undefined) {
@@ -38,7 +40,7 @@ function initWebHelp(webHelpElementMap) {
     } else {
         moveTableDivsToModal();
         showIntroOnStartup();
-        createNewNavigationButton();
+        createNewNavigationButton(navbarButtonElement);
     }
     populateCurrentSequences();
 }
@@ -55,10 +57,11 @@ function moveTableDivsToModal() {
     jQuery('.nav-tabs a[href=#addSequence]').hide();
 }
 
-function createNewNavigationButton() {
-    var dropdownButtonHtml = '<button class="nav-right btn light" id="contentConsumptionNavButton" >' +
-        '<i class="fa fa-info-circle"></i> ' +
-        'App Help</button>';
+function createNewNavigationButton(navbarButtonElement) {
+    var dropdownButtonHtml = '<button class="btn light" id="contentConsumptionNavButton" >' +
+        '<i class="fa fa-info-circle"></i>';
+    /*+
+     'App Help</button>';*/
 
     /*var dropdownButtonHtml = '<div class="btn btn-group nav-right">' +
      '<button type="button" class="nav-right btn light dropdown-toggle" data-toggle="dropdown" aria-expanded="false"> Action ' +
@@ -70,7 +73,14 @@ function createNewNavigationButton() {
      '</ul>' +
      '</div>';*/
 
-    jQuery('.ai-navbar .nav-right:last-of-type').after(dropdownButtonHtml);
+    //Add to navbar if need be
+    if ((jQuery('.ai-navbar').length > 0) && (jQuery(navbarButtonElement + ':last-of-type').hasClass('nav-right'))) {
+        jQuery(navbarButtonElement + ':last-of-type').after(dropdownButtonHtml);
+        jQuery('#contentConsumptionNavButton').addClass('nav-right');
+    } else {
+        jQuery(navbarButtonElement).after(dropdownButtonHtml);
+    }
+
     jQuery('#contentConsumptionNavButton').click(function () {
         jQuery('#contentConsumptionModal').modal('show');
     });
