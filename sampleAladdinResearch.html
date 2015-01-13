@@ -35,7 +35,30 @@
     <link rel="stylesheet" href="css/aladdinResearch-font-awesome.min.css">
     <link rel="stylesheet" href="https://webster.bfm.com/aladdinresearch/css/main.css">
     <script src="js/vendor/modernizr-2.6.2.min.js"></script>
-    <style type="text/css"></style>
+
+    <!--Scripts needed for WebHelp-->
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css"/>
+    <link rel="stylesheet" href="bower_components/DataTables/media/css/jquery.dataTables.min.css"/>
+    <link rel="stylesheet" href="bower_components/DataTables/media/css/jquery.dataTables_themeroller.css"/>
+    <link rel="stylesheet" href="css/BootSideMenu.css"/>
+    <link rel="stylesheet" href="css/jQueryDragSelector.css"/>
+    <link rel="stylesheet" href="bower_components/intro.js/minified/introjs.min.css"/>
+
+    <script src="js/main.js"></script>
+    <script src="js/vendor/jquery-1.11.1.js"></script>
+    <script src="bower_components/jquery-ui/jquery-ui.min.js"></script>
+    <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="js/vendor/BootSideMenu.js"></script>
+    <script src="bower_components/DataTables/media/js/jquery.dataTables.min.js"></script>
+    <script src="js/vendor/jquery.dataTables.rowReordering.js"></script>
+    <script src="js/vendor/jquery.event.drag-2.2.js"></script>
+    <script src="js/vendor/jquery.event.drag.live-2.2.js"></script>
+    <script src="js/vendor/jquery.event.drop-2.2.js"></script>
+    <script src="js/vendor/jquery.event.drop.live-2.2.js"></script>
+    <script src="js/jQueryDragSelector.js"></script>
+    <script src="bower_components/intro.js/minified/intro.min.js"></script>
+    <script src="js/tableEdit.js"></script>
     <style type="text/css"></style>
     <link href="https://webster.bfm.com/aladdinresearch/css/toastr.css" rel="stylesheet" media="screen">
     <link href="https://webster.bfm.com/aladdinresearch/css/ng-table.css" rel="stylesheet" media="screen">
@@ -63,7 +86,7 @@
         <!-- ngInclude:  -->
         <div ng-include="" src="&#39;js/app/resources/templates/menu.html&#39;" class="ng-scope">
             <div style="padding-top: 40px; background-color: #EBEBEB;" ng-controller="NavController" class="ng-scope">
-                <ul ng-init="init()">
+                <ul ng-init="initWebHelp()">
                     <!-- ngRepeat: each in allRoutes -->
                     <li ng-repeat="each in allRoutes" ng-class="{nav_active: checkRoute(each.url)}"
                         class="ng-scope nav_active">
@@ -1516,6 +1539,107 @@
         }
     }
 } catch (e) {
-}</script>
-</body>-->
+}</script>-->
+<div id="webHelpMainContent">
+    <div class="tabbable"> <!-- Only required for left/right tabs -->
+        <ul class="nav nav-tabs">
+            <li class="active"><a href="#popularSequences" data-toggle="tab">Popular</a></li>
+            <li><a href="#whatsNew" data-toggle="tab">What's New?<!--<span class="badge" id="newItemsBadge"/>--></a>
+            <li><a href="#availableSequences" data-toggle="tab">Topics</a></li>
+            <li><a href="#addSequence" data-toggle="tab">Add/Edit Sequence</a></li>
+            </li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane active" id="popularSequences">
+                <div id="popularSequencesContent">
+                    No popular items yet!
+                </div>
+            </div>
+            <div class="tab-pane" id="whatsNew">
+                <div id="whatsNewContent">
+                    No new items yet!
+                </div>
+            </div>
+            <div class="tab-pane" id="availableSequences">
+                <div id="availableSequencesContent">
+                    Placeholder where you can search for existing sequences
+                </div>
+            </div>
+            <div class="tab-pane" id="addSequence">
+                <div class="btn-group well-sm">
+                    <button data-toggle="tooltip" data-placement="top"
+                            title="Click and drag over elements on the page to select them"
+                            class="btn btn-primary btn-lg" href="#" role="button"
+                            id="startDragDropButton"
+                            onClick="startSelectionOfElement(true);">Add Step on element
+                    </button>
+                    <button class="btn btn-default btn-lg" href="#" role="button"
+                            id="startEmptyStepButton"
+                            onClick="startSelectionOfElement(false);">Add Step on page
+                    </button>
+                    <button class="btn btn-danger btn-lg" href="#" id="cancelDragDropButton"
+                            role="button"
+                            onClick="jQueryDragSelector.off();">Cancel
+                    </button>
+                </div>
+                <div class="alert alert-warning" id="noElementsSelectedDiv" style="display: none;">
+                    <button type="button" class="close" onclick="jQuery('#noElementsSelectedDiv').hide();"
+                            aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    No elements were selected, please try again
+                </div>
+                <div class="alert alert-warning" id="noStepsInPreviewDiv" style="display: none;">
+                    <button type="button" class="close" onclick="jQuery('#noStepsInPreviewDiv').hide();"
+                            aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    No steps to preview. Please add steps.
+                </div>
+                <div class="well">
+                    <section contenteditable="true">
+                        <div><input id="sequenceTitleSetter" value="Sequence title"/>
+
+                            <div class="checkbox"><label> <input type="checkbox" id="markAsNewSequence"> Mark as new
+                                sequence</label></div>
+                        </div>
+
+                        <table id="stepsTable" class="table table-bordered table-hover">
+                        </table>
+                    </section>
+                    <button type="button" class="btn btn-default actionButton" aria-label="Left Align"
+                            style="margin-top:20px;" onclick="preview();">
+                        <span class="glyphicon glyphicon-play" aria-hidden="true"></span> Preview
+                    </button>
+                    <button type="button" class="btn btn-default centered" aria-label="Left Align"
+                            style="margin-top:20px;"
+                            onclick="save();">
+                        <span class="glyphicon glyphicon-save" aria-hidden="true"></span> Save
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="contentConsumptionModal" class="modal">
+    <div class="modal-dialog">
+        <div class="modal-content" style="width: 800px;">
+            <div class="modal-header ai-modal-title">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                What would you like to learn?
+            </div>
+            <div class="modal-body"></div>
+            <div class="modal-footer">
+                <button data-dismiss="modal" class="btn btn-default">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var appNameForWebHelp = 'AladdinResearch';
+    $(document).ready(function () {
+        initWebHelp({
+            elementsToScale: '.container.main-content'
+        });
+    });
+</script>
+</body>
 </html>
