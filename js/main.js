@@ -218,7 +218,7 @@ function save() {
         "appName": "Test App",
         //"url": "WebHelp",
         "data": previewSteps,
-        "isNew": true
+        "isNew": jQuery('#markAsNewSequence').is(':checked')
     };
 
 
