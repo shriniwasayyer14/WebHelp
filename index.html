@@ -107,41 +107,44 @@
 <div id="demo">
     <div class="tabbable"> <!-- Only required for left/right tabs -->
         <ul class="nav nav-tabs">
-            <li class="active"><a href="#availableSequences" data-toggle="tab">Available Sequences</a></li>
+            <li class="active"><a href="#popularSequences" data-toggle="tab">Popular</a></li>
+            <li><a href="#whatsNew" data-toggle="tab">What's New?<!--<span class="badge" id="newItemsBadge"/>--></a>
+            <li><a href="#availableSequences" data-toggle="tab">Topics</a></li>
             <li><a href="#addSequence" data-toggle="tab">Add/Edit Sequence</a></li>
-            <li><a href="#whatsNew" data-toggle="tab">What's New?</a></li>
+            </li>
         </ul>
         <div class="tab-content">
-            <div class="tab-pane active" id="availableSequences">
-                <div id="availableSequencesContent">
-                    Placeholder where you can search for existing sequences
+            <div class="tab-pane active" id="popularSequences">
+                <div id="popularSequencesContent">
+                    No popular items yet!
                 </div>
             </div>
             <div class="tab-pane" id="whatsNew">
                 <div id="whatsNewContent">
-                    Placeholder for what's new
+                    No new items yet!
+                </div>
+            </div>
+            <div class="tab-pane" id="availableSequences">
+                <div id="availableSequencesContent">
+                    Placeholder where you can search for existing sequences
                 </div>
             </div>
             <div class="tab-pane" id="addSequence">
-                <div class="jumbotron">
-                    <h3>Create a new sequence</h3>
-
-                    <div class="btn-group">
-                        <button data-toggle="tooltip" data-placement="top"
-                                title="Click and drag over elements on the page to select them"
-                                class="btn btn-primary btn-lg" href="#" role="button"
-                                id="startDragDropButton"
-                                onClick="startSelectionOfElement(true);">Add Step on element
-                        </button>
-                        <button class="btn btn-default btn-lg" href="#" role="button"
-                                id="startEmptyStepButton"
-                                onClick="startSelectionOfElement(false);">Add Step on page
-                        </button>
-                        <button class="btn btn-danger btn-lg" href="#" id="cancelDragDropButton"
-                                role="button"
-                                onClick="jQueryDragSelector.off();">Cancel
-                        </button>
-                    </div>
+                <div class="btn-group well-sm">
+                    <button data-toggle="tooltip" data-placement="top"
+                            title="Click and drag over elements on the page to select them"
+                            class="btn btn-primary btn-lg" href="#" role="button"
+                            id="startDragDropButton"
+                            onClick="startSelectionOfElement(true);">Add Step on element
+                    </button>
+                    <button class="btn btn-default btn-lg" href="#" role="button"
+                            id="startEmptyStepButton"
+                            onClick="startSelectionOfElement(false);">Add Step on page
+                    </button>
+                    <button class="btn btn-danger btn-lg" href="#" id="cancelDragDropButton"
+                            role="button"
+                            onClick="jQueryDragSelector.off();">Cancel
+                    </button>
                 </div>
                 <div class="alert alert-warning" id="noElementsSelectedDiv" style="display: none;">
                     <button type="button" class="close" onclick="jQuery('#noElementsSelectedDiv').hide();"
@@ -155,20 +158,41 @@
                             aria-hidden="true">&times;</span></button>
                     No steps to preview. Please add steps.
                 </div>
-                <section contenteditable="true">
-                    <div><input id="sequenceTitleSetter" value="Sequence title"/></div>
-                    <table id="stepsTable" class="table table-bordered table-hover">
-                    </table>
-                </section>
-                <button type="button" class="btn btn-default actionButton" aria-label="Left Align"
-                        style="margin-top:20px;" onclick="preview();">
-                    <span class="glyphicon glyphicon-play" aria-hidden="true"></span> Preview
-                </button>
-                <button type="button" class="btn btn-default centered" aria-label="Left Align"
-                        style="margin-top:20px;"
-                        onclick="save();">
-                    <span class="glyphicon glyphicon-save" aria-hidden="true"></span> Save
-                </button>
+                <div class="well">
+                    <section contenteditable="true">
+                        <div><input id="sequenceTitleSetter" value="Sequence title"/>
+
+                            <div class="checkbox"><label> <input type="checkbox" id="markAsNewSequence"> Mark as new
+                                sequence</label></div>
+                        </div>
+
+                        <table id="stepsTable" class="table table-bordered table-hover">
+                        </table>
+                    </section>
+                    <button type="button" class="btn btn-default actionButton" aria-label="Left Align"
+                            style="margin-top:20px;" onclick="preview();">
+                        <span class="glyphicon glyphicon-play" aria-hidden="true"></span> Preview
+                    </button>
+                    <button type="button" class="btn btn-default centered" aria-label="Left Align"
+                            style="margin-top:20px;"
+                            onclick="save();">
+                        <span class="glyphicon glyphicon-save" aria-hidden="true"></span> Save
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="contentConsumptionModal" class="modal">
+    <div class="modal-dialog">
+        <div class="modal-content" style="width: 800px;">
+            <div class="modal-header ai-modal-title">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                What would you like to learn?
+            </div>
+            <div class="modal-body"></div>
+            <div class="modal-footer">
+                <button data-dismiss="modal" class="btn btn-default">Close</button>
             </div>
         </div>
     </div>
