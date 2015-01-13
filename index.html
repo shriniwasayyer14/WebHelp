@@ -101,72 +101,78 @@
                     </div>
                 </form>
             </div>
-            <div id="demo">
-                <div class="tabbable"> <!-- Only required for left/right tabs -->
-                    <ul class="nav nav-tabs">
-                        <li><a href="#availableSequences" data-toggle="tab">Available Sequences</a></li>
-                        <li class="active"><a href="#addSequence" data-toggle="tab">Add Sequence</a></li>
-                    </ul>
-                    <div class="tab-content">
-                        <div class="tab-pane" id="availableSequences">
-                            Placeholder where you can search for existing sequences
-                        </div>
-                        <div class="tab-pane active" id="addSequence">
-                            <div class="jumbotron">
-                                <h3>Create a new sequence</h3>
+        </div>
+    </div>
+</div>
+<div id="demo">
+    <div class="tabbable"> <!-- Only required for left/right tabs -->
+        <ul class="nav nav-tabs">
+            <li class="active"><a href="#availableSequences" data-toggle="tab">Available Sequences</a></li>
+            <li><a href="#addSequence" data-toggle="tab">Add/Edit Sequence</a></li>
+            <li><a href="#whatsNew" data-toggle="tab">What's New?</a></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane active" id="availableSequences">
+                <div id="availableSequencesContent">
+                    Placeholder where you can search for existing sequences
+                </div>
+            </div>
+            <div class="tab-pane" id="whatsNew">
+                <div id="whatsNewContent">
+                    Placeholder for what's new
+                </div>
+            </div>
+            <div class="tab-pane" id="addSequence">
+                <div class="jumbotron">
+                    <h3>Create a new sequence</h3>
 
-                                <div class="btn-group">
-                                    <button data-toggle="tooltip" data-placement="top"
-                                            title="Click and drag over elements on the page to select them"
-                                            class="btn btn-primary btn-lg" href="#" role="button"
-                                            id="startDragDropButton"
-                                            onClick="startSelectionOfElement(true);">Add Step on element
-                                    </button>
-                                    <button class="btn btn-default btn-lg" href="#" role="button"
-                                            id="startEmptyStepButton"
-                                            onClick="startSelectionOfElement(false);">Add Step on page
-                                    </button>
-                                    <button class="btn btn-danger btn-lg" href="#" id="cancelDragDropButton"
-                                            role="button"
-                                            onClick="jQueryDragSelector.off();">Cancel
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="alert alert-warning" id="noElementsSelectedDiv" style="display: none;">
-                                <button type="button" class="close" onclick="jQuery('#noElementsSelectedDiv').hide();"
-                                        aria-label="Close"><span
-                                        aria-hidden="true">&times;</span></button>
-                                No elements were selected, please try again
-                            </div>
-                            <div class="alert alert-warning" id="noStepsInPreviewDiv" style="display: none;">
-                                <button type="button" class="close" onclick="jQuery('#noStepsInPreviewDiv').hide();"
-                                        aria-label="Close"><span
-                                        aria-hidden="true">&times;</span></button>
-                                No steps to preview. Please add steps.
-                            </div>
-                            <section contenteditable="true">
-                                <table id="stepsTable" class="table table-bordered table-hover">
-                                </table>
-                            </section>
-                            <button type="button" class="btn btn-default actionButton" aria-label="Left Align"
-                                    style="margin-top:20px;" onclick="preview();">
-                                <span class="glyphicon glyphicon-play" aria-hidden="true"></span> Preview
-                            </button>
-
-                            <button type="button" class="btn btn-default centered" aria-label="Left Align"
-                                    style="margin-top:20px;"
-                                    onclick="save();">
-                                <span class="glyphicon glyphicon-save" aria-hidden="true"></span> Save
-                            </button>
-                        </div>
+                    <div class="btn-group">
+                        <button data-toggle="tooltip" data-placement="top"
+                                title="Click and drag over elements on the page to select them"
+                                class="btn btn-primary btn-lg" href="#" role="button"
+                                id="startDragDropButton"
+                                onClick="startSelectionOfElement(true);">Add Step on element
+                        </button>
+                        <button class="btn btn-default btn-lg" href="#" role="button"
+                                id="startEmptyStepButton"
+                                onClick="startSelectionOfElement(false);">Add Step on page
+                        </button>
+                        <button class="btn btn-danger btn-lg" href="#" id="cancelDragDropButton"
+                                role="button"
+                                onClick="jQueryDragSelector.off();">Cancel
+                        </button>
                     </div>
                 </div>
+                <div class="alert alert-warning" id="noElementsSelectedDiv" style="display: none;">
+                    <button type="button" class="close" onclick="jQuery('#noElementsSelectedDiv').hide();"
+                            aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    No elements were selected, please try again
+                </div>
+                <div class="alert alert-warning" id="noStepsInPreviewDiv" style="display: none;">
+                    <button type="button" class="close" onclick="jQuery('#noStepsInPreviewDiv').hide();"
+                            aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    No steps to preview. Please add steps.
+                </div>
+                <section contenteditable="true">
+                    <div><input id="sequenceTitleSetter" value="Sequence title"/></div>
+                    <table id="stepsTable" class="table table-bordered table-hover">
+                    </table>
+                </section>
+                <button type="button" class="btn btn-default actionButton" aria-label="Left Align"
+                        style="margin-top:20px;" onclick="preview();">
+                    <span class="glyphicon glyphicon-play" aria-hidden="true"></span> Preview
+                </button>
+                <button type="button" class="btn btn-default centered" aria-label="Left Align"
+                        style="margin-top:20px;"
+                        onclick="save();">
+                    <span class="glyphicon glyphicon-save" aria-hidden="true"></span> Save
+                </button>
             </div>
         </div>
     </div>
 </div>
-</div>
-
 <script>
     $(document).ready(function () {
         init();
