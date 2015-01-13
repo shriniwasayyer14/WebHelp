@@ -447,7 +447,8 @@ function playSequence(sequenceName) {
     var stepsForThisSequence = retrieveLocalStorage()[sequenceName];
     var play = introJs();
     play.setOptions({
-        steps: stepsForThisSequence.data
+        steps: stepsForThisSequence.data,
+        showProgress: true
     });
     jQuery('.toggler').trigger('click'); //Close the side menu
     if (jQuery('#contentConsumptionModal').is(':visible')) {
