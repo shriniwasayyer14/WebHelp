@@ -110,9 +110,11 @@
 <div id="demo">
     <div class="tabbable"> <!-- Only required for left/right tabs -->
         <ul class="nav nav-tabs">
-            <li class="active"><a href="#availableSequences" data-toggle="tab">Available Sequences</a></li>
+            <li class="active"><a href="#availableSequences" data-toggle="tab">Topics</a></li>
             <li><a href="#addSequence" data-toggle="tab">Add/Edit Sequence</a></li>
-            <li><a href="#whatsNew" data-toggle="tab">What's New?<span class="badge" id="newItemsBadge"/></a></li>
+            <li><a href="#whatsNew" data-toggle="tab">What's New?<!--<span class="badge" id="newItemsBadge"/>--></a>
+            </li>
+            <li><a href="#popularSequences" data-toggle="tab">Popular</a></li>
         </ul>
         <div class="tab-content">
             <div class="tab-pane active" id="availableSequences">
@@ -173,6 +175,11 @@
                     <span class="glyphicon glyphicon-save" aria-hidden="true"></span> Save
                 </button>
             </div>
+            <div class="tab-pane" id="popularSequences">
+                <div id="popularSequencesContent">
+                    No popular items yet!
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -181,7 +188,7 @@
         <div class="modal-content" style="width: 800px;">
             <div class="modal-header ai-modal-title">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
-                Available sequences
+                What would you like to learn?
             </div>
             <div class="modal-body"></div>
             <div class="modal-footer">

@@ -236,22 +236,25 @@ function save() {
 }
 
 function populateCurrentSequences() {
+    var isCreator = (getWindowParameters()['create'] != undefined) ? true : false;
     var retrievedHtml = '';
     var retrievedNewHtml = '';
+    var retrievedPopularHtml = '';
     var retrievedSequences = retrieveLocalStorage();
     var numNewItems = 0;
     if (retrievedSequences) {
-        //retrievedHtml += '<h3 id="availableSequencesHeader"></h3>';
         retrievedHtml += '<table id="availableSequencesList">';
+        retrievedPopularHtml += '<table id="popularSequencesList">';
         jQuery.each(retrievedSequences, function (key, value) {
-            retrievedHtml += "<tr>" +
+            var thisElement = "<tr>" +
             "<td><span class='glyphicon glyphicon-play' aria-hidden='true' onclick='playThisSequence()'></span></td>" +
             "<td>" + key + "</td>" +
             "<td><span class='glyphicon glyphicon-edit' aria-hidden='true' onclick='editThisSequence()'></td>" +
             "<td><span class='glyphicon glyphicon-remove' aria-hidden='true' onclick='removeThisSequence()'></td>" +
             "<td>" + JSON.stringify(value) + "</td>" +
             "</tr>";
-
+            retrievedHtml += thisElement;
+            retrievedPopularHtml += thisElement;
             if (value.isNew) {
                 if (retrievedNewHtml === '') {
                     retrievedNewHtml += '<table id="newSequencesList">';
@@ -268,11 +271,13 @@ function populateCurrentSequences() {
             }
         });
         retrievedHtml += '</table>';
+        retrievedPopularHtml += '</table>';
         if (retrievedNewHtml != '') {
             retrievedNewHtml += '</table>';
         }
         localStorage.setItem('WebHelp', JSON.stringify(retrievedSequences));
         jQuery('#availableSequencesContent').html(retrievedHtml);
+        jQuery('#popularSequencesContent').html(retrievedPopularHtml);
         //listFilter(jQuery('#availableSequencesHeader'), jQuery('#availableSequencesList'));
 
         var t = jQuery("#availableSequencesList").dataTable({
@@ -290,11 +295,45 @@ function populateCurrentSequences() {
                     },
                     {
                         "sTitle": "",
-                        "sWidth": "10%"
+                        "sWidth": "10%",
+                        "bVisible": isCreator
                     },
                     {
                         "sTitle": "",
+                        "sWidth": "10%",
+                        "bVisible": isCreator
+                    },
+                    {
+                        "sTitle": "Data",
+                        "bVisible": false,
+                        "bSearchable": true
+                    }
+                ]
+            }
+        );
+
+        var p = jQuery("#popularSequencesList").dataTable({
+                "sDom": '<"top"f<"clear">>', //It should be a searchable table
+                "oLanguage": {
+                    "sSearch": "Search title and content: "
+                },
+                "aoColumns": [
+                    {
+                        "sTitle": "",
                         "sWidth": "10%"
+                    },
+                    {
+                        "sTitle": "Sequence"
+                    },
+                    {
+                        "sTitle": "",
+                        "sWidth": "10%",
+                        "bVisible": isCreator
+                    },
+                    {
+                        "sTitle": "",
+                        "sWidth": "10%",
+                        "bVisible": isCreator
                     },
                     {
                         "sTitle": "Data",
@@ -322,11 +361,13 @@ function populateCurrentSequences() {
                         },
                         {
                             "sTitle": "",
-                            "sWidth": "10%"
+                            "sWidth": "10%",
+                            "bVisible": isCreator
                         },
                         {
                             "sTitle": "",
-                            "sWidth": "10%"
+                            "sWidth": "10%",
+                            "bVisible": isCreator
                         },
                         {
                             "sTitle": "Data",
@@ -398,7 +439,7 @@ function playSequence(sequenceName) {
 }
 
 function playThisSequence() {
-    var t = jQuery("#availableSequencesList").DataTable();
+    var t = jQuery("#" + jQuery('.dataTable:visible').attr('id')).DataTable();
     //t.row(jQuery(event.target).parents('tr')).remove().draw();
     var sequenceName = [t.row(jQuery(event.target).parents('tr')).data()[1]];
     playSequence(sequenceName);
