@@ -229,12 +229,13 @@ function save() {
 
 
 // Put the object into storage
-    if (localStorage.getItem('WebHelp')) {
-        var localStorageObject = JSON.parse(localStorage.getItem('WebHelp'));
+    var WebHelpName = 'WebHelp.' + appNameForWebHelp;
+    if (localStorage.getItem(WebHelpName)) {
+        var localStorageObject = JSON.parse(localStorage.getItem(WebHelpName));
         localStorageObject[sequenceTitle] = testObject[sequenceTitle];
-        localStorage.setItem('WebHelp', JSON.stringify(localStorageObject));
+        localStorage.setItem(WebHelpName, JSON.stringify(localStorageObject));
     } else {
-        localStorage.setItem('WebHelp', JSON.stringify(testObject));
+        localStorage.setItem(WebHelpName, JSON.stringify(testObject));
     }
 
     populateCurrentSequences();
@@ -392,8 +393,9 @@ function populateCurrentSequences() {
 }
 
 function retrieveLocalStorage() {
-    if (localStorage.getItem('WebHelp')) {
-        return JSON.parse(localStorage.getItem('WebHelp'));
+    var WebHelpName = 'WebHelp.' + appNameForWebHelp;
+    if (localStorage.getItem(WebHelpName)) {
+        return JSON.parse(localStorage.getItem(WebHelpName));
     } else {
         return {};
     }
