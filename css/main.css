@@ -377,3 +377,9 @@ td .glyphicon {
 .ai-modal-title {
     line-height: 0;
 }
+
+#contentConsumptionNavButton {
+    background: none;
+    color: white;
+    font-size: 18px;
+}
