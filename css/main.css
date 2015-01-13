@@ -284,7 +284,7 @@ textarea {
     }
 }
 
-#demo {
+#webHelpMainContent {
     background-color: #ebebeb;
     padding: 10px;
 }
@@ -343,13 +343,13 @@ iframe {
     width: 80%;
 }
 
-.btn {
+#webHelpMainContent .btn {
     height: 34px;
     font-size: 13px;
     padding-top: 8px;
 }
 
-#demo input {
+#webHelpMainContent input {
     border-radius: 5px;
     border: 1px solid #555;
     padding: 3px;
