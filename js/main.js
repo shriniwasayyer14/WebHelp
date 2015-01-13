@@ -5,10 +5,12 @@ function initWebHelp(webHelpElementMap) {
 
     var elementsToScale = '#ai-content, .ai-header, .ai-navbar';
     var navbarButtonElement = '.ai-header .ai-header-title';
+    var addTextToNavbar = false;
 
     if (webHelpElementMap) {
         elementsToScale = webHelpElementMap.elementsToScale || elementsToScale;
         navbarButtonElement = webHelpElementMap.navbarButtonElement || navbarButtonElement;
+        addTextToNavbar = webHelpElementMap.addTextToNavbar || addTextToNavbar;
     }
 
     if (parameters['create'] != undefined) {
@@ -57,21 +59,15 @@ function moveTableDivsToModal() {
     jQuery('.nav-tabs a[href=#addSequence]').hide();
 }
 
-function createNewNavigationButton(navbarButtonElement) {
+function createNewNavigationButton(navbarButtonElement, addTextToNavbar) {
     var dropdownButtonHtml = '<button class="btn light" id="contentConsumptionNavButton" >' +
         '<i class="fa fa-info-circle"></i>';
-    /*+
-     'App Help</button>';*/
 
-    /*var dropdownButtonHtml = '<div class="btn btn-group nav-right">' +
-     '<button type="button" class="nav-right btn light dropdown-toggle" data-toggle="dropdown" aria-expanded="false"> Action ' +
-     '<span class="caret"></span> ' +
-     '</button> ' +
-     '<ul class="dropdown-menu" role="menu"> ' +
-     '<li><a id="#dropdownButtonForNewSequences">What\'s new ?</a></li> ' +
-     '<li><a id="#dropdownButtonForAllSequences">All sequences</a></li> ' +
-     '</ul>' +
-     '</div>';*/
+    if (addTextToNavbar) {
+        dropdownButtonHtml += 'App Help';
+    }
+
+    dropdownButtonHtml += '</button>';
 
     //Add to navbar if need be
     if ((jQuery('.ai-navbar').length > 0) && (jQuery(navbarButtonElement + ':last-of-type').hasClass('nav-right'))) {
@@ -84,6 +80,9 @@ function createNewNavigationButton(navbarButtonElement) {
     jQuery('#contentConsumptionNavButton').click(function () {
         jQuery('#contentConsumptionModal').modal('show');
     });
+
+    jQuery('#contentConsumptionNavButton').attr('title', 'App Help');
+
 }
 
 function setUpAddEditTable() {
