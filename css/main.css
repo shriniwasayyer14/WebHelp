@@ -285,7 +285,8 @@ textarea {
 }
 
 #demo {
-    background-color: #D8F2EE;
+    background-color: #ebebeb;
+    padding: 10px;
 }
 
 @media screen {
@@ -296,15 +297,15 @@ textarea {
     }
 
     .jumbotron p {
-        font-size:15px;
+        font-size: 14px;
     }
 
     #stepsTable th {
-        font-size: 12px;
+        font-size: 13px;
     }
 
     #stepsTable td {
-        font-size:12px;
+        font-size: 14px;
     }
 
     .glyphicon-remove {
@@ -317,12 +318,60 @@ iframe {
     height: 100%;
 }
 
-.edit_from_te {
-    width:98%;
-    height:98%;
-}
-
 .nav-tabs > li.active > a {
     color: #555 !important;
 }
 
+/*.nav-tabs > li > a {
+    font-size: 12px;
+}*/
+
+.content {
+    margin-top: 100px;
+}
+
+.ai-navbar .nav-right {
+    height: 100%;
+    margin-top: -10px;
+}
+
+.inputDivCentered {
+    margin: 0 auto;
+    float: none;
+    padding-top: 10%;
+    padding-bottom: 15%;
+    width: 80%;
+}
+
+.btn {
+    height: 34px;
+    font-size: 13px;
+}
+
+input[type="search"] {
+    border-radius: 5px;
+    border: 1px solid #333;
+}
+
+td .glyphicon {
+    cursor: pointer;
+}
+
+.suggestionDiv {
+    width: 80%;
+    /*font-weight: bold;*/
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+.tab-content > .active {
+    padding: 5px;
+}
+
+#sequenceTitleSetter {
+    font-weight: bold;
+}
+
+.ai-modal-title {
+    line-height: 0;
+}
