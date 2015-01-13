@@ -346,11 +346,13 @@ iframe {
 .btn {
     height: 34px;
     font-size: 13px;
+    padding-top: 8px;
 }
 
-input[type="search"] {
+#demo input {
     border-radius: 5px;
-    border: 1px solid #333;
+    border: 1px solid #555;
+    padding: 3px;
 }
 
 td .glyphicon {
