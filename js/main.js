@@ -493,7 +493,9 @@ function removeThisSequence() {
     var t = jQuery("#availableSequencesList").DataTable();
     var storedSteps = retrieveLocalStorage();
     delete storedSteps[t.row(jQuery(event.target).parents('tr')).data()[1]];
-    localStorage.setItem('WebHelp', JSON.stringify(storedSteps));
+
+    var WebHelpName = 'WebHelp.' + appNameForWebHelp;
+    localStorage.setItem(WebHelpName, JSON.stringify(storedSteps));
     populateCurrentSequences();
 }
 
