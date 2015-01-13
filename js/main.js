@@ -328,12 +328,12 @@ function populateCurrentSequences() {
                     {
                         "sTitle": "",
                         "sWidth": "10%",
-                        "bVisible": isCreator
+                        "bVisible": false
                     },
                     {
                         "sTitle": "",
                         "sWidth": "10%",
-                        "bVisible": isCreator
+                        "bVisible": false
                     },
                     {
                         "sTitle": "Data",
@@ -362,12 +362,12 @@ function populateCurrentSequences() {
                         {
                             "sTitle": "",
                             "sWidth": "10%",
-                            "bVisible": isCreator
+                            "bVisible": false
                         },
                         {
                             "sTitle": "",
                             "sWidth": "10%",
-                            "bVisible": isCreator
+                            "bVisible": false
                         },
                         {
                             "sTitle": "Data",
@@ -378,6 +378,7 @@ function populateCurrentSequences() {
                 }
             );
         }
+        jQuery('.glyphicon-play').attr('title', 'Play!');
         /*if (numNewItems > 0) {
          jQuery('#newItemsBadge').html(numNewItems.toString());
          }*/
