@@ -247,12 +247,12 @@ function populateCurrentSequences() {
         retrievedPopularHtml += '<table id="popularSequencesList">';
         jQuery.each(retrievedSequences, function (key, value) {
             var thisElement = "<tr>" +
-            "<td><span class='glyphicon glyphicon-play' aria-hidden='true' onclick='playThisSequence()'></span></td>" +
-            "<td>" + key + "</td>" +
-            "<td><span class='glyphicon glyphicon-edit' aria-hidden='true' onclick='editThisSequence()'></td>" +
-            "<td><span class='glyphicon glyphicon-remove' aria-hidden='true' onclick='removeThisSequence()'></td>" +
-            "<td>" + JSON.stringify(value) + "</td>" +
-            "</tr>";
+                "<td><span class='glyphicon glyphicon-play' aria-hidden='true' onclick='playThisSequence()'></span></td>" +
+                "<td>" + key + "</td>" +
+                "<td><span class='glyphicon glyphicon-edit' aria-hidden='true' onclick='editThisSequence()'></td>" +
+                "<td><span class='glyphicon glyphicon-remove' aria-hidden='true' onclick='removeThisSequence()'></td>" +
+                "<td>" + JSON.stringify(value) + "</td>" +
+                "</tr>";
             retrievedHtml += thisElement;
             retrievedPopularHtml += thisElement;
             if (value.isNew) {
@@ -291,7 +291,7 @@ function populateCurrentSequences() {
                         "sWidth": "10%"
                     },
                     {
-                        "sTitle": "Sequence"
+                        "sTitle": "Topic"
                     },
                     {
                         "sTitle": "",
@@ -323,7 +323,7 @@ function populateCurrentSequences() {
                         "sWidth": "10%"
                     },
                     {
-                        "sTitle": "Sequence"
+                        "sTitle": "Topic"
                     },
                     {
                         "sTitle": "",
@@ -357,7 +357,7 @@ function populateCurrentSequences() {
                             "sWidth": "10%"
                         },
                         {
-                            "sTitle": "Sequence"
+                            "sTitle": "Topic"
                         },
                         {
                             "sTitle": "",
