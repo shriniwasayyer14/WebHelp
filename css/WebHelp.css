@@ -1,0 +1,120 @@
+#webHelpMainContent {
+    background-color: #ebebeb;
+    padding: 10px;
+}
+
+@media screen {
+    .container .jumbotron {
+        padding-right: 5px;
+        padding-left: 5px;
+        padding-top: 10px;
+    }
+
+    .jumbotron p {
+        font-size: 14px;
+    }
+
+    #stepsTable th {
+        font-size: 13px;
+    }
+
+    #stepsTable td {
+        font-size: 14px;
+    }
+
+    .glyphicon-remove {
+        cursor: pointer;
+    }
+}
+
+iframe {
+    width: 100%;
+    height: 100%;
+}
+
+.nav-tabs > li.active > a {
+    color: #555 !important;
+}
+
+/*.nav-tabs > li > a {
+    font-size: 12px;
+}*/
+
+.content {
+    margin-top: 100px;
+}
+
+.ai-navbar .nav-right {
+    height: 100%;
+    margin-top: -10px;
+}
+
+.inputDivCentered {
+    margin: 0 auto;
+    float: none;
+    padding-top: 10%;
+    padding-bottom: 15%;
+    width: 80%;
+}
+
+#webHelpMainContent .btn {
+    height: 34px;
+    font-size: 13px;
+    padding-top: 8px;
+}
+
+#webHelpMainContent input {
+    border-radius: 5px;
+    border: 1px solid #555;
+    padding: 3px;
+}
+
+#webHelpMainContent td .fa {
+    cursor: pointer;
+}
+
+#webHelpMainContent .fa {
+    font-size: 150%;
+}
+
+.suggestionDiv {
+    width: 80%;
+    /*font-weight: bold;*/
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+.introjs-tooltip {
+    color: white;
+    background-color: #444;
+    font-size: 120%;
+    opacity: 0.8;
+    filter: alpha(opacity=80); /* For IE8 and earlier */
+}
+
+.introjs-button {
+    font-size: 110%;
+    border-radius: 5px;
+}
+
+.tab-content > .active {
+    padding: 5px;
+}
+
+#sequenceTitleSetter {
+    font-weight: bold;
+}
+
+.ai-modal-title {
+    line-height: 0;
+}
+
+#contentConsumptionNavButton {
+    background: none;
+    color: white;
+    font-size: 18px;
+}
+
+#webHelpMainContent .nav > li > a:hover, #webHelpMainContent .nav > li > a:focus {
+    background-color: white;
+}
