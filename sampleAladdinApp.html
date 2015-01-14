@@ -16,16 +16,6 @@
     <script src="js/jQueryDragSelector.js"></script>
     <script src="bower_components/intro.js/intro.js"></script>
     <script src="js/tableEdit.js"></script>
-    <style>
-        #brs_header {
-            background-image: url("/images/appimages/header_name_goes_here.jpg");
-        }
-
-        #app_footer {
-            background-image: url("/images/appimages/footer_name_goes_here.jpg");
-        }
-    </style>
-
     <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css"/>
     <link rel="stylesheet" href="bower_components/DataTables/media/css/jquery.dataTables.min.css"/>
     <link rel="stylesheet" href="bower_components/DataTables/media/css/jquery.dataTables_themeroller.css"/>
@@ -115,7 +105,6 @@
             <li><a href="#whatsNew" data-toggle="tab">What's New?<!--<span class="badge" id="newItemsBadge"/>--></a>
             <li><a href="#availableSequences" data-toggle="tab">Topics</a></li>
             <li><a href="#addSequence" data-toggle="tab">Add/Edit Sequence</a></li>
-            </li>
         </ul>
         <div class="tab-content">
             <div class="tab-pane active" id="popularSequences">
@@ -136,12 +125,11 @@
             <div class="tab-pane" id="addSequence">
                 <div class="well">
                     <section contenteditable="true">
-                        <div><input id="sequenceTitleSetter" value="Sequence title"/>
+                        <div><input type="text" id="sequenceTitleSetter" value="Sequence title"/>
 
                             <div class="checkbox"><label> <input type="checkbox" id="markAsNewSequence"> Mark as new
                                 sequence</label></div>
                         </div>
-
                         <table id="stepsTable" class="table table-bordered table-hover">
                         </table>
                     </section>
@@ -157,29 +145,31 @@
                         <span class="fa fa-floppy-o" aria-hidden="true"></span> Save
                     </button>
                 </div>
-                <div class="btn-group well-sm">
-                    <button data-toggle="tooltip" data-placement="top"
-                            title="Click and drag over elements on the page to select them"
-                            class="btn btn-primary btn-lg" href="#" role="button"
-                            id="startDragDropButton"
-                            onClick="startSelectionOfElement(true);">Add Step on element
-                    </button>
-                    <button class="btn btn-info btn-lg" href="#" role="button"
-                            id="startEmptyStepButton"
-                            onClick="startSelectionOfElement(false);">Add Step on page
-                    </button>
-                    <button class="btn btn-danger btn-lg" href="#" id="cancelDragDropButton"
-                            role="button"
-                            onClick="jQueryDragSelector.off();">Cancel
-                    </button>
+                <div class="well">Available actions:
+                    <div class="btn-group well-sm">
+                        <button data-toggle="tooltip" data-placement="top"
+                                title="Click and drag over elements on the page to select them"
+                                class="btn btn-success btn-lg" role="button"
+                                id="startDragDropButton"
+                                onClick="startSelectionOfElement(true);">Add Step on element
+                        </button>
+                        <button class="btn btn-info btn-lg" role="button"
+                                id="startEmptyStepButton"
+                                onClick="startSelectionOfElement(false);">Add Step on page
+                        </button>
+                        <button class="btn btn-danger btn-lg" id="cancelDragDropButton"
+                                role="button"
+                                onClick="jQueryDragSelector.off();">Cancel
+                        </button>
+                    </div>
                 </div>
-                <div class="alert alert-warning" id="noElementsSelectedDiv" style="display: none;">
+                <div class="alert alert-danger" id="noElementsSelectedDiv" style="display: none;">
                     <button type="button" class="close" onclick="jQuery('#noElementsSelectedDiv').hide();"
                             aria-label="Close"><span
                             aria-hidden="true">&times;</span></button>
                     No elements were selected, please try again
                 </div>
-                <div class="alert alert-warning" id="noStepsInPreviewDiv" style="display: none;">
+                <div class="alert alert-danger" id="noStepsInPreviewDiv" style="display: none;">
                     <button type="button" class="close" onclick="jQuery('#noStepsInPreviewDiv').hide();"
                             aria-label="Close"><span
                             aria-hidden="true">&times;</span></button>
@@ -193,7 +183,8 @@
     <div class="modal-dialog">
         <div class="modal-content" style="width: 800px;">
             <div class="modal-header ai-modal-title">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
                 What would you like to learn?
             </div>
             <div class="modal-body"></div>

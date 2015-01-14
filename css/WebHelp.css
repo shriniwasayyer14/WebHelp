@@ -135,6 +135,7 @@ iframe {
 .introjs-helperNumberLayer {
     border: 0;
     padding: 0px;
+    background: #339999;
 }
 
 #webHelpMainContent .sorting, #webHelpMainContent .sorting_asc, #webHelpMainContent .sorting_desc {
@@ -143,8 +144,23 @@ iframe {
 
 #webHelpMainContent .table > thead > tr > th {
     border: 1px solid #dbdbdb !important;
+    display: none;
 }
 
-#webHelpMainContent #addSequence .well .btn {
+#webHelpMainContent #stepsTable > thead > tr > th {
+    display: table-cell;
+}
+
+#webHelpMainContent #addSequence .well .btn.btn-default {
     font-size: 16px;
+    height: auto;
+}
+
+#webHelpMainContent .btn-success {
+    background-color: #339999;
+    border-color: #338888;
+}
+
+#webHelpMainContent .btn-success:hover {
+    background-color: #336666;
 }
