@@ -355,11 +355,11 @@ iframe {
     padding: 3px;
 }
 
-td .fa {
+#webHelpMainContent td .fa {
     cursor: pointer;
 }
 
-.fa {
+#webHelpMainContent .fa {
     font-size: 150%;
 }
 
