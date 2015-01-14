@@ -162,7 +162,7 @@ a.introjs-button {
     display: none;
 }
 
-#webHelpMainContent #stepsTable {
+#webHelpMainContent #stepsTable, #webHelpMainContent .checkbox {
     margin-top: 15px;
     margin-bottom: 15px;
 }
