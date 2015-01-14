@@ -370,6 +370,19 @@ iframe {
     margin-top: 10px;
 }
 
+.introjs-tooltip {
+    color: white;
+    background-color: #444;
+    font-size: 120%;
+    opacity: 0.8;
+    filter: alpha(opacity=80); /* For IE8 and earlier */
+}
+
+.introjs-button {
+    font-size: 110%;
+    border-radius: 5px;
+}
+
 .tab-content > .active {
     padding: 5px;
 }
