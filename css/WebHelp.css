@@ -171,6 +171,7 @@ a.introjs-button {
     -moz-transform: scale(1.4);
     -webkit-transform: scale(1.4);
     -o-transform: scale(1.4);
+    margin-left: -15px;
 }
 
 #webHelpMainContent .btn-group .btn {
