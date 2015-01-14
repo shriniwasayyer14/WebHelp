@@ -400,3 +400,7 @@ iframe {
     color: white;
     font-size: 18px;
 }
+
+#webHelpMainContent .nav > li > a:hover, #webHelpMainContent .nav > li > a:focus {
+    background-color: white;
+}
