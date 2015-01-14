@@ -247,6 +247,13 @@ function save() {
         localStorage.setItem(WebHelpName, JSON.stringify(testObject));
     }
 
+    jQuery("#sequenceSaveButton").attr('title', 'Saved!').tooltip({
+        trigger: 'manual'
+    }).tooltip("show");
+    setTimeout(function () {
+        jQuery("#sequenceSaveButton").tooltip('hide').attr('title', '');
+    }, 500);
+
     populateCurrentSequences();
 
 }
