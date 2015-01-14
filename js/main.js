@@ -88,6 +88,9 @@ function createNewNavigationButton(navbarButtonElement, addTextToNavbar) {
 function setUpAddEditTable() {
     var t = jQuery("#stepsTable").dataTable({
             "sDom": "",
+            "language": {
+                "emptyTable": "New steps will show up here!"
+            },
             "aoColumns": [
                 {
                     "sTitle": "",
@@ -166,7 +169,7 @@ function preview() {
         var stepTitle = rows[n][1];
         var content = rows[n][3];
         if (elemAttribVal) {
-            var elem = document.querySelector("#" + elemAttribVal); // Assuming the elem attrib is an id for now
+            var elem = "#" + elemAttribVal; // Assuming the elem attrib is an id for now
             previewSteps.push({
                 element: elem,
                 intro: content,
@@ -219,7 +222,7 @@ function save() {
         var stepTitle = rows[n][1];
         var content = rows[n][3];
         if (elemAttribVal) {
-            var elem = document.querySelector("#" + elemAttribVal); // Assuming the elem attrib is an id for now
+            var elem = "#" + elemAttribVal; // Assuming the elem attrib is an id for now
             previewSteps.push({
                 element: "#" + elemAttribVal,
                 intro: '<div><h3>' + stepTitle + '</h3><p>' + content + '</p></div>',
@@ -438,6 +441,9 @@ function destroyAndRedrawTable() {
     jQuery("#stepsTable").dataTable().fnDestroy();
     var t = jQuery("#stepsTable").dataTable({
             "sDom": '',
+            "language": {
+                "emptyTable": "New steps will show up here!"
+            },
             "aoColumns": [
                 {
                     "sTitle": "",
@@ -467,7 +473,6 @@ function playSequence(sequenceName) {
         steps: stepsForThisSequence.data,
         showProgress: true,
         showBullets: false,
-        tooltipPosition: 'auto'
     });
     jQuery('.toggler').trigger('click'); //Close the side menu
     if (jQuery('#contentConsumptionModal').is(':visible')) {
