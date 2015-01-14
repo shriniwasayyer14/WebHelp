@@ -93,8 +93,8 @@ iframe {
 }
 
 .introjs-button {
-    font-size: 60%;
-    border-radius: 5px;
+    font-size: 70%;
+    border-radius: 4px;
 }
 
 .tab-content > .active {
@@ -117,4 +117,13 @@ iframe {
 
 #webHelpMainContent .nav > li > a:hover, #webHelpMainContent .nav > li > a:focus {
     background-color: white;
+}
+
+.introjs-button a {
+    text-decoration: none;
+}
+
+.introjs-helperNumberLayer {
+    border: 0;
+    padding: 0px;
 }
