@@ -179,7 +179,11 @@ function preview() {
         }
     }
 
-    preview.setOptions({steps: previewSteps});
+    preview.setOptions({
+        steps: previewSteps,
+        showProgress: true,
+        showBullets: false
+    });
     jQuery('.toggler').trigger('click'); //Close the side menu
     preview.start();
 }
@@ -457,7 +461,8 @@ function playSequence(sequenceName) {
     var play = introJs();
     play.setOptions({
         steps: stepsForThisSequence.data,
-        showProgress: true
+        showProgress: true,
+        showBullets: false
     });
     jQuery('.toggler').trigger('click'); //Close the side menu
     if (jQuery('#contentConsumptionModal').is(':visible')) {
