@@ -136,8 +136,8 @@ a.introjs-button {
 
 .introjs-helperNumberLayer {
     border: 0;
-    padding: 0px;
-    background: #339999;
+    padding: 0;
+    background: #08c;
 }
 
 #webHelpMainContent .sorting, #webHelpMainContent .sorting_asc, #webHelpMainContent .sorting_desc {
