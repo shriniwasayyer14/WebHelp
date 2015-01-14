@@ -91,6 +91,7 @@ iframe {
     font-size: 120%;
     opacity: 0.8;
     filter: alpha(opacity=80); /* For IE8 and earlier */
+    border-radius: 8px;
 }
 
 .introjs-tooltiptext {
@@ -101,6 +102,10 @@ iframe {
     font-size: 70%;
     text-decoration: none;
     margin-top: 20px;
+}
+
+.introjs-button:hover {
+    box-shadow: none;
 }
 
 #webHelpMainContent .tab-content > .active {
@@ -155,6 +160,11 @@ a.introjs-button {
 #webHelpMainContent .table > thead > tr > th {
     border: 1px solid #dbdbdb !important;
     display: none;
+}
+
+#webHelpMainContent #stepsTable {
+    margin-top: 15px;
+    margin-bottom: 15px;
 }
 
 #webHelpMainContent #stepsTable > thead > tr > th {
