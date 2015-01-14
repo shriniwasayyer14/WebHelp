@@ -127,7 +127,9 @@
                     <section contenteditable="true">
                         <div><input type="text" id="sequenceTitleSetter" value="Sequence title"/>
 
-                            <div class="checkbox"><label> <input type="checkbox" id="markAsNewSequence"> Mark as new
+                            <div class="checkbox"><label for="markAsNewSequence"> <input type="checkbox"
+                                                                                         id="markAsNewSequence"> Mark as
+                                new
                                 sequence</label></div>
                         </div>
                         <table id="stepsTable" class="table table-bordered table-hover">
@@ -146,20 +148,21 @@
                     </button>
                 </div>
                 <div class="well">Available actions:
-                    <div class="btn-group well-sm">
+                    <div class="well-sm">
                         <button data-toggle="tooltip" data-placement="top"
                                 title="Click and drag over elements on the page to select them"
-                                class="btn btn-success btn-lg" role="button"
+                                class="btn btn-success" role="button"
                                 id="startDragDropButton"
-                                onClick="startSelectionOfElement(true);">Add Step on element
+                                onClick="startSelectionOfElement(true);"><span class="fa fa-plus"></span> Add element
+                            step
                         </button>
-                        <button class="btn btn-info btn-lg" role="button"
+                        <button class="btn btn-info" role="button"
                                 id="startEmptyStepButton"
-                                onClick="startSelectionOfElement(false);">Add Step on page
+                                onClick="startSelectionOfElement(false);"><span class="fa fa-plus"></span> Add page step
                         </button>
-                        <button class="btn btn-danger btn-lg" id="cancelDragDropButton"
+                        <button class="btn btn-danger" id="cancelDragDropButton"
                                 role="button"
-                                onClick="jQueryDragSelector.off();">Cancel
+                                onClick="jQueryDragSelector.off();"><span class="fa fa-times"></span> Cancel
                         </button>
                     </div>
                 </div>

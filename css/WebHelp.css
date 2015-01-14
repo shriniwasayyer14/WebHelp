@@ -72,7 +72,7 @@ iframe {
     cursor: pointer;
 }
 
-#webHelpMainContent .fa {
+#webHelpMainContent .btn-default .fa {
     font-size: 150%;
 }
 
