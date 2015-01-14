@@ -92,6 +92,10 @@ iframe {
     filter: alpha(opacity=80); /* For IE8 and earlier */
 }
 
+.introjs-tooltiptext {
+    display: inline-block;
+}
+
 .introjs-button {
     font-size: 70%;
     text-decoration: none;
@@ -136,8 +140,11 @@ a.introjs-button {
 
 .introjs-helperNumberLayer {
     border: 0;
-    padding: 0;
+    padding: 6px;
     background: #08c;
+    width: 30px;
+    height: 30px;
+    font-size: 20px;
 }
 
 #webHelpMainContent .sorting, #webHelpMainContent .sorting_asc, #webHelpMainContent .sorting_desc {
