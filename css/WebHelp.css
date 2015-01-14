@@ -1,6 +1,7 @@
 #webHelpMainContent {
     background-color: white;
     padding: 10px;
+    font-family: Tahoma, Arial, sans-serif; /*Standard Aladdin VI font*/
 }
 
 @media screen {
