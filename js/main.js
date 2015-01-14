@@ -133,7 +133,7 @@ function createStepForThisElement(arrayOfElems) {
     }
     elemText = elemText.substring(0, elemText.length - 1);
     t.row.add([
-        "<span class='glyphicon glyphicon-remove' aria-hidden='true' onclick='removeThisStep()'></span>",
+        "<span class='fa fa-times' aria-hidden='true' onclick='removeThisStep()'></span>",
         "Editable title",
         elemText,
         "Editable content"])
@@ -270,10 +270,10 @@ function populateCurrentSequences() {
         retrievedPopularHtml += '<table id="popularSequencesList">';
         jQuery.each(retrievedSequences, function (key, value) {
             var thisElement = "<tr>" +
-                "<td><span class='glyphicon glyphicon-play' aria-hidden='true' onclick='playThisSequence()'></span></td>" +
+                "<td><span class='fa fa-play-circle-o' aria-hidden='true' onclick='playThisSequence()'></span></td>" +
                 "<td>" + key + "</td>" +
-                "<td><span class='glyphicon glyphicon-edit' aria-hidden='true' onclick='editThisSequence()'></td>" +
-                "<td><span class='glyphicon glyphicon-remove' aria-hidden='true' onclick='removeThisSequence()'></td>" +
+                "<td><span class='fa fa-edit' aria-hidden='true' onclick='editThisSequence()'></td>" +
+                "<td><span class='fa fa-times' aria-hidden='true' onclick='removeThisSequence()'></td>" +
                 "<td>" + JSON.stringify(value) + "</td>" +
                 "</tr>";
             retrievedHtml += thisElement;
@@ -283,10 +283,10 @@ function populateCurrentSequences() {
                     retrievedNewHtml += '<table id="newSequencesList">';
                 }
                 retrievedNewHtml += "<tr>" +
-                "<td><span class='glyphicon glyphicon-play' aria-hidden='true' onclick='playThisSequence()'></span></td>" +
+                "<td><span class='fa fa-play-circle-o' aria-hidden='true' onclick='playThisSequence()'></span></td>" +
                 "<td>" + key + "</td>" +
-                "<td><span class='glyphicon glyphicon-edit' aria-hidden='true' onclick='editThisSequence()'></td>" +
-                "<td><span class='glyphicon glyphicon-remove' aria-hidden='true' onclick='removeThisSequence()'></td>" +
+                "<td><span class='fa fa-edit' aria-hidden='true' onclick='editThisSequence()'></td>" +
+                "<td><span class='fa fa-times' aria-hidden='true' onclick='removeThisSequence()'></td>" +
                 "<td>" + JSON.stringify(value) + "</td>" +
                 "</tr>";
                 retrievedSequences[key]['isNew'] = false;
@@ -401,7 +401,9 @@ function populateCurrentSequences() {
                 }
             );
         }
-        jQuery('.glyphicon-play').attr('title', 'Play!');
+        jQuery('td .fa-play-circle-o').attr('title', 'Play!');
+        jQuery('td .fa-edit').attr('title', 'Edit');
+        jQuery('td .fa-times').attr('title', 'Delete');
         /*if (numNewItems > 0) {
          jQuery('#newItemsBadge').html(numNewItems.toString());
          }*/
@@ -486,7 +488,7 @@ function editThisSequence() {
             elementId = elementId.split('#')[1];
         }
         stepsTable.row.add([
-            "<span class='glyphicon glyphicon-remove' aria-hidden='true' onclick='removeThisStep()'></span>",
+            "<span class='fa fa-times' aria-hidden='true' onclick='removeThisStep()'></span>",
             title,
             elementId,
             text])
