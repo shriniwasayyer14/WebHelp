@@ -134,6 +134,29 @@
                 </div>
             </div>
             <div class="tab-pane" id="addSequence">
+                <div class="well">
+                    <section contenteditable="true">
+                        <div><input id="sequenceTitleSetter" value="Sequence title"/>
+
+                            <div class="checkbox"><label> <input type="checkbox" id="markAsNewSequence"> Mark as new
+                                sequence</label></div>
+                        </div>
+
+                        <table id="stepsTable" class="table table-bordered table-hover">
+                        </table>
+                    </section>
+                    <button type="button" id='sequencePreviewButton' class="btn btn-default centered actionButton"
+                            aria-label="Left Align"
+                            style="margin-top:20px;" onclick="preview();">
+                        <span class="fa fa-play-circle-o" aria-hidden="true"></span> Preview
+                    </button>
+                    <button type="button" id='sequenceSaveButton' class="btn btn-default centered"
+                            aria-label="Left Align"
+                            style="margin-top:20px;"
+                            onclick="save();">
+                        <span class="fa fa-floppy-o" aria-hidden="true"></span> Save
+                    </button>
+                </div>
                 <div class="btn-group well-sm">
                     <button data-toggle="tooltip" data-placement="top"
                             title="Click and drag over elements on the page to select them"
@@ -161,29 +184,6 @@
                             aria-label="Close"><span
                             aria-hidden="true">&times;</span></button>
                     No steps to preview. Please add steps.
-                </div>
-                <div class="well">
-                    <section contenteditable="true">
-                        <div><input id="sequenceTitleSetter" value="Sequence title"/>
-
-                            <div class="checkbox"><label> <input type="checkbox" id="markAsNewSequence"> Mark as new
-                                sequence</label></div>
-                        </div>
-
-                        <table id="stepsTable" class="table table-bordered table-hover">
-                        </table>
-                    </section>
-                    <button type="button" id='sequencePreviewButton' class="btn btn-default centered actionButton"
-                            aria-label="Left Align"
-                            style="margin-top:20px;" onclick="preview();">
-                        <span class="fa fa-play-circle-o" aria-hidden="true"></span> Preview
-                    </button>
-                    <button type="button" id='sequenceSaveButton' class="btn btn-default centered"
-                            aria-label="Left Align"
-                            style="margin-top:20px;"
-                            onclick="save();">
-                        <span class="fa fa-floppy-o" aria-hidden="true"></span> Save
-                    </button>
                 </div>
             </div>
         </div>

@@ -1,5 +1,5 @@
 #webHelpMainContent {
-    background-color: #ebebeb;
+    background-color: white;
     padding: 10px;
 }
 
@@ -60,12 +60,11 @@ iframe {
 #webHelpMainContent .btn {
     height: 34px;
     font-size: 13px;
-    padding-top: 8px;
 }
 
 #webHelpMainContent input {
     border-radius: 5px;
-    border: 1px solid #555;
+    border: 1px solid #888;
     padding: 3px;
 }
 
@@ -97,8 +96,9 @@ iframe {
     border-radius: 4px;
 }
 
-.tab-content > .active {
+#webHelpMainContent .tab-content > .active {
     padding: 5px;
+    padding-top: 20px;
 }
 
 #sequenceTitleSetter {
@@ -116,7 +116,16 @@ iframe {
 }
 
 #webHelpMainContent .nav > li > a:hover, #webHelpMainContent .nav > li > a:focus {
-    background-color: white;
+    background-color: #ebebeb;
+}
+
+#webHelpMainContent table.dataTable tbody th, #webHelpMainContent table.dataTable tbody td {
+    border: 0;
+    padding: 12px;
+}
+
+#webHelpMainContent table.dataTable {
+    border-bottom: 1px solid #dbdbdb !important;
 }
 
 .introjs-button a {
@@ -126,4 +135,16 @@ iframe {
 .introjs-helperNumberLayer {
     border: 0;
     padding: 0px;
+}
+
+#webHelpMainContent .sorting, #webHelpMainContent .sorting_asc, #webHelpMainContent .sorting_desc {
+    background: none;
+}
+
+#webHelpMainContent .table > thead > tr > th {
+    border: 1px solid #dbdbdb !important;
+}
+
+#webHelpMainContent #addSequence .well .btn {
+    font-size: 16px;
 }
