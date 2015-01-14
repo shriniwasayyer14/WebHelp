@@ -409,6 +409,9 @@ function populateCurrentSequences() {
         jQuery('td .fa-play-circle-o').attr('title', 'Play!');
         jQuery('td .fa-edit').attr('title', 'Edit');
         jQuery('td .fa-times').attr('title', 'Delete');
+
+        //Convert all the tables to bootstrap-tables
+        jQuery('#webHelpMainContent table.dataTable').addClass('table table-hover table-striped table-bordered');
         /*if (numNewItems > 0) {
          jQuery('#newItemsBadge').html(numNewItems.toString());
          }*/
