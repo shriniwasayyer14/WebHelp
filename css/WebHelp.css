@@ -164,3 +164,14 @@ iframe {
 #webHelpMainContent .btn-success:hover {
     background-color: #336666;
 }
+
+#webHelpMainContent input[type="checkbox"] {
+    -ms-transform: scale(1.4);
+    -moz-transform: scale(1.4);
+    -webkit-transform: scale(1.4);
+    -o-transform: scale(1.4);
+}
+
+#webHelpMainContent .btn-group .btn {
+    padding-top: 8px;
+}
