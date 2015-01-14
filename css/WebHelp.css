@@ -93,7 +93,8 @@ iframe {
 
 .introjs-button {
     font-size: 70%;
-    border-radius: 4px;
+    text-decoration: none;
+    margin-top: 20px;
 }
 
 #webHelpMainContent .tab-content > .active {
@@ -128,7 +129,7 @@ iframe {
     border-bottom: 1px solid #dbdbdb !important;
 }
 
-.introjs-button a {
+a.introjs-button {
     text-decoration: none;
 }
 
