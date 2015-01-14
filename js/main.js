@@ -182,7 +182,8 @@ function preview() {
     preview.setOptions({
         steps: previewSteps,
         showProgress: true,
-        showBullets: false
+        showBullets: false,
+        tooltipPosition: 'auto'
     });
     jQuery('.toggler').trigger('click'); //Close the side menu
     preview.start();
@@ -462,7 +463,8 @@ function playSequence(sequenceName) {
     play.setOptions({
         steps: stepsForThisSequence.data,
         showProgress: true,
-        showBullets: false
+        showBullets: false,
+        tooltipPosition: 'auto'
     });
     jQuery('.toggler').trigger('click'); //Close the side menu
     if (jQuery('#contentConsumptionModal').is(':visible')) {
