@@ -77,7 +77,8 @@ function createNewNavigationButton(navbarButtonElement, addTextToNavbar) {
         jQuery(navbarButtonElement).after(dropdownButtonHtml);
     }
 
-    jQuery('#contentConsumptionNavButton').click(function () {
+    jQuery('#contentConsumptionNavButton').click(function (event) {
+        event.preventDefault();
         jQuery('#contentConsumptionModal').modal('show');
     });
 

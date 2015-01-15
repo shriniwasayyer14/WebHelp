@@ -134,6 +134,7 @@ iframe {
 #webHelpMainContent table.dataTable tbody th, #webHelpMainContent table.dataTable tbody td {
     border: 0;
     padding: 12px;
+    font-size: 14px;
 }
 
 #webHelpMainContent table.dataTable {
