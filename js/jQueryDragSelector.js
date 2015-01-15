@@ -113,10 +113,10 @@ var jQueryDragSelector = {
         var arrayOfObjects = [];
         if (confirmBoolean) {
             jQuery.each(jQuery('.dragSelectedElement'), function (index, element) {
+                jQuery(element).removeClass('dragSelectedElement fadedDragSelectedElement');
                 if (index > 0) { /*Allow only one element for now*/
                     return false;
                 }
-                jQuery(element).removeClass('dragSelectedElement fadedDragSelectedElement');
                 var objectForArray = {
                     'attribute': '',
                     'value': ''
