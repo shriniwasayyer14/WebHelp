@@ -44,6 +44,7 @@ var jQueryDragSelector = {
                                 html: true,
                                 trigger: 'manual',
                                 placement: 'auto top',
+                                container: 'body', /*Show on top of all elements*/
                                 content: '<div>Go ahead with this selection ?</div>' +
                                 '<div class="btn-group">' +
                                 '<button type="button" class="btn btn-success" onclick="jQueryDragSelector.confirmSelection(true)">Yes</button>' +
