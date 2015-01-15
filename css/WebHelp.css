@@ -204,3 +204,8 @@ a.introjs-skipbutton + a.introjs-button.introjs-prevbutton + a.introjs-button.in
     /*When skip button shows 'done' i.e. last step, show done at right*/
     float: right;
 }
+
+.edit_from_te {
+    white-space: pre-wrap;
+    max-width: 100px;
+}
