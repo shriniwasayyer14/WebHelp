@@ -10,6 +10,7 @@ var jQueryDragSelector = {
                 .drag("start", function (ev, dd) {
                     return jQuery('<div class="selection" />')
                         .css('opacity', .5)
+                        .css('z-index', 999999999999)
                         .appendTo(document.body);
                 })
                 .drag(function (ev, dd) {
