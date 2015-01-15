@@ -34,7 +34,7 @@ function initWebHelp(webHelpElementMap) {
                  then it's going to be closed in the next step and vice versa*/
                 jQuery(elementsToScale).css('width', bodyWidth);
             } else {
-                jQuery(elementsToScale).css('width', bodyWidth - containerWidth - 20);
+                jQuery(elementsToScale).css('width', bodyWidth - containerWidth - 40);
             }
         });
 
