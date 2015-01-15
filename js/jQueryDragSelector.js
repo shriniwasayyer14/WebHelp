@@ -130,7 +130,7 @@ var jQueryDragSelector = {
                     objectForArray.attribute = 'name';
                     objectForArray.value = jQuery(element).children()[0].name;
                 } else if (element.className) {
-                    var jQueryClassName = element.className.split(/\s+/).join(' .');
+                    var jQueryClassName = '.' + element.className.split(/\s+/).join('.');
                     if (jQuery(jQueryClassName).length === 1) {
                         objectForArray.attribute = 'className';
                         objectForArray.value = jQueryClassName;
