@@ -135,6 +135,8 @@ iframe {
     border: 0;
     padding: 12px;
     font-size: 14px;
+    white-space: pre-wrap;
+    max-width: 100px;
 }
 
 #webHelpMainContent table.dataTable {
@@ -196,4 +198,9 @@ a.introjs-button {
 
 #webHelpMainContent .btn-group .btn {
     padding-top: 8px;
+}
+
+a.introjs-skipbutton + a.introjs-button.introjs-prevbutton + a.introjs-button.introjs-nextbutton.introjs-disabled {
+    /*When skip button shows 'done' i.e. last step, show done at right*/
+    float: right;
 }
