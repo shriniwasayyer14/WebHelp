@@ -59,7 +59,7 @@ var jQueryDragSelector = {
                     }
                 });
 
-            jQuery('div, input, textarea, button, a, ul, li')
+            jQuery('div, input, textarea, button, a, ul, li, tr, td')
                 .drop("start", function (ev, dd) {
                     jQuery(this).addClass("active");
                 })
@@ -113,6 +113,7 @@ var jQueryDragSelector = {
         var arrayOfObjects = [];
         if (confirmBoolean) {
             jQuery.each(jQuery('.dragSelectedElement'), function (index, element) {
+                jQuery(element).removeClass('dragSelectedElement fadedDragSelectedElement');
                 var objectForArray = {
                     'attribute': '',
                     'value': ''
@@ -143,14 +144,14 @@ var jQueryDragSelector = {
             });
             createStepForThisElement(arrayOfObjects);
         }
-        jQuery('.dragSelectedElement').removeClass('dragSelectedElement fadedDragSelectedElement');
+
         this.selectedObjects = arrayOfObjects;
         this.off();
     },
     off: function () {
         if (this.isOn) {
             jQuery(document).unbind("draginit").unbind("dragstart").unbind("drag").unbind("dragend");
-            jQuery('div, input, textarea, button, a, ul, li').unbind("drop");
+            jQuery('div, input, textarea, button, a, ul, li, tr, td').unbind("drop");
             this.isOn = false;
         }
     }
