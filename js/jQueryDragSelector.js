@@ -132,8 +132,8 @@ var jQueryDragSelector = {
                 } else if (element.className) {
                     var jQueryClassName = '.' + element.className.split(/\s+/).join('.');
                     if (jQuery(jQueryClassName).length === 1) {
-                        objectForArray.attribute = 'className';
-                        objectForArray.value = jQueryClassName;
+                        objectForArray.attribute = 'class';
+                        objectForArray.value = element.className;
                     } else {
                         objectForArray.attribute = 'boundingClientRect';
                         objectForArray.value = element.getBoundingClientRect();
