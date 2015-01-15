@@ -102,8 +102,12 @@ function setUpAddEditTable() {
                     "sWidth": "25%"
                 },
                 {
-                    "sTitle": "Element",
-                    "sWidth": "15%"
+                    "sTitle": "Attribute",
+                    "sWidth": "7%"
+                },
+                {
+                    "sTitle": "Value",
+                    "sWidth": "8%"
                 },
                 {
                     "sTitle": "Content",
@@ -132,13 +136,17 @@ function startSelectionOfElement(selectElement) {
 function createStepForThisElement(arrayOfElems) {
     var t = jQuery("#stepsTable").DataTable();
     var elemText = "";
+    var elemType = "";
     for (var i = 0; i < arrayOfElems.length; i++) {
         elemText += arrayOfElems[i].value + "&";
+        elemType += arrayOfElems[i].attribute + "&";
     }
     elemText = elemText.substring(0, elemText.length - 1);
+    elemType = elemType.substring(0, elemType.length - 1);
     t.row.add([
         "<span class='fa fa-times' aria-hidden='true' onclick='removeThisStep()'></span>",
         "Editable title",
+        elemType,
         elemText,
         "Editable content"])
         .draw();
@@ -166,11 +174,12 @@ function preview() {
     var previewSteps = [];
 
     for (var n = 0; n < rows.length; n++) {
-        var elemAttribVal = rows[n][2];
+        var elemAttribVal = rows[n][3];
+        var elemAttribType = rows[n][2];
         var stepTitle = rows[n][1];
-        var content = rows[n][3];
+        var content = rows[n][4];
         if (elemAttribVal) {
-            var elem = "#" + elemAttribVal; // Assuming the elem attrib is an id for now
+            var elem = "[" + elemAttribType + "=\'" + elemAttribVal + "\']"; // Assuming the elem attrib is an id for now
             previewSteps.push({
                 element: elem,
                 intro: content,
@@ -219,14 +228,15 @@ function save() {
     var sequenceTitle = jQuery('#sequenceTitleSetter').val().trim();
 
     for (var n = 0; n < rows.length; n++) {
-        var elemAttribVal = rows[n][2];
+        var elemAttribVal = rows[n][3];
+        var elemAttribType = rows[n][2];
         var stepTitle = rows[n][1];
-        var content = rows[n][3];
+        var content = rows[n][4];
         if (elemAttribVal) {
-            var elem = "#" + elemAttribVal; // Assuming the elem attrib is an id for now
+            var elem = "[" + elemAttribType + "=\'" + elemAttribVal + "\']"; // Assuming the elem attrib is an id for now
             previewSteps.push({
-                element: "#" + elemAttribVal,
-                intro: '<div><h3>' + stepTitle + '</h3><p>' + content + '</p></div>',
+                element: elem,
+                intro: content,
                 position: 'bottom'
             });
         } else {
@@ -455,8 +465,12 @@ function destroyAndRedrawTable() {
                     "sWidth": "25%"
                 },
                 {
-                    "sTitle": "Element",
-                    "sWidth": "15%"
+                    "sTitle": "Attribute",
+                    "sWidth": "7%"
+                },
+                {
+                    "sTitle": "Value",
+                    "sWidth": "8%"
                 },
                 {
                     "sTitle": "Content",
