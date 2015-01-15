@@ -234,6 +234,7 @@ function save() {
      });*/
 
     //destroyAndRedrawTable(); //Doesn't respect row reordering
+    var sequenceTitle = jQuery("#sequenceTitleSetter").val().trim();
     var tableHasData = (jQuery("#stepsTable").find("td").length > 0);
     if (!tableHasData) {
         jQuery('#noStepsInPreviewDiv').show();
