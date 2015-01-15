@@ -1,6 +1,6 @@
 <html>
 <head>
-    <title>View Positions</title>
+    <title>AladdinView</title>
 
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 
@@ -62,6 +62,7 @@
 
         .label {
             color: #333333 !important;
+            font-size: 100% !important;
         }
     </style>
 
@@ -126,6 +127,7 @@
 </head>
 <body onLoad="PageLoad(); return true;" style="overflow:auto;">
 
+<div class="scaleForWebHelp">
 <form>
     <div class="ai-header  ">
         <div class="ai-header-title">AladdinView</div>
@@ -134,7 +136,7 @@
                 <div class="ai-header-options">
                     <a href="https://dev.blackrock.com/weblications/WebQuery/components/form_header.epl?tool=positions&logo=/images/appimages/web_query/query_tools/master_head_images/aladdin_tools_form.jpg#"
                        onmouseover="self.status=&#39;Retrieve&#39;; return true;"
-                       onmouseout="self.status=top.defaultStatus; return true;" class="retrieve"
+                       onmouseout="self.status=top.defaultStatus; return true;" class="retrieve" id="retrieve"
                        onclick="parent.frames[1].FormSubmitAction(&#39;retrieve&#39;, event); return false;">
                         <img src="sampleAladdinView_files/Reload_white.png" alt="Retrieve" align="middle"
                              border="0"></a>
@@ -142,7 +144,7 @@
                     &nbsp;
 
                     <a href="https://dev.blackrock.com/weblications/WebQuery/components/form_header.epl?tool=positions&logo=/images/appimages/web_query/query_tools/master_head_images/aladdin_tools_form.jpg#"
-                       onmouseover="self.status=&#39;Export&#39;; return true;" class="export"
+                       onmouseover="self.status=&#39;Export&#39;; return true;" class="export" id="export"
                        onmouseout="self.status=top.defaultStatus; return true;"
                        onclick="parent.frames[1].FormSubmitAction(&#39;export_to_txt&#39;); return false;">
                         <img src="sampleAladdinView_files/Excel_white.png" alt="Export" align="middle" border="0"></a>
@@ -151,7 +153,7 @@
 
                     <a href="https://dev.blackrock.com/weblications/WebQuery/components/form_header.epl?tool=positions&logo=/images/appimages/web_query/query_tools/master_head_images/aladdin_tools_form.jpg#"
                        onmouseover="self.status=&#39;View Options&#39;; return true;"
-                       onmouseout="self.status=top.defaultStatus; return true;" class="viewOptions"
+                       onmouseout="self.status=top.defaultStatus; return true;" class="viewOptions" id="viewOptions"
                        onclick="parent.frames[1].ViewOptionsTool(&#39;positions&#39;, &#39;opener_form=opener.document.forms[0]&#39;); return false;">
                         <img src="sampleAladdinView_files/View_options_sm_white.png" border="0" align="middle"
                              alt="View Options"></a>
@@ -2115,7 +2117,7 @@ Separate Long and Short</span>
 <script script type="text/javascript">
     suggestionList();
 </script>
-
+</div>
 <div id="webHelpMainContent">
     <div class="tabbable"> <!-- Only required for left/right tabs -->
         <ul class="nav nav-tabs">
@@ -2218,7 +2220,9 @@ Separate Long and Short</span>
 <script>
     var appNameForWebHelp = 'AladdinView';
     $(document).ready(function () {
-        initWebHelp();
+        initWebHelp({
+            elementsToScale: '.scaleForWebHelp, .ai-header'
+        });
     });
 </script>
 </body>
