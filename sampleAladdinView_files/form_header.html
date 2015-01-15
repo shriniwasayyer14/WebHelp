@@ -1,0 +1,251 @@
+<!-- saved from url=(0176)https://dev.blackrock.com/weblications/WebQuery/components/form_header.epl?tool=positions&logo=/images/appimages/web_query/query_tools/master_head_images/aladdin_tools_form.jpg -->
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+    <title>AladdinView</title>
+    <link rel="stylesheet" type="text/css" href="sample brs_theme.css">
+    <link rel="stylesheet" type="text/css" href="brs_master_head.css">
+    <link rel="stylesheet" type="text/css" href="brs_input_form.css">
+    <link rel="stylesheet" type="text/css" href="core.css">
+    <link rel="stylesheet" type="text/css" href="vi.css">
+    <script src="js_utils.js"></script>
+    <style type="text/css"></style>
+    <style type="text/css"></style>
+    <script type="text/javascript" src="RemoteLoader.js"></script>
+    <script language="JavaScript">
+
+        function AddTab(tool) {
+            BRSOpenWin("/weblications/WebQuery/components/add_tab.epl?tool=" + tool, 'add_tab', "resizable,width=448,screenX=300,screenY=200,height=556");
+            return true;
+        }
+
+        function SelectTab(tab_list) {
+            if (tab_list.value == '') {
+                tab_list.selectedIndex = 0;
+                return true;
+            }
+            if (tab_list.value == 'tab_order') {
+                BRSOpenWin("/weblications/WebQuery/components/toolset_config.epl?tool=positions&&titles^positions=Positions&titles^trades=Trades&titles^fx=FX&titles^finance=Financing&titles^securities=Securities&titles^prices=Prices&titles^risk=Risk&titles^failtracking=Trade Fails&titles^extern_trades=Matching", 'custom_tab_order', "resizable,width=400,screenX=300,screenY=200,height=300");
+                tab_list.selectedIndex = 0;
+            }
+            else if (tab_list.selectedIndex != 0) {
+                top.tool_frame.location.replace('/weblications/WebQuery/components/web_query.epl?tool=' + tab_list.value);
+            }
+            return true;
+        }
+
+        function SelectToolSet(tab_list) {
+            if (tab_list.value == '') {
+                tab_list.selectedIndex = 0;
+                return true;
+            }
+            window.top.location.replace('/weblications/WebQuery/' + tab_list.value + '.epl');
+            return true;
+        }
+
+        /**
+         * Close Tab - Part of Usability changes for Aladdin View, this subroutine hides the tab closed
+         * and calls ajax for saving the tab state.
+         *
+         * @param element the current close X mark
+         * @param default_tool the tab where focus to remain after close operation
+         * @param my_name the tab to be closed
+         */
+
+        function closeTab(element, default_tool, my_name, tool) {
+
+            element.parentNode.parentNode.style.display = 'none';
+
+            var sTState = new RemoteLoader('saveTabState', '/weblications/WebQuery/components/web_query.epl');
+
+            var loader_params = new Object;
+            loader_params.urlParams = new Object;
+            loader_params.urlParams.tool = my_name;
+            loader_params.urlParams.close_tab = default_tool;
+
+            sTState.dataLoader = function (content, oArgs) {
+            }
+            sTState.getRemoteData(event, loader_params);
+
+            if (isLastTab()) {
+                var results = getTabElems('closex');
+
+                for (var i = 0; i < results.length; i++)
+                    results[i].style.display = 'none';
+            }
+
+            //Replace my_name tab name front comma from close_default_tab
+
+            var inactiveTabs = document.getElementById('close_default_tool').value;
+            inactiveTabs = inactiveTabs.replace(my_name, "");
+            inactiveTabs = inactiveTabs.replace(/^,*/, "");
+            document.getElementById('close_default_tool').value = inactiveTabs;
+
+            return true;
+        }
+
+        /**
+         * open Next Inactive Tab - Part of Usability changes for Aladdin View, this subroutine opens
+         * next inactive tab in line
+         */
+
+        function openNextInactiveTab(my_name) {
+
+            var nextInactiveTabs = document.getElementById('close_default_tool').value;
+            nextInactiveTabs = nextInactiveTabs.replace(my_name, "");
+            nextInactiveTabs = nextInactiveTabs.replace(/^,*/, "");
+            nextInactiveTabs = nextInactiveTabs.substr(0, nextInactiveTabs.indexOf(","));
+            top.tool_frame.location.replace('/weblications/WebQuery/components/web_query.epl?close_tab=' + nextInactiveTabs + '&tool=' + my_name);
+            return false;
+
+        }
+
+        /**
+         * is Last Tab - Part of Usability changes for Aladdin View, this subroutine checks when the tab is closed
+         * the remaining tab is last or not
+         */
+
+        function isLastTab() {
+            var tabs = getTabElems("av_inactive_tab");
+            var shownDivs = 0;
+
+            for (var i = 0; i < tabs.length; i++) {
+                if (tabs[i].style.display != 'none') shownDivs++;
+            }
+
+            if (shownDivs == 1) {
+                return true;
+            }
+
+            return false;
+        }
+
+        /**
+         * get Tab Elems - Part of Usability changes for Aladdin View, this subroutine implements
+         * getElementsByClassName which is discountinued in IE
+         *
+         * @param className the class whose elements needs to be pulled
+         */
+
+        function getTabElems(className) {
+            var hasClassName = new RegExp("(?:^|\\s)" + className + "(?:$|\\s)");
+            var allElements = document.getElementsByTagName("*");
+            var results = [];
+
+            var element;
+            for (var i = 0; (element = allElements[i]) != null; i++) {
+                var elementClass = element.className;
+                if (elementClass && elementClass.indexOf(className) != -1 && hasClassName.test(elementClass))
+                    results.push(element);
+            }
+
+            return results;
+        }
+
+
+    </script>
+
+
+    <style>
+
+        div#tool_list {
+            margin: -15px 0 0 4px;
+        }
+
+        div#tool_list div * {
+            margin: 0;
+            padding: 0;
+            font-size: 11px;
+            font-family: tahoma, fixed-width;
+            background-color: transparent;
+        }
+
+        div#tool_list div, div#tool_list div div {
+            display: inline;
+        }
+
+        div#tool_list div div {
+            height: 36px;
+            vertical-align: middle;
+            text-align: center;
+        }
+
+        div#tool_list div div input.av_tool {
+            width: 80px;
+            margin-left: 6px;
+            padding: 2px auto 1px auto;
+        }
+
+        div#tool_list div.av_active_tab div input.av_tool {
+            /*font-weight:bold;*/
+        }
+
+        div#tool_list div.closex input {
+            background-image: url('/weblications/include/vi/images/delete_white.png');
+            background-repeat: no-repeat;
+            border: 0px solid transparent;
+            width: 10px;
+            height: 10px;
+        }
+
+        div#tool_list div.closex {
+            margin: 4px 6px 0 0;
+            text-align: right;
+            vertical-align: middle;
+            width: 10px;
+            border: none;
+            background-color: transparent;
+        }
+
+        div#tool_list div.closex input.av_infocus_x {
+            color: #ee2200;
+        }
+
+        div#tool_list div.closex input.av_outfocus_x {
+            color: #555436;
+        }
+
+        #tool_list div.av_active_tab {
+            padding-top: 1px;
+        }
+
+        div#tool_list #add_tab {
+            width: 22px;
+        }
+
+        div#tool_list #add_tab input {
+            background-image: url('/weblications/include/vi/images/Add.png');
+            background-repeat: no-repeat;
+            background-position: 1px 1px;
+            margin: auto;
+            width: 22px;
+            height: 18px;
+        }
+
+        div#tool_list .closex input {
+            visibility: hidden;
+        }
+
+        div#tool_list .av_infocus_tab .closex input {
+            visibility: visible;
+        }
+
+        div#tool_list #add_tab.av_infocus_tab input {
+            background-image: url('/weblications/include/vi/images/Add_white.png');
+            height: 21px;
+        }
+
+    </style>
+
+    <!--[if lte IE 10]>
+    <style>
+        .av_infocus_tab, .av_inactive_tab {
+            width: 68px;
+        }
+
+    </style>
+    <![endif]-->
+
+
+</head>
+</html>

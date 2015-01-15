@@ -1,0 +1,178 @@
+/*-------------------------------------------------
+  Last edited by:  $Author: jvasquez $
+              on:  $Date: 2006/02/16 20:29:03 $
+        Filename:  $RCSfile: brs-widgets.css,v $
+        Revision:  $Revision: 1.10 $
+-------------------------------------------------*/
+
+.registry, .two-box {
+    behavior: url(/javascript/widgets/two-box/registry.htc);
+    -moz-binding: url(/javascript/widgets/two-box/moz-behaviors.xml#registry.htc);
+}
+
+.two-box {
+    width: 450px;
+    padding: 3px;
+}
+
+.command-bar {
+    white-space: nowrap;
+}
+
+.results-bar {
+    margin-left: 1px;
+    white-space: nowrap;
+}
+
+.abs-results-bar {
+    bottom: 20px;
+    left: 2px;
+    position: absolute;
+}
+
+.widget-config {
+    display: none;
+    behavior: url(/javascript/widgets/two-box/widget-config.htc);
+    -moz-binding: url(/javascript/widgets/two-box/moz-behaviors.xml#widget-config.htc);
+}
+
+/* This should move to a more generic stylesheet */
+.widget-top-label {
+    text-align: center;
+    padding-bottom: 5px;
+}
+
+.widget-mode-options {
+    text-align: center;
+}
+
+.filter-string {
+    margin-left: 1px;
+    behavior: url(/javascript/widgets/two-box/filter-string.htc);
+    -moz-binding: url(/javascript/widgets/two-box/moz-behaviors.xml#filter-string.htc);
+}
+
+.alert-box {
+    margin-right: 3px;
+    behavior: url(/javascript/widgets/two-box/alert-box.htc);
+    -moz-binding: url(/javascript/widgets/two-box/moz-behaviors.xml#alert-box.htc);
+}
+
+.two-box-move img {
+    display: block;
+}
+
+select.select-box {
+    /* NOTE: This width will have to change to accomodate other widgets */
+    width: 200px;
+    behavior: url(/javascript/widgets/two-box/select-box.htc);
+    -moz-binding: url(/javascript/widgets/two-box/moz-behaviors.xml#select-box.htc);
+}
+
+select.filter-box {
+    /* NOTE: This width will have to change to accomodate other widgets */
+    width: 200px;
+    behavior: url(/javascript/widgets/two-box/filter-box.htc);
+    -moz-binding: url(/javascript/widgets/two-box/moz-behaviors.xml#filter-box.htc);
+}
+
+.move-selected {
+    behavior: url(/javascript/widgets/two-box/move-selected.htc);
+    -moz-binding: url(/javascript/widgets/two-box/moz-behaviors.xml#move-selected.htc);
+}
+
+.move-unselected {
+    behavior: url(/javascript/widgets/two-box/move-unselected.htc);
+    -moz-binding: url(/javascript/widgets/two-box/moz-behaviors.xml#move-unselected.htc);
+}
+
+.filter-partitions {
+    margin-left: 5px;
+    visibility: hidden;
+    behavior: url(/javascript/widgets/two-box/filter-partitions.htc);
+    -moz-binding: url(/javascript/widgets/two-box/moz-behaviors.xml#filter-partitions.htc);
+}
+
+.filter-partitions a, .filter-partitions a:active,
+.filter-partitions a:hover, .filter-partitions a:visited {
+    margin-right: 5px;
+}
+
+.filter-partitions a.active, .filter-partitions a.active:active,
+.filter-partitions a.active:hover, .filter-partitions a.active:visited {
+    margin-right: 5px;
+    text-decoration: underline;
+    color: black;
+}
+
+.select-label, .select-type {
+    padding-top: 5px;
+    text-align: center;
+    height: 21px;
+}
+
+.select-type {
+    behavior: url(/javascript/widgets/two-box/select-type.htc);
+    -moz-binding: url(/javascript/widgets/two-box/moz-behaviors.xml#select-type.htc);
+}
+
+/* These elements must be spans */
+.select-type span.active {
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.select-type span.inactive {
+    vertical-align: text-bottom;
+
+    color: gray;
+    cursor: pointer;
+}
+
+fieldset.search-options {
+    position: relative;
+    height: 17em;
+    margin-top: 8px;
+}
+
+fieldset.search-options td {
+    padding-left: 4px;
+    padding-right: 4px;
+}
+
+fieldset .select-box, fieldset .filter-box {
+    margin-bottom: 2.5em;
+}
+
+.custCritBox {
+    white-space: nowrap;
+    vertical-align: top;
+    margin-left: 4px;
+    margin-top: 3px;
+}
+
+/* All labels in the custom criteria box should be lined up */
+.custCritBox .label {
+    text-align: right;
+
+    /* Hardcoded width here is bad, yes, but necessary with 
+       the way AV components are set up */
+    width: 110px;
+}
+
+.lineItem {
+    white-space: nowrap;
+    vertical-align: baseline;
+}
+
+/* Form elements should automatically refresh the filter */
+.custCritBox input, .custCritBox select {
+    behavior: url(/javascript/widgets/two-box/criterion.htc);
+    -moz-binding: url(/javascript/widgets/two-box/moz-behaviors.xml#criterion.htc);
+}
+
+.specList {
+    position: absolute;
+    left: 0px;
+    bottom: 0px;
+}

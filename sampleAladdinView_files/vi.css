@@ -1,0 +1,283 @@
+/*
+Last edited by:$Author: kjaiswal $
+on:$Date: 2014/09/26 07:05:49 $
+Filename:$RCSfile: vi.css,v $
+Revision:$Revision: 1.4 $
+*/
+body {
+    font: 12px Tahoma Regular;
+}
+
+/*select {
+  border:1px #CCCCCC;
+  background: #FFFFFF;
+  scrollbar-arrow-color:#008CCF;
+  scrollbar-highlight-color: #777777; 
+  scrollbar-track-color: #777777; 
+  scrollbar-shadow-color: #777777; 
+  scrollbar-track-color: #EBEBEB;
+}*/
+table.container {
+    background-color: #fff;
+}
+
+.branding {
+    position: absolute;
+    float: right;
+    top: 10px;
+}
+
+.avLogo {
+    background-color: #008CCF;
+    width: 270px;
+    width: "21%"
+}
+
+.app_logo {
+    width: 740px;
+    width: "58%";
+    height: 36px;
+    color: #fff;
+    background-color: #005DA0;
+    background: -webkit-linear-gradient(left, #008CCF, #005DA0); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(right, #008CCF, #005DA0); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(right, #008CCF, #005DA0); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(to right, #008CCF, #005DA0); /* Standard syntax */
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#008CCF', endColorstr='#005DA0', GradientType=1);
+    text-align: center;
+}
+
+table.container td.tool_bar {
+    width: "21%";
+}
+
+.ai-header {
+    background-image: url("../css/Aladdin_Interface_Background_02.png");
+}
+
+.ai-other-tools {
+    width: 800px;
+}
+
+#mastheadContent {
+    background-image: url("../css/Aladdin_Interface_Background_02.png");
+    background-position: center top;
+    background-repeat: no-repeat;
+}
+
+.app_logo a div {
+    height: 36px;
+    width: 100%;
+}
+
+.headerText {
+    font-size: large;
+    font-family: Tahoma;
+    text-align: left;
+    color: #fff;
+    padding-left: 10px;
+    padding-top: 10px;
+}
+
+td.tool_bar {
+    background-color: #005DA0;
+}
+
+td.tab_bar {
+    background-color: #EBEBEB;
+}
+
+td.links_bar {
+    background-color: #fff;
+    height: 100%;
+}
+
+.ai-header .ai-header-title {
+    line-height: 27px;
+}
+
+.av_active_tab {
+    background-color: #005DA0;
+    color: #CCCCCC;
+    height: 23px;
+    width: 68px;
+    font-size: 12px;
+    border-radius: 2px;
+    border-width: 1px;
+    border-bottom-color: #DDDACB;
+    border-bottom-width: 0;
+    border-left-style: outset;
+    border-right-style: outset;
+    border-top-style: outset;
+    border-bottom-style: inset;
+    border-top: outset 1px #EBEBEB;
+    margin: 2px;
+}
+
+.av_inactive_tab {
+    background-color: #ffffff;
+    height: 23px;
+    border: solid 1px #EBEBEB;
+    border-right-style: outset;
+    border-left-style: outset;
+    border-bottom-style: outset;
+    border-top-style: outset;
+    margin: 2px;
+}
+
+.av_infocus_tab {
+    height: 23px;
+    background-color: #008CCF;
+    border: solid 1px #EBEBEB;
+    border-right-style: outset;
+    border-left-style: outset;
+    border-bottom-style: inset;
+    border-top-style: outset;
+    margin: 2px;
+}
+
+.av_infocus_tab div input.av_tool {
+    /*font-weight:bold;*/
+}
+
+div#tool_list div div input {
+    height: 17px;
+    border: none;
+    font-family: tahoma, fixed-width;
+    background-color: transparent;
+    font-size: 11px;
+}
+
+div#tool_list div.av_active_tab div input {
+    color: #ffffff;
+}
+
+div#tool_list div.av_inactive_tab div input {
+    color: #008CCF;
+}
+
+div#tool_list div.av_infocus_tab div input {
+    color: #FFFFFF
+}
+
+td.input_form_glob {
+    background-color: #EBEBEB;
+}
+
+.pane_title {
+    background-color: #ffffff;
+}
+
+.advSearchOptions td {
+    background-color: #CCCCCC;
+    height: 12px;
+}
+
+.advSearchOptions span {
+    cursor: hand;
+    font-weight: bold;
+    font-family: Tahoma;
+    margin-top: 5px;
+    vertical-align: top;
+    display: inline-block;
+    color: #003052;
+    width: 100%;
+}
+
+.advSearchOptions img {
+    cursor: hand;
+}
+
+tr.bannerrow {
+    background-color: #008CCF;
+}
+
+table.dialog_box_input_form, body.dialog_box, .no_input_input, td.links_bar.right {
+    background-color: #EBEBEB;
+}
+
+.button {
+    background-color: #ffffff;
+    color: #008CCF;
+    border: 1px solid grey;
+}
+
+.selected_button {
+    color: #ffffff;
+    background-color: #008CCF;
+    font-weight: bold;
+}
+
+.long_button {
+    background-color: #ffffff;
+    color: #008CCF;
+    border: 1px solid grey;
+}
+
+.long_selected_button {
+    color: #ffffff;
+    background-color: #008CCF;
+    font-weight: bold;
+}
+
+.links_bar a {
+    background-color: #ffffff;
+}
+
+thead td, thead th, td.total, td.subtot, td.data_head {
+    background-color: #CCCCCC;
+}
+
+tr.oddrow {
+    background-color: #EBEBEB;
+}
+
+tr.bannerrow {
+    background-color: #008CCF;
+}
+
+tr.bannerrow td.data_head {
+    background-color: #008CCF;
+    color: #FFFFFF;
+}
+
+a.action_link:link {
+    color: #008CCF;
+}
+
+td.tab_bar {
+    font-size: 12px;
+}
+
+div.ai-header-controls {
+    float: right;
+}
+
+.ai-header .ai-header-controls {
+    margin: 0px;
+    text-align: right;
+}
+
+.ai-header-options {
+    margin-right: 150px;
+    display: inline;
+}
+
+.ai-header .ai-header-logo {
+    background-repeat: no-repeat;
+    background-position: right;
+    text-align: left;
+    width: 230px;
+}
+
+table.input_form {
+    background-color: #EBEBEB;
+}
+
+span.query_title {
+    margin: 10px 0px 0px 10px;
+}
+
+div#tool_list select.input {
+    vertical-align: 3px;
+}

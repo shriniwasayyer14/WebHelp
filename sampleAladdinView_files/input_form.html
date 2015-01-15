@@ -1,0 +1,1712 @@
+<!-- saved from url=(0088)https://dev.blackrock.com/weblications/WebQuery/components/input_form.epl?tool=positions -->
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>View Positions</title>
+
+
+    <link rel="stylesheet" type="text/css" href="brs_theme.css">
+    <link rel="stylesheet" type="text/css" href="brs_input_form.css">
+    <link type="text/css" rel="stylesheet" href="brs-widgets.css">
+    <link rel="stylesheet" type="text/css" href="vi.css">
+
+
+    <link rel="stylesheet" type="text/css" href="autosuggest.css">
+    <script src="js_utils.js"></script>
+    <style type="text/css"></style>
+    <style type="text/css"></style>
+    <script type="text/javascript" src="RemoteLoader.js"></script>
+
+    <script type="text/javascript" src="expandable_panes_nested.js"></script>
+    <script src="cusip.js"></script>
+
+    <script src="option_list.js"></script>
+
+    <script src="autosuggest.js"></script>
+    <script language="JavaScript">
+
+        function PageLoad() {
+        }
+
+        function CheckInput() {
+            return true;
+        }
+
+        function FormSubmitAction(action) {
+            if (CheckInput()) {
+                var orig_target = document.positions_form.target;
+
+                // launches a new window for export
+                if (action == "export_to_txt" || action == "mgp") {
+                    document.positions_form.action.value = action;
+                    if (action == "export_to_txt") {
+                        window.open('', 'export_win', 'width=500,height=100,resizable=no');
+                        document.positions_form.target = "export_win";
+                    }
+                }
+
+                document.positions_form.submit();
+
+                // reset target
+                if (action == "export_to_txt" || action == "mgp") {
+                    document.positions_form.target = orig_target;
+                    document.positions_form.action.value = "";
+                }
+            }
+        }
+
+    </script>
+</head>
+<body onload="PageLoad(); return true;" style="overflow:auto;">
+<form method="POST" action="https://dev.blackrock.com/weblications/WebQuery/components/web_query_results.epl"
+      name="positions_form" onsubmit="return CheckInput();" target="tool_frame">
+
+    <input type="hidden" name="tool" value="positions">
+    <input type="hidden" name="action">
+    <input type="hidden" name="DB_DEBUG_FILE">
+
+    <input type="hidden" name="auto_run" value="">
+    <input type="hidden" name="display_fields" value="">
+
+    <input type="hidden" name="sort_by" value="">
+
+    <input type="hidden" name="sort_types" value="">
+
+    <input type="hidden" name="subtotal_by" value="">
+
+    <input type="hidden" name="show_details" value="">
+
+    <input type="hidden" name="level_subtotals" value="">
+
+    <input type="hidden" name="compact_level_subtotals" value="">
+
+    <input type="hidden" name="subtotal_sort_by" value="">
+
+    <input type="hidden" name="subtotal_sort_types" value="">
+
+    <input type="hidden" name="page_break" value="">
+
+    <input type="hidden" name="row_limit" value="">
+
+    <input type="hidden" name="expand_all" value="">
+
+    <input type="hidden" name="absolute_value_subtotal" value="">
+
+    <input type="hidden" name="color_buy_sell" value="">
+
+    <input type="hidden" name="color_long_short" value="">
+
+    <input type="hidden" name="abs_sort">
+
+    <input type="hidden" name="abs_subsort">
+    <input type="hidden" name="visited_prefs" value="">
+    <input type="hidden" name="favorites_id" value="view_options">
+
+    <table cellpadding="0" cellspacing="0" border="0" class="input_form" width="100%">
+        <tbody>
+        <tr>
+            <td class="input_form_glob" colspan="3">
+                <script language="JavaScript">
+                    window._adjunctWindows = [];
+
+                    function CheckInput() {
+                        var elems = document.forms[0].elements;
+                        var this_form = document.forms[0];
+
+                        if (!check_blank_fields(this_form, new Array("Portfolio/Group:port_group"))) {
+                            return false;
+                        }
+
+                        //Validate the wild card search item - allow only one wild card item
+                        var altidtype = elems.altid_type.value;
+                        var cusip = elems.altid.value;
+                        var cusips;  //contains the number of cusips
+
+                        if (cusip.length > 0 && altidtype == "A") {
+
+                            cusips = cusip.split(/[\,\s\n]+/);
+
+                            if ((/\%/).test(cusips)) {
+                                if (cusips.length > 1) {
+                                    alert(" Wildcard search allows only one security identifier at a time");
+                                    return false;
+                                }
+
+
+                                //Assumption is that we will allow only one altid for wildcard search
+                                if (cusips.length == 1) {
+                                    // If the wildcard search string is less than 5, dont continue
+                                    if (cusip.length <= 6) {
+                                        alert("\nFirst 6 char in a wildcard search should not contain \% ");
+                                        return false;
+                                    }
+
+                                    //Validate the first 6 character to make sure that it is not contian % sign
+                                    first_six_ch = cusip.substr(0, 6);
+                                    if ((/\%/).test(first_six_ch)) {
+                                        alert("\nFirst 6 char in a wildcard search should not contain \% ");
+                                        return false;
+                                    }
+                                }
+
+                                //disable the validte cusip check for wildcard search
+                                //elems['validateAltId'].checked=false;
+
+                            } //wild card validation
+
+                        }
+
+                        if (elems['validateAltId'].checked && !validate_cusips(elems['altid'])) {
+                            return;
+                        }
+
+                        SelectShorterList(elems['include_currency.'], elems['exclude_currency.']);
+
+                        var sec_group_type_selected =
+                                SelectShorterList(elems['sec_grouptype.'], elems['exclude_sec_grouptype.']);
+
+                        //======== validate dates ===============
+//    if ( !validate_date('As Of Date','pos_date') )
+//	return false;
+//    if ( !validate_date('Effective Date','edate') )
+//	return false;
+//     if ( !validate_open_date('Maturity Date ','maturity_date', 'Max Maturity Date','maturity_date_max', 'is_open_maturity') )
+//	return false;
+//    if ( !validate_open_date('Max Maturity Date','maturity_date_max','Maturity Date ','maturity_date', 'is_open_maturity') )
+//	return false;
+
+                        if (!fixnum(elems['filter_val']))
+                            return false;
+
+                        // Prepare strategy filter for submission
+                        var select_strategy = elems['dummy_strategy_id.'];
+                        select_strategy.prepareForSubmission();
+                        SelectOptList(select_strategy, false);
+
+                        if ((/ALL_FUNDS/.test(elems.port_group.value)
+                                || /TRD_FUNDS/.test(elems.port_group.value))
+                                && check_blank(elems['altid'])
+                                && check_blank(elems['pricing_cusip'])
+                                && check_blank(elems['ticker'])
+                                && !sec_group_type_selected) {
+                            alert("\nYou have requested too much information.\n\nEnter a single portfolio or provide a security criteria:\nAsset ID, Pricing ID, Ticker or Sec Group/Type");
+                            return false;
+                        }
+
+                        if (window.checkSectorTreeAllChecked) {
+                            checkSectorTreeAllChecked();
+                        }
+
+                        return true;
+                    }
+
+                    function fixnum(obj) {
+
+                        if ((/^\s*$/).test(obj.value)) {
+                            return true;
+                        }
+
+                        mm_convert(obj);
+
+                        obj.value = obj.value.replace(/,/g, '');
+
+                        if ((obj.value * 1) != obj.value) {
+                            alert("Enter a valid number for filter value.");
+                            obj.select();
+                            obj.focus();
+                            return false;
+                        }
+
+                        return true;
+                    }
+
+                    function FindTicker() {
+                        var grouptype = "";
+                        var elems = document.forms[0].elements;
+                        var find_ticker_win = window.open('/weblications/WebQuery/securities/securities_search.epl?ticker=' +
+                                elems.ticker.value, 'find_ticker_win',
+                                'width=950,height=350,resizable=yes');
+                        FindTicker.dialog_win = find_ticker_win;
+                        find_ticker_win.focus();
+                        window._adjunctWindows.push(find_ticker_win);
+                    }
+
+                    function ViewPortCriteria(flag) {
+                        if (flag == false) {
+                            return;
+                        }
+
+                        document.forms[0].port_criteria.value = "positions_akannan_xncDzSr3E5p2kY2JxCPM";
+                        document.forms[0].port_criteria.checked = true;
+
+                        if (ViewPortCriteria.dialog_win != null) {
+                            ViewPortCriteria.dialog_win.close();
+                        }
+
+                        var new_win =
+                                window.open("/weblications/WebQuery/positions/port_flags.epl?action=store_context&" +
+                                        "filename=positions_akannan_xncDzSr3E5p2kY2JxCPM&port_group="
+                                        + document.forms[0].port_group.value,
+                                        'port_criteria', "width=600,scrollbars=yes,resizable=yes");
+
+                        ViewPortCriteria.dialog_win = new_win;
+                        new_win.focus();
+                    }
+
+
+                    function PageLoad() {
+                        document.getElementsByTagName("BODY")[0].onunload = closeWindows;
+                        var ratingSelect = document.getElementById('rating_agency');
+                        var options_xml = {
+                            script: function (input) {
+                                return '/weblications/WebQuery/positions/ratings_search.epl?limit=' + input + "&agency=" + ratingSelect.options[ratingSelect.selectedIndex].value;
+                            },
+                            varname: 'input',
+                            shownoresults: false
+                        };
+                        var as_xml = new bsn.AutoSuggest('rating_limit', options_xml);
+
+                        if (document.getElementById('rating_agency').selectedIndex > 0)
+                            document.getElementById('rating_limit').disabled = false;
+                    }
+
+                    function closeWindows() {
+                        while (window._adjunctWindows && window._adjunctWindows.length > 0) {
+                            var win = window._adjunctWindows.pop();
+                            if (win != null) {
+                                win.close();
+                            }
+                        }
+                    }
+
+                    ViewPortCriteria.dialog_win = null;
+
+                </script>
+
+                <br>
+                <table>
+                    <tbody>
+                    <tr>
+                        <td><span class="label">Portfolio/Group*</span></td>
+                        <td colspan="2">
+                            <script src="option_list.js"></script>
+                            <script>
+
+                                function SynchTextAndList(from, to) {
+                                    if (from.type == 'text') {
+
+                                        // remove duplicates
+                                        var txt_fld = from.type == 'text' ? from : to;
+
+                                        if (txt_fld.uppercase_text) {
+                                            txt_fld.value = txt_fld.value.toUpperCase();
+                                        }
+
+                                        var idx = FindValueInOptList(from.value, to);
+                                        to.selectedIndex = idx;
+                                        if (idx == -1) {
+                                            if (from.allow_custom || to.allow_custom) {
+                                                to.selectedIndex = to.length - 1;
+                                            }
+
+                                            var ok_to_alert = true;
+
+                                            if (from.no_all_opt || to.no_all_opt) {
+                                                ok_to_alert = !(/^\s*$/).test(from.value);
+                                            }
+
+                                            if (ok_to_alert && !from.allow_custom && !to.allow_custom) {
+                                                alert('Could not find \'' + from.value + '\' in the selection list');
+                                                from.value = '';
+                                            }
+                                        }
+                                    }
+                                    else {
+                                        to.value = from.value;
+                                    }
+                                    return true;
+                                }
+                            </script>
+                            <span class="label"></span>
+                            <input type="text" class="input" onkeydown="loadingPG();" id="port_group_id" size="40"
+                                   name="port_group"
+                                   onchange="SynchTextAndList(this, this.form.elements[&#39;port_group_list&#39;], 0);  return true;"
+                                   uppercase_text="true" allow_custom="true" no_all_opt="true" value="CUSTOM"
+                                   style="background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABHklEQVQ4EaVTO26DQBD1ohQWaS2lg9JybZ+AK7hNwx2oIoVf4UPQ0Lj1FdKktevIpel8AKNUkDcWMxpgSaIEaTVv3sx7uztiTdu2s/98DywOw3Dued4Who/M2aIx5lZV1aEsy0+qiwHELyi+Ytl0PQ69SxAxkWIA4RMRTdNsKE59juMcuZd6xIAFeZ6fGCdJ8kY4y7KAuTRNGd7jyEBXsdOPE3a0QGPsniOnnYMO67LgSQN9T41F2QGrQRRFCwyzoIF2qyBuKKbcOgPXdVeY9rMWgNsjf9ccYesJhk3f5dYT1HX9gR0LLQR30TnjkUEcx2uIuS4RnI+aj6sJR0AM8AaumPaM/rRehyWhXqbFAA9kh3/8/NvHxAYGAsZ/il8IalkCLBfNVAAAAABJRU5ErkJggg==); background-attachment: scroll; background-position: 100% 50%; background-repeat: no-repeat;">
+
+                            <select class="input" name="port_group_list"
+                                    onchange="SynchTextAndList(this, this.form.elements[&#39;port_group&#39;], 0);  return true;">
+                                <option value="ALL-BLK">All BlackRock Portfolios (ALL-BLK)</option>
+                                <option value="ALL-FI">All BlackRock Fixed Income (ALL-FI)</option>
+                                <option value="FNY-ALL">New York Fixed Income (FNY-ALL)</option>
+                                <option value="FNY-ALT">NY Alternatives (FNY-ALT)</option>
+                                <option value="TR-MULTI">Multi-Sector NY Fixed Income (TR-MULTI)</option>
+                                <option value="TR-CREDIT">Credit NY (TR-CREDIT)</option>
+                                <option value="BR-SHORTD">Short Dur NY (BR-SHORTD)</option>
+                                <option value="TR-MORT">Mortgage NY (TR-MORT)</option>
+                                <option value="TR-HIYLD">High Yield NY (TR-HIYLD)</option>
+                                <option value="GLOBAL">Global NY (GLOBAL)</option>
+                                <option value="INS">Insurance (INS)</option>
+                                <option value="MUNI_GROUP">Long-Term MUNI (MUNI_GROUP)</option>
+                                <option value="BIMC_MUNI">Tax-Exempt Liq (BIMC_MUNI)</option>
+                                <option value="BSAM">Specialized Del (BSAM)</option>
+                                <option value="BIMC_TAX">Taxable Liq (BIMC_TAX)</option>
+                                <option value="FLN-ALL">EMEA Fixed Income (FLN-ALL)</option>
+                                <option value="FLN-STERL">Sterling Fixed Income (FLN-STERL)</option>
+                                <option value="FLN-EURO">Euro Fixed Income (FLN-EURO)</option>
+                                <option value="FLN-GLOB">Global LON (FLN-GLOB)</option>
+                                <option value="FAU-ALL">Australia Fixed Income (FAU-ALL)</option>
+                                <option value="FTK-ALL">Tokyo Fixed Income (FTK-ALL)</option>
+                                <option value="ALL-EQ">All BlackRock Equity (ALL-EQ)</option>
+                                <option value="ELN-ALL">London Equity (ELN-ALL)</option>
+                                <option value="EED-ALL">Edinburgh Equity (EED-ALL)</option>
+                                <option value="ETK-ALL">Tokyo Equity (ETK-ALL)</option>
+                                <option value="EAU-ALL">Australia Equity (EAU-ALL)</option>
+                                <option value="EPR-ALL">Princeton Equity (EPR-ALL)</option>
+                                <option value="EPR-GALL">Global Allocation (EPR-GALL)</option>
+                                <option value="EBO-ALL">Boston Equity (EBO-ALL)</option>
+                                <option value="EPH-ALL">Philadelphia Equity (EPH-ALL)</option>
+                                <option value="ENY-QUT">New York Quant Equity (ENY-QUT)</option>
+                                <option value="EHK-ALL">Hong Kong Equity (EHK-ALL)</option>
+                                <option value="ALL-MAPS">All BlackRock MAPS (ALL-MAPS)</option>
+                                <option value="MLN-ALL">London MAPS (MLN-ALL)</option>
+                                <option value="MUS-ALL">US MAPS (MUS-ALL)</option>
+                                <option value="MTK-ALL">Tokyo MAPS (MTK-ALL)</option>
+                                <option value="FMBI-ALLSF">All FMBI SF Funds (FMBI-ALLSF)</option>
+                                <option value="FMBI-USINX">FMBI Index Funds (FMBI-USINX)</option>
+                                <option value="FMBI-USACT">FMBI Active Funds (FMBI-USACT)</option>
+                                <option value="FMBI-HF">FMBI Hedge Funds (FMBI-HF)</option>
+                                <option value="FMBI-CAD">FMBI Canadian Funds (FMBI-CAD)</option>
+                                <option value="ISH-FI">FI iShares (ISH-FI)</option>
+                                <option value="FMBI-USTR">FMBI Transition Funds (FMBI-USTR)</option>
+                                <option value="FSG-FI">Asian Fundamental Fixed Income (FSG-FI)</option>
+                                <option value="E_JNL-CMN">JNL / BlackRock Commodity Securities Strategy Fund - Cayman
+                                </option>
+                                <option value="CUSTOM">CUSTOM</option>
+
+                            </select>
+
+                            <script>
+                                SynchTextAndList(document.forms[0].elements['port_group'], document.forms[0].elements['port_group_list'], 0);
+
+                                if ((/^\s*$/).test(document.forms[0].elements['port_group'].value)) {
+                                    document.forms[0].elements['port_group'].value = document.forms[0].elements['port_group_list'].options[0].value;
+                                    document.forms[0].elements['port_group_list'].selectedIndex = 0;
+                                }
+                                if (document.forms[0].elements['port_group'].value == 'CUSTOM')
+                                    document.forms[0].elements['port_group'].value = '';
+
+                            </script>
+
+
+                            <input type="checkbox" name="set_dflt_port_group" value="1" class="input">
+<span class="smlabel">
+Set as default
+<input type="checkbox" name="port_criteria" value="On" class="input"
+       onclick="ViewPortCriteria(this.checked); return true;">
+<a href="https://dev.blackrock.com/weblications/WebQuery/components/input_form.epl?tool=positions#"
+   onclick="ViewPortCriteria(true); return false;">Apply Portfolio Criteria</a>
+</span>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td colspan="3">
+                            <hr>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="label" align="right">Asset ID*</td>
+                        <td width="300">
+                            <select name="altid_type" class="input" onchange="if (this.selectedIndex &lt; 1) {
+	    		this.form.elements[&#39;altid&#39;].value=&#39;&#39;;
+	    		 }
+	    		  if (this.form.altid_type.value == &#39;A&#39;){
+	    		 	  this.form.validateAltId.disabled = false;
+                                  this.form.srch_underlying_cusip.disabled = false;
+	    		 	  this.form.validateAltId.checked = true;
+	    		 } else{this.form.validateAltId.disabled = true;
+	    		 	this.form.validateAltId.checked = false;
+                                this.form.srch_underlying_cusip.checked = false}
+	    		 ">
+
+                                <option value="">ALL</option>
+
+                                <option value="# of Dealers"># of Dealers</option>
+
+                                <option value="%CMS_%">%CMS_%</option>
+
+                                <option value="ALADDIN_SERVERS">ALADDIN_SERVERS</option>
+
+                                <option value="ALADDIN_SITES">ALADDIN_SITES</option>
+
+                                <option value="ALADDIN_TRIBES">ALADDIN_TRIBES</option>
+
+                                <option value="A" selected="">CUSIP</option>
+
+                                <option value="T">Short Cut</option>
+
+                                <option value="I">ISIN (ISO)</option>
+
+                                <option value="B">Bloomberg</option>
+
+                                <option value="D">Fed Desc</option>
+
+                                <option value="J">J.P.Morgan</option>
+
+                                <option value="C">SEDOL (UK)</option>
+
+                                <option value="SecID">Sec ID</option>
+
+                                <option value="S">SICC (Japan)</option>
+
+                                <option value="W">WPK (Germany)</option>
+
+                                <option value="V">VALOREN (Swiss)</option>
+
+                                <option value="F">SICOVAM (France)</option>
+
+                                <option value="p">CLIENT ID</option>
+
+                                <option value="H">Hong Kong</option>
+
+                                <option value="U">U.K. EPIC</option>
+
+                                <option value="G">SVM (Belgium)</option>
+
+                                <option value="0">CMU (Hong Kong)</option>
+
+                                <option value="M">COMMON (Lux)</option>
+
+                                <option value="N">CIN (CUSIP Intl)</option>
+
+                                <option value="R">Reuter</option>
+
+                                <option value="L">Mellon</option>
+
+                                <option value="X">Northern Trust</option>
+
+                                <option value="h">Client-H</option>
+
+                                <option value="Y">State Street</option>
+
+                                <option value="Maint_ISSUER">IssuerMaster</option>
+
+                                <option value="Maint_TRDHIST">SecHistory</option>
+
+                                <option value="space"></option>
+
+                                <option value="a">AIMG</option>
+
+                                <option value="f">AIBD</option>
+
+                                <option value="y">EUROCLEAR</option>
+
+                                <option value="r">Client R</option>
+
+                                <option value="d">DUTCH</option>
+
+                                <option value="t">DANISH</option>
+
+                                <option value="u">Austrian</option>
+
+                                <option value="m">MISC DOMESTIC</option>
+
+                                <option value="i">ITALY</option>
+
+                                <option value="w">FINRA</option>
+
+                                <option value="g">SINGAPORE</option>
+
+                                <option value="Z">UNKNOWN</option>
+
+                                <option value="z">PSI</option>
+
+                                <option value="v">LIN (Loan ID Num)</option>
+
+                                <option value="P">PHILADELPHIA (AXYS CODE)</option>
+
+                                <option value="E">EDINBURGH (AXYS CODE)</option>
+
+                                <option value="x">PAM</option>
+
+                                <option value="b">Prior CUSIP (before exchange or registration w/ SEC)</option>
+
+                                <option value="n">PPN</option>
+
+                                <option value="jjj">Client TEST</option>
+
+                                <option value="2">Bloomberg Ticker</option>
+
+                                <option value="3">Client P2</option>
+
+                                <option value="4">Client A</option>
+
+                                <option value="5">SSR</option>
+
+                                <option value="6">JP Short Code</option>
+
+                                <option value="7">DIAM</option>
+
+                                <option value="LX">Client CM</option>
+
+                                <option value="q">BONY ID</option>
+
+                                <option value="j">Client W</option>
+
+                                <option value="Q">Client G</option>
+
+                                <option value="l">SUN BOND (Lehman)</option>
+
+                                <option value="c">COUNTERPARTY REFERENCE NUMBER</option>
+
+                                <option value="o">Client O</option>
+
+                                <option value="aa">MLNE</option>
+
+                                <option value="e">OCC Symbol</option>
+
+                                <option value="s">Factset Option ID</option>
+
+                                <option value="9">Taiwan ID (Gretai)</option>
+
+                                <option value="8">LoanX ID</option>
+
+                                <option value="exc">EXCHCD</option>
+
+                                <option value="SMA">SMA CUSIP</option>
+
+                                <option value="EXCHCD">Reuters Internal ID</option>
+                            </select>
+                        </td>
+
+
+                        <td><sup>†</sup><span class="label">Ticker*</span>
+                            <input type="text" class="input" size="25" name="ticker"
+                                   onchange="value = value.toUpperCase(); return true;">
+                            <a class="action_link"
+                               href="https://dev.blackrock.com/weblications/WebQuery/components/input_form.epl?tool=positions#"
+                               onclick="FindTicker(); return false;">
+                                <img src="small_search.gif" alt="" border="0" align="absmiddle"> Search</a>
+                            <input type="checkbox" name="srch_underlying_ticker" class="input" value="1">
+                            <span class="smlabel">Search by Underlying</span>
+                        </td>
+
+                    </tr>
+
+                    <tr>
+                        <td><br></td>
+                        <td valign="top">
+                            <table>
+                                <tbody>
+                                <tr>
+                                    <td rowspan="2">
+<textarea class="input" rows="7" cols="17" name="altid" onchange="if (!this.form.validateAltId.checked){
+                if (this.form.altid_type.value == &quot;2&quot;){ // Bloomberg Ticker
+                            this.value=this.value.toUpperCase().replace(/[\t\;\,\n]+/g, &quot;,\n&quot;);}
+		else { this.value=this.value.toUpperCase().replace(/[\t\;\,\s\n]+/g, &quot;,\n&quot;);}
+		} else{validate_cusips(this);}"></textarea>
+
+
+                                    </td>
+                                    <td valign="top">
+                                        <input type="checkbox" name="validateAltId" class="input" value="1"
+                                               onclick="if (checked) { this.form.altid.onchange(); } return true; "
+                                               checked="">
+                                        <span align="top" class="smlabel">Validate CUSIP</span>
+                                        <br><input type="checkbox" name="srch_underlying_cusip" class="input" value="1">
+                                        <span class="smlabel">Search by Underlying</span>
+                                    </td>
+                                </tr>
+                                <tr>
+
+                                </tr>
+                                </tbody>
+                            </table>
+
+                        </td>
+
+                        <td rowspan="2" valign="top">
+
+                            <script language="JavaScript">
+                                <!--
+
+                                var orderforms_sec_grouptype = new Array();
+                                orderforms_sec_grouptype['ABS/*'] = 0;
+
+                                orderforms_sec_grouptype['ABS/ABS'] = 1;
+
+                                orderforms_sec_grouptype['ABS/AGENCY'] = 2;
+
+                                orderforms_sec_grouptype['ABS/OPICTBA'] = 3;
+
+                                orderforms_sec_grouptype['ARM/*'] = 4;
+
+                                orderforms_sec_grouptype['ARM/GENERIC'] = 5;
+
+                                orderforms_sec_grouptype['ARM/NFLOAT'] = 6;
+
+                                orderforms_sec_grouptype['ARM/POOL'] = 7;
+
+                                orderforms_sec_grouptype['ARM/SERV'] = 8;
+
+                                orderforms_sec_grouptype['ARM/TBA'] = 9;
+
+                                orderforms_sec_grouptype['BND/*'] = 10;
+
+                                orderforms_sec_grouptype['BND/AGENCY'] = 11;
+
+                                orderforms_sec_grouptype['BND/CBO'] = 12;
+
+                                orderforms_sec_grouptype['BND/CORP'] = 13;
+
+                                orderforms_sec_grouptype['BND/GENERIC'] = 14;
+
+                                orderforms_sec_grouptype['BND/GOVT'] = 15;
+
+                                orderforms_sec_grouptype['BND/LOCAL'] = 16;
+
+                                orderforms_sec_grouptype['BND/MUNI'] = 17;
+
+                                orderforms_sec_grouptype['BND/MUNITAX'] = 18;
+
+                                orderforms_sec_grouptype['BND/PERP'] = 19;
+
+                                orderforms_sec_grouptype['BND/RES'] = 20;
+
+                                orderforms_sec_grouptype['CASH/*'] = 21;
+
+                                orderforms_sec_grouptype['CASH/AGENCY'] = 22;
+
+                                orderforms_sec_grouptype['CASH/APS'] = 23;
+
+                                orderforms_sec_grouptype['CASH/BA'] = 24;
+
+                                orderforms_sec_grouptype['CASH/BB'] = 25;
+
+                                orderforms_sec_grouptype['CASH/CASH'] = 26;
+
+                                orderforms_sec_grouptype['CASH/CD'] = 27;
+
+                                orderforms_sec_grouptype['CASH/COLLATERAL'] = 28;
+
+                                orderforms_sec_grouptype['CASH/CP'] = 29;
+
+                                orderforms_sec_grouptype['CASH/CPLG'] = 30;
+
+                                orderforms_sec_grouptype['CASH/ECN'] = 31;
+
+                                orderforms_sec_grouptype['CASH/EUROF'] = 32;
+
+                                orderforms_sec_grouptype['CASH/FEDF'] = 33;
+
+                                orderforms_sec_grouptype['CASH/GENERIC'] = 34;
+
+                                orderforms_sec_grouptype['CASH/MUNI'] = 35;
+
+                                orderforms_sec_grouptype['CASH/MUNICP'] = 36;
+
+                                orderforms_sec_grouptype['CASH/MVRDN'] = 37;
+
+                                orderforms_sec_grouptype['CASH/PHYSICALCP'] = 38;
+
+                                orderforms_sec_grouptype['CASH/REP'] = 39;
+
+                                orderforms_sec_grouptype['CASH/RRP'] = 40;
+
+                                orderforms_sec_grouptype['CASH/SAVR'] = 41;
+
+                                orderforms_sec_grouptype['CASH/TBILL'] = 42;
+
+                                orderforms_sec_grouptype['CASH/TD'] = 43;
+
+                                orderforms_sec_grouptype['CASH/TFN'] = 44;
+
+                                orderforms_sec_grouptype['CASH/TPREPO'] = 45;
+
+                                orderforms_sec_grouptype['CDI/*'] = 46;
+
+                                orderforms_sec_grouptype['CDI/AGENCY'] = 47;
+
+                                orderforms_sec_grouptype['CDI/GENERIC'] = 48;
+
+                                orderforms_sec_grouptype['CDI/RES'] = 49;
+
+                                orderforms_sec_grouptype['CDI/WHOLE'] = 50;
+
+                                orderforms_sec_grouptype['CLC/*'] = 51;
+
+                                orderforms_sec_grouptype['CLC/LOAN'] = 52;
+
+                                orderforms_sec_grouptype['CLC/TRANCHE'] = 53;
+
+                                orderforms_sec_grouptype['CMBS/*'] = 54;
+
+                                orderforms_sec_grouptype['CMBS/LOAN'] = 55;
+
+                                orderforms_sec_grouptype['CMBS/SENIOR'] = 56;
+
+                                orderforms_sec_grouptype['CMBS/SUB'] = 57;
+
+                                orderforms_sec_grouptype['CMDTY/*'] = 58;
+
+                                orderforms_sec_grouptype['CMDTY/CMDTY'] = 59;
+
+                                orderforms_sec_grouptype['CMDTY/GOLD'] = 60;
+
+                                orderforms_sec_grouptype['CMDTY/OIL'] = 61;
+
+                                orderforms_sec_grouptype['CMDTY/PLATINUM'] = 62;
+
+                                orderforms_sec_grouptype['CMDTY/SILVER'] = 63;
+
+                                orderforms_sec_grouptype['CMO/*'] = 64;
+
+                                orderforms_sec_grouptype['CMO/AGENCY'] = 65;
+
+                                orderforms_sec_grouptype['CMO/CDI'] = 66;
+
+                                orderforms_sec_grouptype['CMO/DEAL'] = 67;
+
+                                orderforms_sec_grouptype['CMO/GENERIC'] = 68;
+
+                                orderforms_sec_grouptype['CMO/RES'] = 69;
+
+                                orderforms_sec_grouptype['CMO/WHOLE'] = 70;
+
+                                orderforms_sec_grouptype['CRE/*'] = 71;
+
+                                orderforms_sec_grouptype['CRE/DEBT'] = 72;
+
+                                orderforms_sec_grouptype['CRE/SERV'] = 73;
+
+                                orderforms_sec_grouptype['EQUITY/*'] = 74;
+
+                                orderforms_sec_grouptype['EQUITY/COMMITMENT'] = 75;
+
+                                orderforms_sec_grouptype['EQUITY/EQUITY'] = 76;
+
+                                orderforms_sec_grouptype['EQUITY/NOTE'] = 77;
+
+                                orderforms_sec_grouptype['EQUITY/PFD'] = 78;
+
+                                orderforms_sec_grouptype['EQUITY/PRIVATE'] = 79;
+
+                                orderforms_sec_grouptype['EQUITY/WARRANT'] = 80;
+
+                                orderforms_sec_grouptype['FUND/*'] = 81;
+
+                                orderforms_sec_grouptype['FUND/CLOSED_END'] = 82;
+
+                                orderforms_sec_grouptype['FUND/INDEX'] = 83;
+
+                                orderforms_sec_grouptype['FUND/LP'] = 84;
+
+                                orderforms_sec_grouptype['FUND/OPEN_END'] = 85;
+
+                                orderforms_sec_grouptype['FUND/PRIVATE'] = 86;
+
+                                orderforms_sec_grouptype['FUND/REIT'] = 87;
+
+                                orderforms_sec_grouptype['FUND/STIF'] = 88;
+
+                                orderforms_sec_grouptype['FUTURE/*'] = 89;
+
+                                orderforms_sec_grouptype['FUTURE/CFD'] = 90;
+
+                                orderforms_sec_grouptype['FUTURE/COM'] = 91;
+
+                                orderforms_sec_grouptype['FUTURE/CUR'] = 92;
+
+                                orderforms_sec_grouptype['FUTURE/FIN'] = 93;
+
+                                orderforms_sec_grouptype['FUTURE/GENERIC'] = 94;
+
+                                orderforms_sec_grouptype['FUTURE/INDEX'] = 95;
+
+                                orderforms_sec_grouptype['FX/*'] = 96;
+
+                                orderforms_sec_grouptype['FX/CSWAP'] = 97;
+
+                                orderforms_sec_grouptype['FX/FWRD'] = 98;
+
+                                orderforms_sec_grouptype['FX/HEDGE'] = 99;
+
+                                orderforms_sec_grouptype['FX/SPOT'] = 100;
+
+                                orderforms_sec_grouptype['IBND/*'] = 101;
+
+                                orderforms_sec_grouptype['IBND/AGENCY'] = 102;
+
+                                orderforms_sec_grouptype['IBND/CORP'] = 103;
+
+                                orderforms_sec_grouptype['IBND/GOVT'] = 104;
+
+                                orderforms_sec_grouptype['INDEX/*'] = 105;
+
+                                orderforms_sec_grouptype['INDEX/GENERIC'] = 106;
+
+                                orderforms_sec_grouptype['INDEX/INDEX'] = 107;
+
+                                orderforms_sec_grouptype['INS/*'] = 108;
+
+                                orderforms_sec_grouptype['INS/FPDA'] = 109;
+
+                                orderforms_sec_grouptype['INS/SPDA'] = 110;
+
+                                orderforms_sec_grouptype['LOAN/*'] = 111;
+
+                                orderforms_sec_grouptype['LOAN/AMORT'] = 112;
+
+                                orderforms_sec_grouptype['LOAN/BANK'] = 113;
+
+                                orderforms_sec_grouptype['LOAN/COMFEE'] = 114;
+
+                                orderforms_sec_grouptype['LOAN/LEVPRIN'] = 115;
+
+                                orderforms_sec_grouptype['LOAN/REVOLVE'] = 116;
+
+                                orderforms_sec_grouptype['LOAN/TERM'] = 117;
+
+                                orderforms_sec_grouptype['MBS/*'] = 118;
+
+                                orderforms_sec_grouptype['MBS/AGGREGATE'] = 119;
+
+                                orderforms_sec_grouptype['MBS/APROJ'] = 120;
+
+                                orderforms_sec_grouptype['MBS/CLC'] = 121;
+
+                                orderforms_sec_grouptype['MBS/CLCTBA'] = 122;
+
+                                orderforms_sec_grouptype['MBS/CPOOL'] = 123;
+
+                                orderforms_sec_grouptype['MBS/GENERIC'] = 124;
+
+                                orderforms_sec_grouptype['MBS/MEGA'] = 125;
+
+                                orderforms_sec_grouptype['MBS/MULTI'] = 126;
+
+                                orderforms_sec_grouptype['MBS/NFLOAT'] = 127;
+
+                                orderforms_sec_grouptype['MBS/POOL'] = 128;
+
+                                orderforms_sec_grouptype['MBS/PRIVATE'] = 129;
+
+                                orderforms_sec_grouptype['MBS/PROJ'] = 130;
+
+                                orderforms_sec_grouptype['MBS/SERV'] = 131;
+
+                                orderforms_sec_grouptype['MBS/TBA'] = 132;
+
+                                orderforms_sec_grouptype['OPTION/*'] = 133;
+
+                                orderforms_sec_grouptype['OPTION/CUROTC'] = 134;
+
+                                orderforms_sec_grouptype['OPTION/EQUITY'] = 135;
+
+                                orderforms_sec_grouptype['OPTION/FUTURE'] = 136;
+
+                                orderforms_sec_grouptype['OPTION/GENERIC'] = 137;
+
+                                orderforms_sec_grouptype['OPTION/OTC'] = 138;
+
+                                orderforms_sec_grouptype['PORT/*'] = 139;
+
+                                orderforms_sec_grouptype['PORT/COMPOSITE'] = 140;
+
+                                orderforms_sec_grouptype['PORT/FUND'] = 141;
+
+                                orderforms_sec_grouptype['RE/*'] = 142;
+
+                                orderforms_sec_grouptype['RE/PROP'] = 143;
+
+                                orderforms_sec_grouptype['SWAP/*'] = 144;
+
+                                orderforms_sec_grouptype['SWAP/ASWAP'] = 145;
+
+                                orderforms_sec_grouptype['SWAP/CDSWAP'] = 146;
+
+                                orderforms_sec_grouptype['SWAP/CMOSWAP'] = 147;
+
+                                orderforms_sec_grouptype['SWAP/CSWAP'] = 148;
+
+                                orderforms_sec_grouptype['SWAP/FRA'] = 149;
+
+                                orderforms_sec_grouptype['SWAP/IAS'] = 150;
+
+                                orderforms_sec_grouptype['SWAP/INDEXSWAP'] = 151;
+
+                                orderforms_sec_grouptype['SWAP/MSW'] = 152;
+
+                                orderforms_sec_grouptype['SWAP/SWAP'] = 153;
+
+                                orderforms_sec_grouptype['SWAP/TRSWAP'] = 154;
+
+                                orderforms_sec_grouptype['SYNTH/*'] = 155;
+
+                                orderforms_sec_grouptype['SYNTH/CAP'] = 156;
+
+                                orderforms_sec_grouptype['SYNTH/FLOOR'] = 157;
+
+                                orderforms_sec_grouptype['SYNTH/FWD'] = 158;
+
+                                orderforms_sec_grouptype['SYNTH/INDEX'] = 159;
+
+                                orderforms_sec_grouptype['SYNTH/OTC'] = 160;
+
+                                orderforms_sec_grouptype['SYNTH/SWAPTION'] = 161;
+
+                                orderforms_sec_grouptype['SYNTH/VOLLOCK'] = 162;
+                                //-->
+                            </script>
+
+                            <table>
+                                <tbody>
+                                <tr>
+                                    <td colspan="3" align="center" class="label">Security Group/Type</td>
+                                </tr>
+                                <tr>
+                                    <td valign="middle" align="center">
+                                        <span class="label">Include</span><br>
+                                        <select class="INPUT" name="sec_grouptype." size="7" multiple=""
+                                                onchange="document.forms[0].elements[&#39;exclude_sec_grouptype.&#39;].selectedIndex=-1;return true;"
+                                                style="width:">
+                                            <option value="ABS/*">ABS/*</option>
+                                            <option value="ABS/ABS">ABS/ABS</option>
+                                            <option value="ABS/AGENCY">ABS/AGENCY</option>
+                                            <option value="ABS/OPICTBA">ABS/OPICTBA</option>
+                                            <option value="ARM/*">ARM/*</option>
+                                            <option value="ARM/GENERIC">ARM/GENERIC</option>
+                                            <option value="ARM/NFLOAT">ARM/NFLOAT</option>
+                                            <option value="ARM/POOL">ARM/POOL</option>
+                                            <option value="ARM/SERV">ARM/SERV</option>
+                                            <option value="ARM/TBA">ARM/TBA</option>
+                                            <option value="BND/*">BND/*</option>
+                                            <option value="BND/AGENCY">BND/AGENCY</option>
+                                            <option value="BND/CBO">BND/CBO</option>
+                                            <option value="BND/CORP">BND/CORP</option>
+                                            <option value="BND/GENERIC">BND/GENERIC</option>
+                                            <option value="BND/GOVT">BND/GOVT</option>
+                                            <option value="BND/LOCAL">BND/LOCAL</option>
+                                            <option value="BND/MUNI">BND/MUNI</option>
+                                            <option value="BND/MUNITAX">BND/MUNITAX</option>
+                                            <option value="BND/PERP">BND/PERP</option>
+                                            <option value="BND/RES">BND/RES</option>
+                                            <option value="CASH/*">CASH/*</option>
+                                            <option value="CASH/AGENCY">CASH/AGENCY</option>
+                                            <option value="CASH/APS">CASH/APS</option>
+                                            <option value="CASH/BA">CASH/BA</option>
+                                            <option value="CASH/BB">CASH/BB</option>
+                                            <option value="CASH/CASH">CASH/CASH</option>
+                                            <option value="CASH/CD">CASH/CD</option>
+                                            <option value="CASH/COLLATERAL">CASH/COLLATERAL</option>
+                                            <option value="CASH/CP">CASH/CP</option>
+                                            <option value="CASH/CPLG">CASH/CPLG</option>
+                                            <option value="CASH/ECN">CASH/ECN</option>
+                                            <option value="CASH/EUROF">CASH/EUROF</option>
+                                            <option value="CASH/FEDF">CASH/FEDF</option>
+                                            <option value="CASH/GENERIC">CASH/GENERIC</option>
+                                            <option value="CASH/MUNI">CASH/MUNI</option>
+                                            <option value="CASH/MUNICP">CASH/MUNICP</option>
+                                            <option value="CASH/MVRDN">CASH/MVRDN</option>
+                                            <option value="CASH/PHYSICALCP">CASH/PHYSICALCP</option>
+                                            <option value="CASH/REP">CASH/REP</option>
+                                            <option value="CASH/RRP">CASH/RRP</option>
+                                            <option value="CASH/SAVR">CASH/SAVR</option>
+                                            <option value="CASH/TBILL">CASH/TBILL</option>
+                                            <option value="CASH/TD">CASH/TD</option>
+                                            <option value="CASH/TFN">CASH/TFN</option>
+                                            <option value="CASH/TPREPO">CASH/TPREPO</option>
+                                            <option value="CDI/*">CDI/*</option>
+                                            <option value="CDI/AGENCY">CDI/AGENCY</option>
+                                            <option value="CDI/GENERIC">CDI/GENERIC</option>
+                                            <option value="CDI/RES">CDI/RES</option>
+                                            <option value="CDI/WHOLE">CDI/WHOLE</option>
+                                            <option value="CLC/*">CLC/*</option>
+                                            <option value="CLC/LOAN">CLC/LOAN</option>
+                                            <option value="CLC/TRANCHE">CLC/TRANCHE</option>
+                                            <option value="CMBS/*">CMBS/*</option>
+                                            <option value="CMBS/LOAN">CMBS/LOAN</option>
+                                            <option value="CMBS/SENIOR">CMBS/SENIOR</option>
+                                            <option value="CMBS/SUB">CMBS/SUB</option>
+                                            <option value="CMDTY/*">CMDTY/*</option>
+                                            <option value="CMDTY/CMDTY">CMDTY/CMDTY</option>
+                                            <option value="CMDTY/GOLD">CMDTY/GOLD</option>
+                                            <option value="CMDTY/OIL">CMDTY/OIL</option>
+                                            <option value="CMDTY/PLATINUM">CMDTY/PLATINUM</option>
+                                            <option value="CMDTY/SILVER">CMDTY/SILVER</option>
+                                            <option value="CMO/*">CMO/*</option>
+                                            <option value="CMO/AGENCY">CMO/AGENCY</option>
+                                            <option value="CMO/CDI">CMO/CDI</option>
+                                            <option value="CMO/DEAL">CMO/DEAL</option>
+                                            <option value="CMO/GENERIC">CMO/GENERIC</option>
+                                            <option value="CMO/RES">CMO/RES</option>
+                                            <option value="CMO/WHOLE">CMO/WHOLE</option>
+                                            <option value="CRE/*">CRE/*</option>
+                                            <option value="CRE/DEBT">CRE/DEBT</option>
+                                            <option value="CRE/SERV">CRE/SERV</option>
+                                            <option value="EQUITY/*">EQUITY/*</option>
+                                            <option value="EQUITY/COMMITMENT">EQUITY/COMMITMENT</option>
+                                            <option value="EQUITY/EQUITY">EQUITY/EQUITY</option>
+                                            <option value="EQUITY/NOTE">EQUITY/NOTE</option>
+                                            <option value="EQUITY/PFD">EQUITY/PFD</option>
+                                            <option value="EQUITY/PRIVATE">EQUITY/PRIVATE</option>
+                                            <option value="EQUITY/WARRANT">EQUITY/WARRANT</option>
+                                            <option value="FUND/*">FUND/*</option>
+                                            <option value="FUND/CLOSED_END">FUND/CLOSED_END</option>
+                                            <option value="FUND/INDEX">FUND/INDEX</option>
+                                            <option value="FUND/LP">FUND/LP</option>
+                                            <option value="FUND/OPEN_END">FUND/OPEN_END</option>
+                                            <option value="FUND/PRIVATE">FUND/PRIVATE</option>
+                                            <option value="FUND/REIT">FUND/REIT</option>
+                                            <option value="FUND/STIF">FUND/STIF</option>
+                                            <option value="FUTURE/*">FUTURE/*</option>
+                                            <option value="FUTURE/CFD">FUTURE/CFD</option>
+                                            <option value="FUTURE/COM">FUTURE/COM</option>
+                                            <option value="FUTURE/CUR">FUTURE/CUR</option>
+                                            <option value="FUTURE/FIN">FUTURE/FIN</option>
+                                            <option value="FUTURE/GENERIC">FUTURE/GENERIC</option>
+                                            <option value="FUTURE/INDEX">FUTURE/INDEX</option>
+                                            <option value="FX/*">FX/*</option>
+                                            <option value="FX/CSWAP">FX/CSWAP</option>
+                                            <option value="FX/FWRD">FX/FWRD</option>
+                                            <option value="FX/HEDGE">FX/HEDGE</option>
+                                            <option value="FX/SPOT">FX/SPOT</option>
+                                            <option value="IBND/*">IBND/*</option>
+                                            <option value="IBND/AGENCY">IBND/AGENCY</option>
+                                            <option value="IBND/CORP">IBND/CORP</option>
+                                            <option value="IBND/GOVT">IBND/GOVT</option>
+                                            <option value="INDEX/*">INDEX/*</option>
+                                            <option value="INDEX/GENERIC">INDEX/GENERIC</option>
+                                            <option value="INDEX/INDEX">INDEX/INDEX</option>
+                                            <option value="INS/*">INS/*</option>
+                                            <option value="INS/FPDA">INS/FPDA</option>
+                                            <option value="INS/SPDA">INS/SPDA</option>
+                                            <option value="LOAN/*">LOAN/*</option>
+                                            <option value="LOAN/AMORT">LOAN/AMORT</option>
+                                            <option value="LOAN/BANK">LOAN/BANK</option>
+                                            <option value="LOAN/COMFEE">LOAN/COMFEE</option>
+                                            <option value="LOAN/LEVPRIN">LOAN/LEVPRIN</option>
+                                            <option value="LOAN/REVOLVE">LOAN/REVOLVE</option>
+                                            <option value="LOAN/TERM">LOAN/TERM</option>
+                                            <option value="MBS/*">MBS/*</option>
+                                            <option value="MBS/AGGREGATE">MBS/AGGREGATE</option>
+                                            <option value="MBS/APROJ">MBS/APROJ</option>
+                                            <option value="MBS/CLC">MBS/CLC</option>
+                                            <option value="MBS/CLCTBA">MBS/CLCTBA</option>
+                                            <option value="MBS/CPOOL">MBS/CPOOL</option>
+                                            <option value="MBS/GENERIC">MBS/GENERIC</option>
+                                            <option value="MBS/MEGA">MBS/MEGA</option>
+                                            <option value="MBS/MULTI">MBS/MULTI</option>
+                                            <option value="MBS/NFLOAT">MBS/NFLOAT</option>
+                                            <option value="MBS/POOL">MBS/POOL</option>
+                                            <option value="MBS/PRIVATE">MBS/PRIVATE</option>
+                                            <option value="MBS/PROJ">MBS/PROJ</option>
+                                            <option value="MBS/SERV">MBS/SERV</option>
+                                            <option value="MBS/TBA">MBS/TBA</option>
+                                            <option value="OPTION/*">OPTION/*</option>
+                                            <option value="OPTION/CUROTC">OPTION/CUROTC</option>
+                                            <option value="OPTION/EQUITY">OPTION/EQUITY</option>
+                                            <option value="OPTION/FUTURE">OPTION/FUTURE</option>
+                                            <option value="OPTION/GENERIC">OPTION/GENERIC</option>
+                                            <option value="OPTION/OTC">OPTION/OTC</option>
+                                            <option value="PORT/*">PORT/*</option>
+                                            <option value="PORT/COMPOSITE">PORT/COMPOSITE</option>
+                                            <option value="PORT/FUND">PORT/FUND</option>
+                                            <option value="RE/*">RE/*</option>
+                                            <option value="RE/PROP">RE/PROP</option>
+                                            <option value="SWAP/*">SWAP/*</option>
+                                            <option value="SWAP/ASWAP">SWAP/ASWAP</option>
+                                            <option value="SWAP/CDSWAP">SWAP/CDSWAP</option>
+                                            <option value="SWAP/CMOSWAP">SWAP/CMOSWAP</option>
+                                            <option value="SWAP/CSWAP">SWAP/CSWAP</option>
+                                            <option value="SWAP/FRA">SWAP/FRA</option>
+                                            <option value="SWAP/IAS">SWAP/IAS</option>
+                                            <option value="SWAP/INDEXSWAP">SWAP/INDEXSWAP</option>
+                                            <option value="SWAP/MSW">SWAP/MSW</option>
+                                            <option value="SWAP/SWAP">SWAP/SWAP</option>
+                                            <option value="SWAP/TRSWAP">SWAP/TRSWAP</option>
+                                            <option value="SYNTH/*">SYNTH/*</option>
+                                            <option value="SYNTH/CAP">SYNTH/CAP</option>
+                                            <option value="SYNTH/FLOOR">SYNTH/FLOOR</option>
+                                            <option value="SYNTH/FWD">SYNTH/FWD</option>
+                                            <option value="SYNTH/INDEX">SYNTH/INDEX</option>
+                                            <option value="SYNTH/OTC">SYNTH/OTC</option>
+                                            <option value="SYNTH/SWAPTION">SYNTH/SWAPTION</option>
+                                            <option value="SYNTH/VOLLOCK">SYNTH/VOLLOCK</option>
+
+                                        </select>
+
+                                    </td>
+                                    <td valign="middle" align="center" width="30">
+                                        <br>
+                                        <a href="https://dev.blackrock.com/weblications/WebQuery/components/input_form.epl?tool=positions#"
+                                           onclick="MoveOptionsBetweenLists(document.forms[0].elements[&#39;sec_grouptype.&#39;], document.forms[0].elements[&#39;exclude_sec_grouptype.&#39;], false,orderforms_sec_grouptype); return false;"><img
+                                                src="move_selected.gif" border="0" alt="Move Selected"></a>
+                                        <br><br>
+                                        <a href="https://dev.blackrock.com/weblications/WebQuery/components/input_form.epl?tool=positions#"
+                                           onclick="MoveOptionsBetweenLists(document.forms[0].elements[&#39;sec_grouptype.&#39;], document.forms[0].elements[&#39;exclude_sec_grouptype.&#39;], true, orderforms_sec_grouptype); return false;"><img
+                                                src="move_unselected.gif" border="0" alt="Move Unselected"></a>
+                                    </td>
+                                    <td valign="middle" align="center">
+                                        <span class="label">Exclude</span><br>
+
+                                        <select class="input" name="exclude_sec_grouptype." size="7" multiple=""
+                                                onchange="document.forms[0].elements[&#39;sec_grouptype.&#39;].selectedIndex=-1;return true;"
+                                                style="width:">
+                                            <option value="">--------------------------</option>
+                                        </select>
+
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+
+
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td align="right"><span class="label">Pricing ID*</span></td>
+
+                        <td valign="top"><input type="text" class="input" size="14" name="pricing_cusip"
+                                                onchanged="value = value.toUpperCase();">
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td colspan="3">
+                            <hr>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td><span class="label">Restricted Assets*</span></td>
+                        <td colspan="2">
+                            <script>
+
+                                function SynchTextAndListMultiple(from, to, noStrip) {
+
+                                    if (noStrip) {
+                                        if (from.type == 'text') {
+                                            from.value = from.value.replace(/^\s+/, '');
+                                            from.value = from.value.replace(/\s+$/, '');
+                                            from.value = from.value.replace(/\s*,\s*/g, ',');
+                                        } else {
+                                            to.value = to.value.replace(/^\s+/, '');
+                                            to.value = to.value.replace(/\s+$/, '');
+                                            to.value = to.value.replace(/\s*,\s*/g, ',');
+                                        }
+                                    } else {
+                                        if (from.type == 'text')
+                                            from.value = from.value.replace(/\s/g, '');
+                                        else
+                                            to.value = to.value.replace(/\s/g, '');
+                                    }
+
+                                    if (from.type == 'text' && from.value == '') {
+                                        to.selectedIndex = 0;
+                                        return;
+                                    }
+
+                                    if (from.type == 'select-one') {
+                                        if (from.options[from.selectedIndex].value == '') {
+                                            to.value = '';
+                                            return;
+                                        }
+                                        if (/^\s*$/.test(to.value)) {
+                                            to.value = from.options[from.selectedIndex].value;
+                                        }
+                                        else {
+                                            to.value = to.value + ',' + from.options[from.selectedIndex].value;
+                                        }
+                                    }
+
+                                    // remove duplicates
+                                    var txt_fld = from.type == 'text' ? from : to;
+
+                                    if (txt_fld.uppercase_text) {
+                                        txt_fld.value = txt_fld.value.toUpperCase();
+                                    }
+
+                                    var tmp = txt_fld.value.split(/[;,]/);
+                                    var unique = new Array();
+                                    for (i in tmp) {
+                                        unique[tmp[i]] = 1;
+                                    }
+                                    var vals = new Array();
+                                    for (v in unique) {
+                                        vals[vals.length] = v;
+                                    }
+                                    txt_fld.value = vals.join(',');
+
+                                    if (to.type == 'text') {
+                                        return true;
+                                    }
+
+                                    var not_found = '';
+                                    if (vals.length == 1) {
+                                        var idx = FindValueInOptList(vals[0], to);
+                                        if (idx == -1) {
+                                            to.selectedIndex = to.length - 1;
+                                            not_found = vals[0];
+                                        }
+                                        else {
+                                            to.selectedIndex = idx;
+                                        }
+                                    }
+                                    else {
+                                        not_found = FindMultipleValuesInOptList(vals, to);
+                                    }
+
+                                    if (not_found != '') {
+                                        if (!(from.allow_custom || to.allow_custom)) {
+                                            alert('Could not find \'' + not_found + '\' in the selection list' + " From: ");
+                                        }
+                                        else if (vals.length != 1) {
+                                            to.selectedIndex = to.length - 1;
+                                        }
+                                    }
+
+                                    return true;
+                                }
+                            </script>
+                            <span class="label"></span>
+                            <input type="text" class="input" onkeydown="" id="" size="20" name="restricted_assets"
+                                   onchange="SynchTextAndListMultiple(this, this.form.elements[&#39;restricted_assets_list&#39;], 0);  return true;"
+                                   uppercase_text="" allow_custom="true" no_all_opt="">
+
+                            <select class="input" name="restricted_assets_list"
+                                    onchange="SynchTextAndListMultiple(this, this.form.elements[&#39;restricted_assets&#39;], 0);  return true;">
+                                <option value="">ALL</option>
+                                <option value="G">AMG Instructed</option>
+                                <option value="F">OBSOLETE - Do not use - Held for Futures</option>
+                                <option value="C">OBSOLETE - Do not use - Collateral</option>
+                                <option value="R">Restriction (Obsolete reason code. Do not use.)</option>
+                                <option value="S">Soft Restrict/Strategy</option>
+                                <option value="D">State Deposit</option>
+                                <option value="X">OBSOLETE - Do not use - Exchange Offer</option>
+                                <option value="A">Corporate Action</option>
+                                <option value="M">OBSOLETE - Do not use - Mussle</option>
+                                <option value="Z">Securities on Loan</option>
+                                <option value="H">Held to Maturity</option>
+                                <option value="T">OTTI</option>
+                                <option value="B">Asset Transfer/New Acct-Pending Recon (APSG Position Recs)</option>
+                                <option value="O">OBSOLETE - Do not use - APSG-POC-PCS-US Pending Termination</option>
+                                <option value="P">OBSOLETE - Do not use - Prior Client Approval Required</option>
+                                <option value="Q">Tax BV must be checked prior to sale</option>
+                                <option value="I">Interportfolio Transfer</option>
+                                <option value="E">Corporate Action Election</option>
+                                <option value="Y">Corporate Action Payout</option>
+                                <option value="W">Option Coverage</option>
+                                <option value="V">Proxy Voting Soft Restriction</option>
+                                <option value="U">OBSOLETE - Do not use - APSG-POC-PCS-US Stock Unavailable</option>
+                                <option value="z">TALF Collateral</option>
+                                <option value="r">OBSOLETE � Do not use - APSG RECS Recon Break</option>
+                                <option value="N">AMG Instructed (Obsolete. Do not use.)</option>
+                                <option value="s">144A</option>
+                                <option value="h">Hedge for CDS - Notional MV</option>
+                                <option value="i">Hedge for CDS - Spread Dur</option>
+                                <option value="j">Hedge for CDS - Other</option>
+                                <option value="e">Settlement/Operational</option>
+                                <option value="CUSTOM">CUSTOM</option>
+
+                            </select>
+
+                            <script>
+                                SynchTextAndListMultiple(document.forms[0].elements['restricted_assets'], document.forms[0].elements['restricted_assets_list'], 0);
+
+                                if (document.forms[0].elements['restricted_assets'].value == 'CUSTOM')
+                                    document.forms[0].elements['restricted_assets'].value = '';
+
+                            </script>
+
+
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td colspan="3">
+                            <hr>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td colspan="2">
+                            <table width="400">
+                                <tbody>
+                                <tr>
+                                    <td align="right">
+                                        <span class="label">As Of Date</span>
+                                    </td>
+                                    <td>
+                                        <input type="text" name="pos_date" class="input" size="10" value="T">
+                                    </td>
+                                    <td witdh="30"></td>
+                                    <td align="right">
+<span class="label">
+Inv Number*
+</span></td>
+                                    <td>
+                                        <input type="text" size="14" maxlength="255" class="input" name="invnum."
+                                               onchange="validate_numeric(value, &#39;Invnum&#39;,name); return true;">
+
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </td>
+
+                        <td><span class="label">Filter by </span>
+
+                            <select name="filter_fld" class="input">
+                                <option value=""></option>
+                                <option value="pct_nav" ]="">%NAV</option>
+                                <option value="price">Price</option>
+                                <option value="cur_face">Current Face</option>
+                                <option value="orig_face">Original Face</option>
+                                <option value="quantity">Quantity</option>
+                            </select>
+
+                            <select name="filter_by" class="input">
+                                <option value="==">=</option>
+                                <option value="&gt;="> &gt;=</option>
+                                <option value="&lt;="> &lt;=</option>
+                            </select>
+
+                            <input type="text" size="15" name="filter_val" class="input"
+                                   onchange="if( fixnum(this) ) value=commafy(value);">
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td colspan="2">
+<span class="smlabel">
+*Use commas to separate multiple entries
+</span>
+                        </td>
+
+                        <td>
+<span class="label">&nbsp;
+<input type="checkbox" value="1" class="input" name="split_long_short" checked="">
+Separate Long and Short</span>
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td colspan="3">
+                            <sup>†</sup><span class="smlabel"
+                                              title="For Example: &#39;_b_&#39; matches &#39;abc&#39;,&#39;ab &#39;, etc">An underscore "_" in pattern matches any single character
+    </span>
+                            <br>
+                            &nbsp;
+    <span class="smlabel"
+          title="For Example: &#39;%ab%&#39; matches &#39;ab&#39;,&#39;123abxyz&#39;,&#39; ab123&#39;, etc">
+      A percent sign "%" matches any string of zero or more characters
+    </span>
+                        </td>
+                    </tr>
+
+                    </tbody>
+                </table>
+                <input type="hidden" name="checkpanes" value="false">
+
+            </td>
+        </tr>
+
+        <tr class="advSearchOptions">
+            <td colspan="3" style="height: 15px;">
+
+                <table>
+                    <tbody>
+                    <tr>
+                        <td style="width:100%" nowrap="">
+
+                            <input type="hidden" name="pane0_style" value="none">
+                            &nbsp;&nbsp;
+                            <img src="arrow_tan_bg_right.jpg" border="0" alt="Expand" id="pane0_img"
+                                 onclick="ExpandPaneNested(&#39;pane0&#39;,true,1);" align="middle">
+
+<span onclick="ExpandPaneNested(&#39;pane0&#39;,true,1);">
+  Advanced Search Options
+</span>
+
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+
+            </td>
+            <!--<td width="100%"
+            background="/images/appimages/web_query/query_tools/form_images/advsearch_center.gif"></td>
+            <td align=right><img src="/images/appimages/web_query/query_tools/form_images/advsearch_right.gif" border=0></td>-->
+        </tr>
+        <tr id="title:strategy_pane" class="pane_title" style="display:block">
+            <td class="pane_title" colspan="3">
+                <input type="hidden" name="strategy_pane_style">
+                &nbsp;&nbsp;&nbsp;
+                <img src="arrow_red_right.jpg" alt="Expand" border="0" id="strategy_pane_img"
+                     onclick="ExpandPaneNested(&#39;strategy_pane&#39;,&#39;&#39;,1);" align="middle">
+                <a class="pane_title" id="text:strategy_pane"
+                   onclick="ExpandPaneNested(&#39;strategy_pane&#39;,&#39;&#39;,1);">Strategy</a>
+            </td>
+        </tr>
+
+        <tr class="input_form_glob" style="display:none">
+            <td class="input_form_glob" colspan="3">
+                <div id="strategy_pane" class="input_form_glob">
+                    <input type="hidden" id="strategy_pane_adv_pane_path"
+                           value="/opt/httpd/htdocs/weblications/WebQuery/trades/strategy_pane.epl">
+
+                    <input type="hidden" id="strategy_pane_flag" value="no">
+                    <input type="hidden" id="strategy_pane_flag_tool" value="positions">
+
+
+                </div>
+
+            </td>
+        </tr>
+
+
+        <tr id="title:securities_pane" class="pane_title" style="display:block">
+            <td class="pane_title" colspan="3">
+                <input type="hidden" name="securities_pane_style">
+                &nbsp;&nbsp;&nbsp;
+                <img src="arrow_red_right.jpg" alt="Expand" border="0" id="securities_pane_img"
+                     onclick="ExpandPaneNested(&#39;securities_pane&#39;,&#39;&#39;,1);" align="middle">
+                <a class="pane_title" id="text:securities_pane"
+                   onclick="ExpandPaneNested(&#39;securities_pane&#39;,&#39;&#39;,1);">Securities</a>
+            </td>
+        </tr>
+
+        <tr class="input_form_glob" style="display:none">
+            <td class="input_form_glob" colspan="3">
+                <div id="securities_pane" class="input_form_glob">
+                    <input type="hidden" id="securities_pane_adv_pane_path"
+                           value="/opt/httpd/htdocs/weblications/WebQuery/positions/securities_pane.epl">
+
+                    <input type="hidden" id="securities_pane_flag" value="no">
+                    <input type="hidden" id="securities_pane_flag_tool" value="positions">
+
+
+                </div>
+
+            </td>
+        </tr>
+
+
+        <tr id="title:gainloss_pane" class="pane_title" style="display:block">
+            <td class="pane_title" colspan="3">
+                <input type="hidden" name="gainloss_pane_style">
+                &nbsp;&nbsp;&nbsp;
+                <img src="arrow_red_right.jpg" alt="Expand" border="0" id="gainloss_pane_img"
+                     onclick="ExpandPaneNested(&#39;gainloss_pane&#39;,&#39;&#39;,1);" align="middle">
+                <a class="pane_title" id="text:gainloss_pane"
+                   onclick="ExpandPaneNested(&#39;gainloss_pane&#39;,&#39;&#39;,1);">Gain/Loss</a>
+            </td>
+        </tr>
+
+        <tr class="input_form_glob" style="display:none">
+            <td class="input_form_glob" colspan="3">
+                <div id="gainloss_pane" class="input_form_glob">
+                    <input type="hidden" id="gainloss_pane_adv_pane_path"
+                           value="/opt/httpd/htdocs/weblications/WebQuery/positions/gainloss_pane.epl">
+
+                    <input type="hidden" id="gainloss_pane_flag" value="no">
+                    <input type="hidden" id="gainloss_pane_flag_tool" value="positions">
+
+
+                </div>
+
+            </td>
+        </tr>
+
+
+        <tr id="title:custom_info_pane" class="pane_title" style="display:block">
+            <td class="pane_title" colspan="3">
+                <input type="hidden" name="custom_info_pane_style">
+                &nbsp;&nbsp;&nbsp;
+                <img src="arrow_red_right.jpg" alt="Expand" border="0" id="custom_info_pane_img"
+                     onclick="ExpandPaneNested(&#39;custom_info_pane&#39;,&#39;&#39;,1);" align="middle">
+                <a class="pane_title" id="text:custom_info_pane"
+                   onclick="ExpandPaneNested(&#39;custom_info_pane&#39;,&#39;&#39;,1);">Custom Information</a>
+            </td>
+        </tr>
+
+        <tr class="input_form_glob" style="display:none">
+            <td class="input_form_glob" colspan="3">
+                <div id="custom_info_pane" class="input_form_glob">
+                    <input type="hidden" id="custom_info_pane_adv_pane_path"
+                           value="/opt/httpd/htdocs/weblications/WebQuery/positions/custom_info_pane.epl">
+
+                    <input type="hidden" id="custom_info_pane_flag" value="no">
+                    <input type="hidden" id="custom_info_pane_flag_tool" value="positions">
+
+
+                </div>
+
+            </td>
+        </tr>
+
+
+        <tr id="title:walkforward_pane" class="pane_title" style="display:block">
+            <td class="pane_title" colspan="3">
+                <input type="hidden" name="walkforward_pane_style">
+                &nbsp;&nbsp;&nbsp;
+                <img src="arrow_red_right.jpg" alt="Expand" border="0" id="walkforward_pane_img"
+                     onclick="ExpandPaneNested(&#39;walkforward_pane&#39;,&#39;&#39;,1);" align="middle">
+                <a class="pane_title" id="text:walkforward_pane"
+                   onclick="ExpandPaneNested(&#39;walkforward_pane&#39;,&#39;&#39;,1);">Position Walk Forward</a>
+            </td>
+        </tr>
+
+        <tr class="input_form_glob" style="display:none">
+            <td class="input_form_glob" colspan="3">
+                <div id="walkforward_pane" class="input_form_glob">
+                    <input type="hidden" id="walkforward_pane_adv_pane_path"
+                           value="/opt/httpd/htdocs/weblications/WebQuery/positions/walkforward_pane.epl">
+
+                    <input type="hidden" id="walkforward_pane_flag" value="no">
+                    <input type="hidden" id="walkforward_pane_flag_tool" value="positions">
+
+
+                </div>
+
+            </td>
+        </tr>
+
+
+        <tr id="title:pmssectors" class="pane_title" style="display:block">
+            <td class="pane_title" colspan="3">
+                <input type="hidden" name="pmssectors_style">
+                &nbsp;&nbsp;&nbsp;
+                <img src="arrow_red_right.jpg" alt="Expand" border="0" id="pmssectors_img"
+                     onclick="ExpandPaneNested(&#39;pmssectors&#39;,&#39;&#39;,1);" align="middle">
+                <a class="pane_title" id="text:pmssectors"
+                   onclick="ExpandPaneNested(&#39;pmssectors&#39;,&#39;&#39;,1);">Sector</a>
+            </td>
+        </tr>
+
+        <tr class="input_form_glob" style="display:none">
+            <td class="input_form_glob" colspan="3">
+                <div id="pmssectors" class="input_form_glob">
+                    <input type="hidden" id="pmssectors_adv_pane_path"
+                           value="/opt/httpd/htdocs/weblications/WebQuery/positions/pmssectors.epl">
+
+                    <input type="hidden" id="pmssectors_flag" value="no">
+                    <input type="hidden" id="pmssectors_flag_tool" value="positions">
+
+
+                </div>
+
+            </td>
+        </tr>
+
+
+        <tr id="title:portfolio_attribute" class="pane_title" style="display:block">
+            <td class="pane_title" colspan="3">
+                <input type="hidden" name="portfolio_attribute_style">
+                &nbsp;&nbsp;&nbsp;
+                <img src="arrow_red_right.jpg" alt="Expand" border="0" id="portfolio_attribute_img"
+                     onclick="ExpandPaneNested(&#39;portfolio_attribute&#39;,&#39;&#39;,1);" align="middle">
+                <a class="pane_title" id="text:portfolio_attribute"
+                   onclick="ExpandPaneNested(&#39;portfolio_attribute&#39;,&#39;&#39;,1);">Portfolio Attribute</a>
+            </td>
+        </tr>
+
+        <tr class="input_form_glob" style="display:none">
+            <td class="input_form_glob" colspan="3">
+                <div id="portfolio_attribute" class="input_form_glob">
+                    <input type="hidden" id="portfolio_attribute_adv_pane_path"
+                           value="/opt/httpd/htdocs/weblications/WebQuery/positions/portfolio_attribute.epl">
+
+                    <input type="hidden" id="portfolio_attribute_flag" value="no">
+                    <input type="hidden" id="portfolio_attribute_flag_tool" value="positions">
+
+
+                </div>
+
+            </td>
+        </tr>
+
+
+        <tr id="title:collateral_position" class="pane_title" style="display:block">
+            <td class="pane_title" colspan="3">
+                <input type="hidden" name="collateral_position_style">
+                &nbsp;&nbsp;&nbsp;
+                <img src="arrow_red_right.jpg" alt="Expand" border="0" id="collateral_position_img"
+                     onclick="ExpandPaneNested(&#39;collateral_position&#39;,&#39;&#39;,1);" align="middle">
+                <a class="pane_title" id="text:collateral_position"
+                   onclick="ExpandPaneNested(&#39;collateral_position&#39;,&#39;&#39;,1);">Collateral Position</a>
+            </td>
+        </tr>
+
+        <tr class="input_form_glob" style="display:none">
+            <td class="input_form_glob" colspan="3">
+                <div id="collateral_position" class="input_form_glob">
+                    <input type="hidden" id="collateral_position_adv_pane_path"
+                           value="/opt/httpd/htdocs/weblications/WebQuery/positions/collateral_position.epl">
+
+                    <input type="hidden" id="collateral_position_flag" value="no">
+                    <input type="hidden" id="collateral_position_flag_tool" value="positions">
+
+
+                </div>
+
+            </td>
+        </tr>
+
+        </tbody>
+    </table>
+
+    <input type="image" name="enter_handler" src="transparent.gif" border="0">
+</form>
+
+<script script="" type="text/javascript">
+    window.onload = function () {
+        setTimeout(function () {
+            document.getElementById('pane0_img').click();
+            document.getElementById('pane0_img').click();
+        }, 0);
+    };
+
+
+</script>
+
+<script script="" type="text/javascript">
+    suggestionList();
+</script>
+
+
+<script id="hiddenlpsubmitdiv" style="display: none;"></script>
+<script>try {
+    for (var lastpass_iter = 0; lastpass_iter < document.forms.length; lastpass_iter++) {
+        var lastpass_f = document.forms[lastpass_iter];
+        if (typeof(lastpass_f.lpsubmitorig2) == "undefined") {
+            lastpass_f.lpsubmitorig2 = lastpass_f.submit;
+            lastpass_f.submit = function () {
+                var form = this;
+                var customEvent = document.createEvent("Event");
+                customEvent.initEvent("lpCustomEvent", true, true);
+                var d = document.getElementById("hiddenlpsubmitdiv");
+                if (d) {
+                    for (var i = 0; i < document.forms.length; i++) {
+                        if (document.forms[i] == form) {
+                            if (typeof(d.innerText) != 'undefined') {
+                                d.innerText = i;
+                            } else {
+                                d.textContent = i;
+                            }
+                        }
+                    }
+                    d.dispatchEvent(customEvent);
+                }
+                form.lpsubmitorig2();
+            }
+        }
+    }
+} catch (e) {
+}</script>
+</body>
+</html>
