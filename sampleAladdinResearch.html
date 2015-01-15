@@ -1660,6 +1660,11 @@
             navbarButtonElement: '.masthead-app-name'
         });
     });
+    $.each($('*'), function (index, element) {
+        if ((!$(element).attr('id')) && (!$(element).attr('name'))) {
+            $(element).attr('name', 'a' + index);
+        }
+    });
 </script>
 </body>
 </html>
