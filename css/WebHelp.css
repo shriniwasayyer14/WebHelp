@@ -125,6 +125,7 @@ iframe {
     background: none;
     color: white;
     font-size: 18px;
+    height: 100%;
 }
 
 #webHelpMainContent .nav > li > a:hover, #webHelpMainContent .nav > li > a:focus {
