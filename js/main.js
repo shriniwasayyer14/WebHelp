@@ -164,14 +164,28 @@ function alertNoSelection() {
 }
 
 function preview() {
-    destroyAndRedrawTable();
-    var rows = jQuery("#stepsTable").DataTable().rows().data();
-    if (rows.length <= 0) {
+    //destroyAndRedrawTable(); //Doesn't respect row reordering
+    var tableHasData = (jQuery("#stepsTable").find("td").length > 0);
+    if (!tableHasData) {
         jQuery('#noStepsInPreviewDiv').show();
         return;
     }
     var preview = introJs();
     var previewSteps = [];
+
+    var tableRows = jQuery("#stepsTable tr");
+    var rows = [];
+
+    jQuery.each(tableRows, function (index, element) {
+        var cells = jQuery(element).find('td');
+        if (cells.length > 0) {
+            var thisRow = [];
+            for (var n = 0; n < cells.length; n++) {
+                thisRow.push(jQuery(cells[n]).text());
+            }
+            rows.push(thisRow);
+        }
+    });
 
     for (var n = 0; n < rows.length; n++) {
         var elemAttribVal = rows[n][3];
@@ -182,7 +196,7 @@ function preview() {
             var elem = "[" + elemAttribType + "=\'" + elemAttribVal + "\']"; // Assuming the elem attrib is an id for now
             previewSteps.push({
                 element: elem,
-                intro: content,
+                intro: '<div><h3>' + stepTitle + '</h3><p>' + content + '</p></div>',
                 position: 'bottom'
             });
         } else {
@@ -203,7 +217,7 @@ function preview() {
 }
 
 function save() {
-    destroyAndRedrawTable();
+    //destroyAndRedrawTable();
     /*jQuery.ajax({
      type: "POST",
      url: "https://dev.blackrock.com:8558/weblications/WebQuery/WebHelp.epl",
@@ -219,13 +233,28 @@ function save() {
      }
      });*/
 
-    var rows = jQuery("#stepsTable").DataTable().rows().data();
-    if (rows.length <= 0) {
+    //destroyAndRedrawTable(); //Doesn't respect row reordering
+    var tableHasData = (jQuery("#stepsTable").find("td").length > 0);
+    if (!tableHasData) {
         jQuery('#noStepsInPreviewDiv').show();
         return;
     }
+    var preview = introJs();
     var previewSteps = [];
-    var sequenceTitle = jQuery('#sequenceTitleSetter').val().trim();
+
+    var tableRows = jQuery("#stepsTable tr");
+    var rows = [];
+
+    jQuery.each(tableRows, function (index, element) {
+        var cells = jQuery(element).find('td');
+        if (cells.length > 0) {
+            var thisRow = [];
+            for (var n = 0; n < cells.length; n++) {
+                thisRow.push(jQuery(cells[n]).text());
+            }
+            rows.push(thisRow);
+        }
+    });
 
     for (var n = 0; n < rows.length; n++) {
         var elemAttribVal = rows[n][3];
@@ -236,7 +265,7 @@ function save() {
             var elem = "[" + elemAttribType + "=\'" + elemAttribVal + "\']"; // Assuming the elem attrib is an id for now
             previewSteps.push({
                 element: elem,
-                intro: content,
+                intro: '<div><h3>' + stepTitle + '</h3><p>' + content + '</p></div>',
                 position: 'bottom'
             });
         } else {
@@ -443,7 +472,7 @@ function retrieveLocalStorage() {
 
 function makeEditable() {
     jQuery("#stepsTable").tableEdit({
-        columnsTr: "1,3"
+        columnsTr: "1,4"
     });
 }
 
