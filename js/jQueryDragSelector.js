@@ -124,12 +124,12 @@ var jQueryDragSelector = {
                 } else if ((jQuery(element).children().length === 1) && (jQuery(element).children()[0].id)) {
                     objectForArray.attribute = 'id';
                     objectForArray.value = jQuery(element).children()[0].id.replace(/:/g, '\\:');
-                } else if (element.name) {
+                } else if (element.name || jQuery(element).attr('name')) {
                     objectForArray.attribute = 'name';
-                    objectForArray.value = element.name;
-                } else if ((jQuery(element).children().length === 1) && (jQuery(element).children()[0].name)) {
+                    objectForArray.value = element.name || jQuery(element).attr('name');
+                } else if ((jQuery(element).children().length === 1) && (jQuery(element).children()[0].name || jQuery(jQuery(element).children()[0]).attr('name'))) {
                     objectForArray.attribute = 'name';
-                    objectForArray.value = jQuery(element).children()[0].name;
+                    objectForArray.value = jQuery(element).children()[0].name || jQuery(jQuery(element).children()[0]).attr('name');
                 } else if (element.className) {
                     var jQueryClassName = '.' + element.className.split(/\s+/).join('.');
                     if (jQuery(jQueryClassName).length === 1) {
