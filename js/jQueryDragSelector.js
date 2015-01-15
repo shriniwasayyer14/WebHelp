@@ -119,10 +119,10 @@ var jQueryDragSelector = {
                 };
                 if (element.id) {
                     objectForArray.attribute = 'id';
-                    objectForArray.value = element.id;
+                    objectForArray.value = element.id.replace(/:/g, '\\:');
                 } else if ((jQuery(element).children().length === 1) && (jQuery(element).children()[0].id)) {
                     objectForArray.attribute = 'id';
-                    objectForArray.value = jQuery(element).children()[0].id;
+                    objectForArray.value = jQuery(element).children()[0].id.replace(/:/g, '\\:');
                 } else if (element.name) {
                     objectForArray.attribute = 'name';
                     objectForArray.value = element.name;
