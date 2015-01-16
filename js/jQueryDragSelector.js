@@ -30,16 +30,19 @@ var jQueryDragSelector = {
                     var selectedDivs = [];
                     jQuery.each(jQuery('.dragSelectedElement'), function (index, element) {
                         jQuery(element).children().removeClass('dragSelectedElement');
+                        if (index > 0) {
+                            jQuery(element).removeClass('dragSelectedElement');
+                        }
                     });
+                    jQuery(jQuery('.dragSelectedElement')[0]).addClass('fadedDragSelectedElement');
 
-                    jQuery('.dragSelectedElement').addClass('fadedDragSelectedElement');
+                    //jQuery('.dragSelectedElement').addClass('fadedDragSelectedElement');
 
                     if (jQuery('.dragSelectedElement').length > 0) {
                         /*
                          * Just show the tooltip on one element even if multiple elements are selected
                          * The faded element CSS will make it clear which elements are selected
                          */
-
                         jQuery(jQuery('.dragSelectedElement')[0])
                             .popover({
                                 html: true,
@@ -146,6 +149,8 @@ var jQueryDragSelector = {
                 arrayOfObjects.push(objectForArray);
             });
             createStepForThisElement(arrayOfObjects);
+        } else {
+            jQuery('.dragSelectedElement').removeClass('dragSelectedElement fadedDragSelectedElement');
         }
 
         this.selectedObjects = arrayOfObjects;
