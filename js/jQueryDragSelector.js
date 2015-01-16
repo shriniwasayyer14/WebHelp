@@ -62,7 +62,7 @@ var jQueryDragSelector = {
                     }
                 });
 
-            jQuery('div, input, textarea, button, a, ul, li, tr, td')
+            jQuery('div, input, textarea, button, a, ul, li, tr, td, span')
                 .drop("start", function (ev, dd) {
                     jQuery(this).addClass("active");
                 })
@@ -159,7 +159,7 @@ var jQueryDragSelector = {
     off: function () {
         if (this.isOn) {
             jQuery(document).unbind("draginit").unbind("dragstart").unbind("drag").unbind("dragend");
-            jQuery('div, input, textarea, button, a, ul, li, tr, td').unbind("drop");
+            jQuery('div, input, textarea, button, a, ul, li, tr, td, span').unbind("drop");
             this.isOn = false;
         }
     }
