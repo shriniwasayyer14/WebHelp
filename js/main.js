@@ -165,55 +165,21 @@ function alertNoSelection() {
 
 function preview() {
     //destroyAndRedrawTable(); //Doesn't respect row reordering
-    var tableHasData = (jQuery("#stepsTable").find("td").length > 0);
-    if (!tableHasData) {
-        jQuery('#noStepsInPreviewDiv').show();
-        return;
+    var previewSteps = getCurrentTablePreviewSteps();
+
+    if (previewSteps) {
+        var preview = introJs();
+        preview.setOptions({
+            steps: previewSteps,
+            showProgress: true,
+            showBullets: false,
+            tooltipPosition: 'auto'
+        });
+        jQuery('.toggler').trigger('click'); //Close the side menu
+        setTimeout(function () {
+            preview.start();
+        }, 500);
     }
-    var preview = introJs();
-    var previewSteps = [];
-
-    var tableRows = jQuery("#stepsTable tr");
-    var rows = [];
-
-    jQuery.each(tableRows, function (index, element) {
-        var cells = jQuery(element).find('td');
-        if (cells.length > 0) {
-            var thisRow = [];
-            for (var n = 0; n < cells.length; n++) {
-                thisRow.push(jQuery(cells[n]).text());
-            }
-            rows.push(thisRow);
-        }
-    });
-
-    for (var n = 0; n < rows.length; n++) {
-        var elemAttribVal = rows[n][3];
-        var elemAttribType = rows[n][2];
-        var stepTitle = rows[n][1];
-        var content = rows[n][4];
-        if (elemAttribVal) {
-            var elem = "[" + elemAttribType + "=\'" + elemAttribVal + "\']"; // Assuming the elem attrib is an id for now
-            previewSteps.push({
-                element: elem,
-                intro: '<div><h3>' + stepTitle + '</h3><p>' + content + '</p></div>',
-                position: 'bottom'
-            });
-        } else {
-            previewSteps.push({
-                intro: '<div><h3>' + stepTitle + '</h3><p>' + content + '</p></div>'
-            });
-        }
-    }
-
-    preview.setOptions({
-        steps: previewSteps,
-        showProgress: true,
-        showBullets: false,
-        tooltipPosition: 'auto'
-    });
-    jQuery('.toggler').trigger('click'); //Close the side menu
-    preview.start();
 }
 
 function save() {
@@ -234,13 +200,47 @@ function save() {
      });*/
 
     //destroyAndRedrawTable(); //Doesn't respect row reordering
+
     var sequenceTitle = jQuery("#sequenceTitleSetter").val().trim();
-    var tableHasData = (jQuery("#stepsTable").find("td").length > 0);
+    var stepsToSave = getCurrentTablePreviewSteps();
+    if (stepsToSave) {
+        var testObject = {};
+        testObject[sequenceTitle] = {
+            "sequenceTitle": sequenceTitle,
+            "appName": "Test App",
+            //"url": "WebHelp",
+            "data": stepsToSave,
+            "isNew": jQuery('#markAsNewSequence').is(':checked')
+        };
+
+        // Put the object into storage
+        var WebHelpName = 'WebHelp.' + appNameForWebHelp;
+        if (localStorage.getItem(WebHelpName)) {
+            var localStorageObject = JSON.parse(localStorage.getItem(WebHelpName));
+            localStorageObject[sequenceTitle] = testObject[sequenceTitle];
+            localStorage.setItem(WebHelpName, JSON.stringify(localStorageObject));
+        } else {
+            localStorage.setItem(WebHelpName, JSON.stringify(testObject));
+        }
+
+        jQuery("#sequenceSaveButton").attr('title', 'Saved!').tooltip({
+            trigger: 'manual'
+        }).tooltip("show");
+        setTimeout(function () {
+            jQuery("#sequenceSaveButton").tooltip('hide').attr('title', '');
+        }, 500);
+
+        populateCurrentSequences();
+    }
+}
+
+function getCurrentTablePreviewSteps() {
+    var tableHasData = !((jQuery("#stepsTable td").length <= 0) || ((jQuery("#stepsTable td").length === 1) && (jQuery("#stepsTable td").hasClass('dataTables_empty'))));
     if (!tableHasData) {
         jQuery('#noStepsInPreviewDiv').show();
-        return;
+        return false;
     }
-    var preview = introJs();
+
     var previewSteps = [];
 
     var tableRows = jQuery("#stepsTable tr");
@@ -276,35 +276,7 @@ function save() {
         }
     }
 
-    var testObject = {};
-    testObject[sequenceTitle] = {
-        "sequenceTitle": sequenceTitle,
-        "appName": "Test App",
-        //"url": "WebHelp",
-        "data": previewSteps,
-        "isNew": jQuery('#markAsNewSequence').is(':checked')
-    };
-
-
-// Put the object into storage
-    var WebHelpName = 'WebHelp.' + appNameForWebHelp;
-    if (localStorage.getItem(WebHelpName)) {
-        var localStorageObject = JSON.parse(localStorage.getItem(WebHelpName));
-        localStorageObject[sequenceTitle] = testObject[sequenceTitle];
-        localStorage.setItem(WebHelpName, JSON.stringify(localStorageObject));
-    } else {
-        localStorage.setItem(WebHelpName, JSON.stringify(testObject));
-    }
-
-    jQuery("#sequenceSaveButton").attr('title', 'Saved!').tooltip({
-        trigger: 'manual'
-    }).tooltip("show");
-    setTimeout(function () {
-        jQuery("#sequenceSaveButton").tooltip('hide').attr('title', '');
-    }, 500);
-
-    populateCurrentSequences();
-
+    return previewSteps;
 }
 
 function populateCurrentSequences() {
