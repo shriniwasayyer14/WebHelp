@@ -516,12 +516,19 @@ function editThisSequence() {
         var title = jQuery(element.intro).children('h3').text() || '';
         var text = jQuery(element.intro).children('p').text() || '';
         var elementId = element.element || '';
+        elementId = elementId.replace(/(\[|\])/g, '');
+        var elementAttr = elementId;
         if (elementId.split('#').length > 1) {
             elementId = elementId.split('#')[1];
+        } else if (elementId.split('=').length > 1) {
+            var splitArray = elementId.split('=');
+            elementId = splitArray[1].replace(/\'/g, '');
+            elementAttr = splitArray[0];
         }
         stepsTable.row.add([
             "<span class='fa fa-times' aria-hidden='true' onclick='removeThisStep()'></span>",
             title,
+            elementAttr,
             elementId,
             text])
             .draw();
