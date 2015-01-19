@@ -210,3 +210,7 @@ a.introjs-skipbutton + a.introjs-button.introjs-prevbutton + a.introjs-button.in
     white-space: pre-wrap;
     max-width: 100px;
 }
+
+#stepsTable td.invisibleColumnInStepsTable, #stepsTable th.invisibleColumnInStepsTable {
+    display: none !important;
+}

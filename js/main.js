@@ -103,11 +103,14 @@ function setUpAddEditTable() {
                 },
                 {
                     "sTitle": "Attribute",
-                    "sWidth": "7%"
+                    "sWidth": "7%",
+                    "sClass": "invisibleColumnInStepsTable"
+                    /*Needs to be invisible, datatables bVisible false removes it from the DOM altogether*/
                 },
                 {
                     "sTitle": "Value",
-                    "sWidth": "8%"
+                    "sWidth": "8%",
+                    "sClass": "invisibleColumnInStepsTable"
                 },
                 {
                     "sTitle": "Content",
@@ -449,38 +452,9 @@ function makeEditable() {
     });
 }
 
-function destroyAndRedrawTable() {
+function clearStepsInSequence() {
     //Destroy and reinitialize the table to get the edited data
-    jQuery("#stepsTable").dataTable().fnDestroy();
-    var t = jQuery("#stepsTable").dataTable({
-            "sDom": '',
-            "language": {
-                "emptyTable": "New steps will show up here!"
-            },
-            "aoColumns": [
-                {
-                    "sTitle": "",
-                    "sWidth": "10%"
-                },
-                {
-                    "sTitle": "Step",
-                    "sWidth": "25%"
-                },
-                {
-                    "sTitle": "Attribute",
-                    "sWidth": "7%"
-                },
-                {
-                    "sTitle": "Value",
-                    "sWidth": "8%"
-                },
-                {
-                    "sTitle": "Content",
-                    "sWidth": "50%"
-                }
-            ]
-        }
-    ).rowReordering();
+    jQuery("#stepsTable").DataTable().clear().draw();
 }
 
 function playSequence(sequenceName) {
@@ -489,7 +463,7 @@ function playSequence(sequenceName) {
     play.setOptions({
         steps: stepsForThisSequence.data,
         showProgress: true,
-        showBullets: false,
+        showBullets: false
     });
     jQuery('.toggler').trigger('click'); //Close the side menu
     if (jQuery('#contentConsumptionModal').is(':visible')) {
