@@ -14,9 +14,13 @@ module.exports = function (grunt) {
                 banner: '<%= banner %>',
                 stripBanners: true
             },
-            dist: {
-                src: ['js/vendor/*.js', 'js/*.js', '!js/vendor/jquery-*.js', '!js/jquery*.live-*.js'],
+            basic: {
+                src: ['bower_components/intro.js/intro.js', 'js/vendor/*.js', 'js/*.js', '!js/vendor/jquery-*.js', '!js/jquery*.live-*.js'],
                 dest: 'dist/js/<%= pkg.name %>.js'
+            },
+            extras: {
+                src: ['bower_components/DataTables/media/js/jquery.dataTables.min.js', 'bower_components/intro.js/intro.js', 'js/vendor/*.js', 'js/*.js', '!js/vendor/jquery-*.js', '!js/jquery*.live-*.js'],
+                dest: 'dist/js/<%= pkg.name %>WithExtras.js'
             }
         },
         uglify: {
@@ -24,9 +28,13 @@ module.exports = function (grunt) {
                 banner: '<%= banner %>',
                 mangle: true
             },
-            dist: {
-                src: ['js/vendor/*.js', 'js/*.js', '!js/vendor/jquery-*.js', '!js/jquery*.live-*.js'],
+            basic: {
+                src: ['dist/js/<%= pkg.name %>.js'],
                 dest: 'dist/js/<%= pkg.name %>.min.js'
+            },
+            extras: {
+                src: ['dist/js/<%= pkg.name %>WithExtras.js'],
+                dest: 'dist/js/<%= pkg.name %>WithExtras.min.js'
             }
         },
         /*watch: {
@@ -43,7 +51,7 @@ module.exports = function (grunt) {
             options: {
                 // Task-specific options go here.
             },
-            all: {
+            basic: {
                 src: ["bower_components/intro.js/minified/introjs.min.css",
                     "css/BootSideMenu.css",
                     "css/BootSideMenu.css",
@@ -51,13 +59,24 @@ module.exports = function (grunt) {
                     "css/WebHelp.css"
                 ],
                 dest: 'dist/css/<%= pkg.name %>.css'
+            },
+            extras: {
+                src: ["bower_components/DataTables/media/css/jquery.dataTables.min.css",
+                    "bower_components/DataTables/media/css/jquery.dataTables_themeroller.css",
+                    "bower_components/intro.js/minified/introjs.min.css",
+                    "css/BootSideMenu.css",
+                    "css/BootSideMenu.css",
+                    "css/jQueryDragSelector.css",
+                    "css/WebHelp.css"
+                ],
+                dest: 'dist/css/<%= pkg.name %>WithExtras.css'
             }
         },
         cssmin: {
             target: {
                 files: [{
                     expand: true,
-                    src: ["dist/css/<%= pkg.name %>.css"],
+                    src: ["dist/css/*.css"],
                     dest: '', //cssmin adds dist/css by itself
                     ext: '.min.css'
                 }]
