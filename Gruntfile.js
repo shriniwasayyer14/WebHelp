@@ -15,11 +15,21 @@ module.exports = function (grunt) {
                 stripBanners: true
             },
             basic: {
-                src: ['bower_components/intro.js/intro.js', 'js/vendor/*.js', 'js/*.js', '!js/vendor/jquery-*.js', '!js/jquery*.live-*.js'],
+                src: ['bower_components/intro.js/intro.js',
+                    'js/vendor/*.js',
+                    'js/*.js',
+                    '!js/vendor/jquery-*.js',
+                    '!js/jquery*.live-*.js'
+                ],
                 dest: 'dist/js/<%= pkg.name %>.js'
             },
             extras: {
-                src: ['bower_components/DataTables/media/js/jquery.dataTables.min.js', 'bower_components/intro.js/intro.js', 'js/vendor/*.js', 'js/*.js', '!js/vendor/jquery-*.js', '!js/jquery*.live-*.js'],
+                src: ['bower_components/DataTables/media/js/jquery.dataTables.min.js',
+                    'bower_components/intro.js/intro.js',
+                    'js/vendor/*.js', 'js/*.js',
+                    '!js/vendor/jquery-*.js',
+                    '!js/jquery*.live-*.js'
+                ],
                 dest: 'dist/js/<%= pkg.name %>WithExtras.js'
             }
         },
@@ -81,6 +91,17 @@ module.exports = function (grunt) {
                     ext: '.min.css'
                 }]
             }
+        },
+        lineending: {
+            /*Ensure we have UTF-8 Unix line endings*/
+            dist: {
+                options: {
+                    overwrite: true
+                },
+                files: {
+                    '': ['dist/**/*.js', 'dist/**/*.css']
+                }
+            }
         }
     });
 
@@ -90,8 +111,9 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-concat-css');
     grunt.loadNpmTasks('grunt-contrib-cssmin');
+    grunt.loadNpmTasks('grunt-lineending');
 
     // Default task.
-    grunt.registerTask('default', ['concat', 'uglify', 'concat_css', 'cssmin']);
+    grunt.registerTask('default', ['concat', 'uglify', 'concat_css', 'cssmin', 'lineending']);
 
 };
