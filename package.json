@@ -1,0 +1,19 @@
+{
+  "name": "AladdinHelp",
+  "title": "AladdinHelp",
+  "versionNumber": "0.1",
+  "author": {
+    "name": "BLK"
+  },
+  "engines": {
+    "node": ">= 0.10.0"
+  },
+  "devDependencies": {
+    "grunt": "latest",
+    "grunt-concat-css": "^0.3.1",
+    "grunt-contrib-concat": "~0.4.0",
+    "grunt-contrib-cssmin": "^0.11.0",
+    "grunt-contrib-uglify": "~0.5.0",
+    "grunt-contrib-watch": "~0.6.1"
+  }
+}
