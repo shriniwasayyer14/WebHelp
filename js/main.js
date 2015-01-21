@@ -1,8 +1,8 @@
 /* Calling the side menu option where the steps will be listed*/
 
 function initWebHelp(webHelpElementMap) {
+    addWebHelpElementsToPage();
     var parameters = getWindowParameters();
-
     var elementsToScale = '#ai-content, .ai-header, .ai-navbar';
     var navbarButtonElement = '.ai-header .ai-header-title';
     var addTextToNavbar = false;
@@ -45,6 +45,66 @@ function initWebHelp(webHelpElementMap) {
         createNewNavigationButton(navbarButtonElement);
     }
     populateCurrentSequences();
+}
+
+function addWebHelpElementsToPage() {
+    var webHelpElementsHTML = "<div id=\"webHelpMainContent\">\r\n    " +
+        "<div class=\"tabbable\"> <!-- Only required for left\/right tabs -->\r\n        " +
+        "<ul class=\"nav nav-tabs\">\r\n            " +
+        "<li class=\"active\"><a href=\"#popularSequences\" data-toggle=\"tab\">Popular<\/a><\/li>\r\n            " +
+        "<li><a href=\"#whatsNew\" data-toggle=\"tab\">What\'s New?<!--<span class=\"badge\" id=\"newItemsBadge\"\/>--><\/a>\r\n            " +
+        "<li><a href=\"#availableSequences\" data-toggle=\"tab\">Topics<\/a><\/li>\r\n            " +
+        "<li><a href=\"#addSequence\" data-toggle=\"tab\">Add\/Edit Sequence<\/a><\/li>\r\n        " +
+        "<\/ul>\r\n        " +
+        "<div class=\"tab-content\">\r\n            " +
+        "<div class=\"tab-pane active\" id=\"popularSequences\">\r\n                " +
+        "<div id=\"popularSequencesContent\">\r\n                    No popular items yet!\r\n                <\/div>\r\n            " +
+        "<\/div>\r\n            <div class=\"tab-pane\" id=\"whatsNew\">\r\n                " +
+        "<div id=\"whatsNewContent\">\r\n                    No new items yet!\r\n                <\/div>\r\n            " +
+        "<\/div>\r\n            " +
+        "<div class=\"tab-pane\" id=\"availableSequences\">\r\n                " +
+        "<div id=\"availableSequencesContent\">\r\n                    Placeholder where you can search for existing sequences\r\n                <\/div>\r\n            " +
+        "<\/div>\r\n            " +
+        "<div class=\"tab-pane\" id=\"addSequence\">\r\n                " +
+        "<div class=\"well\">\r\n                    " +
+        "<section contenteditable=\"true\">\r\n                        " +
+        "<div><input type=\"text\" id=\"sequenceTitleSetter\" value=\"Sequence title\"\/>\r\n\r\n                            " +
+        "<div class=\"checkbox\"><label for=\"markAsNewSequence\"> <input type=\"checkbox\"\r\n                                                                                         id=\"markAsNewSequence\"> Mark as\r\n                                new\r\n                                sequence<\/label><\/div>\r\n                        " +
+        "<\/div>\r\n                        " +
+        "<table id=\"stepsTable\" class=\"table table-bordered table-hover\">\r\n                        " +
+        "<\/table>\r\n                    " +
+        "<\/section>\r\n                   " +
+        "<button type=\"button\" id=\'sequencePreviewButton\' class=\"btn btn-default centered actionButton\"\r\n                            aria-label=\"Left Align\"\r\n                            style=\"margin-top:20px;\" onclick=\"preview();\">\r\n                        <span class=\"fa fa-play-circle-o\" aria-hidden=\"true\"><\/span> Preview\r\n                    <\/button>\r\n                    " +
+        "<button type=\"button\" id=\'sequenceSaveButton\' class=\"btn btn-default centered\"\r\n                            aria-label=\"Left Align\"\r\n                            style=\"margin-top:20px;\"\r\n                            onclick=\"save();\">\r\n                        <span class=\"fa fa-floppy-o\" aria-hidden=\"true\"><\/span> Save\r\n                    <\/button>\r\n                    " +
+        "<button type=\"button\" id=\'clearStepsButton\' class=\"btn btn-default centered\"\r\n                            aria-label=\"Left Align\"\r\n                            style=\"margin-top:20px;\"\r\n                            onclick=\"clearStepsInSequence();\">\r\n                        <span class=\"fa fa-refresh\" aria-hidden=\"true\"><\/span> Clear\r\n                    <\/button>\r\n                " +
+        "<\/div>\r\n                " +
+        "<div class=\"well\">Available actions:\r\n                    " +
+        "<div class=\"well-sm\">\r\n                        " +
+        "<button data-toggle=\"tooltip\" data-placement=\"top\"\r\n                                title=\"Click and drag over elements on the page to select them\"\r\n                                class=\"btn btn-success\" role=\"button\"\r\n                                id=\"startDragDropButton\"\r\n                                onClick=\"startSelectionOfElement(true);\"><span class=\"fa fa-plus\"><\/span> Add element\r\n                            step\r\n                        <\/button>\r\n                        " +
+        "<button class=\"btn btn-info\" role=\"button\"\r\n                                id=\"startEmptyStepButton\"\r\n                                onClick=\"startSelectionOfElement(false);\"><span class=\"fa fa-plus\"><\/span> Add page step\r\n                        <\/button>\r\n                        " +
+        "<button class=\"btn btn-danger\" id=\"cancelDragDropButton\"\r\n                                role=\"button\"\r\n                                onClick=\"jQueryDragSelector.off();\"><span class=\"fa fa-times\"><\/span> Cancel\r\n                        <\/button>\r\n                    " +
+        "<\/div>\r\n                " +
+        "<\/div>\r\n                " +
+        "<div class=\"alert alert-danger\" id=\"noElementsSelectedDiv\" style=\"display: none;\">\r\n                    " +
+        "<button type=\"button\" class=\"close\" onclick=\"jQuery(\'#noElementsSelectedDiv\').hide();\"\r\n                            aria-label=\"Close\"><span\r\n                            aria-hidden=\"true\">&times;<\/span><\/button>\r\n                    No elements were selected, please try again\r\n                <\/div>\r\n                " +
+        "<div class=\"alert alert-danger\" id=\"noStepsInPreviewDiv\" style=\"display: none;\">\r\n                    <button type=\"button\" class=\"close\" onclick=\"jQuery(\'#noStepsInPreviewDiv\').hide();\"\r\n                            aria-label=\"Close\"><span\r\n                            aria-hidden=\"true\">&times;<\/span><\/button>\r\n                    No steps to preview. Please add steps.\r\n                <\/div>\r\n            " +
+        "<\/div>\r\n        " +
+        "<\/div>\r\n    " +
+        "<\/div>\r\n" +
+        "<\/div>\r\n" +
+        "<div id=\"contentConsumptionModal\" class=\"modal\">\r\n    " +
+        "<div class=\"modal-dialog\">\r\n        " +
+        "<div class=\"modal-content\" style=\"width: 800px;\">\r\n            " +
+        "<div class=\"modal-header ai-modal-title\">\r\n                " +
+        "<button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span\r\n                        aria-hidden=\"true\">&times;<\/span><\/button>\r\n                " +
+        "What would you like to learn?\r\n            " +
+        "<\/div>\r\n            " +
+        "<div class=\"modal-body\"><\/div>\r\n            " +
+        "<div class=\"modal-footer\">\r\n                <button data-dismiss=\"modal\" class=\"btn btn-default\">Close<\/button>\r\n            <\/div>\r\n        " +
+        "<\/div>\r\n    " +
+        "<\/div>\r\n" +
+        "<\/div>";
+    jQuery('body').append(webHelpElementsHTML);
 }
 
 function showIntroOnStartup() {
