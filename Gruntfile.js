@@ -5,16 +5,21 @@ module.exports = function (grunt) {
     grunt.initConfig({
         // Metadata.
         pkg: grunt.file.readJSON('package.json'),
-        banner: '/*! <%= pkg.title || pkg.name %> - <%= pkg.versionNumber %> - ' +
-        '<%= grunt.template.today("yyyy-mm-dd") %>\n' +
-        '* Copyright (c) <%= grunt.template.today("yyyy") %> <%= pkg.author.name %>;*/\n',
+        separator: ';\n',
+        /*Add dummy CVS Header as banner*/
+        banner: "/*    Last edited by:  $Author: akannan $\n" +
+        " *    on:  $Date: 2010-10-12 17:28:22 +0800 (Tue, 12 Oct 2010) $\n" +
+        " *    Filename:  $Id: manavik.html 436280 2010-10-12 09:28:22Z manavik $\n" +
+        " *    Revision:  $Revision: 436280 $\n" +
+        " *    Description\n" +
+        " */\n",
         // Task configuration.
         concat: {
             options: {
                 banner: '<%= banner %>',
                 stripBanners: true
             },
-            basic: {
+            basicJS: {
                 src: ['bower_components/intro.js/intro.js',
                     'js/vendor/*.js',
                     'js/*.js',
@@ -23,7 +28,7 @@ module.exports = function (grunt) {
                 ],
                 dest: 'dist/js/<%= pkg.name %>.js'
             },
-            extras: {
+            extrasJS: {
                 src: ['bower_components/DataTables/media/js/jquery.dataTables.min.js',
                     'bower_components/intro.js/intro.js',
                     'js/vendor/*.js', 'js/*.js',
@@ -31,6 +36,26 @@ module.exports = function (grunt) {
                     '!js/jquery*.live-*.js'
                 ],
                 dest: 'dist/js/<%= pkg.name %>WithExtras.js'
+            },
+            basicCSS: {
+                src: ["bower_components/intro.js/minified/introjs.min.css",
+                    "css/BootSideMenu.css",
+                    "css/BootSideMenu.css",
+                    "css/jQueryDragSelector.css",
+                    "css/WebHelp.css"
+                ],
+                dest: 'dist/css/<%= pkg.name %>.css'
+            },
+            extrasCSS: {
+                src: ["bower_components/DataTables/media/css/jquery.dataTables.min.css",
+                    "bower_components/DataTables/media/css/jquery.dataTables_themeroller.css",
+                    "bower_components/intro.js/minified/introjs.min.css",
+                    "css/BootSideMenu.css",
+                    "css/BootSideMenu.css",
+                    "css/jQueryDragSelector.css",
+                    "css/WebHelp.css"
+                ],
+                dest: 'dist/css/<%= pkg.name %>WithExtras.css'
             }
         },
         uglify: {
@@ -57,32 +82,9 @@ module.exports = function (grunt) {
          tasks: ['jshint:lib_test', 'qunit']
          }
          },*/
-        concat_css: {
-            options: {
-                // Task-specific options go here.
-            },
-            basic: {
-                src: ["bower_components/intro.js/minified/introjs.min.css",
-                    "css/BootSideMenu.css",
-                    "css/BootSideMenu.css",
-                    "css/jQueryDragSelector.css",
-                    "css/WebHelp.css"
-                ],
-                dest: 'dist/css/<%= pkg.name %>.css'
-            },
-            extras: {
-                src: ["bower_components/DataTables/media/css/jquery.dataTables.min.css",
-                    "bower_components/DataTables/media/css/jquery.dataTables_themeroller.css",
-                    "bower_components/intro.js/minified/introjs.min.css",
-                    "css/BootSideMenu.css",
-                    "css/BootSideMenu.css",
-                    "css/jQueryDragSelector.css",
-                    "css/WebHelp.css"
-                ],
-                dest: 'dist/css/<%= pkg.name %>WithExtras.css'
-            }
-        },
         cssmin: {
+            /*This removesd all banners and comments - we may not want to use this in production*/
+            options: {},
             target: {
                 files: [{
                     expand: true,
@@ -114,6 +116,6 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-lineending');
 
     // Default task.
-    grunt.registerTask('default', ['concat', 'uglify', 'concat_css', 'cssmin', 'lineending']);
+    grunt.registerTask('default', ['concat', 'uglify', 'cssmin', 'lineending']);
 
 };
