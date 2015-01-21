@@ -44,7 +44,12 @@ module.exports = function (grunt) {
                 // Task-specific options go here.
             },
             all: {
-                src: ["css/jQueryDragSelector.css", "css/WebHelp.css"],
+                src: ["bower_components/intro.js/minified/introjs.min.css",
+                    "css/BootSideMenu.css",
+                    "css/BootSideMenu.css",
+                    "css/jQueryDragSelector.css",
+                    "css/WebHelp.css"
+                ],
                 dest: 'dist/css/<%= pkg.name %>.css'
             }
         },
