@@ -10,6 +10,7 @@
   },
   "devDependencies": {
     "grunt": "latest",
+    "grunt-banner": "^0.3.1",
     "grunt-concat-css": "^0.3.1",
     "grunt-concurrent": "^1.0.0",
     "grunt-contrib-concat": "~0.4.0",
