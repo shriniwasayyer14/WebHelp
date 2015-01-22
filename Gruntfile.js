@@ -68,6 +68,30 @@ module.exports = function (grunt) {
                 dest: 'dist/css/<%= pkg.name %>WithExtras.css'
             }
         },
+        replace: {
+            dist: {
+                options: {
+                    patterns: [
+                        {
+                            match: /\$\./g,
+                            replacement: 'jQuery.'
+                        },
+                        {
+                            match: /\$\(/g,
+                            replacement: 'jQuery('
+                        }
+                    ]
+                },
+                files: [
+                    {
+                        expand: true,
+                        flatten: true,
+                        src: ['dist/js/<%= pkg.name %>.js'],
+                        dest: 'dist/js'
+                    }
+                ]
+            }
+        },
         uglify: {
             options: {
                 mangle: {
@@ -149,8 +173,9 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-cssmin');
     grunt.loadNpmTasks('grunt-lineending');
     grunt.loadNpmTasks('grunt-banner');
+    grunt.loadNpmTasks('grunt-replace');
 
     // Default task.
-    grunt.registerTask('default', ['concat', 'uglify', 'cssmin', 'usebanner', 'lineending']);
+    grunt.registerTask('default', ['concat', 'replace', 'uglify', 'cssmin', 'usebanner', 'lineending']);
 
 };
