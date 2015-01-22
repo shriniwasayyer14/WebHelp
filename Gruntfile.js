@@ -6,7 +6,7 @@ module.exports = function (grunt) {
         // Metadata.
         pkg: grunt.file.readJSON('package.json'),
         separator: ';\n',
-        /*Add dummy CVS Header as banner*/
+        /*Add dummy CVS Header as banner template*/
         banner: "/*    Last edited by:  $Author: akannan $\n" +
         " *    on:  $Date: 2010-10-12 17:28:22 +0800 (Tue, 12 Oct 2010) $\n" +
         " *    Filename:  $Id: manavik.html 436280 2010-10-12 09:28:22Z manavik $\n" +
@@ -16,7 +16,6 @@ module.exports = function (grunt) {
         // Task configuration.
         concat: {
             options: {
-                banner: '<%= banner %>',
                 stripBanners: true
             },
             basicJS: {
@@ -60,9 +59,21 @@ module.exports = function (grunt) {
         },
         uglify: {
             options: {
-                banner: '<%= banner %>',
-                mangle: true
+                mangle: {
+                    except: ['jQuery']
+                },
+                compress: {
+                    sequences: true,
+                    dead_code: true,
+                    conditionals: true,
+                    booleans: true,
+                    unused: true,
+                    if_return: true,
+                    join_vars: true,
+                    drop_console: true
+                }
             },
+
             basic: {
                 src: ['dist/js/<%= pkg.name %>.js'],
                 dest: 'dist/js/<%= pkg.name %>.min.js'
@@ -83,7 +94,7 @@ module.exports = function (grunt) {
          }
          },*/
         cssmin: {
-            /*This removesd all banners and comments - we may not want to use this in production*/
+            /*This removes all banners and comments - we may not want to use this in production*/
             options: {},
             target: {
                 files: [{
@@ -92,6 +103,18 @@ module.exports = function (grunt) {
                     dest: '', //cssmin adds dist/css by itself
                     ext: '.min.css'
                 }]
+            }
+        },
+        usebanner: {
+            taskName: {
+                options: {
+                    position: 'top',
+                    banner: '<%= banner %>',
+                    linebreak: true
+                },
+                files: {
+                    src: ['dist/**/*.js', 'dist/**/*.css']
+                }
             }
         },
         lineending: {
@@ -114,8 +137,9 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-concat-css');
     grunt.loadNpmTasks('grunt-contrib-cssmin');
     grunt.loadNpmTasks('grunt-lineending');
+    grunt.loadNpmTasks('grunt-banner');
 
     // Default task.
-    grunt.registerTask('default', ['concat', 'uglify', 'cssmin', 'lineending']);
+    grunt.registerTask('default', ['concat', 'uglify', 'cssmin', 'usebanner', 'lineending']);
 
 };
