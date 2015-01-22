@@ -31,7 +31,7 @@ module.exports = function (grunt) {
                     '!js/vendor/jquery-*.js',
                     '!js/vendor/jquery*.live-*.js',
                     '!js/vendor/jquery.jpanelmenu*.js',
-                    '!modernizr*js'
+                    '!js/modernizr*js'
                 ],
                 dest: 'dist/js/<%= pkg.name %>.js'
             },
@@ -43,7 +43,7 @@ module.exports = function (grunt) {
                     '!js/vendor/jquery-*.js',
                     '!js/vendor/jquery*.live-*.js',
                     '!js/vendor/jquery.jpanelmenu*.js',
-                    '!modernizr*js'
+                    '!js/modernizr*js'
                 ],
                 dest: 'dist/js/<%= pkg.name %>WithExtras.js'
             },
