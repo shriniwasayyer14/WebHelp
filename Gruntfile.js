@@ -16,23 +16,34 @@ module.exports = function (grunt) {
         // Task configuration.
         concat: {
             options: {
-                stripBanners: true
+                stripBanners: {
+                    block: true,
+                    line: true
+                },
+                process: true,
+                separator: ';\n',
+                footer: ';\n'
             },
             basicJS: {
                 src: ['bower_components/intro.js/intro.js',
                     'js/vendor/*.js',
                     'js/*.js',
                     '!js/vendor/jquery-*.js',
-                    '!js/jquery*.live-*.js'
+                    '!js/vendor/jquery*.live-*.js',
+                    '!js/vendor/jquery.jpanelmenu*.js',
+                    '!modernizr*js'
                 ],
                 dest: 'dist/js/<%= pkg.name %>.js'
             },
             extrasJS: {
                 src: ['bower_components/DataTables/media/js/jquery.dataTables.min.js',
                     'bower_components/intro.js/intro.js',
-                    'js/vendor/*.js', 'js/*.js',
+                    'js/vendor/*.js',
+                    'js/*.js',
                     '!js/vendor/jquery-*.js',
-                    '!js/jquery*.live-*.js'
+                    '!js/vendor/jquery*.live-*.js',
+                    '!js/vendor/jquery.jpanelmenu*.js',
+                    '!modernizr*js'
                 ],
                 dest: 'dist/js/<%= pkg.name %>WithExtras.js'
             },
