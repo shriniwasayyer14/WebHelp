@@ -1555,17 +1555,12 @@
 }</script>-->
 <script>
     var appNameForWebHelp = 'AladdinResearch';
-    $(document).ready(function () {
+    jQuery(window).load(function() {
         initWebHelp({
-            elementsToScale: '.container.main-content, .masthead',
-            navbarButtonElement: '.masthead-app-name'
+            helpIconPosition: '.masthead-app-name'
         });
     });
-    $.each($('*'), function (index, element) {
-        if ((!$(element).attr('id')) && (!$(element).attr('name'))) {
-            $(element).attr('name', 'a' + index);
-        }
-    });
+
 </script>
 </body>
 </html>

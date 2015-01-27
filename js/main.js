@@ -1,19 +1,38 @@
 /* Calling the side menu option where the steps will be listed*/
 
-function initWebHelp(webHelpElementMap) {
-    addWebHelpElementsToPage();
+function initWebHelp(WebHelpOptions) {
+
+    var helpIconPosition = WebHelpOptions.helpIconPosition || '.ai-header .ai-header-title';
+    var showIntroOnLoad = WebHelpOptions.showIntroOnLoad || false;
     var parameters = getWindowParameters();
-    var elementsToScale = '#ai-content, .ai-header, .ai-navbar';
-    var navbarButtonElement = '.ai-header .ai-header-title';
-    var addTextToNavbar = false;
-
-    if (webHelpElementMap) {
-        elementsToScale = webHelpElementMap.elementsToScale || elementsToScale;
-        navbarButtonElement = webHelpElementMap.navbarButtonElement || navbarButtonElement;
-        addTextToNavbar = webHelpElementMap.addTextToNavbar || addTextToNavbar;
-    }
-
-    if (parameters['create'] != undefined) {
+    var elementsToScale;
+    var setElementsToScale = function() {
+        elementsToScale = "#webHelpBodyWrapperDiv";
+    };
+    var addWebHelpContainerFunc = function() {
+        var bodyHTML = jQuery("body").html();
+        jQuery("body").html("");// Need to reconstruct the body
+        var wrapperDiv = '<div id="webHelpBodyWrapperDiv"></div>';
+        jQuery("body").html(wrapperDiv);
+        jQuery("#webHelpBodyWrapperDiv").append(bodyHTML);
+        var webHelpContent = getWebHelpContainerHTML();
+        jQuery("body").append(webHelpContent);
+    };
+    var addHelpIconFunc = function() {
+        createNewNavigationButton(helpIconPosition);
+    };
+    var showIntroOnStartup = function() {
+        var availableSequences = retrieveLocalStorage();
+        if (availableSequences['Introduction']) {
+            playSequence('Introduction');
+        }
+    };
+    var showHelpConsumptionMode = function() {
+        addHelpIconFunc();
+        moveTableDivsToModal();
+        showIntroOnStartup();
+    };
+    var showHelpCreationMode = function() {
         jQuery('#webHelpMainContent').BootSideMenu({
             side: "right", // left or right
             autoClose: true // auto close when page loads
@@ -25,6 +44,7 @@ function initWebHelp(webHelpElementMap) {
             var container = toggler.parent();
             var containerWidth = container.width();
             var status = container.attr('data-status');
+            var overrideElementsToScale = '.container.main-content, .masthead';
             if (!status) {
                 status = "opened";
             }
@@ -32,22 +52,28 @@ function initWebHelp(webHelpElementMap) {
             if (status === "opened") {
                 /*This part is slightly confusing. If the status is 'opened',
                  then it's going to be closed in the next step and vice versa*/
-                jQuery(elementsToScale).css('width', bodyWidth);
+                jQuery(overrideElementsToScale).css('width', bodyWidth);
             } else {
-                jQuery(elementsToScale).css('width', bodyWidth - containerWidth - 40);
+                jQuery(overrideElementsToScale).css('width', bodyWidth - containerWidth);
             }
         });
-
         setUpAddEditTable();
+    };
+    var loadAllSequences = function() {
+        populateCurrentSequences();
+    };
+
+    addWebHelpContainerFunc();
+    if (parameters['create'] != undefined) {
+        setElementsToScale();
+        showHelpCreationMode();
     } else {
-        moveTableDivsToModal();
-        showIntroOnStartup();
-        createNewNavigationButton(navbarButtonElement);
+        showHelpConsumptionMode();
     }
-    populateCurrentSequences();
+    loadAllSequences();
 }
 
-function addWebHelpElementsToPage() {
+function getWebHelpContainerHTML() {
     var webHelpElementsHTML = "<div id=\"webHelpMainContent\">\r\n    " +
         "<div class=\"tabbable\"> <!-- Only required for left\/right tabs -->\r\n        " +
         "<ul class=\"nav nav-tabs\">\r\n            " +
@@ -104,14 +130,7 @@ function addWebHelpElementsToPage() {
         "<\/div>\r\n    " +
         "<\/div>\r\n" +
         "<\/div>";
-    jQuery('body').append(webHelpElementsHTML);
-}
-
-function showIntroOnStartup() {
-    var availableSequences = retrieveLocalStorage();
-    if (availableSequences['Introduction']) {
-        playSequence('Introduction');
-    }
+    return webHelpElementsHTML;
 }
 
 function moveTableDivsToModal() {
