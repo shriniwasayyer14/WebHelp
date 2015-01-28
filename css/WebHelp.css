@@ -114,18 +114,18 @@ iframe {
 #contentConsumptionNavButton[data-badge]:after {
     content:attr(data-badge);
     position:absolute;
-    top:-1px;
-    right:-10px;
+    top:1px;
+    right:-5px;
     font-size:.7em;
-    background:yellow;
+    background:red;
     color:#333333;
     font-weight: bold;
-    opacity: 0.6;
-    filter: alpha(opacity=60); /* For IE8 and earlier */
+    opacity: 0.9;
+    filter: alpha(opacity=90); /* For IE8 and earlier */
     width:18px;height:18px;
     text-align:center;
     line-height:18px;
-    border-radius:50%;
+    border-radius:15%;
     box-shadow:0 0 1px #333;
 }
 
