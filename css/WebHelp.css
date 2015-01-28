@@ -108,8 +108,29 @@ iframe {
     background: none;
     color: white;
     font-size: 18px;
-    height: 100%;
+    position: absolute; /*So that it doesn't move other elements*/
+    /*height: 100%;*/
 }
+
+#contentConsumptionNavButton[data-badge]:after {
+    content: attr(data-badge);
+    position: absolute;
+    top: -1px;
+    right: -10px;
+    font-size: .7em;
+    background: yellow;
+    opacity: 0.6;
+    filter: alpha(opacity=60); /* For IE8 and earlier */
+    color: #333333;
+    font-weight: bold;
+    width: 18px;
+    height: 18px;
+    text-align: center;
+    line-height: 18px;
+    border-radius: 50%;
+    box-shadow: 0 0 1px #333;
+}
+
 
 #webHelpMainContent .nav > li > a:hover, #webHelpMainContent .nav > li > a:focus {
     background-color: #ebebeb;
@@ -125,6 +146,7 @@ iframe {
 
 #webHelpMainContent table.dataTable {
     border-bottom: 1px solid #dbdbdb !important;
+    width: 95% !important;
 }
 
 a.introjs-button {

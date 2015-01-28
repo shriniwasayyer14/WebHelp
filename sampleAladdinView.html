@@ -75,7 +75,7 @@
     <link rel="stylesheet" href="bower_components/intro.js/minified/introjs.min.css"/>
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/WebHelp.css"/>
-    <script src="js/main.js"></script>
+    <script src="js/WebHelp.js"></script>
     <script src="js/vendor/jquery-1.11.1.js"></script>
     <script src="bower_components/jquery-ui/jquery-ui.min.js"></script>
     <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
@@ -327,7 +327,7 @@ auto run
                    onclick="window.open(&#39;/ref/docs/AladdinHelp/AladdinView_Help.htm&#39;, &#39;help_doc&#39;, &#39;height=525,width=685,resizable=yes&#39;); return false;"
                    onmouseover="self.status=&#39;Help&#39;; return true;"
                    onmouseout="self.status=top.defaultStatus; return true;" id="aladdin_view_help_link">
-                    <img src="help.gif" border="0" alt="Help"></a>&nbsp;
+                    <img src="sampleAladdinView_files/help.gif" border="0" alt="Help"></a>&nbsp;
 
             </td>
         </tr>
@@ -725,6 +725,7 @@ auto run
                             <script>
 
                                 function SynchTextAndList(from, to) {
+                                    return;
                                     if (from.type == 'text') {
 
                                         // remove duplicates
@@ -821,13 +822,12 @@ auto run
 
                             <script>
                                 SynchTextAndList(document.forms[0].elements['port_group'], document.forms[0].elements['port_group_list'], 0);
-
-                                if ((/^\s*$/).test(document.forms[0].elements['port_group'].value)) {
+                                /*if ((/^\s*$/).test(document.forms[0].elements['port_group'].value)) {
                                     document.forms[0].elements['port_group'].value = document.forms[0].elements['port_group_list'].options[0].value;
                                     document.forms[0].elements['port_group_list'].selectedIndex = 0;
                                 }
                                 if (document.forms[0].elements['port_group'].value == 'CUSTOM')
-                                    document.forms[0].elements['port_group'].value = '';
+                                 document.forms[0].elements['port_group'].value = '';*/
 
                             </script>
 
@@ -1624,7 +1624,15 @@ Set as default
                             <script>
 
                                 function SynchTextAndListMultiple(from, to, noStrip) {
-
+                                    if (!from) {
+                                        from = {
+                                            type: 'text',
+                                            value: ''
+                                        };
+                                    }
+                                    if (!to) {
+                                        to = {};
+                                    }
                                     if (noStrip) {
                                         if (from.type == 'text') {
                                             from.value = from.value.replace(/^\s+/, '');
@@ -1754,10 +1762,10 @@ Set as default
                             </select>
 
                             <script>
-                                SynchTextAndListMultiple(document.forms[0].elements['restricted_assets'], document.forms[0].elements['restricted_assets_list'], 0);
+                                /*SynchTextAndListMultiple(document.forms[0].elements['restricted_assets'], document.forms[0].elements['restricted_assets_list'], 0);
 
                                 if (document.forms[0].elements['restricted_assets'].value == 'CUSTOM')
-                                    document.forms[0].elements['restricted_assets'].value = '';
+                                 document.forms[0].elements['restricted_assets'].value = '';*/
 
                             </script>
 
@@ -2105,25 +2113,16 @@ Separate Long and Short</span>
     <input type="image" name="enter_handler" src="sampleAladdinView_files/transparent.gif" border="0">
 </form>
 <script script type="text/javascript">
-    window.onload = function () {
-        setTimeout(function () {
-            document.getElementById('pane0_img').click();
-            document.getElementById('pane0_img').click();
-        }, 0);
-    };
 
 
 </script>
 <script script type="text/javascript">
-    suggestionList();
 </script>
 </div>
 <script>
     var appNameForWebHelp = 'AladdinView';
-    $(document).ready(function () {
-        initWebHelp({
-            elementsToScale: '.scaleForWebHelp, .ai-header'
-        });
+    jQuery(window).load(function () {
+        initWebHelp();
     });
     $.each($('*'), function (index, element) {
         if ((!$(element).attr('id')) && (!$(element).attr('name'))) {
