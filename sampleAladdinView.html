@@ -2120,15 +2120,9 @@ Separate Long and Short</span>
 </div>
 <script>
     var appNameForWebHelp = 'AladdinView';
-    $(document).ready(function () {
+    jQuery(window).load(function() {
         initWebHelp({
-            elementsToScale: '.scaleForWebHelp, .ai-header'
         });
-    });
-    $.each($('*'), function (index, element) {
-        if ((!$(element).attr('id')) && (!$(element).attr('name'))) {
-            $(element).attr('name', 'a' + index);
-        }
     });
 </script>
 </body>
