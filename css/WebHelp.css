@@ -108,7 +108,25 @@ iframe {
     background: none;
     color: white;
     font-size: 18px;
-    height: 100%;
+    position: absolute;
+}
+
+#contentConsumptionNavButton[data-badge]:after {
+    content:attr(data-badge);
+    position:absolute;
+    top:-1px;
+    right:-10px;
+    font-size:.7em;
+    background:yellow;
+    color:#333333;
+    font-weight: bold;
+    opacity: 0.6;
+    filter: alpha(opacity=60); /* For IE8 and earlier */
+    width:18px;height:18px;
+    text-align:center;
+    line-height:18px;
+    border-radius:50%;
+    box-shadow:0 0 1px #333;
 }
 
 #webHelpMainContent .nav > li > a:hover, #webHelpMainContent .nav > li > a:focus {
