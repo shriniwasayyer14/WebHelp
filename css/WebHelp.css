@@ -127,6 +127,10 @@ iframe {
     border-bottom: 1px solid #dbdbdb !important;
 }
 
+#webHelpMainContent table {
+    width: 100% !important; /*Prevent it getting scaled out of proportion*/
+}
+
 a.introjs-button {
     text-decoration: none;
 }
