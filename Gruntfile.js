@@ -174,7 +174,6 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-lineending');
     grunt.loadNpmTasks('grunt-banner');
     grunt.loadNpmTasks('grunt-replace');
-
     // Default task.
     grunt.registerTask('default', ['concat', 'replace', 'uglify', 'cssmin', 'usebanner', 'lineending']);
 
