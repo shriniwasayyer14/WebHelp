@@ -10,33 +10,33 @@ function initWebHelp(WebHelpOptions) {
     }
     var parameters = getWindowParameters();
     var elementsToScale;
-    var setElementsToScale = function() {
+    var setElementsToScale = function () {
         elementsToScale = "#webHelpBodyWrapperDiv";
     };
-    var addWebHelpContainerFunc = function() {
+    var addWebHelpContainerFunc = function () {
         var bodyHTML = jQuery("body").html();
         jQuery("body").html("");// Need to reconstruct the body
         var wrapperDiv = '<div id="webHelpBodyWrapperDiv"></div>';
         jQuery("body").html(wrapperDiv);
-        jQuery("#webHelpBodyWrapperDiv").append(bodyHTML);
+        jQuery("#webHelpBodyWrapperDiv").html(bodyHTML);
         var webHelpContent = getWebHelpContainerHTML();
         jQuery("body").append(webHelpContent);
     };
-    var addHelpIconFunc = function() {
+    var addHelpIconFunc = function () {
         createNewNavigationButton(helpIconPosition);
     };
-    var showIntroOnStartup = function() {
+    var showIntroOnStartup = function () {
         var availableSequences = retrieveLocalStorage();
         if (availableSequences['Introduction']) {
             playSequence('Introduction');
         }
     };
-    var showHelpConsumptionMode = function() {
+    var showHelpConsumptionMode = function () {
         addHelpIconFunc();
         moveTableDivsToModal();
         showIntroOnStartup();
     };
-    var showHelpCreationMode = function() {
+    var showHelpCreationMode = function () {
         jQuery('#webHelpMainContent').BootSideMenu({
             side: "right", // left or right
             autoClose: true // auto close when page loads
@@ -63,18 +63,22 @@ function initWebHelp(WebHelpOptions) {
         });
         setUpAddEditTable();
     };
-    var loadAllSequences = function() {
-        populateCurrentSequences();
+    var loadAllSequences = function () {
+        return populateCurrentSequences();
     };
-
+    var addBadgeToHelpIcon = function (numNewSequences) {
+        setNewSequenceCountBadgeOnHelpIcon(numNewSequences);
+    };
     addWebHelpContainerFunc();
+    var sequenceCounterObject = loadAllSequences();
     if (parameters['create'] != undefined) {
         setElementsToScale();
         showHelpCreationMode();
     } else {
         showHelpConsumptionMode();
+        addBadgeToHelpIcon(sequenceCounterObject.numNewSequences);
     }
-    loadAllSequences();
+
 }
 
 function getWebHelpContainerHTML() {
@@ -205,6 +209,15 @@ function setUpAddEditTable() {
     makeEditable();
 }
 
+function setNewSequenceCountBadgeOnHelpIcon(numNewSequences) {
+    var $helpIcon = jQuery('#contentConsumptionNavButton');
+    if (numNewSequences > 0) {
+        $helpIcon.attr('data-badge', numNewSequences);
+    } else {
+        $helpIcon.removeAttr('data-badge');
+    }
+}
+
 function startSelectionOfElement(selectElement) {
     if (selectElement) {
         jQueryDragSelector.on();
@@ -316,7 +329,8 @@ function save() {
             jQuery("#sequenceSaveButton").tooltip('hide').attr('title', '');
         }, 500);
 
-        populateCurrentSequences();
+        var sequences = populateCurrentSequences();
+        setNewSequenceCountBadgeOnHelpIcon(sequences.numNewSequences);
     }
 }
 
@@ -371,7 +385,7 @@ function populateCurrentSequences() {
     var retrievedNewHtml = '';
     var retrievedPopularHtml = '';
     var retrievedSequences = retrieveLocalStorage();
-    var numNewItems = 0;
+    var numNewSequences = 0;
     if (retrievedSequences) {
         retrievedHtml += '<table id="availableSequencesList">';
         retrievedPopularHtml += '<table id="popularSequencesList">';
@@ -397,7 +411,7 @@ function populateCurrentSequences() {
                 "<td>" + JSON.stringify(value) + "</td>" +
                 "</tr>";
                 retrievedSequences[key]['isNew'] = false;
-                numNewItems += 1;
+                numNewSequences += 1;
             }
         });
         retrievedHtml += '</table>';
@@ -514,9 +528,9 @@ function populateCurrentSequences() {
 
         //Convert all the tables to bootstrap-tables
         jQuery('#webHelpMainContent table.dataTable').addClass('table table-hover table-striped table-bordered');
-        /*if (numNewItems > 0) {
-         jQuery('#newItemsBadge').html(numNewItems.toString());
-         }*/
+        return {
+            numNewSequences: numNewSequences
+        }
     }
 }
 
@@ -542,6 +556,9 @@ function clearStepsInSequence() {
 
 function playSequence(sequenceName) {
     var stepsForThisSequence = retrieveLocalStorage()[sequenceName];
+    if (stepsForThisSequence.isNew) {
+        removeThisSequenceAsNew(sequenceName);
+    }
     var play = introJs();
     play.setOptions({
         steps: stepsForThisSequence.data,
@@ -560,6 +577,15 @@ function playThisSequence() {
     //t.row(jQuery(event.target).parents('tr')).remove().draw();
     var sequenceName = [t.row(jQuery(event.target).parents('tr')).data()[1]];
     playSequence(sequenceName);
+}
+
+function removeThisSequenceAsNew(sequenceName) {
+    var allStoredSteps = retrieveLocalStorage();
+    delete allStoredSteps[sequenceName].isNew;
+    var WebHelpName = 'WebHelp.' + appNameForWebHelp;
+    localStorage.setItem(WebHelpName, JSON.stringify(allStoredSteps));
+    var sequences = populateCurrentSequences();
+    setNewSequenceCountBadgeOnHelpIcon(sequences.numNewSequences);
 }
 
 function editThisSequence() {
@@ -602,7 +628,8 @@ function removeThisSequence() {
 
     var WebHelpName = 'WebHelp.' + appNameForWebHelp;
     localStorage.setItem(WebHelpName, JSON.stringify(storedSteps));
-    populateCurrentSequences();
+    var sequences = populateCurrentSequences();
+    setNewSequenceCountBadgeOnHelpIcon(sequences.numNewSequences);
 }
 
 function getWindowParameters() {
