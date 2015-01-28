@@ -1,5 +1,6 @@
 var jQueryDragSelector = {
     on: function () {
+        var self = this;
         if (!this.isOn) {
             /*
              * Drag and drop jQuery enhancements under MIT license
@@ -25,6 +26,15 @@ var jQueryDragSelector = {
                     jQuery(dd.proxy).remove();
                     jQuery('.dragSelectedElement').popover('destroy');
                     jQuery('.fadedDragSelectedElement').removeClass('fadedDragSelectedElement');
+
+                    var selectionBoundingRect = {
+                        top: (dd.offsetY < 0) ? dd.startY + dd.offsetY : dd.startY,
+                        bottom: (dd.offsetY < 0) ? dd.startY : dd.startY + dd.offsetY,
+                        left: (dd.offsetX < 0) ? dd.startX + dd.offsetX : dd.startX,
+                        right: (dd.offsetX < 0) ? dd.startX : dd.startX + dd.offsetX
+                    };
+
+                    self.rectangleSelect('div, input, textarea, button, a, ul, li, tr, td, span', selectionBoundingRect);
 
                     /*Make sure only the biggest parent element is selected*/
                     var selectedDivs = [];
@@ -62,50 +72,6 @@ var jQueryDragSelector = {
                     }
                 });
 
-            jQuery('div, input, textarea, button, a, ul, li, tr, td, span')
-                .drop("start", function (ev, dd) {
-                    jQuery(this).addClass("active");
-                })
-                .drop(function (ev, dd) {
-                    /*http://javascript.info/tutorial/coordinates*/
-                    var isElementBounded = true;
-                    var elemBoundingRect = this.getBoundingClientRect();
-
-                    var selectionBoundingRect = {
-                        top: (dd.offsetY < 0) ? dd.startY + dd.offsetY : dd.startY,
-                        bottom: (dd.offsetY < 0) ? dd.startY : dd.startY + dd.offsetY,
-                        left: (dd.offsetX < 0) ? dd.startX + dd.offsetX : dd.startX,
-                        right: (dd.offsetX < 0) ? dd.startX : dd.startX + dd.offsetX
-                    };
-
-                    if ((selectionBoundingRect.top > elemBoundingRect.top)
-                        || (selectionBoundingRect.left > elemBoundingRect.left)
-                        || (selectionBoundingRect.right < elemBoundingRect.right)
-                        || (selectionBoundingRect.bottom < elemBoundingRect.bottom)) {
-                        /*The selection box does not contain the div*/
-                        isElementBounded = false;
-                    }
-                    if (isElementBounded) {
-                        if (jQuery(this).hasClass("dragSelectedElement")) {
-                            jQuery(this).removeClass("dragSelectedElement");
-
-                            /*
-                             * Drop action goes from biggest to smallest element
-                             * Once we remove the selected class from the parent, we add it to the children (if any)
-                             * so that they get toggled out in the next round
-                             */
-                            jQuery(this).children().addClass("dragSelectedElement");
-                        } else {
-                            jQuery(this).addClass("dragSelectedElement");
-                        }
-                    }
-                })
-                .drop("end", function () {
-                    jQuery(this).removeClass("active");
-                });
-            jQuery.drop({
-                multi: true
-            });
             this.isOn = true;
         }
     },
@@ -162,7 +128,37 @@ var jQueryDragSelector = {
             jQuery('div, input, textarea, button, a, ul, li, tr, td, span').unbind("drop");
             this.isOn = false;
         }
+    },
+    rectangleSelect: function (selector, selectionBoundingRect) {
+        var elements = [];
+        jQuery(selector).each(function () {
+            var $this = jQuery(this);
+            var elemBoundingRect = $this.get(0).getBoundingClientRect();
+            if ((selectionBoundingRect.top > elemBoundingRect.top)
+                || (selectionBoundingRect.left > elemBoundingRect.left)
+                || (selectionBoundingRect.right < elemBoundingRect.right)
+                || (selectionBoundingRect.bottom < elemBoundingRect.bottom)) {
+                //The element is not contained
+                return true; //continue
+            }
+
+            //If we reach this point, the element is contained in the selection rectangle
+            if ($this.hasClass("dragSelectedElement")) {
+                $this.removeClass("dragSelectedElement");
+
+                /*
+                 * Drop action goes from biggest to smallest element
+                 * Once we remove the selected class from the parent, we add it to the children (if any)
+                 * so that they get toggled out in the next round
+                 */
+                $this.children().addClass("dragSelectedElement");
+            } else {
+                $this.addClass("dragSelectedElement");
+            }
+        });
     }
 };
+
+
 
 
