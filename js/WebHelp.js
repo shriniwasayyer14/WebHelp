@@ -56,11 +56,13 @@ function initWebHelp(WebHelpOptions) {
             if (status === "opened") {
                 /*This part is slightly confusing. If the status is 'opened',
                  then it's going to be closed in the next step and vice versa*/
-                jQuery(overrideElementsToScale).css('width', bodyWidth);
+                jQuery(elementsToScale).css('width', bodyWidth);
             } else {
-                jQuery(overrideElementsToScale).css('width', bodyWidth - containerWidth);
+                jQuery(elementsToScale).css('width', bodyWidth - containerWidth);
             }
         });
+        var currentTitleHTML = jQuery(helpIconPosition).html();
+        jQuery(helpIconPosition).html(currentTitleHTML + ' [Edit mode]');
         setUpAddEditTable();
     };
     var loadAllSequences = function () {
