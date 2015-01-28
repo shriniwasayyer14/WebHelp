@@ -1,9 +1,13 @@
 /* Calling the side menu option where the steps will be listed*/
 
 function initWebHelp(WebHelpOptions) {
+    var helpIconPosition = '.ai-header .ai-header-title';
+    var showIntroOnLoad = false;
 
-    var helpIconPosition = WebHelpOptions.helpIconPosition || '.ai-header .ai-header-title';
-    var showIntroOnLoad = WebHelpOptions.showIntroOnLoad || false;
+    if (WebHelpOptions) {
+        helpIconPosition = WebHelpOptions.helpIconPosition || helpIconPosition;
+        showIntroOnLoad = (typeof WebHelpOptions.showIntroOnLoad != 'undefined') ? WebHelpOptions.showIntroOnLoad : showIntroOnLoad;
+    }
     var parameters = getWindowParameters();
     var elementsToScale;
     var setElementsToScale = function() {
