@@ -33,7 +33,7 @@ iframe {
     height: 100%;
 }
 
-.nav-tabs > li.active > a {
+#webHelpMainContent .nav-tabs > li.active > a {
     color: #555 !important;
 }
 
