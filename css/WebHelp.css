@@ -109,12 +109,13 @@ iframe {
     color: white;
     font-size: 18px;
     position: absolute;
+    height: 100%;
 }
 
 #contentConsumptionNavButton[data-badge]:after {
     content:attr(data-badge);
     position:absolute;
-    top:1px;
+    top:5px;
     right:-5px;
     font-size:.7em;
     background:red;
