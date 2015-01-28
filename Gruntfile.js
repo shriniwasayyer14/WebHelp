@@ -15,15 +15,6 @@ module.exports = function (grunt) {
         " */\n",
         // Task configuration.
         concat: {
-            options: {
-                stripBanners: {
-                    block: true,
-                    line: true
-                },
-                process: true,
-                separator: ';\n',
-                footer: ';\n'
-            },
             basicJS: {
                 src: ['bower_components/intro.js/intro.js',
                     'js/vendor/*.js',
@@ -33,7 +24,16 @@ module.exports = function (grunt) {
                     '!js/vendor/jquery.jpanelmenu*.js',
                     '!js/modernizr*js'
                 ],
-                dest: 'dist/js/<%= pkg.name %>.js'
+                dest: 'dist/js/<%= pkg.name %>.js',
+                options: {
+                    stripBanners: {
+                        block: true,
+                        line: true
+                    },
+                    process: true,
+                    separator: ';\n',
+                    footer: ';\n'
+                }
             },
             extrasJS: {
                 src: ['bower_components/DataTables/media/js/jquery.dataTables.min.js',
@@ -45,27 +45,42 @@ module.exports = function (grunt) {
                     '!js/vendor/jquery.jpanelmenu*.js',
                     '!js/modernizr*js'
                 ],
-                dest: 'dist/js/<%= pkg.name %>WithExtras.js'
+                dest: 'dist/js/<%= pkg.name %>WithExtras.js',
+                options: {
+                    stripBanners: {
+                        block: true,
+                        line: true
+                    },
+                    process: true,
+                    separator: ';\n',
+                    footer: ';\n'
+                }
             },
             basicCSS: {
-                src: ["bower_components/intro.js/minified/introjs.min.css",
+                src: ["bower_components/intro.js/introjs.css",
                     "css/BootSideMenu.css",
                     "css/BootSideMenu.css",
                     "css/jQueryDragSelector.css",
                     "css/WebHelp.css"
                 ],
-                dest: 'dist/css/<%= pkg.name %>.css'
+                dest: 'dist/css/<%= pkg.name %>.css',
+                options: {
+                    separator: '\n'
+                }
             },
             extrasCSS: {
                 src: ["bower_components/DataTables/media/css/jquery.dataTables.min.css",
                     "bower_components/DataTables/media/css/jquery.dataTables_themeroller.css",
-                    "bower_components/intro.js/minified/introjs.min.css",
+                    "bower_components/intro.js/introjs.css",
                     "css/BootSideMenu.css",
                     "css/BootSideMenu.css",
                     "css/jQueryDragSelector.css",
                     "css/WebHelp.css"
                 ],
-                dest: 'dist/css/<%= pkg.name %>WithExtras.css'
+                dest: 'dist/css/<%= pkg.name %>WithExtras.css',
+                options: {
+                    separator: '\n'
+                }
             }
         },
         replace: {
