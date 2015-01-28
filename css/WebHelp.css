@@ -118,7 +118,7 @@ iframe {
     right:-5px;
     font-size:.7em;
     background:red;
-    color:#333333;
+    color:white;
     font-weight: bold;
     opacity: 0.9;
     filter: alpha(opacity=90); /* For IE8 and earlier */
