@@ -40,7 +40,14 @@ function initWebHelp(WebHelpOptions) {
         });
         setUpAddEditTable();
         var currentTitleHTML = jQuery(helpIconPosition).html();
-        jQuery(helpIconPosition).html(currentTitleHTML + ' [Edit mode]');
+        currentTitleHTML += "[Edit mode]";
+        var elem;
+        if(jQuery(helpIconPosition) && jQuery(helpIconPosition).length > 1) {
+            elem = jQuery(helpIconPosition)[0];
+        } else {
+            elem = jQuery(helpIconPosition);
+        }
+        jQuery(elem).html(currentTitleHTML);
     };
 
     var loadAllSequences = function () {
