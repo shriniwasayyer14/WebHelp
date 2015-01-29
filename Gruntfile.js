@@ -56,11 +56,7 @@ module.exports = function (grunt) {
                     "css/jQueryDragSelector.css",
                     "css/WebHelp.css"
                 ],
-                dest: 'dist/css/<%= pkg.name %>.css',
-                options: {
-                    separator: '',
-                    footer: ''
-                }
+                dest: 'dist/css/<%= pkg.name %>.css'
             },
             extrasCSS: {
                 src: ["bower_components/DataTables/media/css/jquery.dataTables.min.css",
@@ -71,11 +67,7 @@ module.exports = function (grunt) {
                     "css/jQueryDragSelector.css",
                     "css/WebHelp.css"
                 ],
-                dest: 'dist/css/<%= pkg.name %>WithExtras.css',
-                options: {
-                    separator: '',
-                    footer: ''
-                }
+                dest: 'dist/css/<%= pkg.name %>WithExtras.css'
             }
         },
         replace: {
