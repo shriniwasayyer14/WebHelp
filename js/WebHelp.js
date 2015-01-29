@@ -1,8 +1,8 @@
-/* Calling the side menu option where the steps will be listed*/
+
 
 function initWebHelp(WebHelpOptions) {
     var helpIconPosition = '.ai-header .ai-header-title';
-    var showIntroOnLoad = false;
+    var showIntroOnLoad = true;
 
     if (WebHelpOptions) {
         helpIconPosition = WebHelpOptions.helpIconPosition || helpIconPosition;
@@ -21,8 +21,10 @@ function initWebHelp(WebHelpOptions) {
 
     var showIntroOnStartup = function () {
         var availableSequences = retrieveLocalStorage();
-        if (availableSequences['Introduction']) {
-            playSequence('Introduction');
+        if(showIntroOnLoad) {
+            if (availableSequences['Introduction']) {
+                playSequence('Introduction');
+            }
         }
     };
     var showHelpConsumptionMode = function () {
