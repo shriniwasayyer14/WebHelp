@@ -186,6 +186,8 @@ a.introjs-button {
 #webHelpMainContent #addSequence .well .btn.btn-default {
     font-size: 16px;
     height: auto;
+    background-color: whitesmoke;
+    color: #333333;
 }
 
 #webHelpMainContent .btn-success {
