@@ -29,6 +29,7 @@ module.exports = function (grunt) {
                     'js/vendor/*.js',
                     'js/*.js',
                     '!js/vendor/jquery-*.js',
+                    '!js/vendor/jquery.event.drop*.js',
                     '!js/vendor/jquery*.live-*.js',
                     '!js/vendor/jquery.jpanelmenu*.js',
                     '!js/modernizr*js'
@@ -40,6 +41,7 @@ module.exports = function (grunt) {
                     'bower_components/intro.js/intro.js',
                     'js/vendor/*.js',
                     'js/*.js',
+                    '!js/vendor/jquery.event.drop*.js',
                     '!js/vendor/jquery-*.js',
                     '!js/vendor/jquery*.live-*.js',
                     '!js/vendor/jquery.jpanelmenu*.js',

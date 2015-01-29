@@ -59,6 +59,7 @@ function initWebHelp(WebHelpOptions) {
                 status = "opened";
             }
             var bodyWidth = jQuery("body").width();
+<<<<<<< HEAD
 
         });*/
         setUpAddEditTable();
