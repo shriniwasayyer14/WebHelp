@@ -114,6 +114,12 @@ var jQueryDragSelector = {
     confirmSelection: function (confirmBoolean) {
         jQuery(jQuery('.dragSelectedElement')[0]).popover('destroy');
         var arrayOfObjects = [];
+        /* Open the side-menu if it is closed*/
+        var status = jQuery('#webHelpMainContent').attr("data-status");
+        if(status === "closed") {
+            jQuery(".toggler").trigger("click");
+        }
+
         if (confirmBoolean) {
             jQuery.each(jQuery('.dragSelectedElement'), function (index, element) {
                 jQuery(element).removeClass('dragSelectedElement fadedDragSelectedElement');

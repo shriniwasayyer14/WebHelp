@@ -9,16 +9,16 @@ function initWebHelp(WebHelpOptions) {
         showIntroOnLoad = (typeof WebHelpOptions.showIntroOnLoad != 'undefined') ? WebHelpOptions.showIntroOnLoad : showIntroOnLoad;
     }
     var parameters = getWindowParameters();
-    var elementsToScale;
+/*    var elementsToScale;
     var setElementsToScale = function () {
         elementsToScale = "#webHelpBodyWrapperDiv";
-    };
+    };*/
     var addWebHelpContainerFunc = function () {
-        var bodyHTML = jQuery("body").html();
+/*        var bodyHTML = jQuery("body").html();
         jQuery("body").html("");// Need to reconstruct the body
-        var wrapperDiv = '<div id="webHelpBodyWrapperDiv"></div>';
+        var wrapperDiv = '<div id="webHelpBodyWrapperDiv" class=""container-fluid"></div>';
         jQuery("body").html(wrapperDiv);
-        jQuery("#webHelpBodyWrapperDiv").html(bodyHTML);
+        jQuery("#webHelpBodyWrapperDiv").html(bodyHTML);*/
         var webHelpContent = getWebHelpContainerHTML();
         jQuery("body").append(webHelpContent);
     };
@@ -43,24 +43,24 @@ function initWebHelp(WebHelpOptions) {
         });
 
         //Add function to click of toggle so that page gets resized
-        jQuery('.toggler').click(function () {
+/*        jQuery('.toggler').click(function () {
             var toggler = jQuery(this);
             var container = toggler.parent();
             var containerWidth = container.width();
-            var status = container.attr('data-status');
-            var overrideElementsToScale = '.container.main-content, .masthead';
+            if (status === "opened") {
+                *//*This part is slightly confusing. If the status is 'opened',
+                 then it's going to be closed in the next step and vice versa*//*
+                jQuery(elementsToScale).css('width', bodyWidth);
+            } else {
+                jQuery(elementsToScale).css('width', bodyWidth - containerWidth - 20);
+            }    var status = container.attr('data-status');
+            //var overrideElementsToScale = '.container.main-content, .masthead';
             if (!status) {
                 status = "opened";
             }
             var bodyWidth = jQuery("body").width();
-            if (status === "opened") {
-                /*This part is slightly confusing. If the status is 'opened',
-                 then it's going to be closed in the next step and vice versa*/
-                jQuery(overrideElementsToScale).css('width', bodyWidth);
-            } else {
-                jQuery(overrideElementsToScale).css('width', bodyWidth - containerWidth);
-            }
-        });
+
+        });*/
         setUpAddEditTable();
     };
     var loadAllSequences = function () {
@@ -72,7 +72,7 @@ function initWebHelp(WebHelpOptions) {
     addWebHelpContainerFunc();
     var sequenceCounterObject = loadAllSequences();
     if (parameters['create'] != undefined) {
-        setElementsToScale();
+        //setElementsToScale();
         showHelpCreationMode();
     } else {
         showHelpConsumptionMode();
@@ -218,8 +218,15 @@ function setNewSequenceCountBadgeOnHelpIcon(numNewSequences) {
     }
 }
 
-function startSelectionOfElement(selectElement) {
-    if (selectElement) {
+function startSelectionOfElement(elementSelection) {
+
+    /* Close the sidemenu if it is open*/
+    var status = jQuery('#webHelpMainContent').attr("data-status");
+    if(elementSelection && status === "opened") {
+        jQuery(".toggler").trigger("click");
+    }
+
+    if (elementSelection) {
         jQueryDragSelector.on();
         jQuery("#startDragDropButton").tooltip({
             trigger: 'manual'

@@ -129,6 +129,10 @@ iframe {
     box-shadow:0 0 1px #333;
 }
 
+#webHelpMainContent {
+    width:40%;
+}
+
 #webHelpMainContent .nav > li > a:hover, #webHelpMainContent .nav > li > a:focus {
     background-color: #ebebeb;
 }
