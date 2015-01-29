@@ -115,21 +115,22 @@
 }
 
 #contentConsumptionNavButton[data-badge]:after {
-    content:attr(data-badge);
-    position:absolute;
-    top:5px;
-    right:-5px;
-    font-size:.7em;
-    background:red;
-    color:white;
+    content: attr(data-badge);
+    position: absolute;
+    top: 1px;
+    right: 1px;
+    font-size: .7em;
+    background: red;
+    color: white;
     font-weight: bold;
     opacity: 0.9;
-    filter: alpha(opacity=90); /* For IE8 and earlier */
-    width:18px;height:18px;
-    text-align:center;
-    line-height:18px;
-    border-radius:15%;
-    box-shadow:0 0 1px #333;
+    filter: alpha(opacity=90);
+    width: 15px;
+    height: 15px;
+    text-align: center;
+    line-height: 18px;
+    border-radius: 15%;
+    box-shadow: 0 0 1px #333;
 }
 
 #webHelpMainContent .nav > li > a:hover, #webHelpMainContent .nav > li > a:focus {
