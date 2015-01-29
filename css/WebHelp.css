@@ -1,6 +1,7 @@
 #webHelpMainContent {
     background-color: white;
     padding: 10px;
+    font-size: 13px;
     font-family: Tahoma, Arial, sans-serif; /*Standard Aladdin VI font*/
 }
 
@@ -28,13 +29,14 @@
     }
 }
 
-iframe {
-    width: 100%;
-    height: 100%;
-}
-
 #webHelpMainContent .nav-tabs > li.active > a {
     color: #555 !important;
+}
+
+#webHelpMainContent .nav-tabs > li.active > a,
+#webHelpMainContent .nav-tabs > li.active > a:hover,
+#webHelpMainContent .nav-tabs > li.active > a:focus {
+    background-color: whitesmoke;
 }
 
 /*.nav-tabs > li > a {
@@ -128,10 +130,6 @@ iframe {
     line-height:18px;
     border-radius:15%;
     box-shadow:0 0 1px #333;
-}
-
-#webHelpMainContent {
-    width:40%;
 }
 
 #webHelpMainContent .nav > li > a:hover, #webHelpMainContent .nav > li > a:focus {
