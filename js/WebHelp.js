@@ -9,22 +9,16 @@ function initWebHelp(WebHelpOptions) {
         showIntroOnLoad = (typeof WebHelpOptions.showIntroOnLoad != 'undefined') ? WebHelpOptions.showIntroOnLoad : showIntroOnLoad;
     }
     var parameters = getWindowParameters();
-/*    var elementsToScale;
-    var setElementsToScale = function () {
-        elementsToScale = "#webHelpBodyWrapperDiv";
-    };*/
+
     var addWebHelpContainerFunc = function () {
-/*        var bodyHTML = jQuery("body").html();
-        jQuery("body").html("");// Need to reconstruct the body
-        var wrapperDiv = '<div id="webHelpBodyWrapperDiv" class=""container-fluid"></div>';
-        jQuery("body").html(wrapperDiv);
-        jQuery("#webHelpBodyWrapperDiv").html(bodyHTML);*/
         var webHelpContent = getWebHelpContainerHTML();
         jQuery("body").append(webHelpContent);
     };
+
     var addHelpIconFunc = function () {
         createNewNavigationButton(helpIconPosition);
     };
+
     var showIntroOnStartup = function () {
         var availableSequences = retrieveLocalStorage();
         if (availableSequences['Introduction']) {
@@ -36,40 +30,23 @@ function initWebHelp(WebHelpOptions) {
         moveTableDivsToModal();
         showIntroOnStartup();
     };
+
     var showHelpCreationMode = function () {
         jQuery('#webHelpMainContent').BootSideMenu({
             side: "right", // left or right
             autoClose: true // auto close when page loads
         });
-
-        //Add function to click of toggle so that page gets resized
-/*        jQuery('.toggler').click(function () {
-            var toggler = jQuery(this);
-            var container = toggler.parent();
-            var containerWidth = container.width();
-            if (status === "opened") {
-                *//*This part is slightly confusing. If the status is 'opened',
-                 then it's going to be closed in the next step and vice versa*//*
-                jQuery(elementsToScale).css('width', bodyWidth);
-            } else {
-                jQuery(elementsToScale).css('width', bodyWidth - containerWidth - 20);
-            }    var status = container.attr('data-status');
-            //var overrideElementsToScale = '.container.main-content, .masthead';
-            if (!status) {
-                status = "opened";
-            }
-            var bodyWidth = jQuery("body").width();
-<<<<<<< HEAD
-
-        });*/
         setUpAddEditTable();
     };
+
     var loadAllSequences = function () {
         return populateCurrentSequences();
     };
+
     var addBadgeToHelpIcon = function (numNewSequences) {
         setNewSequenceCountBadgeOnHelpIcon(numNewSequences);
     };
+
     addWebHelpContainerFunc();
     var sequenceCounterObject = loadAllSequences();
     if (parameters['create'] != undefined) {
@@ -79,7 +56,6 @@ function initWebHelp(WebHelpOptions) {
         showHelpConsumptionMode();
         addBadgeToHelpIcon(sequenceCounterObject.numNewSequences);
     }
-
 }
 
 function getWebHelpContainerHTML() {
@@ -290,23 +266,6 @@ function preview() {
 }
 
 function save() {
-    //destroyAndRedrawTable();
-    /*jQuery.ajax({
-     type: "POST",
-     url: "https://dev.blackrock.com:8558/weblications/WebQuery/WebHelp.epl",
-     data: {
-     "owner": "sayyer",
-     "type": "test",
-     "tool": "Test App",
-     "url": "WebHelp",
-     "data": new Array({title: "title", elem: "elem", elemAttrib: "elemAttrib", description: "Testing"})
-     },
-     success: function (data, success) {
-     console.log(data);
-     }
-     });*/
-
-    //destroyAndRedrawTable(); //Doesn't respect row reordering
 
     var sequenceTitle = jQuery("#sequenceTitleSetter").val().trim();
     var stepsToSave = getCurrentTablePreviewSteps();
