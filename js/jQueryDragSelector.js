@@ -114,9 +114,12 @@ var jQueryDragSelector = {
                         objectForArray.attribute = 'class';
                         objectForArray.value = element.className;
                     } else {
-                        objectForArray.attribute = 'boundingClientRect';
-                        objectForArray.value = element.getBoundingClientRect();
+                        objectForArray.attribute = 'CSSPath';
+                        objectForArray.value = jQuery(element).getPath();
                     }
+                } else {
+                    objectForArray.attribute = 'CSSPath';
+                    objectForArray.value = jQuery(element).getPath();
                 }
                 arrayOfObjects.push(objectForArray);
             });

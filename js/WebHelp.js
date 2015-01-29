@@ -37,6 +37,8 @@ function initWebHelp(WebHelpOptions) {
             autoClose: true // auto close when page loads
         });
         setUpAddEditTable();
+        var currentTitleHTML = jQuery(helpIconPosition).html();
+        jQuery(helpIconPosition).html(currentTitleHTML + ' [Edit mode]');
     };
 
     var loadAllSequences = function () {
@@ -330,7 +332,12 @@ function getCurrentTablePreviewSteps() {
         var stepTitle = rows[n][1];
         var content = rows[n][4];
         if (elemAttribVal) {
-            var elem = "[" + elemAttribType + "=\'" + elemAttribVal + "\']"; // Assuming the elem attrib is an id for now
+            var elem = "";
+            if(elemAttribType != 'CSSPath') {
+                elem = "[" + elemAttribType + "=\'" + elemAttribVal + "\']";
+            } else {
+                elem = elemAttribVal;
+            }
             previewSteps.push({
                 element: elem,
                 intro: '<div><h3>' + stepTitle + '</h3><p>' + content + '</p></div>',
