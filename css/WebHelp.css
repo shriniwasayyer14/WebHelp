@@ -3,6 +3,7 @@
     padding: 10px;
     font-size: 13px;
     font-family: Tahoma, Arial, sans-serif; /*Standard Aladdin VI font*/
+	max-width: 35%;
 }
 
 @media screen {
