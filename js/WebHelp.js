@@ -1,4 +1,5 @@
 
+var previousSequenceCount = 0;
 
 function initWebHelp(WebHelpOptions) {
     var helpIconPosition = '.ai-header .ai-header-title';
@@ -52,6 +53,7 @@ function initWebHelp(WebHelpOptions) {
 
     var loadAllSequences = function () {
         return populateCurrentSequences();
+        var lastCheckedTime
     };
 
     var addBadgeToHelpIcon = function (numNewSequences) {
@@ -65,8 +67,14 @@ function initWebHelp(WebHelpOptions) {
         showHelpCreationMode();
     } else {
         showHelpConsumptionMode();
-        addBadgeToHelpIcon(sequenceCounterObject.numNewSequences);
+        setInterval(function() {
+            checkForNewSequences();
+        },3000);
     }
+}
+
+function checkForNewSequences() {
+    //
 }
 
 function getWebHelpContainerHTML() {
