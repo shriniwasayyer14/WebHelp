@@ -1,5 +1,4 @@
-
-var previousSequenceCount = 0;
+var modeOfOperation;
 
 function initWebHelp(WebHelpOptions) {
     var helpIconPosition = '.ai-header .ai-header-title';
@@ -21,7 +20,7 @@ function initWebHelp(WebHelpOptions) {
     };
 
     var showIntroOnStartup = function () {
-        var availableSequences = retrieveLocalStorage();
+        var availableSequences = getAllSequences();
         if(showIntroOnLoad) {
             if (availableSequences['Introduction']) {
                 playSequence('Introduction');
@@ -32,6 +31,8 @@ function initWebHelp(WebHelpOptions) {
         addHelpIconFunc();
         moveTableDivsToModal();
         showIntroOnStartup();
+        refreshWhatsNew();
+        setInterval(refreshWhatsNew(),3000);
     };
 
     var showHelpCreationMode = function () {
@@ -49,32 +50,23 @@ function initWebHelp(WebHelpOptions) {
             elem = jQuery(helpIconPosition);
         }
         jQuery(elem).html(currentTitleHTML);
+        refreshWhatsNew();
     };
 
-    var loadAllSequences = function () {
-        return populateCurrentSequences();
-        var lastCheckedTime
-    };
-
+/*
     var addBadgeToHelpIcon = function (numNewSequences) {
         setNewSequenceCountBadgeOnHelpIcon(numNewSequences);
-    };
+    };*/
 
     addWebHelpContainerFunc();
-    var sequenceCounterObject = loadAllSequences();
+    populateCurrentSequences();
     if (parameters['create'] != undefined) {
-        //setElementsToScale();
+        modeOfOperation = "create";
         showHelpCreationMode();
     } else {
+        modeOfOperation = "consume";
         showHelpConsumptionMode();
-        setInterval(function() {
-            checkForNewSequences();
-        },3000);
     }
-}
-
-function checkForNewSequences() {
-    //
 }
 
 function getWebHelpContainerHTML() {
@@ -99,7 +91,6 @@ function getWebHelpContainerHTML() {
         "<div class=\"well\">\r\n                    " +
         "<section contenteditable=\"true\">\r\n                        " +
         "<div><input type=\"text\" id=\"sequenceTitleSetter\" value=\"Sequence title\"\/>\r\n\r\n                            " +
-        "<div class=\"checkbox\"><label for=\"markAsNewSequence\"> <input type=\"checkbox\"\r\n                                                                                         id=\"markAsNewSequence\"> Mark as\r\n                                new\r\n                                sequence<\/label><\/div>\r\n                        " +
         "<\/div>\r\n                        " +
         "<table id=\"stepsTable\" class=\"table table-bordered table-hover\">\r\n                        " +
         "<\/table>\r\n                    " +
@@ -207,6 +198,9 @@ function setUpAddEditTable() {
 
 function setNewSequenceCountBadgeOnHelpIcon(numNewSequences) {
     var $helpIcon = jQuery('#contentConsumptionNavButton');
+    if(modeOfOperation == "consume") {
+        return;
+    }
     if (numNewSequences > 0) {
         $helpIcon.attr('data-badge', numNewSequences);
     } else {
@@ -295,7 +289,7 @@ function save() {
             "appName": "Test App",
             //"url": "WebHelp",
             "data": stepsToSave,
-            "isNew": jQuery('#markAsNewSequence').is(':checked')
+            "seqId": new Date().getTime()
         };
 
         // Put the object into storage
@@ -314,9 +308,8 @@ function save() {
         setTimeout(function () {
             jQuery("#sequenceSaveButton").tooltip('hide').attr('title', '');
         }, 500);
-
-        var sequences = populateCurrentSequences();
-        setNewSequenceCountBadgeOnHelpIcon(sequences.numNewSequences);
+        populateCurrentSequences();
+        refreshWhatsNew();
     }
 }
 
@@ -370,16 +363,77 @@ function getCurrentTablePreviewSteps() {
     return previewSteps;
 }
 
+function refreshWhatsNew() {
+    var sequences = getAllSequences(); //new function
+    var seenSequences = getAllVisitedSequences(); //new function
+    var newSequences = new Array();
+    for(seqName in sequences) {
+        var seq = sequences[seqName];
+        var seqId = seq.seqId;
+        if(seenSequences.indexOf(seqId) < 0) {
+            newSequences.push(seq);
+        }
+    }
+    updateNewSequencesTable(newSequences); // new function
+}
+
+
+// This function should be tied to the user and the app
+// Returns an array of sequence IDs of the visited sequences
+function getAllVisitedSequences() {
+    var key = "WebHelp."+appNameForWebHelp+"."+userName;
+    var seqIds = localStorage.getItem(key);
+    if(seqIds && seqIds.length > 0) {
+        return seqIds;
+    } else {
+        return new Array();
+    }
+}
+
+// This method would mark the given sequence as seen
+function markThisSequenceAsSeen(seq) {
+    var seqId = seq.seqId;
+    var visitedSeqIds = getAllVisitedSequences();
+    var key = "WebHelp."+appNameForWebHelp+"."+userName;
+    if(visitedSeqIds.indexOf(seqId) < 0) {
+        visitedSeqIds.push(seqId);
+        localStorage.setItem(key, visitedSeqIds);
+    }
+    refreshWhatsNew();// new function
+}
+
+// This table will remove and add new contents to the new sequences table
+function updateNewSequencesTable(newSequences) {
+    var numOfNewSequences = newSequences.length;
+    setNewSequenceCountBadgeOnHelpIcon(numOfNewSequences);
+    /*var newSequencesTable = jQuery("#newSequencesList").DataTable();
+    newSequencesTable.clear().draw();*/
+    var aaData = new Array();
+    jQuery.each(newSequences, function (key, value) {
+        var row = new Array();
+        row.push("<span class='fa fa-play-circle-o' aria-hidden='true' onclick='playThisSequence()'></span>");
+        row.push(value.sequenceTitle);
+        row.push("<span class='fa fa-edit' aria-hidden='true' onclick='editThisSequence()'>");
+        row.push("<span class='fa fa-times' aria-hidden='true' onclick='removeThisSequence()'>");
+        row.push(JSON.stringify(value));
+
+        aaData.push(row);
+    });
+    //$('#newSequencesList').dataTable().fnClearTable();
+    initWhatsNewTable(aaData);
+}
+
 function populateCurrentSequences() {
     var isCreator = (getWindowParameters()['create'] != undefined) ? true : false;
     var retrievedHtml = '';
     var retrievedNewHtml = '';
     var retrievedPopularHtml = '';
-    var retrievedSequences = retrieveLocalStorage();
+    var retrievedSequences = getAllSequences();
     var numNewSequences = 0;
     if (retrievedSequences) {
         retrievedHtml += '<table id="availableSequencesList">';
         retrievedPopularHtml += '<table id="popularSequencesList">';
+        retrievedNewHtml += '<table id="newSequencesList">';
         jQuery.each(retrievedSequences, function (key, value) {
             var thisElement = "<tr>" +
                 "<td><span class='fa fa-play-circle-o' aria-hidden='true' onclick='playThisSequence()'></span></td>" +
@@ -390,26 +444,10 @@ function populateCurrentSequences() {
                 "</tr>";
             retrievedHtml += thisElement;
             retrievedPopularHtml += thisElement;
-            if (value.isNew) {
-                if (retrievedNewHtml === '') {
-                    retrievedNewHtml += '<table id="newSequencesList">';
-                }
-                retrievedNewHtml += "<tr>" +
-                "<td><span class='fa fa-play-circle-o' aria-hidden='true' onclick='playThisSequence()'></span></td>" +
-                "<td>" + key + "</td>" +
-                "<td><span class='fa fa-edit' aria-hidden='true' onclick='editThisSequence()'></td>" +
-                "<td><span class='fa fa-times' aria-hidden='true' onclick='removeThisSequence()'></td>" +
-                "<td>" + JSON.stringify(value) + "</td>" +
-                "</tr>";
-                retrievedSequences[key]['isNew'] = false;
-                numNewSequences += 1;
-            }
         });
         retrievedHtml += '</table>';
         retrievedPopularHtml += '</table>';
-        if (retrievedNewHtml != '') {
-            retrievedNewHtml += '</table>';
-        }
+        retrievedNewHtml += '</table>';
         localStorage.setItem('WebHelp', JSON.stringify(retrievedSequences));
         jQuery('#availableSequencesContent').html(retrievedHtml);
         jQuery('#popularSequencesContent').html(retrievedPopularHtml);
@@ -479,40 +517,9 @@ function populateCurrentSequences() {
             }
         );
 
-        if (retrievedNewHtml != '') {
-            jQuery('#whatsNewContent').html(retrievedNewHtml);
-            var a = jQuery("#newSequencesList").dataTable({
-                    "sDom": '<"top"f<"clear">>', //It should be a searchable table
-                    "oLanguage": {
-                        "sSearch": "Search title and content: "
-                    },
-                    "aoColumns": [
-                        {
-                            "sTitle": "",
-                            "sWidth": "10%"
-                        },
-                        {
-                            "sTitle": "Topic"
-                        },
-                        {
-                            "sTitle": "",
-                            "sWidth": "10%",
-                            "bVisible": false
-                        },
-                        {
-                            "sTitle": "",
-                            "sWidth": "10%",
-                            "bVisible": false
-                        },
-                        {
-                            "sTitle": "Data",
-                            "bVisible": false,
-                            "bSearchable": true
-                        }
-                    ]
-                }
-            );
-        }
+        jQuery('#whatsNewContent').html(retrievedNewHtml);
+        var emptyData = new Array();
+        initWhatsNewTable();
         jQuery('td .fa-play-circle-o').attr('title', 'Play!');
         jQuery('td .fa-edit').attr('title', 'Edit');
         jQuery('td .fa-times').attr('title', 'Delete');
@@ -525,7 +532,43 @@ function populateCurrentSequences() {
     }
 }
 
-function retrieveLocalStorage() {
+function initWhatsNewTable(aaData) {
+    var a = jQuery("#newSequencesList").dataTable({
+        "sDom": '<"top"f>', //It should be a searchable table
+        "oLanguage": {
+            "sSearch": "Search title and content: "
+        },
+        "bDestroy":true,
+        "bRender":true,
+        "aoColumns": [
+            {
+                "sTitle": "",
+                "sWidth": "10%"
+            },
+            {
+                "sTitle": "Topic"
+            },
+            {
+                "sTitle": "",
+                "sWidth": "10%",
+                "bVisible": false
+            },
+            {
+                "sTitle": "",
+                "sWidth": "10%",
+                "bVisible": false
+            },
+            {
+                "sTitle": "Data",
+                "bVisible": false,
+                "bSearchable": true
+            }
+        ],
+        "aaData":aaData
+    });
+}
+
+function getAllSequences() {
     var WebHelpName = 'WebHelp.' + appNameForWebHelp;
     if (localStorage.getItem(WebHelpName)) {
         return JSON.parse(localStorage.getItem(WebHelpName));
@@ -546,13 +589,11 @@ function clearStepsInSequence() {
 }
 
 function playSequence(sequenceName) {
-    var stepsForThisSequence = retrieveLocalStorage()[sequenceName];
-    if (stepsForThisSequence.isNew) {
-        removeThisSequenceAsNew(sequenceName);
-    }
+    var sequence = getAllSequences()[sequenceName];
+    var seqId = sequence.seqId;
     var play = introJs();
     play.setOptions({
-        steps: stepsForThisSequence.data,
+        steps: sequence.data,
         showProgress: true,
         showBullets: false
     });
@@ -561,6 +602,7 @@ function playSequence(sequenceName) {
         jQuery('#contentConsumptionModal').modal('hide');
     }
     play.start();
+    markThisSequenceAsSeen(seqId);
 }
 
 function playThisSequence() {
@@ -570,20 +612,19 @@ function playThisSequence() {
     playSequence(sequenceName);
 }
 
-function removeThisSequenceAsNew(sequenceName) {
-    var allStoredSteps = retrieveLocalStorage();
+/*function removeThisSequenceAsNew(sequenceName) {
+    var allStoredSteps = getAllSequences();
     delete allStoredSteps[sequenceName].isNew;
     var WebHelpName = 'WebHelp.' + appNameForWebHelp;
     localStorage.setItem(WebHelpName, JSON.stringify(allStoredSteps));
     var sequences = populateCurrentSequences();
-    setNewSequenceCountBadgeOnHelpIcon(sequences.numNewSequences);
-}
+}*/
 
 function editThisSequence() {
     var t = jQuery("#availableSequencesList").DataTable();
     var thisSequenceTitle = t.row(jQuery(event.target).parents('tr')).data()[1];
     //t.row(jQuery(event.target).parents('tr')).remove().draw();
-    var stepsForThisSequence = retrieveLocalStorage()[thisSequenceTitle];
+    var stepsForThisSequence = getAllSequences()[thisSequenceTitle];
     var stepsTable = jQuery("#stepsTable").DataTable();
     stepsTable.clear().draw();
     jQuery.each(stepsForThisSequence.data, function (index, element) {
@@ -614,13 +655,15 @@ function editThisSequence() {
 
 function removeThisSequence() {
     var t = jQuery("#availableSequencesList").DataTable();
-    var storedSteps = retrieveLocalStorage();
-    delete storedSteps[t.row(jQuery(event.target).parents('tr')).data()[1]];
+    var storedSequences = getAllSequences();
+    var seq = storedSequences[t.row(jQuery(event.target).parents('tr')).data()[1]];
+    var seqId = seq.seqId;
+    delete storedSequences[t.row(jQuery(event.target).parents('tr')).data()[1]];
 
     var WebHelpName = 'WebHelp.' + appNameForWebHelp;
-    localStorage.setItem(WebHelpName, JSON.stringify(storedSteps));
-    var sequences = populateCurrentSequences();
-    setNewSequenceCountBadgeOnHelpIcon(sequences.numNewSequences);
+    localStorage.setItem(WebHelpName, JSON.stringify(storedSequences));
+    populateCurrentSequences();
+    refreshWhatsNew();
 }
 
 function getWindowParameters() {
