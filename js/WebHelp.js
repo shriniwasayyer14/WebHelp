@@ -32,7 +32,9 @@ function initWebHelp(WebHelpOptions) {
         moveTableDivsToModal();
         showIntroOnStartup();
         refreshWhatsNew();
-        setInterval(refreshWhatsNew(),3000);
+        setInterval(function(){
+            refreshWhatsNew();
+        },3000);
     };
 
     var showHelpCreationMode = function () {
@@ -198,7 +200,7 @@ function setUpAddEditTable() {
 
 function setNewSequenceCountBadgeOnHelpIcon(numNewSequences) {
     var $helpIcon = jQuery('#contentConsumptionNavButton');
-    if(modeOfOperation == "consume") {
+    if(modeOfOperation == "create") {
         return;
     }
     if (numNewSequences > 0) {
@@ -382,7 +384,7 @@ function refreshWhatsNew() {
 // Returns an array of sequence IDs of the visited sequences
 function getAllVisitedSequences() {
     var key = "WebHelp."+appNameForWebHelp+"."+userName;
-    var seqIds = localStorage.getItem(key);
+    var seqIds = JSON.parse(localStorage.getItem(key));
     if(seqIds && seqIds.length > 0) {
         return seqIds;
     } else {
@@ -391,13 +393,12 @@ function getAllVisitedSequences() {
 }
 
 // This method would mark the given sequence as seen
-function markThisSequenceAsSeen(seq) {
-    var seqId = seq.seqId;
+function markThisSequenceAsSeen(seqId) {
     var visitedSeqIds = getAllVisitedSequences();
     var key = "WebHelp."+appNameForWebHelp+"."+userName;
     if(visitedSeqIds.indexOf(seqId) < 0) {
         visitedSeqIds.push(seqId);
-        localStorage.setItem(key, visitedSeqIds);
+        localStorage.setItem(key, JSON.stringify(visitedSeqIds));
     }
     refreshWhatsNew();// new function
 }
@@ -405,9 +406,10 @@ function markThisSequenceAsSeen(seq) {
 // This table will remove and add new contents to the new sequences table
 function updateNewSequencesTable(newSequences) {
     var numOfNewSequences = newSequences.length;
-    setNewSequenceCountBadgeOnHelpIcon(numOfNewSequences);
-    /*var newSequencesTable = jQuery("#newSequencesList").DataTable();
-    newSequencesTable.clear().draw();*/
+    if(newSequences.length >= 1) {
+        populateCurrentSequences();
+    }
+
     var aaData = new Array();
     jQuery.each(newSequences, function (key, value) {
         var row = new Array();
@@ -421,6 +423,9 @@ function updateNewSequencesTable(newSequences) {
     });
     //$('#newSequencesList').dataTable().fnClearTable();
     initWhatsNewTable(aaData);
+    setTimeout(function(){
+        setNewSequenceCountBadgeOnHelpIcon(numOfNewSequences);
+    },2000);
 }
 
 function populateCurrentSequences() {
