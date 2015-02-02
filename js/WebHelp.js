@@ -368,7 +368,7 @@ function getCurrentTablePreviewSteps() {
 function refreshWhatsNew() {
     var sequences = getAllSequences(); //new function
     var seenSequences = getAllVisitedSequences(); //new function
-    var newSequences = new Array();
+    var newSequences = [];
     for(seqName in sequences) {
         var seq = sequences[seqName];
         var seqId = seq.seqId;
@@ -388,7 +388,7 @@ function getAllVisitedSequences() {
     if(seqIds && seqIds.length > 0) {
         return seqIds;
     } else {
-        return new Array();
+        return [];
     }
 }
 
@@ -410,9 +410,9 @@ function updateNewSequencesTable(newSequences) {
         populateCurrentSequences();
     }
 
-    var aaData = new Array();
+    var aaData = [];
     jQuery.each(newSequences, function (key, value) {
-        var row = new Array();
+        var row = [];
         row.push("<span class='fa fa-play-circle-o' aria-hidden='true' onclick='playThisSequence()'></span>");
         row.push(value.sequenceTitle);
         row.push("<span class='fa fa-edit' aria-hidden='true' onclick='editThisSequence()'>");
@@ -523,7 +523,7 @@ function populateCurrentSequences() {
         );
 
         jQuery('#whatsNewContent').html(retrievedNewHtml);
-        var emptyData = new Array();
+        var emptyData = [];
         initWhatsNewTable();
         jQuery('td .fa-play-circle-o').attr('title', 'Play!');
         jQuery('td .fa-edit').attr('title', 'Edit');
