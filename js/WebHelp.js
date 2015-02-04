@@ -288,7 +288,7 @@ function save() {
         var testObject = {};
         testObject[sequenceTitle] = {
             "sequenceTitle": sequenceTitle,
-            "appName": "Test App",
+            "appName": appNameForWebHelp,
             //"url": "WebHelp",
             "data": stepsToSave,
             "seqId": new Date().getTime()
