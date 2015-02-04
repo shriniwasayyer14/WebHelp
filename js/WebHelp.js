@@ -1,12 +1,16 @@
 var modeOfOperation;
+var iconClass = {};
+
 
 function initWebHelp(WebHelpOptions) {
     var helpIconPosition = '.ai-header .ai-header-title';
     var showIntroOnLoad = true;
+    var isNlaf = false;
 
     if (WebHelpOptions) {
         helpIconPosition = WebHelpOptions.helpIconPosition || helpIconPosition;
         showIntroOnLoad = (typeof WebHelpOptions.showIntroOnLoad != 'undefined') ? WebHelpOptions.showIntroOnLoad : showIntroOnLoad;
+        isNlaf = WebHelpOptions.isNlaf;
     }
     var parameters = getWindowParameters();
 
@@ -19,6 +23,30 @@ function initWebHelp(WebHelpOptions) {
         createNewNavigationButton(helpIconPosition);
     };
 
+    var initIconClasses = function() {
+        if(isNlaf === true) {
+            iconClass = {
+                "remove":"fa fa-times",
+                "play":"fa fa-play-circle-o",
+                "save":"fa fa-floppy-o",
+                "clear":"fa fa-refresh",
+                "add":"fa fa-plus",
+                "info":"fa fa-info-circle",
+                "edit":"fa fa-edit"
+            };
+        } else {
+            iconClass = {
+                "remove":"glyphicon glyphicon-remove",
+                "play":"glyphicon glyphicon-play-circle",
+                "save":"glyphicon glyphicon-floppy-disk",
+                "clear":"glyphicon glyphicon-refresh",
+                "add":"glyphicon glyphicon-plus",
+                "info":"glyphicon glyphicon-info-sign",
+                "edit":"glyphicon glyphicon-edit"
+            };
+        }
+    };
+    initIconClasses();
     var showIntroOnStartup = function () {
         var availableSequences = getAllSequences();
         if(showIntroOnLoad) {
@@ -97,15 +125,15 @@ function getWebHelpContainerHTML() {
         "<table id=\"stepsTable\" class=\"table table-bordered table-hover\">\r\n                        " +
         "<\/table>\r\n                    " +
         "<\/section>\r\n                   " +
-        "<button type=\"button\" id=\'sequencePreviewButton\' class=\"btn btn-default centered actionButton\"\r\n                            aria-label=\"Left Align\"\r\n                            style=\"margin-top:20px;\" onclick=\"preview();\">\r\n                        <span class=\"fa fa-play-circle-o\" aria-hidden=\"true\"><\/span> Preview\r\n                    <\/button>\r\n                    " +
-        "<button type=\"button\" id=\'sequenceSaveButton\' class=\"btn btn-default centered\"\r\n                            aria-label=\"Left Align\"\r\n                            style=\"margin-top:20px;\"\r\n                            onclick=\"save();\">\r\n                        <span class=\"fa fa-floppy-o\" aria-hidden=\"true\"><\/span> Save\r\n                    <\/button>\r\n                    " +
-        "<button type=\"button\" id=\'clearStepsButton\' class=\"btn btn-default centered\"\r\n                            aria-label=\"Left Align\"\r\n                            style=\"margin-top:20px;\"\r\n                            onclick=\"clearStepsInSequence();\">\r\n                        <span class=\"fa fa-refresh\" aria-hidden=\"true\"><\/span> Clear\r\n                    <\/button>\r\n                " +
+        "<button type=\"button\" id=\'sequencePreviewButton\' class=\"btn btn-default centered actionButton\"\r\n                            aria-label=\"Left Align\"\r\n                            style=\"margin-top:20px;\" onclick=\"preview();\">\r\n                        <span class="+iconClass.play+" aria-hidden=\"true\"><\/span> Preview\r\n                    <\/button>\r\n                    " +
+        "<button type=\"button\" id=\'sequenceSaveButton\' class=\"btn btn-default centered\"\r\n                            aria-label=\"Left Align\"\r\n                            style=\"margin-top:20px;\"\r\n                            onclick=\"save();\">\r\n                        <span class='"+iconClass.save+"' aria-hidden=\"true\"><\/span> Save\r\n                    <\/button>\r\n                    " +
+        "<button type=\"button\" id=\'clearStepsButton\' class=\"btn btn-default centered\"\r\n                            aria-label=\"Left Align\"\r\n                            style=\"margin-top:20px;\"\r\n                            onclick=\"clearStepsInSequence();\">\r\n                        <span class='"+iconClass.clear+"' aria-hidden=\"true\"><\/span> Clear\r\n                    <\/button>\r\n                " +
         "<\/div>\r\n                " +
         "<div class=\"well\">Available actions:\r\n                    " +
         "<div class=\"well-sm\">\r\n                        " +
-        "<button data-toggle=\"tooltip\" data-placement=\"top\"\r\n                                title=\"Click and drag over elements on the page to select them\"\r\n                                class=\"btn btn-success\" role=\"button\"\r\n                                id=\"startDragDropButton\"\r\n                                onClick=\"startSelectionOfElement(true);\"><span class=\"fa fa-plus\"><\/span> Add element\r\n                            step\r\n                        <\/button>\r\n                        " +
-        "<button class=\"btn btn-info\" role=\"button\"\r\n                                id=\"startEmptyStepButton\"\r\n                                onClick=\"startSelectionOfElement(false);\"><span class=\"fa fa-plus\"><\/span> Add page step\r\n                        <\/button>\r\n                        " +
-        "<button class=\"btn btn-danger\" id=\"cancelDragDropButton\"\r\n                                role=\"button\"\r\n                                onClick=\"jQueryDragSelector.off();\"><span class=\"fa fa-times\"><\/span> Cancel\r\n                        <\/button>\r\n                    " +
+        "<button data-toggle=\"tooltip\" data-placement=\"top\"\r\n                                title=\"Click and drag over elements on the page to select them\"\r\n                                class=\"btn btn-success\" role=\"button\"\r\n                                id=\"startDragDropButton\"\r\n                                onClick=\"startSelectionOfElement(true);\"><span class='"+iconClass.add+"'><\/span> Add element\r\n                            step\r\n                        <\/button>\r\n                        " +
+        "<button class=\"btn btn-info\" role=\"button\"\r\n                                id=\"startEmptyStepButton\"\r\n                                onClick=\"startSelectionOfElement(false);\"><span class='"+iconClass.add+"'><\/span> Add page step\r\n                        <\/button>\r\n                        " +
+        "<button class=\"btn btn-danger\" id=\"cancelDragDropButton\"\r\n                                role=\"button\"\r\n                                onClick=\"jQueryDragSelector.off();\"><span class='"+iconClass.remove+"'><\/span> Cancel\r\n                        <\/button>\r\n                    " +
         "<\/div>\r\n                " +
         "<\/div>\r\n                " +
         "<div class=\"alert alert-danger\" id=\"noElementsSelectedDiv\" style=\"display: none;\">\r\n                    " +
@@ -137,7 +165,7 @@ function moveTableDivsToModal() {
 
 function createNewNavigationButton(navbarButtonElement, addTextToNavbar) {
     var dropdownButtonHtml = '<button class="btn light" id="contentConsumptionNavButton" >' +
-        '<i class="fa fa-info-circle"></i>';
+        '<i class="'+iconClass.info+'"></i>';
 
     if (addTextToNavbar) {
         dropdownButtonHtml += 'App Help';
@@ -242,7 +270,7 @@ function createStepForThisElement(arrayOfElems) {
     elemText = elemText.substring(0, elemText.length - 1);
     elemType = elemType.substring(0, elemType.length - 1);
     t.row.add([
-        "<span class='fa fa-times' aria-hidden='true' onclick='removeThisStep()'></span>",
+        "<span class='"+iconClass.remove+"' aria-hidden='true' onclick='removeThisStep()'></span>",
         "Editable title",
         elemType,
         elemText,
@@ -413,10 +441,10 @@ function updateNewSequencesTable(newSequences) {
     var aaData = new Array();
     jQuery.each(newSequences, function (key, value) {
         var row = new Array();
-        row.push("<span class='fa fa-play-circle-o' aria-hidden='true' onclick='playThisSequence()'></span>");
+        row.push("<span class='"+iconClass.play+"' aria-hidden='true' onclick='playThisSequence()'></span>");
         row.push(value.sequenceTitle);
-        row.push("<span class='fa fa-edit' aria-hidden='true' onclick='editThisSequence()'>");
-        row.push("<span class='fa fa-times' aria-hidden='true' onclick='removeThisSequence()'>");
+        row.push("<span class='"+iconClass.edit+"' aria-hidden='true' onclick='editThisSequence()'>");
+        row.push("<span class='"+iconClass.remove+"' aria-hidden='true' onclick='removeThisSequence()'>");
         row.push(JSON.stringify(value));
 
         aaData.push(row);
@@ -441,10 +469,10 @@ function populateCurrentSequences() {
         retrievedNewHtml += '<table id="newSequencesList">';
         jQuery.each(retrievedSequences, function (key, value) {
             var thisElement = "<tr>" +
-                "<td><span class='fa fa-play-circle-o' aria-hidden='true' onclick='playThisSequence()'></span></td>" +
+                "<td><span class='"+iconClass.play+"' aria-hidden='true' onclick='playThisSequence()'></span></td>" +
                 "<td>" + key + "</td>" +
-                "<td><span class='fa fa-edit' aria-hidden='true' onclick='editThisSequence()'></td>" +
-                "<td><span class='fa fa-times' aria-hidden='true' onclick='removeThisSequence()'></td>" +
+                "<td><span class='"+iconClass.edit+"' aria-hidden='true' onclick='editThisSequence()'></td>" +
+                "<td><span class='"+iconClass.remove+"' aria-hidden='true' onclick='removeThisSequence()'></td>" +
                 "<td>" + JSON.stringify(value) + "</td>" +
                 "</tr>";
             retrievedHtml += thisElement;
@@ -525,9 +553,9 @@ function populateCurrentSequences() {
         jQuery('#whatsNewContent').html(retrievedNewHtml);
         var emptyData = new Array();
         initWhatsNewTable();
-        jQuery('td .fa-play-circle-o').attr('title', 'Play!');
-        jQuery('td .fa-edit').attr('title', 'Edit');
-        jQuery('td .fa-times').attr('title', 'Delete');
+        jQuery('td .'+iconClass.play).attr('title', 'Play!');
+        jQuery('td .'+iconClass.edit).attr('title', 'Edit');
+        jQuery('td .'+iconClass.remove).attr('title', 'Delete');
 
         //Convert all the tables to bootstrap-tables
         jQuery('#webHelpMainContent table.dataTable').addClass('table table-hover table-striped table-bordered');
@@ -646,7 +674,7 @@ function editThisSequence() {
             elementAttr = splitArray[0];
         }
         stepsTable.row.add([
-            "<span class='fa fa-times' aria-hidden='true' onclick='removeThisStep()'></span>",
+            "<span class='"+iconClass.remove+"' aria-hidden='true' onclick='removeThisStep()'></span>",
             title,
             elementAttr,
             elementId,
