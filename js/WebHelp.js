@@ -353,7 +353,7 @@ function getCurrentTablePreviewSteps() {
             previewSteps.push({
                 element: elem,
                 intro: '<div><h3>' + stepTitle + '</h3><p>' + content + '</p></div>',
-                position: 'bottom'
+                position: 'auto'
             });
         } else {
             previewSteps.push({
