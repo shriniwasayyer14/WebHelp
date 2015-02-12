@@ -83,10 +83,10 @@ function initWebHelp(WebHelpOptions) {
         refreshWhatsNew();
     };
 
-/*
-    var addBadgeToHelpIcon = function (numNewSequences) {
-        setNewSequenceCountBadgeOnHelpIcon(numNewSequences);
-    };*/
+    /*
+     var addBadgeToHelpIcon = function (numNewSequences) {
+     setNewSequenceCountBadgeOnHelpIcon(numNewSequences);
+     };*/
 
     addWebHelpContainerFunc();
     populateCurrentSequences();
@@ -126,7 +126,7 @@ function getWebHelpContainerHTML() {
         "<\/table>\r\n                    " +
         "<\/section>\r\n                   " +
         "<button type=\"button\" id=\'sequencePreviewButton\' class=\"btn btn-default centered actionButton\"\r\n                            aria-label=\"Left Align\"\r\n                            style=\"margin-top:20px;\" onclick=\"preview();\">\r\n                        <span class="+iconClass.play+" aria-hidden=\"true\"><\/span> Preview\r\n                    <\/button>\r\n                    " +
-        "<button type=\"button\" id=\'sequenceSaveButton\' class=\"btn btn-default centered\"\r\n                            aria-label=\"Left Align\"\r\n                            style=\"margin-top:20px;\"\r\n                            onclick=\"save();\">\r\n                        <span class='"+iconClass.save+"' aria-hidden=\"true\"><\/span> Save\r\n                    <\/button>\r\n                    " +
+        "<button type=\"button\" id=\'sequenceSaveButton\' class=\"btn btn-default centered\"\r\n                            aria-label=\"Left Align\"\r\n                            style=\"margin-top:20px;\"\r\n                            onclick=\"saveToDB();\">\r\n                        <span class='"+iconClass.save+"' aria-hidden=\"true\"><\/span> Save\r\n                    <\/button>\r\n                    " +
         "<button type=\"button\" id=\'clearStepsButton\' class=\"btn btn-default centered\"\r\n                            aria-label=\"Left Align\"\r\n                            style=\"margin-top:20px;\"\r\n                            onclick=\"clearStepsInSequence();\">\r\n                        <span class='"+iconClass.clear+"' aria-hidden=\"true\"><\/span> Clear\r\n                    <\/button>\r\n                " +
         "<\/div>\r\n                " +
         "<div class=\"well\">Available actions:\r\n                    " +
@@ -316,7 +316,7 @@ function save() {
         var testObject = {};
         testObject[sequenceTitle] = {
             "sequenceTitle": sequenceTitle,
-            "appName": "Test App",
+            "appName": appNameForWebHelp,
             //"url": "WebHelp",
             "data": stepsToSave,
             "seqId": new Date().getTime()
@@ -341,6 +341,49 @@ function save() {
         populateCurrentSequences();
         refreshWhatsNew();
     }
+}
+
+function saveToDB() {
+    var sequenceTitle = jQuery("#sequenceTitleSetter").val().trim();
+    var stepsToSave = getCurrentTablePreviewSteps();
+    var method = "saveSequence";
+    var description = "Test";
+    var tool = appNameForWebHelp;
+    var active_flag = 'N';
+    var list_order = new Date().getTime();
+    var url = "";
+    var data = stepsToSave;
+
+    var auth = encodeURIComponent("sayyer:Ganesh001");
+
+    jQuery.ajax({
+        url:"http://devntsl002.blackrock.com:8558/weblications/WebHelp/WebHelp.epl",
+        type: "POST",
+        async:true,
+        data: {
+            method: "saveSequence",
+            seq_id: new Date().getTime(),
+            title:sequenceTitle,
+            data: JSON.stringify(stepsToSave),
+            tool: appNameForWebHelp,
+            active_flag:'N',
+            url:"test"
+        },
+        success: function (data, status) {
+            var status = JSON.parse(data)["status"];
+            jQuery("#sequenceSaveButton").attr('title', 'Saved!').tooltip({
+                trigger: 'manual'
+            }).tooltip("show");
+            setTimeout(function () {
+                jQuery("#sequenceSaveButton").tooltip('hide').attr('title', '');
+            }, 500);
+            populateCurrentSequences();
+            refreshWhatsNew();
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            alert("Save action failed!");
+        }
+    });
 }
 
 function getCurrentTablePreviewSteps() {
@@ -381,7 +424,7 @@ function getCurrentTablePreviewSteps() {
             previewSteps.push({
                 element: elem,
                 intro: '<div><h3>' + stepTitle + '</h3><p>' + content + '</p></div>',
-                position: 'bottom'
+                position: 'auto'
             });
         } else {
             previewSteps.push({
@@ -396,7 +439,7 @@ function getCurrentTablePreviewSteps() {
 function refreshWhatsNew() {
     var sequences = getAllSequences(); //new function
     var seenSequences = getAllVisitedSequences(); //new function
-    var newSequences = new Array();
+    var newSequences = [];
     for(seqName in sequences) {
         var seq = sequences[seqName];
         var seqId = seq.seqId;
@@ -416,7 +459,7 @@ function getAllVisitedSequences() {
     if(seqIds && seqIds.length > 0) {
         return seqIds;
     } else {
-        return new Array();
+        return [];
     }
 }
 
@@ -438,10 +481,10 @@ function updateNewSequencesTable(newSequences) {
         populateCurrentSequences();
     }
 
-    var aaData = new Array();
+    var aaData = [];
     jQuery.each(newSequences, function (key, value) {
-        var row = new Array();
-        row.push("<span class='"+iconClass.play+"' aria-hidden='true' onclick='playThisSequence()'></span>");
+        var row = [];
+        row.push("<span class='fa fa-play-circle-o' aria-hidden='true' onclick='playThisSequence()'></span>");
         row.push(value.sequenceTitle);
         row.push("<span class='"+iconClass.edit+"' aria-hidden='true' onclick='editThisSequence()'>");
         row.push("<span class='"+iconClass.remove+"' aria-hidden='true' onclick='removeThisSequence()'>");
@@ -462,6 +505,9 @@ function populateCurrentSequences() {
     var retrievedNewHtml = '';
     var retrievedPopularHtml = '';
     var retrievedSequences = getAllSequences();
+
+    var sequencesFromDB = getAllSequencesFromDB();
+
     var numNewSequences = 0;
     if (retrievedSequences) {
         retrievedHtml += '<table id="availableSequencesList">';
@@ -551,7 +597,7 @@ function populateCurrentSequences() {
         );
 
         jQuery('#whatsNewContent').html(retrievedNewHtml);
-        var emptyData = new Array();
+        var emptyData = [];
         initWhatsNewTable();
         jQuery('td .'+iconClass.play).attr('title', 'Play!');
         jQuery('td .'+iconClass.edit).attr('title', 'Edit');
@@ -610,6 +656,27 @@ function getAllSequences() {
     }
 }
 
+function getAllSequencesFromDB() {
+    var sequences;
+    jQuery.ajax({
+        url:"http://devntsl002.blackrock.com:8558/weblications/WebHelp/WebHelp.epl",
+        type: "POST",
+        async:false,
+        data:{
+            method: "loadAllSequences",
+            tool: appNameForWebHelp
+        },
+        success: function (data, status) {
+            sequences = JSON.parse(data);
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            alert("Failed to load the sequences");
+        }
+    });
+
+    return sequences;
+}
+
 function makeEditable() {
     jQuery("#stepsTable").tableEdit({
         columnsTr: "1,4"
@@ -646,12 +713,12 @@ function playThisSequence() {
 }
 
 /*function removeThisSequenceAsNew(sequenceName) {
-    var allStoredSteps = getAllSequences();
-    delete allStoredSteps[sequenceName].isNew;
-    var WebHelpName = 'WebHelp.' + appNameForWebHelp;
-    localStorage.setItem(WebHelpName, JSON.stringify(allStoredSteps));
-    var sequences = populateCurrentSequences();
-}*/
+ var allStoredSteps = getAllSequences();
+ delete allStoredSteps[sequenceName].isNew;
+ var WebHelpName = 'WebHelp.' + appNameForWebHelp;
+ localStorage.setItem(WebHelpName, JSON.stringify(allStoredSteps));
+ var sequences = populateCurrentSequences();
+ }*/
 
 function editThisSequence() {
     var t = jQuery("#availableSequencesList").DataTable();
