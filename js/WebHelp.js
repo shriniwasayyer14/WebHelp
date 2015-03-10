@@ -16,9 +16,9 @@ WebHelp = (function () {
 		if (!WebHelpOptions) {
 			WebHelpOptions = defaultOptions;
 		}
-		defaultOptions.forEach(function (option) {
+		for (var option in defaultOptions){
 			this[option] = WebHelpOptions.hasOwnProperty(option) ? WebHelpOptions[option] : defaultOptions[option];
-		});
+		}
 
 		//setup icon classes
 		if (this.isNlaf === true) {
@@ -42,29 +42,8 @@ WebHelp = (function () {
 				"edit": "glyphicon glyphicon-edit"
 			};
 		}
-		
-		// build webhelpcontainer and add listeners
-		if (jQuery("#webHelpMainContent").length === 0){
-			var webHelpContent = jQuery(WebHelpTemplates["../templates/WebHelpContainer.html"]);
-			for (var icon in this.iconClass) {
-				webHelpContent.find("iconClass-" + icon).addClass(this.iconClass[icon]);
-			}
-			jQuery("body").append(webHelpContent);
-		}
-		
-		//attach event handlers to webHelpContent
-		("#sequencePreviewButton").on("click", this.preview);
-		("#sequenceSaveButton").on("click", this.saveToDB);
-		("#clearStepsButton").on("click", this.clearStepsInSequence);
-		("#startDragDropButton").on("click", this.startSelectionOfElement);
-		("#startEmptyStepButton").on("click", this.createStepForThisElement);
-		("#cancelDragDropButton").on("click", jQueryDragSelector.off);
-		("#noElementsSelectedButton").on("click", jQuery('#noElementsSelectedDiv').hide);
-		("#noStepsInPreviewButton").on("click", jQuery('#noStepsInPreviewDiv').hide);
-		jQuery("#webHelpMainContent").on('click', 'play-sequence', this.playThisSequence);
-		jQuery("#webHelpMainContent").on('click', 'edit-sequence', this.editThisSequence);
-		jQuery("#webHelpMainContent").on('click', 'remove-sequence', this.removeThisSequence);
-		
+				
+		//build the gui
 		if (this.parameters.create !== undefined) {
         this.mode = "create";
         this.showHelpCreationMode();
@@ -125,8 +104,7 @@ WebHelp = (function () {
 	
 	WebHelp.prototype.showHelpConsumptionMode = function () {
 		this.addHelpIcon(this.helpIconPosition);
-		
-		jQuery("#webHelpMainContent").appendTo("#contentConsumptionModal .modal-body");
+		this.ui.webHelpMainContent.appendTo("#contentConsumptionModal .modal-body");
 		jQuery('.nav-tabs a[href=#addSequence]').hide();
 		if (this.showIntroOnLoad) {
 			this.playSequence('Introduction');
@@ -138,10 +116,39 @@ WebHelp = (function () {
 	};
 	
 	WebHelp.prototype.showHelpCreationMode = function () {
-		jQuery('#webHelpMainContent').BootSideMenu({
+		var self = this;
+		
+		if (jQuery("#webHelpMainContent").length === 0){
+			var webHelpContent = jQuery(WebHelpTemplates["../templates/WebHelpCreator.html"]);
+			for (var icon in this.iconClass) {
+				webHelpContent.find("iconClass-" + icon).addClass(this.iconClass[icon]);
+			}
+			jQuery("body").append(webHelpContent);
+		}
+		
+		// build bootside menu
+		this.ui.webHelpMainContent = jQuery("#webHelpMainContent");
+		this.ui.webHelpMainContent.BootSideMenu({
 			side: "right", // left or right
 			autoClose: true // auto close when page loads
 		});
+		
+		//attach event handlers to webHelpContent
+		jQuery("#sequencePreviewButton").on("click", this.preview.bind(self));
+		jQuery("#sequenceSaveButton").on("click", this.saveToDB.bind(self));
+		jQuery("#clearStepsButton").on("click", this.clearStepsInSequence.bind(self));
+		jQuery("#startDragDropButton").on("click", this.startSelectionOfElement.bind(self));
+		jQuery("#startEmptyStepButton").on("click", this.createStepForThisElement.bind(self));
+		jQuery("#cancelDragDropButton").on("click", jQueryDragSelector.off);
+		jQuery("#noElementsSelectedButton").on("click", jQuery('#noElementsSelectedDiv').hide);
+		jQuery("#noStepsInPreviewButton").on("click", jQuery('#noStepsInPreviewDiv').hide);
+		
+		//attach sequence specific handlers
+		this.ui.webHelpMainContent.on('click', 'play-sequence', this.playThisSequence.bind(self));
+		this.ui.webHelpMainContent.on('click', 'edit-sequence', this.editThisSequence.bind(self));
+		this.ui.webHelpMainContent.on('click', 'remove-sequence', this.removeThisSequence.bind(self));
+		
+		
 		var stepsTable = jQuery("#stepsTable");
 		stepsTable.on("click", ".remove-step", this.removeThisStep);
 		
@@ -329,8 +336,9 @@ WebHelp = (function () {
 	};
 	
 	WebHelp.prototype.startSelectionOfElement = function() {
+		var self = this;
 		/* Close the sidemenu if it is open*/
-		var status = jQuery('#webHelpMainContent').attr("data-status");
+		var status = this.ui.webHelpMainContent.attr("data-status");
 		if (status === "opened") {
 			jQuery(".toggler").trigger("click");
 		}
@@ -341,17 +349,17 @@ WebHelp = (function () {
 						trigger: 'manual',
 						placement: 'auto top',
 						container: 'body', /*Show on top of all elements*/
-						content: '<div>Go ahead with this selection ?</div>' +
-						'<div class="btn-group">' +
-						'<button type="button" class="btn btn-success drag-select-yes">Yes</button>' +
-						'<button type="button" class="btn btn-danger drag-select-no">No</button>' +
-						'</div>'
+						content: WebHelpTemplates["../templates/WebHelpSelectPopup.html"]
 				})
 				.popover('show');
-				element.on("click", "drag-select-yes", function(){
-					jQueryDragSelector.confirmSelection(true);
-				});
-				element.on("click", "drag-select-no", function(){
+				jQuery(".drag-select-yes").on("click", function(){
+					jQueryDragSelector.confirmSelection(true, function(arrayOfObjects){
+						if (arrayOfObjects){
+							self.createStepForThisElement(arrayOfObjects);
+						}
+					});
+				}.bind(self));
+				jQuery(".drag-select-no").on("click", function(){
 					jQueryDragSelector.confirmSelection(false);
 				});
 			} else {
@@ -538,16 +546,14 @@ WebHelp = (function () {
 		}
 		var aaData = [];
 		jQuery.each(newSequences, function (key, value) {
-			var row = [];
-			row.push("<span class='play-sequence fa fa-play-circle-o' aria-hidden='true'></span>");
-			row.push(value.sequenceTitle);
-			row.push("<span class='edit-sequence " + this.iconClass.edit + "' aria-hidden='true'>");
-			row.push("<span class='remove-sequence " + this.iconClass.remove + "' aria-hidden='true'>");
-			row.push(JSON.stringify(value));
-
-			aaData.push(row);
+			aaData.push([
+				"<span class='play-sequence fa fa-play-circle-o' aria-hidden='true'></span>",
+				value.sequenceTitle,
+				"<span class='edit-sequence " + this.iconClass.edit + "' aria-hidden='true'>",
+				"<span class='remove-sequence " + this.iconClass.remove + "' aria-hidden='true'>",
+				JSON.stringify(value)
+			]);
 		});
-		//$('#newSequencesList').dataTable().fnClearTable();
 		this.initWhatsNewTable(aaData);
 	};
 
@@ -692,13 +698,6 @@ WebHelp = (function () {
 		this.populateCurrentSequences();
 		this.refreshWhatsNew();
 	};
-	
 
 	return WebHelp;
 })();
-
-
-
-
-
-

@@ -1,6 +1,22 @@
 var WebHelpTemplates = {};
 
-WebHelpTemplates["../templates/WebHelpContainer.html"] = "\n" +
+WebHelpTemplates["../templates/WebHelpContent.html"] = "<div id=\"contentConsumptionModal\" class=\"modal\">\n" +
+   "	<div class=\"modal-dialog\">\n" +
+   "		<div class=\"modal-content\" style=\"width: 800px;\">\n" +
+   "			<div class=\"modal-header ai-modal-title\">\n" +
+   "				<button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span>\n" +
+   "				</button>\n" +
+   "				\"What would you like to learn?\n" +
+   "			</div>\n" +
+   "			<div class=\"modal-body\"></div>\n" +
+   "			<div class=\"modal-footer\">\n" +
+   "				<button data-dismiss=\"modal\" class=\"btn btn-default\">Close</button>\n" +
+   "			</div>\n" +
+   "		</div>\n" +
+   "	</div>\n" +
+   "</div>";
+
+WebHelpTemplates["../templates/WebHelpCreator.html"] = "\n" +
    "<div id=\"webHelpMainContent\">\n" +
    "	<div class=\"tabbable\">\n" +
    "		<!-- Only required for left/right tabs -->\n" +
@@ -53,12 +69,12 @@ WebHelpTemplates["../templates/WebHelpContainer.html"] = "\n" +
    "\n" +
    "				<div class=\"well \">Available actions:\n" +
    "					<div class=\"well-sm \">\n" +
-   "						<button data-toggle=\"tooltip \" data-placement=\"top \" title=\"Click and drag over elements on the page to select them \" class=\"btn btn-success \" role=\"button \" id=\"startDragDropButton \"><span class=\"iconClass-add\"></span> Add element step\n" +
+   "						<button data-toggle=\"tooltip \" data-placement=\"top \" title=\"Click and drag over elements on the page to select them \" class=\"btn btn-success \" role=\"button \" id=\"startDragDropButton\"><span class=\"iconClass-add\"></span> Add element step\n" +
    "						</button>\n" +
    "						<button class=\"btn btn-info\" role=\"button\" id=\"startEmptyStepButton\">\n" +
    "							<span class=\"iconClass-add\"></span> Add page step\n" +
    "						</button>\n" +
-   "						<button class=\"btn btn-danger \" id=\"cancelDragDropButton \" role=\"button \"><span class=\"iconClass-remove\"></span> Cancel\n" +
+   "						<button class=\"btn btn-danger \" id=\"cancelDragDropButton\" role=\"button \"><span class=\"iconClass-remove\"></span> Cancel\n" +
    "						</button>\n" +
    "					</div>\n" +
    "				</div>\n" +
@@ -80,19 +96,11 @@ WebHelpTemplates["../templates/WebHelpContainer.html"] = "\n" +
    "	</div>\n" +
    "</div>\n" +
    "\n" +
-   "<div id=\"contentConsumptionModal\" class=\"modal\">\n" +
-   "	<div class=\"modal-dialog\">\n" +
-   "		<div class=\"modal-content\" style=\"width: 800px;\">\n" +
-   "			<div class=\"modal-header ai-modal-title\">\n" +
-   "				<button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span>\n" +
-   "				</button>\n" +
-   "				\"What would you like to learn?\n" +
-   "			</div>\n" +
-   "			<div class=\"modal-body\"></div>\n" +
-   "			<div class=\"modal-footer\">\n" +
-   "				<button data-dismiss=\"modal\" class=\"btn btn-default\">Close</button>\n" +
-   "			</div>\n" +
-   "		</div>\n" +
-   "	</div>\n" +
-   "</div>\n" +
+   "\n" +
    "";
+
+WebHelpTemplates["../templates/WebHelpSelectPopup.html"] = "<div>Go ahead with this selection ?</div>\n" +
+   "<div class=\"btn-group\">\n" +
+   "	<button type=\"button\" class=\"btn btn-success drag-select-yes\">Yes</button>\n" +
+   "	<button type=\"button\" class=\"btn btn-danger drag-select-no\">No</button>\n" +
+   "</div>";

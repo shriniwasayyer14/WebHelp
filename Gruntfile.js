@@ -175,7 +175,7 @@ module.exports = function (grunt) {
 		},
 		htmlConvert: {
 			WebHelpTemplates: {
-				src: ['templates/WebHelpContainer.html'],
+				src: ['templates/*.html'],
 				dest: 'js/WebHelpTemplates.js'
 			},
 		}

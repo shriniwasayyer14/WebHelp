@@ -1,3 +1,4 @@
+/* global jQuery, document */
 var jQueryDragSelector = {
     on: function (callback) {
         var self = this;
@@ -10,7 +11,7 @@ var jQueryDragSelector = {
             jQuery(document)
                 .drag("start", function (ev, dd) {
                     return jQuery('<div class="selection" />')
-                        .css('opacity', .5)
+                        .css('opacity', 0.5)
                         .css('z-index', 999999999999)
                         .appendTo(document.body);
                 })
@@ -59,7 +60,7 @@ var jQueryDragSelector = {
     },
     isOn: false,
     selectedObjects: [],
-    confirmSelection: function (confirmBoolean) {
+    confirmSelection: function (confirmBoolean, callback) {
         jQuery(jQuery('.dragSelectedElement')[0]).popover('destroy');
         var arrayOfObjects = [];
         /* Open the side-menu if it is closed*/
@@ -105,10 +106,16 @@ var jQueryDragSelector = {
                 }
                 arrayOfObjects.push(objectForArray);
             });
-            createStepForThisElement(arrayOfObjects);
+						if (callback && typeof callback === 'function'){
+            	callback(arrayOfObjects);
+						}
         } else {
             jQuery('.dragSelectedElement').removeClass('dragSelectedElement fadedDragSelectedElement');
+						if (callback && typeof callback === 'function'){
+							callback(false);
+						}
         }
+			
 
         this.selectedObjects = arrayOfObjects;
         this.off();
@@ -125,10 +132,10 @@ var jQueryDragSelector = {
         jQuery(selector).each(function () {
             var $this = jQuery(this);
             var elemBoundingRect = $this.get(0).getBoundingClientRect();
-            if ((selectionBoundingRect.top > elemBoundingRect.top)
-                || (selectionBoundingRect.left > elemBoundingRect.left)
-                || (selectionBoundingRect.right < elemBoundingRect.right)
-                || (selectionBoundingRect.bottom < elemBoundingRect.bottom)) {
+            if ((selectionBoundingRect.top > elemBoundingRect.top) || 
+								(selectionBoundingRect.left > elemBoundingRect.left) || 
+								(selectionBoundingRect.right < elemBoundingRect.right) || 
+								(selectionBoundingRect.bottom < elemBoundingRect.bottom)) {
                 //The element is not contained
                 return true; //continue
             }
