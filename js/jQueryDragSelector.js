@@ -1,5 +1,5 @@
 var jQueryDragSelector = {
-    on: function () {
+    on: function (callback) {
         var self = this;
         if (!this.isOn) {
             /*
@@ -45,30 +45,12 @@ var jQueryDragSelector = {
                         }
                     });
                     jQuery(jQuery('.dragSelectedElement')[0]).addClass('fadedDragSelectedElement');
-
-                    //jQuery('.dragSelectedElement').addClass('fadedDragSelectedElement');
-
                     if (jQuery('.dragSelectedElement').length > 0) {
-                        /*
-                         * Just show the tooltip on one element even if multiple elements are selected
-                         * The faded element CSS will make it clear which elements are selected
-                         */
-                        jQuery(jQuery('.dragSelectedElement')[0])
-                            .popover({
-                                html: true,
-                                trigger: 'manual',
-                                placement: 'auto top',
-                                container: 'body', /*Show on top of all elements*/
-                                content: '<div>Go ahead with this selection ?</div>' +
-                                '<div class="btn-group">' +
-                                '<button type="button" class="btn btn-success" onclick="jQueryDragSelector.confirmSelection(true)">Yes</button>' +
-                                '<button class="btn btn-danger" onclick="jQueryDragSelector.confirmSelection(false)" type="button">No</button>' +
-                                '</div>'
-                            })
-                            .popover('show');
-                        /*TODO: I need to find a better way than binding global onclick events to the buttons*/
+												if (callback && typeof callback === 'function'){
+													callback(jQuery('.dragSelectedElement').first());
+												}
                     } else {
-                        alertNoSelection();
+                        callback(false);
                     }
                 });
 

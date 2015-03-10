@@ -1,6 +1,7 @@
 var WebHelpTemplates = {};
 
-WebHelpTemplates["../templates/WebHelpContainer.html"] = "<div id=\"webHelpMainContent\">\n" +
+WebHelpTemplates["../templates/WebHelpContainer.html"] = "\n" +
+   "<div id=\"webHelpMainContent\">\n" +
    "	<div class=\"tabbable\">\n" +
    "		<!-- Only required for left/right tabs -->\n" +
    "		<ul class=\"nav nav-tabs\">\n" +
@@ -38,42 +39,44 @@ WebHelpTemplates["../templates/WebHelpContainer.html"] = "<div id=\"webHelpMainC
    "						<table id=\"stepsTable\" class=\"table table-bordered table-hover\"></table>\n" +
    "					</section>\n" +
    "\n" +
-   "					<button type=\"button\" id='sequencePreviewButton' class=\"btn btn-default centered actionButton\" aria-label=\"Left Align\" style=\"margin-top:20px;\" onclick=\"preview();\">\n" +
+   "					<button type=\"button\" id='sequencePreviewButton' class=\"btn btn-default centered actionButton\" aria-label=\"Left Align\" style=\"margin-top:20px;\">\n" +
    "						<span class=\"iconClass-play\" aria-hidden=\"true \"></span> Preview\n" +
    "					</button>\n" +
    "\n" +
-   "					<button type=\"button \" id='sequenceSaveButton' class=\"btn btn-default centered \" aria-label=\"Left Align \" style=\"margin-top:20px; \" onclick=\"saveToDB(); \">\n" +
+   "					<button type=\"button \" id='sequenceSaveButton' class=\"btn btn-default centered \" aria-label=\"Left Align \" style=\"margin-top:20px;\">\n" +
    "						<span class=\"iconClass-save\" aria-hidden=\"true\"></span> Save\n" +
    "					</button>\n" +
-   "					<button type=\"button\" id='clearStepsButton ' class=\"btn btn-default centered\" aria-label=\"Left Align\" style=\"margin-top:20px;\" onclick=\"clearStepsInSequence();\">\n" +
+   "					<button type=\"button\" id='clearStepsButton ' class=\"btn btn-default centered\" aria-label=\"Left Align\" style=\"margin-top:20px;\">\n" +
    "						<span class=\"iconClass-clear\" aria-hidden=\"true \"></span> Clear\n" +
    "					</button>\n" +
    "				</div>\n" +
    "\n" +
    "				<div class=\"well \">Available actions:\n" +
    "					<div class=\"well-sm \">\n" +
-   "						<button data-toggle=\"tooltip \" data-placement=\"top \" title=\"Click and drag over elements on the page to select them \" class=\"btn btn-success \" role=\"button \" id=\"startDragDropButton \" onClick=\"startSelectionOfElement(true); \"><span class=\"iconClass-add\"></span> Add element step\n" +
+   "						<button data-toggle=\"tooltip \" data-placement=\"top \" title=\"Click and drag over elements on the page to select them \" class=\"btn btn-success \" role=\"button \" id=\"startDragDropButton \"><span class=\"iconClass-add\"></span> Add element step\n" +
    "						</button>\n" +
-   "						<button class=\"btn btn-info\" role=\"button\" id=\"startEmptyStepButton\" onClick=\"startSelectionOfElement(false);\">\n" +
+   "						<button class=\"btn btn-info\" role=\"button\" id=\"startEmptyStepButton\">\n" +
    "							<span class=\"iconClass-add\"></span> Add page step\n" +
    "						</button>\n" +
-   "						<button class=\"btn btn-danger \" id=\"cancelDragDropButton \" role=\"button \" onClick=\"jQueryDragSelector.off(); \"><span class=\"iconClass-remove\"></span> Cancel\n" +
+   "						<button class=\"btn btn-danger \" id=\"cancelDragDropButton \" role=\"button \"><span class=\"iconClass-remove\"></span> Cancel\n" +
    "						</button>\n" +
    "					</div>\n" +
    "				</div>\n" +
    "				<div class=\"alert alert-danger\" id=\"noElementsSelectedDiv\" style=\"display: none;\">\n" +
-   "					<button type=\"button\" class=\"close\" onclick=\"jQuery('#noElementsSelectedDiv ').hide();\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span>\n" +
+   "					<button id=\"noElementsSelectedButton\" type=\"button\" class=\"close\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span>\n" +
    "					</button>\n" +
    "					No elements were selected, please try again\n" +
    "				</div>\n" +
    "\n" +
    "				<div class=\"alert alert-danger\" id=\"noStepsInPreviewDiv\" style=\"display: none;\">\n" +
-   "					<button type=\"button\" class=\"close\" onclick=\"jQuery('#noStepsInPreviewDiv ').hide();\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span>\n" +
+   "					<button id=\"noStepsInPreviewButton\" type=\"button\" class=\"close\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span>\n" +
    "					</button>\n" +
    "					No steps to preview. Please add steps.\n" +
    "				</div>\n" +
    "			</div>\n" +
    "		</div>\n" +
+   "		\n" +
+   "\n" +
    "	</div>\n" +
    "</div>\n" +
    "\n" +
@@ -91,4 +94,5 @@ WebHelpTemplates["../templates/WebHelpContainer.html"] = "<div id=\"webHelpMainC
    "			</div>\n" +
    "		</div>\n" +
    "	</div>\n" +
-   "</div>";
+   "</div>\n" +
+   "";
