@@ -1,6 +1,8 @@
 jQuery.fn.extend({
     getPath: function () {
         var path, node = this;
+        /*Include only names and IDs since you can always programmatically add/remove classes*/
+        var uniqueTags = ['name', 'id'];
         while (node.length) {
             var realNode = node[0], name = realNode.localName;
             if (!name) break;
@@ -8,12 +10,17 @@ jQuery.fn.extend({
 
             var parent = node.parent();
 
-            var sameTagSiblings = parent.children(name);
-
-            if (node.attr('id') && (node.attr('id').trim !== '')) {
-                name += '#' + node.attr('id');
+            for (var i = uniqueTags.length - 1; i >= 0; i--) {
+                var tag = uniqueTags[i];
+                var tagValue = node.attr(tag);
+                if (tagValue && (tagValue.trim !== '')) {
+                    name += '[' + tag + '=\"' + tagValue + '\"]';
+                }
             }
 
+            var sameTagSiblings = parent.children(name);
+
+            //As soon as you know you have sibling nodes, use nth-of-type so you can better find a unique match
             if (sameTagSiblings.length > 1) {
                 var allSiblings = parent.children();
                 var index = allSiblings.index(realNode) + 1;
@@ -40,6 +47,6 @@ jQuery.fn.xpathEvaluate = function (xpathExpression) {
         result.push(elem);
     }
 
-    $result = jQuery([]).pushStack( result );
+    $result = jQuery([]).pushStack(result);
     return $result;
 };
