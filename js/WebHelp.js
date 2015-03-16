@@ -17,6 +17,9 @@ WebHelp = (function () {
             WebHelpOptions = defaultOptions;
         }
         for (var option in defaultOptions) {
+            if (undefined === option) {
+                continue;
+            }
             this[option] = WebHelpOptions.hasOwnProperty(option) ? WebHelpOptions[option] : defaultOptions[option];
         }
 
@@ -51,6 +54,8 @@ WebHelp = (function () {
             this.mode = "consume";
             this.showHelpConsumptionMode();
         }
+        this.bindPlayEditButtons();
+
     }
 
     //detect jquery params
@@ -75,6 +80,13 @@ WebHelp = (function () {
             }
         }
         return query_string;
+    };
+
+    WebHelp.prototype.bindPlayEditButtons = function () {
+        //attach sequence specific handlers
+        this.ui.webHelpMainContent.on('click', '.play-sequence', this.playThisSequence.bind(self));
+        this.ui.webHelpMainContent.on('click', '.edit-sequence', this.editThisSequence.bind(self));
+        this.ui.webHelpMainContent.on('click', '.remove-sequence', this.removeThisSequence.bind(self));
     };
 
     WebHelp.prototype.addHelpIcon = function (navbarButtonElement, addTextToNavbar) {
@@ -158,12 +170,6 @@ WebHelp = (function () {
         jQuery("#cancelDragDropButton").on("click", jQueryDragSelector.off);
         jQuery("#noElementsSelectedButton").on("click", jQuery('#noElementsSelectedDiv').hide);
         jQuery("#noStepsInPreviewButton").on("click", jQuery('#noStepsInPreviewDiv').hide);
-
-        //attach sequence specific handlers
-        this.ui.webHelpMainContent.on('click', 'play-sequence', this.playThisSequence.bind(self));
-        this.ui.webHelpMainContent.on('click', 'edit-sequence', this.editThisSequence.bind(self));
-        this.ui.webHelpMainContent.on('click', 'remove-sequence', this.removeThisSequence.bind(self));
-
 
         var stepsTable = jQuery("#stepsTable");
         stepsTable.on("click", ".remove-step", this.removeThisStep);
