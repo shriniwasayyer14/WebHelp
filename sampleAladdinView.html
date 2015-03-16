@@ -73,8 +73,6 @@
     <link rel="stylesheet" href="bower_components/intro.js/minified/introjs.min.css"/>
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/WebHelp.css"/>
-    <script src="js/WebHelp.js"></script>
-	<script src="js/WebHelpTemplates.js"></script>
     <script src="js/vendor/jquery-1.11.1.js"></script>
     <script src="bower_components/jquery-ui/jquery-ui.min.js"></script>
     <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
@@ -86,6 +84,8 @@
     <script src="js/jQueryDragSelector.js"></script>
     <script src="bower_components/intro.js/intro.js"></script>
     <script src="js/tableEdit.js"></script>
+    <script src="js/WebHelp.js"></script>
+    <script src="js/WebHelpTemplates.js"></script>
 
 
     <SCRIPT Language="JavaScript">
@@ -2118,15 +2118,18 @@ Separate Long and Short</span>
 </div>
 <script>
     var appNameForWebHelp = 'AladdinView';
-    jQuery(window).load(function () {
-        var WebHelp = new WebHelp();
-    });
     $.each($('*'), function (index, element) {
         if ((!$(element).attr('id')) && (!$(element).attr('name'))) {
             $(element).attr('name', 'a' + index);
         }
     });
     //Adding Names to all elements
+
+    jQuery(window).load(function () {
+        WebHelp = new WebHelp({
+            appname: 'AladdinView'
+        });
+    });
 </script>
 </body>
 </html> 
