@@ -1,5 +1,6 @@
+/* global jQuery, document */
 var jQueryDragSelector = {
-    on: function () {
+    on: function (callback) {
         var self = this;
         if (!this.isOn) {
             /*
@@ -10,7 +11,7 @@ var jQueryDragSelector = {
             jQuery(document)
                 .drag("start", function (ev, dd) {
                     return jQuery('<div class="selection" />')
-                        .css('opacity', .5)
+                        .css('opacity', 0.5)
                         .css('z-index', 999999999999)
                         .appendTo(document.body);
                 })
@@ -45,30 +46,12 @@ var jQueryDragSelector = {
                         }
                     });
                     jQuery(jQuery('.dragSelectedElement')[0]).addClass('fadedDragSelectedElement');
-
-                    //jQuery('.dragSelectedElement').addClass('fadedDragSelectedElement');
-
                     if (jQuery('.dragSelectedElement').length > 0) {
-                        /*
-                         * Just show the tooltip on one element even if multiple elements are selected
-                         * The faded element CSS will make it clear which elements are selected
-                         */
-                        jQuery(jQuery('.dragSelectedElement')[0])
-                            .popover({
-                                html: true,
-                                trigger: 'manual',
-                                placement: 'auto top',
-                                container: 'body', /*Show on top of all elements*/
-                                content: '<div>Go ahead with this selection ?</div>' +
-                                '<div class="btn-group">' +
-                                '<button type="button" class="btn btn-success" onclick="jQueryDragSelector.confirmSelection(true)">Yes</button>' +
-                                '<button class="btn btn-danger" onclick="jQueryDragSelector.confirmSelection(false)" type="button">No</button>' +
-                                '</div>'
-                            })
-                            .popover('show');
-                        /*TODO: I need to find a better way than binding global onclick events to the buttons*/
+												if (callback && typeof callback === 'function'){
+													callback(jQuery('.dragSelectedElement').first());
+												}
                     } else {
-                        alertNoSelection();
+                        callback(false);
                     }
                 });
 
@@ -77,7 +60,7 @@ var jQueryDragSelector = {
     },
     isOn: false,
     selectedObjects: [],
-    confirmSelection: function (confirmBoolean) {
+    confirmSelection: function (confirmBoolean, callback) {
         jQuery(jQuery('.dragSelectedElement')[0]).popover('destroy');
         var arrayOfObjects = [];
         /* Open the side-menu if it is closed*/
@@ -123,10 +106,16 @@ var jQueryDragSelector = {
                 }
                 arrayOfObjects.push(objectForArray);
             });
-            createStepForThisElement(arrayOfObjects);
+						if (callback && typeof callback === 'function'){
+            	callback(arrayOfObjects);
+						}
         } else {
             jQuery('.dragSelectedElement').removeClass('dragSelectedElement fadedDragSelectedElement');
+						if (callback && typeof callback === 'function'){
+							callback(false);
+						}
         }
+			
 
         this.selectedObjects = arrayOfObjects;
         this.off();
@@ -143,10 +132,10 @@ var jQueryDragSelector = {
         jQuery(selector).each(function () {
             var $this = jQuery(this);
             var elemBoundingRect = $this.get(0).getBoundingClientRect();
-            if ((selectionBoundingRect.top > elemBoundingRect.top)
-                || (selectionBoundingRect.left > elemBoundingRect.left)
-                || (selectionBoundingRect.right < elemBoundingRect.right)
-                || (selectionBoundingRect.bottom < elemBoundingRect.bottom)) {
+            if ((selectionBoundingRect.top > elemBoundingRect.top) || 
+								(selectionBoundingRect.left > elemBoundingRect.left) || 
+								(selectionBoundingRect.right < elemBoundingRect.right) || 
+								(selectionBoundingRect.bottom < elemBoundingRect.bottom)) {
                 //The element is not contained
                 return true; //continue
             }

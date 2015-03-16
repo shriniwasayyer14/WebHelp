@@ -951,7 +951,7 @@
       var opacity = parseFloat(_getPropValue(parentElm, 'opacity'));
       var transform = _getPropValue(parentElm, 'transform') || _getPropValue(parentElm, '-webkit-transform') || _getPropValue(parentElm, '-moz-transform') || _getPropValue(parentElm, '-ms-transform') || _getPropValue(parentElm, '-o-transform');
       if (/[0-9]+/.test(zIndex) || opacity < 1 || transform !== 'none') {
-        parentElm.className += ' introjs-fixParent';
+        //parentElm.className += ' introjs-fixParent';
       }
 
       parentElm = parentElm.parentNode;

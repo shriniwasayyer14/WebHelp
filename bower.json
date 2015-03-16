@@ -1,8 +1,11 @@
 {
-  "name": "Intro_JS",
-  "version": "0.1",
-  "description": "Intro js project",
-  "main": "main.js",
+  "name": "WebHelp",
+  "version": "0.0.1",
+  "description": "Aladdin Help",
+  "main": [
+    "./dist/js/AladdinHelp.js",
+    "./dist/css/AladdinHelp.css"
+  ],
   "keywords": [
     "intro",
     "help"
@@ -10,13 +13,16 @@
   "authors": [
     "sayyer"
   ],
-  "license": "MIT",
+  "license": "Private",
   "private": true,
   "ignore": [
     "**/.*",
     "node_modules",
     "bower_components",
     "test",
-    "tests"
+    "tests",
+	"src",
+	"Gruntfile.js",
+	"package.json"
   ]
 }
