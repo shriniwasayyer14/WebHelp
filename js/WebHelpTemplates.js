@@ -6,7 +6,7 @@ WebHelpTemplates["../templates/WebHelpContent.html"] = "<div id=\"contentConsump
    "			<div class=\"modal-header ai-modal-title\">\n" +
    "				<button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span>\n" +
    "				</button>\n" +
-   "				\"What would you like to learn?\n" +
+   "				What would you like to learn?\n" +
    "			</div>\n" +
    "			<div class=\"modal-body\"></div>\n" +
    "			<div class=\"modal-footer\">\n" +
