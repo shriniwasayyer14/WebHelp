@@ -154,9 +154,7 @@ function doAnimation(container, containerWidth, sidebarSide, sidebarStatus){
 			toggleArrow(toggler, "left");
 		}
 		container.attr('data-status', 'opened');
-
 	}
-
 }
 
 function toggleArrow(toggler, side){
