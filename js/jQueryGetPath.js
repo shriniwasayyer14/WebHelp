@@ -9,12 +9,15 @@ jQuery.fn.extend({
             var parent = node.parent();
 
             var sameTagSiblings = parent.children(name);
+
+            if (node.attr('id') && (node.attr('id').trim !== '')) {
+                name += '#' + node.attr('id');
+            }
+
             if (sameTagSiblings.length > 1) {
-                allSiblings = parent.children();
+                var allSiblings = parent.children();
                 var index = allSiblings.index(realNode) + 1;
-                if (index > 1) {
-                    name += ':nth-child(' + index + ')';
-                }
+                name += ':nth-child(' + index + ')';
             }
 
             path = name + (path ? '>' + path : '');
@@ -39,4 +42,4 @@ jQuery.fn.xpathEvaluate = function (xpathExpression) {
 
     $result = jQuery([]).pushStack( result );
     return $result;
-}
+};
