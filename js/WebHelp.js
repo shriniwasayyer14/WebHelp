@@ -83,6 +83,7 @@ WebHelp = (function () {
     };
 
     WebHelp.prototype.bindPlayEditButtons = function () {
+        var self = this;
         //attach sequence specific handlers
         this.ui.webHelpMainContent.on('click', '.play-sequence', this.playThisSequence.bind(self));
         this.ui.webHelpMainContent.on('click', '.edit-sequence', this.editThisSequence.bind(self));
