@@ -47,3 +47,4 @@ node_modules/*
 *.log
 .gitignore
 .svn
+bower_components/*

@@ -1,18 +1,23 @@
 /*global module:false*/
+'use strict';
 module.exports = function (grunt) {
-
+	// Load all grunt tasks
+	require('load-grunt-tasks')(grunt);
+	// Show elapsed time at the end
+	require('time-grunt')(grunt);
+  
 	// Project configuration.
 	grunt.initConfig({
 		// Metadata.
 		pkg: grunt.file.readJSON('package.json'),
 		separator: ';\n',
 		/*Add dummy CVS Header as banner template*/
-		banner: "/*    Last edited by:  $Author: akannan $\n" +
-			" *    on:  $Date: 2010-10-12 17:28:22 +0800 (Tue, 12 Oct 2010) $\n" +
-			" *    Filename:  $Id: manavik.html 436280 2010-10-12 09:28:22Z manavik $\n" +
-			" *    Revision:  $Revision: 436280 $\n" +
-			" *    Description\n" +
-			" */\n",
+		banner: '/*    Last edited by:  $Author: akannan $\n' +
+			' *    on:  $Date: 2010-10-12 17:28:22 +0800 (Tue, 12 Oct 2010) $\n' +
+			' *    Filename:  $Id: manavik.html 436280 2010-10-12 09:28:22Z manavik $\n' +
+			' *    Revision:  $Revision: 436280 $\n' +
+			' *    Description\n' +
+			' */\n',
 		// Task configuration.
 		concat: {
 			options: {
@@ -28,11 +33,6 @@ module.exports = function (grunt) {
 				src: ['bower_components/intro.js/intro.js',
                     'js/vendor/*.js',
                     'js/*.js',
-                    '!js/vendor/jquery-*.js',
-                    '!js/vendor/jquery.event.drop*.js',
-                    '!js/vendor/jquery*.live-*.js',
-                    '!js/vendor/jquery.jpanelmenu*.js',
-                    '!js/modernizr*js'
                 ],
 				dest: 'dist/js/<%= pkg.name %>.js'
 			},
@@ -50,11 +50,11 @@ module.exports = function (grunt) {
 				dest: 'dist/js/<%= pkg.name %>WithExtras.js'
 			},
 			basicCSS: {
-				src: ["bower_components/intro.js/minified/introjs.min.css",
-                    "css/BootSideMenu.css",
-                    "css/BootSideMenu.css",
-                    "css/jQueryDragSelector.css",
-                    "css/WebHelp.css"
+				src: ['bower_components/intro.js/minified/introjs.min.css',
+                    'css/BootSideMenu.css',
+                    'css/BootSideMenu.css',
+                    'css/jQueryDragSelector.css',
+                    'css/WebHelp.css'
                 ],
 				dest: 'dist/css/<%= pkg.name %>.css',
 				options: {
@@ -63,13 +63,13 @@ module.exports = function (grunt) {
 				}
 			},
 			extrasCSS: {
-				src: ["bower_components/DataTables/media/css/jquery.dataTables.min.css",
-                    "bower_components/DataTables/media/css/jquery.dataTables_themeroller.css",
-                    "bower_components/intro.js/minified/introjs.min.css",
-                    "css/BootSideMenu.css",
-                    "css/BootSideMenu.css",
-                    "css/jQueryDragSelector.css",
-                    "css/WebHelp.css"
+				src: ['bower_components/DataTables/media/css/jquery.dataTables.min.css',
+                    'bower_components/DataTables/media/css/jquery.dataTables_themeroller.css',
+                    'bower_components/intro.js/minified/introjs.min.css',
+                    'css/BootSideMenu.css',
+                    'css/BootSideMenu.css',
+                    'css/jQueryDragSelector.css',
+                    'css/WebHelp.css'
                 ],
 				dest: 'dist/css/<%= pkg.name %>WithExtras.css',
 				options: {
@@ -104,6 +104,7 @@ module.exports = function (grunt) {
 		},
 		uglify: {
 			options: {
+				banner: '<%= banner %>',
 				mangle: {
 					except: ['jQuery']
 				},
@@ -118,7 +119,6 @@ module.exports = function (grunt) {
 					drop_console: true
 				}
 			},
-
 			basic: {
 				src: ['dist/js/<%= pkg.name %>.js'],
 				dest: 'dist/js/<%= pkg.name %>.min.js'
@@ -133,10 +133,19 @@ module.exports = function (grunt) {
 				files: 'templates/*',
 				tasks: ['htmlConvert:WebHelpTemplates']
 			},
-			/*lib_test: {
-				files: '<%= jshint.lib_test.src %>',
-				tasks: ['jshint:lib_test', 'qunit']
-			}*/
+			gruntfile: {
+				files: '<%= jshint.gruntfile.src %>',
+				tasks: ['jshint:gruntfile']
+			},
+			src: {
+				files: '<%= jshint.src.src %>',
+				tasks: ['jshint:src', 'qunit']
+			},
+			test: {
+				files: '<%= jshint.test.src %>',
+				tasks: ['jshint:test', 'qunit']
+			}
+    
 		},
 		cssmin: {
 			/*This removes all banners and comments - we may not want to use this in production*/
@@ -144,7 +153,7 @@ module.exports = function (grunt) {
 			target: {
 				files: [{
 					expand: true,
-					src: ["dist/css/*.css"],
+					src: ['dist/css/*.css'],
 					dest: '', //cssmin adds dist/css by itself
 					ext: '.min.css'
                 }]
@@ -173,25 +182,54 @@ module.exports = function (grunt) {
 				}
 			}
 		},
+		jshint: {
+		  options: {
+			reporter: require('jshint-stylish')
+		  },
+		  gruntfile: {
+			options: {
+			  jshintrc: '.jshintrc'
+			},
+			src: 'Gruntfile.js'
+		  },
+		  src: {
+			options: {
+			  jshintrc: 'js/.jshintrc'
+			},
+			src: ['js/**/*.js']
+		  },
+		  test: {
+			options: {
+			  jshintrc: 'test/.jshintrc'
+			},
+			src: ['test/**/*.js']
+		  }
+		},
 		htmlConvert: {
 			WebHelpTemplates: {
 				src: ['templates/*.html'],
 				dest: 'js/WebHelpTemplates.js'
-			},
+			}
+		},
+		connect: {
+		  server: {
+			options: {
+			  hostname: '*',
+			  port: 9000
+			}
+		  }
+		},
+		qunit: {
+		  all: {
+			options: {
+			  urls: ['http://localhost:9000/index.html']
+			}
+		  }
 		}
 	});
 
-	// These plugins provide necessary tasks.
-	grunt.loadNpmTasks('grunt-contrib-concat');
-	grunt.loadNpmTasks('grunt-contrib-uglify');
-	grunt.loadNpmTasks('grunt-contrib-watch');
-	grunt.loadNpmTasks('grunt-concat-css');
-	grunt.loadNpmTasks('grunt-contrib-cssmin');
-	grunt.loadNpmTasks('grunt-lineending');
-	grunt.loadNpmTasks('grunt-banner');
-	grunt.loadNpmTasks('grunt-replace');
-	grunt.loadNpmTasks('grunt-html-convert');
 	// Default task.
-	grunt.registerTask('default', ['htmlConvert', 'concat', 'replace', 'uglify', 'cssmin', 'usebanner', 'lineending']);
+	grunt.registerTask('default', ['htmlConvert', 'concat', 'replace', 'jshint', 'uglify', 'cssmin', 'usebanner', 'lineending']);
+	grunt.registerTask('serve', ['connect', 'watch']);
 
 };
