@@ -465,7 +465,7 @@ WebHelp = (function () {
             async: true,
             data: {
                 method: "saveSequence",
-                seq_id: new Date().getTime(),
+                seqId: new Date().getTime(),
                 title: sequenceTitle,
                 data: JSON.stringify(stepsToSave),
                 tool: this.appName,
@@ -501,7 +501,7 @@ WebHelp = (function () {
         var sequences = this.getAllSequences();
         sequences[sequenceTitle] = {
             method: "saveSequence",
-            seq_id: new Date().getTime(),
+            seqId: new Date().getTime(),
             sequenceTitle: sequenceTitle,
             data: JSON.stringify(stepsToSave),
             tool: this.appName,
