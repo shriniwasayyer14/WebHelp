@@ -518,7 +518,9 @@ WebHelp = (function () {
     };
 
     WebHelp.prototype.getCurrentTablePreviewSteps = function () {
-        var tableHasData = !((jQuery("#stepsTable td").length <= 0) || ((jQuery("#stepsTable td").length === 1) && (jQuery("#stepsTable td").hasClass('dataTables_empty'))));
+        var $stepsTable = jQuery("#stepsTable");
+        var numSteps = $stepsTable.find("td");
+        var tableHasData = !((numSteps.length <= 0) || ((numSteps.length === 1) && (numSteps.hasClass('dataTables_empty'))));
         if (!tableHasData) {
             jQuery('#noStepsInPreviewDiv').show();
             return false;
@@ -526,7 +528,7 @@ WebHelp = (function () {
 
         var previewSteps = [];
 
-        var tableRows = jQuery("#stepsTable tr");
+        var tableRows = $stepsTable.find("tr");
         var rows = [];
 
         jQuery.each(tableRows, function (index, element) {
