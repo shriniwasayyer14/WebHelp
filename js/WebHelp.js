@@ -569,8 +569,7 @@ WebHelp = (function () {
     };
 
     WebHelp.prototype.genKey = function () {
-        var key = "WebHelp." + this.appName + "." + this.userName;
-        return key;
+        return "WebHelp." + this.appName + "." + this.userName;
     };
 
     // This function should be tied to the user and the app
