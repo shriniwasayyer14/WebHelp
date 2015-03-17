@@ -354,7 +354,7 @@ WebHelp = (function () {
             jQuery('td .' + this.iconClass.remove).attr('title', 'Delete');
 
             //Convert all the tables to bootstrap-tables
-            jQuery('#webHelpMainContent table.dataTable').addClass('table table-hover table-striped table-bordered');
+            jQuery('#webHelpMainContent').find('table.dataTable').addClass('table table-hover table-striped table-bordered');
             return {
                 numNewSequences: numNewSequences
             };
@@ -502,7 +502,7 @@ WebHelp = (function () {
         sequences[sequenceTitle] = {
             method: "saveSequence",
             seq_id: new Date().getTime(),
-            title: sequenceTitle,
+            sequenceTitle: sequenceTitle,
             data: JSON.stringify(stepsToSave),
             tool: this.appName,
             active_flag: 'N',
@@ -641,7 +641,7 @@ WebHelp = (function () {
                     "bSearchable": true
                 }
             ],
-            "aaData": aaData
+            "aaData": aaData || []
         });
     };
 
@@ -709,8 +709,12 @@ WebHelp = (function () {
         var thisSequenceTitle = t.row(jQuery(event.target).parents('tr')).data()[1];
         //t.row(jQuery(event.target).parents('tr')).remove().draw();
         var stepsForThisSequence = this.getAllSequences()[thisSequenceTitle];
+        if (stepsForThisSequence.data) {
+            stepsForThisSequence.data = JSON.parse(stepsForThisSequence.data);
+        }
         var stepsTable = jQuery("#stepsTable").DataTable();
         stepsTable.clear().draw();
+        var self = this;
         jQuery.each(stepsForThisSequence.data, function (index, element) {
             var title = jQuery(element.intro).children('h3').text() || '';
             var text = jQuery(element.intro).children('p').text() || '';
@@ -725,7 +729,7 @@ WebHelp = (function () {
                 elementAttr = splitArray[0];
             }
             stepsTable.row.add([
-                "<span class='remove-step " + this.iconClass.remove + "' aria-hidden='true'></span>",
+                "<span class='remove-step " + self.iconClass.remove + "' aria-hidden='true'></span>",
                 title,
                 elementAttr,
                 elementId,
