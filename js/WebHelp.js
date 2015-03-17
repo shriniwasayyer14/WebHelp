@@ -22,6 +22,7 @@ WebHelp = (function () {
             }
             this[option] = WebHelpOptions.hasOwnProperty(option) ? WebHelpOptions[option] : defaultOptions[option];
         }
+		this.webHelpName = 'WebHelp.' + this.appName;
 
         //setup icon classes
         if (this.usesFontAwesome === true) {
@@ -88,8 +89,13 @@ WebHelp = (function () {
         this.ui.webHelpMainContent.on('click', '.edit-sequence', this.editThisSequence.bind(self));
         this.ui.webHelpMainContent.on('click', '.remove-sequence', this.removeThisSequence.bind(self));
     };
+	
+	WebHelp.prototype.showSequences = function(){
+		jQuery('#contentConsumptionModal').modal('show');
+	}
 
     WebHelp.prototype.addHelpIcon = function (navbarButtonElement, addTextToNavbar) {
+		var self = this;
         if (!navbarButtonElement) {
             navbarButtonElement = this.helpIconPosition;
         }
@@ -109,7 +115,7 @@ WebHelp = (function () {
         }
         this.ui.webHelpButton.on('click', function (event) {
             event.preventDefault();
-            jQuery('#contentConsumptionModal').modal('show');
+            self.showSequences();
         });
         this.ui.webHelpButton.attr('title', 'App Help');
     };
@@ -168,7 +174,7 @@ WebHelp = (function () {
 
         //attach event handlers to webHelpContent
         jQuery("#sequencePreviewButton").on("click", this.preview.bind(self));
-        jQuery("#sequenceSaveButton").on("click", this.saveToLocalStorage.bind(self));
+        jQuery("#sequenceSaveButton").on("click", this.saveSequence.bind(self));
         jQuery("#clearStepsButton").on("click", this.clearStepsInSequence.bind(self));
         jQuery("#startDragDropButton").on("click", this.startSelectionOfElement.bind(self));
         jQuery("#startEmptyStepButton").on("click", this.createStepForThisElement.bind(self));
@@ -264,7 +270,6 @@ WebHelp = (function () {
         var retrievedNewHtml = '';
         var retrievedPopularHtml = '';
         var retrievedSequences = this.getAllSequences();
-        //var sequencesFromDB = this.getAllSequencesFromDB();
 
         var numNewSequences = 0;
         if (retrievedSequences) {
@@ -449,51 +454,10 @@ WebHelp = (function () {
             }, 500);
         }
     };
-
-    WebHelp.prototype.saveToDB = function () {
-        var sequenceTitle = jQuery("#sequenceTitleSetter").val().trim();
-        var stepsToSave = this.getCurrentTablePreviewSteps();
-        var method = "saveSequence";
-        var description = "Test";
-        var tool = this.appName;
-        var active_flag = 'N';
-        var list_order = new Date().getTime();
-        var url = "";
-        var data = stepsToSave;
-
-        var auth = encodeURIComponent("sayyer:Ganesh001");
-
-        jQuery.ajax({
-            url: "http://devntsl002.blackrock.com:8558/weblications/WebHelp/WebHelp.epl",
-            type: "POST",
-            async: true,
-            data: {
-                method: "saveSequence",
-                seqId: new Date().getTime(),
-                title: sequenceTitle,
-                data: JSON.stringify(stepsToSave),
-                tool: this.appName,
-                active_flag: 'N',
-                url: "test"
-            },
-            success: function (data, status) {
-                jQuery("#sequenceSaveButton").attr('title', 'Saved!').tooltip({
-                    trigger: 'manual'
-                }).tooltip("show");
-                setTimeout(function () {
-                    jQuery("#sequenceSaveButton").tooltip('hide').attr('title', '');
-                }, 500);
-                this.populateCurrentSequences();
-                this.refreshWhatsNew();
-            },
-            error: function (XMLHttpRequest, textStatus, errorThrown) {
-                alert("Save action failed!");
-            }
-        });
-    };
-
-    WebHelp.prototype.saveToLocalStorage = function () {
-        var sequenceTitle = jQuery("#sequenceTitleSetter").val().trim();
+	
+	WebHelp.prototype.saveSequence = function(){
+		//saveToDB()
+		var sequenceTitle = jQuery("#sequenceTitleSetter").val().trim();
         var stepsToSave = this.getCurrentTablePreviewSteps();
         var method = "saveSequence";
         var description = "Test";
@@ -507,15 +471,13 @@ WebHelp = (function () {
             method: "saveSequence",
             seqId: new Date().getTime(),
             sequenceTitle: sequenceTitle,
-            data: JSON.stringify(stepsToSave),
+            data: stepsToSave,
             tool: this.appName,
             active_flag: 'N',
             url: "test"
         };
-        var WebHelpName = 'WebHelp.' + this.appName;
-        localStorage.setItem(WebHelpName, JSON.stringify(sequences));
-
-    };
+		localStorage.setItem(this.webHelpName, JSON.stringify(sequences));
+	}
 
     WebHelp.prototype.getCurrentTablePreviewSteps = function () {
         var $stepsTable = jQuery("#stepsTable");
@@ -677,9 +639,8 @@ WebHelp = (function () {
     };
 
     WebHelp.prototype.getAllSequences = function () {
-        var WebHelpName = 'WebHelp.' + this.appName;
-        if (localStorage.getItem(WebHelpName)) {
-            return JSON.parse(localStorage.getItem(WebHelpName));
+        if (localStorage.getItem(this.webHelpName)) {
+            return JSON.parse(localStorage.getItem(this.webHelpName));
         } else {
             return {};
         }
@@ -779,8 +740,7 @@ WebHelp = (function () {
         var seqId = seq.seqId;
         delete storedSequences[t.row(jQuery(event.target).parents('tr')).data()[1]];
 
-        var WebHelpName = 'WebHelp.' + this.appName;
-        localStorage.setItem(WebHelpName, JSON.stringify(storedSequences));
+        localStorage.setItem(this.webHelpName, JSON.stringify(storedSequences));
         this.populateCurrentSequences();
         this.refreshWhatsNew();
     };
