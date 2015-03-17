@@ -72,8 +72,7 @@ WebHelp = (function () {
                 query_string[pair[0]] = pair[1];
                 // If second entry with this name
             } else if (typeof query_string[pair[0]] === "string") {
-                var arr = [query_string[pair[0]], pair[1]];
-                query_string[pair[0]] = arr;
+                query_string[pair[0]] = [query_string[pair[0]], pair[1]];
                 // If third or later entry with this name
             } else {
                 query_string[pair[0]].push(pair[1]);
@@ -122,11 +121,14 @@ WebHelp = (function () {
             var modalContent = jQuery(WebHelpTemplates["../templates/WebHelpContent.html"]);
             var webHelpContent = jQuery(WebHelpTemplates["../templates/WebHelpCreator.html"]);
             for (var icon in this.iconClass) {
-                modalContent.find("iconClass-" + icon).addClass(this.iconClass[icon]);
-                webHelpContent.find("iconClass-" + icon).addClass(this.iconClass[icon]);
+                if (this.iconClass.hasOwnProperty(icon)) {
+                    modalContent.find("iconClass-" + icon).addClass(this.iconClass[icon]);
+                    webHelpContent.find("iconClass-" + icon).addClass(this.iconClass[icon]);
+                }
             }
-            jQuery("body").append(modalContent);
-            jQuery("body").append(webHelpContent);
+            var $body = jQuery("body");
+            $body.append(modalContent);
+            $body.append(webHelpContent);
             this.ui.webHelpMainContent = jQuery("#webHelpMainContent");
         }
         this.ui.webHelpMainContent.appendTo("#contentConsumptionModal .modal-body");
