@@ -225,10 +225,12 @@ WebHelp = (function () {
         var seenSequences = this.getAllVisitedSequences(); //new function
         var newSequences = [];
         for (var seqName in sequences) {
-            var seq = sequences[seqName];
-            var seqId = seq.seqId;
-            if (seenSequences.indexOf(seqId) < 0) {
-                newSequences.push(seq);
+            if (sequences.hasOwnProperty(seqName)) {
+                var seq = sequences[seqName];
+                var seqId = seq.seqId;
+                if (seenSequences.indexOf(seqId) < 0) {
+                    newSequences.push(seq);
+                }
             }
         }
         this.updateNewSequencesTable(newSequences); // new function
