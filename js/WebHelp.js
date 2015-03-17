@@ -575,8 +575,21 @@ WebHelp = (function () {
     // This function should be tied to the user and the app
     // Returns an array of sequence IDs of the visited sequences
     WebHelp.prototype.getAllVisitedSequences = function () {
+        var userPrefs = {};
+        jQuery.ajax({
+            async : false,
+            url: "/weblications/etc/getPrefs.epl",
+            success: function(data) {
+                data = data.split(/\r?\n/);
+                for(var i=0;i<data.length;i++) {
+                    var keyVal = data[i].split("/t");
+                    userPrefs[keyVal[0]] = keyVal[1];
+                }
+            }
+        });
+        
         var key = this.genKey();
-        var seqIds = JSON.parse(localStorage.getItem(key));
+        var seqIds = userPrefs[key];
         if (seqIds && seqIds.length > 0) {
             return seqIds;
         } else {
@@ -590,9 +603,22 @@ WebHelp = (function () {
         var key = this.genKey();
         if (visitedSeqIds.indexOf(seqId) < 0) {
             visitedSeqIds.push(seqId);
-            localStorage.setItem(key, JSON.stringify(visitedSeqIds));
         }
-        this.refreshWhatsNew(); // new function
+        this.setVisitedSequencesInUserPrefs(key, visitedSeqIds);
+    };
+
+    WebHelp.prototype.setVisitedSequencesInUserPrefs = function(key, val) {
+        var self = this;
+        jQuery.ajax({
+            type: "POST",
+            url:"/weblications/etc/setPrefs.epl",
+            data: {
+                key:val
+            },
+            success: function(data, status) {
+                self.refreshWhatsNew(); // new function
+            }
+        });
     };
 
     // This table will remove and add new contents to the new sequences table
