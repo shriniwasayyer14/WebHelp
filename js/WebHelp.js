@@ -255,7 +255,7 @@ WebHelp = (function () {
     };
 
     WebHelp.prototype.populateCurrentSequences = function () {
-        var isCreator = (this.parameters.create !== undefined) ? true : false;
+        var isCreator = (this.parameters.create !== undefined);
         var retrievedHtml = '';
         var retrievedNewHtml = '';
         var retrievedPopularHtml = '';
