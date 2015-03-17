@@ -149,7 +149,9 @@ WebHelp = (function () {
         if (this.ui.webHelpMainContent.length === 0) {
             var webHelpContent = jQuery(WebHelpTemplates["../templates/WebHelpCreator.html"]);
             for (var icon in this.iconClass) {
-                webHelpContent.find("iconClass-" + icon).addClass(this.iconClass[icon]);
+                if (this.iconClass.hasOwnProperty(icon)) {
+                    webHelpContent.find("iconClass-" + icon).addClass(this.iconClass[icon]);
+                }
             }
             jQuery("body").append(webHelpContent);
             this.ui.webHelpMainContent = jQuery("#webHelpMainContent");
