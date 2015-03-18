@@ -75,19 +75,24 @@ opacity(n) {
   .sorting, .sorting_asc, .sorting_desc {
     background: none;
   }
+  table#stepsTable {
+    > thead > tr > th {
+      display: table-cell;
+    }
+    > thead > tr > th.invisibleColumnInStepsTable {
+      display: none;
+    }
+
+  }
+  #stepsTable, .checkbox {
+    margin-top: 15px;
+    margin-bottom: 15px;
+  }
   table, table.dataTable {
     width: 100% !important; /*Prevent it getting scaled out of proportion*/
     border-bottom: 1px solid #dbdbdb !important;
     > thead > tr > th {
-      border: 1px solid #dbdbdb !important;
-      display: none;
-    }
-    #stepsTable > thead > tr > th {
-      display: table-cell;
-    }
-    #stepsTable, .checkbox {
-      margin-top: 15px;
-      margin-bottom: 15px;
+      border: 1px solid #dbdbdb !important
     }
     tbody {
       th, td {
@@ -96,6 +101,9 @@ opacity(n) {
         font-size: 14px;
         white-space: pre-wrap;
         max-width: 100px;
+      }
+      td.invisibleColumnInStepsTable {
+        display: none !important;
       }
     }
     #addSequence .well .btn.btn-default {
@@ -126,9 +134,6 @@ opacity(n) {
       padding-top: 8px;
     }
 
-    #stepsTable td.invisibleColumnInStepsTable, #stepsTable th.invisibleColumnInStepsTable {
-      display: none !important;
-    }
   }
 }
 
