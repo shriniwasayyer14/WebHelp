@@ -1,3 +1,4 @@
+/* globals elem */
 jQuery.fn.extend({
     getPath: function () {
         var path, node = this;
@@ -5,7 +6,9 @@ jQuery.fn.extend({
         var uniqueTags = ['name', 'id'];
         while (node.length) {
             var realNode = node[0], name = realNode.localName;
-            if (!name) break;
+            if (!name) {
+							break;
+						}
             name = name.toLowerCase();
 
             var parent = node.parent();
@@ -37,16 +40,16 @@ jQuery.fn.extend({
 
 jQuery.fn.xpathEvaluate = function (xpathExpression) {
     // NOTE: vars not declared local for debug purposes
-    $this = this.first(); // Don't make me deal with multiples before coffee
+    var $this = this.first(); // Don't make me deal with multiples before coffee
 
     // Evaluate xpath and retrieve matching nodes
-    xpathResult = this[0].evaluate(xpathExpression, this[0], null, XPathResult.ORDERED_NODE_ITERATOR_TYPE, null);
+    var xpathResult = this[0].evaluate(xpathExpression, this[0], null, XPathResult.ORDERED_NODE_ITERATOR_TYPE, null);
 
-    result = [];
+    var result = [];
     while (elem = xpathResult.iterateNext()) {
         result.push(elem);
     }
 
-    $result = jQuery([]).pushStack(result);
+    var $result = jQuery([]).pushStack(result);
     return $result;
 };

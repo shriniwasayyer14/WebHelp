@@ -768,7 +768,6 @@ WebHelp = (function () {
     WebHelp.prototype.removeThisSequence = function (event) {
         var t = jQuery("#availableSequencesList").DataTable();
         var storedSequences = this.getAllSequences();
-        var seq = storedSequences[t.row(jQuery(event.target).parents('tr')).data()[1]];
         delete storedSequences[t.row(jQuery(event.target).parents('tr')).data()[1]];
 
         localStorage.setItem(this.webHelpName, JSON.stringify(storedSequences));

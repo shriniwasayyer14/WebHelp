@@ -9,7 +9,7 @@ var jQueryDragSelector = {
              * http://threedubmedia.com/code/event/drop
              */
             jQuery(document)
-                .drag("start", function (ev, dd) {
+                .drag("start", function () {
                     return jQuery('<div class="selection" />')
                         .css('opacity', 0.5)
                         .css('z-index', 999999999999)
@@ -38,7 +38,6 @@ var jQueryDragSelector = {
                     self.rectangleSelect('div, input, textarea, button, a, ul, li, tr, td, span', selectionBoundingRect);
 
                     /*Make sure only the biggest parent element is selected*/
-                    var selectedDivs = [];
                     jQuery.each(jQuery('.dragSelectedElement'), function (index, element) {
                         jQuery(element).children().removeClass('dragSelectedElement');
                         if (index > 0) {
@@ -128,7 +127,6 @@ var jQueryDragSelector = {
         }
     },
     rectangleSelect: function (selector, selectionBoundingRect) {
-        var elements = [];
         jQuery(selector).each(function () {
             var $this = jQuery(this);
             var elemBoundingRect = $this.get(0).getBoundingClientRect();
