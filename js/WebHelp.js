@@ -141,6 +141,7 @@ WebHelp = (function () {
         }
         this.ui.webHelpMainContent.appendTo("#contentConsumptionModal .modal-body");
         jQuery('.nav-tabs a[href=#addSequence]').hide();
+        jQuery('#globalWebHelpCreatorActionsWell').hide();
         if (this.showIntroOnLoad) {
             this.playSequence('Introduction');
         }
