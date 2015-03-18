@@ -91,7 +91,7 @@ WebHelpTemplates["../templates/WebHelpCreator.html"] = "\n" +
    "                </div>\n" +
    "			</div>\n" +
    "		</div>\n" +
-   "        <div class=\"well \"><b>Global actions:</b>\n" +
+   "        <div class=\"well\" id=\"globalWebHelpCreatorActionsWell\"><b>Global actions:</b>\n" +
    "            <div class=\"well-sm \">\n" +
    "                <button class=\"btn btn-info\" role=\"button\" id=\"saveAllHelpSequencesToFileButton\">\n" +
    "                    <span class=\"iconClass-save\"></span> Save all sequences\n" +
@@ -113,3 +113,5 @@ WebHelpTemplates["../templates/WebHelpSelectPopup.html"] = "<div>Go ahead with t
    "	<button type=\"button\" class=\"btn btn-success drag-select-yes\">Yes</button>\n" +
    "	<button type=\"button\" class=\"btn btn-danger drag-select-no\">No</button>\n" +
    "</div>";
+
+WebHelpTemplates["../templates/WebHelpSidebarToggle.html"] = "<span id=\"creationModeSidebarshowHideSpan\">Show/Hide Create Mode</span>";

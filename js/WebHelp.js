@@ -166,12 +166,22 @@ WebHelp = (function () {
             this.ui.webHelpMainContent = jQuery("#webHelpMainContent");
         }
 
-        // build bootside menu
+        var sidebarToggleButton = jQuery(WebHelpTemplates["../templates/WebHelpSidebarToggle.html"]);
+        this.ui.webHelpMainContent
+            .addClass('creationModeSidebar')
+            .addClass('hideSidebar')
+            .append(sidebarToggleButton);
 
-        this.ui.webHelpMainContent.BootSideMenu({
+        this.ui.sidebarToggleButton = jQuery('#creationModeSidebarshowHideSpan');
+
+        this.ui.sidebarToggleButton.on('click', function() {
+            self.ui.webHelpMainContent.toggleClass('hideSidebar', 200);
+        });
+
+        /*this.ui.webHelpMainContent.BootSideMenu({
             side: "right", // left or right
             autoClose: true // auto close when page loads
-        });
+        });*/
 
         jQuery('.nav-tabs a[href=#addSequence]').trigger('click');
 
@@ -407,10 +417,7 @@ WebHelp = (function () {
     WebHelp.prototype.startSelectionOfElement = function () {
         var self = this;
         /* Close the sidemenu if it is open*/
-        var status = this.ui.webHelpMainContent.attr("data-status");
-        if (status === "opened") {
-            jQuery(".toggler").trigger("click");
-        }
+        this.ui.sidebarToggleButton.trigger('click');
         jQueryDragSelector.on(function (element) {
             if (element) {
                 element.popover({
@@ -482,7 +489,7 @@ WebHelp = (function () {
                 showBullets: false,
                 tooltipPosition: 'auto'
             });
-            jQuery('.toggler').trigger('click'); //Close the side menu
+            this.ui.sidebarToggleButton.trigger('click'); //Close the side menu
             setTimeout(function () {
                 introJsObj.start();
             }, 500);
@@ -723,7 +730,17 @@ WebHelp = (function () {
             showProgress: true,
             showBullets: false
         });
-        jQuery('.toggler').trigger('click'); //Close the side menu
+        var self = this;
+        self.ui.webHelpMainContent.hide();
+
+        //Hacky workaround to introjs pushing fixed position elements into weird places while scrolling to play
+        play.oncomplete(function() {
+            self.ui.webHelpMainContent.show();
+        });
+        play.onexit(function() {
+            self.ui.webHelpMainContent.show();
+        });
+
         if (jQuery('#contentConsumptionModal').is(':visible')) {
             jQuery('#contentConsumptionModal').modal('hide');
         }

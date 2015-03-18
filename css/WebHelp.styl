@@ -9,8 +9,45 @@ opacity(n) {
   font-size: 13px;
 }
 
-#webHelpMainContent.sidebar {
+#webHelpMainContent.creationModeSidebar {
   max-width: 35%;
+  position: absolute;
+  top: 0;
+  z-index: 999;
+  right: 0;
+  height: 100%;
+}
+
+#creationModeSidebarshowHideSpan {
+  left: -95px;
+  width: 160px;
+  top: 45%;
+  position: absolute;
+  background-color: whitesmoke;
+  border: 1px solid #666;
+  border-bottom: none;
+  padding: 6px;
+  border-radius: 4px 4px 0px 0px;
+  -webkit-transform: rotate(-90deg);
+  -moz-transform: rotate(-90deg);
+  -o-transform: rotate(-90deg);
+  -ms-transform: rotate(-90deg);
+  transform: rotate(-90deg);
+  z-index: 999;
+}
+
+#creationModeSidebarshowHideSpan:hover {
+  cursor: pointer;
+  background-color: #999;
+  color: white;
+}
+
+#webHelpMainContent.creationModeSidebar.hideSidebar {
+  right: -35%;
+  #creationModeSidebarshowHideSpan {
+    left: -25%;
+    padding-bottom: 20px;
+  }
 }
 
 @media screen {
