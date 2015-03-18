@@ -92,7 +92,7 @@ WebHelp = (function () {
 	
 	WebHelp.prototype.showSequences = function(){
 		jQuery('#contentConsumptionModal').modal('show');
-	}
+	};
 
     WebHelp.prototype.addHelpIcon = function (navbarButtonElement, addTextToNavbar) {
 		var self = this;
@@ -187,7 +187,7 @@ WebHelp = (function () {
         var stepsTable = jQuery("#stepsTable");
         stepsTable.on("click", ".remove-step", this.removeThisStep);
 
-        var t = stepsTable.dataTable({
+        stepsTable.dataTable({
             "sDom": "",
             "language": {
                 "emptyTable": "New steps will show up here!"
@@ -321,7 +321,7 @@ WebHelp = (function () {
             localStorage.setItem('WebHelp', JSON.stringify(retrievedSequences));
             jQuery('#availableSequencesContent').html(retrievedHtml);
             jQuery('#popularSequencesContent').html(retrievedPopularHtml);
-            var t = jQuery("#availableSequencesList").dataTable({
+            jQuery("#availableSequencesList").dataTable({
                 "sDom": '<"top"f<"clear">>', //It should be a searchable table
                 "oLanguage": {
                     "sSearch": "Search title and content: "
@@ -352,7 +352,7 @@ WebHelp = (function () {
                 ]
             });
 
-            var p = jQuery("#popularSequencesList").dataTable({
+            jQuery("#popularSequencesList").dataTable({
                 "sDom": '<"top"f<"clear">>', //It should be a searchable table
                 "oLanguage": {
                     "sSearch": "Search title and content: "
@@ -383,7 +383,6 @@ WebHelp = (function () {
                 ]
             });
             jQuery('#whatsNewContent').html(retrievedNewHtml);
-            var emptyData = [];
             this.initWhatsNewTable();
             jQuery('td .' + this.iconClass.play).attr('title', 'Play!');
             jQuery('td .' + this.iconClass.edit).attr('title', 'Edit');
@@ -486,13 +485,6 @@ WebHelp = (function () {
 		//saveToDB()
 		var sequenceTitle = jQuery("#sequenceTitleSetter").val().trim();
         var stepsToSave = this.getCurrentTablePreviewSteps();
-        var method = "saveSequence";
-        var description = "Test";
-        var tool = this.appName;
-        var active_flag = 'N';
-        var list_order = new Date().getTime();
-        var url = "";
-        var data = stepsToSave;
         var sequences = this.getAllSequences();
         sequences[sequenceTitle] = {
             method: "saveSequence",
@@ -552,7 +544,7 @@ WebHelp = (function () {
             var content = rows[n][4];
             if (elemAttribVal) {
                 var elem = "";
-                if (elemAttribType != 'CSSPath') {
+                if (elemAttribType !== 'CSSPath') {
                     elem = "[" + elemAttribType + "=\'" + elemAttribVal + "\']";
                 } else {
                     elem = elemAttribVal;
@@ -618,7 +610,7 @@ WebHelp = (function () {
             data: {
                 key:val
             },
-            success: function(data, status) {
+            success: function() {
                 self.refreshWhatsNew(); // new function
             }
         });
@@ -644,7 +636,7 @@ WebHelp = (function () {
     };
 
     WebHelp.prototype.initWhatsNewTable = function (aaData) {
-        var a = jQuery("#newSequencesList").dataTable({
+        jQuery("#newSequencesList").dataTable({
             "sDom": '<"top"f>', //It should be a searchable table
             "oLanguage": {
                 "sSearch": "Search title and content: "
@@ -697,10 +689,10 @@ WebHelp = (function () {
                 method: "loadAllSequences",
                 tool: this.appName
             },
-            success: function (data, status) {
+            success: function (data) {
                 sequences = JSON.parse(data);
             },
-            error: function (XMLHttpRequest, textStatus, errorThrown) {
+            error: function () {
                 alert("Failed to load the sequences");
             }
         });
@@ -778,7 +770,6 @@ WebHelp = (function () {
         var t = jQuery("#availableSequencesList").DataTable();
         var storedSequences = this.getAllSequences();
         var seq = storedSequences[t.row(jQuery(event.target).parents('tr')).data()[1]];
-        var seqId = seq.seqId;
         delete storedSequences[t.row(jQuery(event.target).parents('tr')).data()[1]];
 
         localStorage.setItem(this.webHelpName, JSON.stringify(storedSequences));
