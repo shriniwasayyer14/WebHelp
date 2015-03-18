@@ -17,7 +17,7 @@ WebHelp = (function () {
             WebHelpOptions = defaultOptions;
         }
         for (var option in defaultOptions) {
-            if (undefined === option) {
+            if (!defaultOptions.hasOwnProperty(option)) {
                 continue;
             }
             this[option] = WebHelpOptions.hasOwnProperty(option) ? WebHelpOptions[option] : defaultOptions[option];
