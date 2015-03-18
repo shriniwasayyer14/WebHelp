@@ -480,7 +480,7 @@ WebHelp = (function () {
             .draw();
         this.makeEditable();
         var self = this;
-        $stepsTable.find('.remove-step').unbind('click')
+        $stepsTable.find('.remove-step').unbind('click');
         $stepsTable.find('.remove-step').on('click', function() {
             self.removeThisStep();
         });
