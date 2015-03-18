@@ -85,6 +85,21 @@ WebHelpTemplates["../templates/WebHelpCreator.html"] = "\n" +
    "					</button>\n" +
    "					No steps to preview. Please add steps.\n" +
    "				</div>\n" +
+   "\n" +
+   "                <div class=\"alert alert-info\" id=\"showSequenceSavedSuccessAlert\" style=\"display: none;\">\n" +
+   "                    Sequence saved successfully!\n" +
+   "                </div>\n" +
+   "\n" +
+   "                <div class=\"well \">Global actions:\n" +
+   "                    <div class=\"well-sm \">\n" +
+   "                        <button class=\"btn btn-info\" role=\"button\" id=\"saveAllHelpSequencesToFileButton\">\n" +
+   "                            <span class=\"iconClass-add\"></span> Save all sequences\n" +
+   "                        </button>\n" +
+   "                        <button class=\"btn btn-warning \" id=\"importAllHelpSequencesFromFileButton\" role=\"button \">\n" +
+   "                            <span class=\"iconClass-remove\"></span> Import sequences from file\n" +
+   "                        </button>\n" +
+   "                    </div>\n" +
+   "                </div>\n" +
    "			</div>\n" +
    "		</div>\n" +
    "		\n" +

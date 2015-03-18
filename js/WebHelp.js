@@ -181,6 +181,8 @@ WebHelp = (function () {
         jQuery("#cancelDragDropButton").on("click", jQueryDragSelector.off);
         jQuery("#noElementsSelectedButton").on("click", jQuery('#noElementsSelectedDiv').hide);
         jQuery("#noStepsInPreviewButton").on("click", jQuery('#noStepsInPreviewDiv').hide);
+        jQuery("#saveAllHelpSequencesToFileButton").on("click", this.saveAllHelpSequencesToFile.bind(self));
+        jQuery("#importAllHelpSequencesFromFileButton").on("click", this.importAllHelpSequencesFromFile.bind(self));
 
         var stepsTable = jQuery("#stepsTable");
         stepsTable.on("click", ".remove-step", this.removeThisStep);
@@ -228,6 +230,31 @@ WebHelp = (function () {
         }
         jQuery(elem).html(currentTitleHTML);
         this.refreshWhatsNew();
+    };
+
+    WebHelp.prototype.saveAllHelpSequencesToFile = function() {
+        /* Uses the HTML5 download attribute to serve up a file without the server
+         * http://www.w3schools.com/tags/att_a_download.asp
+         */
+
+        //get required data
+        var content = JSON.stringify(this.getAllSequences());
+        var link = document.createElement('a'); //create a hyperlink
+        var mimeType = 'application/json';
+
+        //set attributes on top of the link
+        link.setAttribute('href', 'data:' + mimeType + ';charset=utf-8,' + encodeURIComponent(content));
+        link.setAttribute('download', this.webHelpName + '.json');
+
+        //trigger the download
+        link.click();
+
+        //destroy the link
+        link.parentNode.removeChild(link);
+    };
+
+    WebHelp.prototype.importAllHelpSequencesFromFile = function() {
+
     };
 
     WebHelp.prototype.refreshWhatsNew = function () {
@@ -476,8 +503,22 @@ WebHelp = (function () {
             active_flag: 'N',
             url: "test"
         };
-		localStorage.setItem(this.webHelpName, JSON.stringify(sequences));
-	}
+
+        var saveStatus = 'Sequence saved successfully!';
+        try {
+            localStorage.setItem(this.webHelpName, JSON.stringify(sequences));
+        } catch (error) {
+            saveStatus = 'Error saving the sequence!';
+        } finally {
+            var $showSequenceSavedSuccessAlert = jQuery('#showSequenceSavedSuccessAlert');
+            $showSequenceSavedSuccessAlert.html(saveStatus).show();
+            setTimeout(function() {
+                $showSequenceSavedSuccessAlert.hide();
+            }, 1000);
+        }
+
+
+	};
 
     WebHelp.prototype.getCurrentTablePreviewSteps = function () {
         var $stepsTable = jQuery("#stepsTable");
