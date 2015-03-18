@@ -74,14 +74,13 @@ opacity(n) {
 }
 
 #webHelpMainContent {
-  .nav-tabs > li.active > a {
-    color: #555 !important;
-    > li.active > a,
-    > li.active > a:hover,
-    > li.active > a:focus {
-      background-color: whitesmoke;
-    }
-  }
+  .nav-tabs > li.active > a,
+	.nav-tabs > li.active > a,
+  .nav-tabs > li.active > a:hover,
+  .nav-tabs > li.active > a:focus {
+    background-color: whitesmoke;
+		color: #555 !important;
+   }
   .btn {
     height: 34px;
     font-size: 12px;
@@ -104,7 +103,10 @@ opacity(n) {
     padding-top: 20px;
   }
 
-  .nav > li > a:hover, .nav > li > a:focus {
+  .nav > li > a:hover,
+	.nav > li > a:focus,
+	.nav > li.active > a:hover,
+	.nav > li.active > a:focus {
     background-color: #ebebeb;
   }
 

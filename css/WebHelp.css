@@ -34,11 +34,10 @@
   color: #fff;
 }
 #webHelpMainContent.creationModeSidebar.hideSidebar {
-  right: -35%;
-}
-#webHelpMainContent.creationModeSidebar.hideSidebar #creationModeSidebarshowHideSpan {
-  left: -25%;
-  padding-bottom: 20px;
+  width: 0px;
+  padding: 0px;
+  right: 1px; /*prevent a scrollbar*/
+  background: transparent;
 }
 @media screen {
   .container .jumbotron {
@@ -59,13 +58,11 @@
     cursor: pointer;
   }
 }
-#webHelpMainContent .nav-tabs > li.active > a {
-  color: #555 !important;
-}
-#webHelpMainContent .nav-tabs > li.active > a > li.active > a,
-#webHelpMainContent .nav-tabs > li.active > a > li.active > a:hover,
-#webHelpMainContent .nav-tabs > li.active > a > li.active > a:focus {
+#webHelpMainContent .nav-tabs > li.active > a,
+#webHelpMainContent .nav-tabs > li.active > a:hover,
+#webHelpMainContent .nav-tabs > li.active > a:focus {
   background-color: #f5f5f5;
+  color: #555 !important;
 }
 #webHelpMainContent .btn {
   height: 34px;
@@ -88,7 +85,9 @@
   padding-top: 20px;
 }
 #webHelpMainContent .nav > li > a:hover,
-#webHelpMainContent .nav > li > a:focus {
+#webHelpMainContent .nav > li > a:focus,
+#webHelpMainContent .nav > li.active > a:hover,
+#webHelpMainContent .nav > li.active > a:focus {
   background-color: #ebebeb;
 }
 #webHelpMainContent .sorting,
