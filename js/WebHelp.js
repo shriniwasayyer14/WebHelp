@@ -241,7 +241,12 @@ WebHelp = (function () {
          */
 
         //get required data
-        var content = JSON.stringify(this.getAllSequences());
+
+        //Pretty print the JSON content
+        //https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify
+        //Syntax: JSON.stringify(value[, replacer[, space]])
+        var content = JSON.stringify(this.getAllSequences(), null, '\t');
+
         var link = document.createElement('a'); //create a hyperlink
         var mimeType = 'application/json';
 
