@@ -102,6 +102,19 @@ module.exports = function (grunt) {
                 ]
 			}
 		},
+		stylus: {
+			compile: {
+				options: {
+					paths: ['css/stylusImports'],
+					compress: false,
+					urlfunc: 'embedurl', // use embedurl('test.png') in our code to trigger Data URI embedding
+				},
+				files: {
+					'css/WebHelp.css': 'css/WebHelp.styl', // 1:1 compile
+					//'path/to/another.css': ['path/to/sources/*.styl', 'path/to/more/*.styl'] // compile and concat into single file
+				}
+			}
+		},
 		uglify: {
 			options: {
 				banner: '<%= banner %>',
@@ -229,7 +242,7 @@ module.exports = function (grunt) {
 	});
 
 	// Default task.
-	grunt.registerTask('default', ['htmlConvert', 'concat', 'replace', 'jshint', 'uglify', 'cssmin', 'usebanner', 'lineending']);
+	grunt.registerTask('default', ['htmlConvert', 'stylus:compile', 'concat', 'replace', 'jshint', 'uglify', 'cssmin', 'usebanner', 'lineending']);
 	grunt.registerTask('serve', ['connect', 'watch']);
 
 };
