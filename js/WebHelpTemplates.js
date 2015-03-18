@@ -63,7 +63,7 @@ WebHelpTemplates["../templates/WebHelpCreator.html"] = "\n" +
    "					</button>\n" +
    "				</div>\n" +
    "\n" +
-   "				<div class=\"well \">Available actions:\n" +
+   "				<div class=\"well \"><b>Available actions:</b>\n" +
    "					<div class=\"well-sm \">\n" +
    "						<button data-toggle=\"tooltip \" data-placement=\"top \" title=\"Click and drag over elements on the page to select them \" class=\"btn btn-success \" role=\"button \" id=\"startDragDropButton\"><span class=\"iconClass-add\"></span> Add element step\n" +
    "						</button>\n" +
@@ -89,20 +89,18 @@ WebHelpTemplates["../templates/WebHelpCreator.html"] = "\n" +
    "                <div class=\"alert alert-info\" id=\"showSequenceSavedSuccessAlert\" style=\"display: none;\">\n" +
    "                    Sequence saved successfully!\n" +
    "                </div>\n" +
-   "\n" +
-   "                <div class=\"well \">Global actions:\n" +
-   "                    <div class=\"well-sm \">\n" +
-   "                        <button class=\"btn btn-info\" role=\"button\" id=\"saveAllHelpSequencesToFileButton\">\n" +
-   "                            <span class=\"iconClass-add\"></span> Save all sequences\n" +
-   "                        </button>\n" +
-   "                        <button class=\"btn btn-warning \" id=\"importAllHelpSequencesFromFileButton\" role=\"button \">\n" +
-   "                            <span class=\"iconClass-remove\"></span> Import sequences from file\n" +
-   "                        </button>\n" +
-   "                    </div>\n" +
-   "                </div>\n" +
    "			</div>\n" +
    "		</div>\n" +
-   "		\n" +
+   "        <div class=\"well \"><b>Global actions:</b>\n" +
+   "            <div class=\"well-sm \">\n" +
+   "                <button class=\"btn btn-info\" role=\"button\" id=\"saveAllHelpSequencesToFileButton\">\n" +
+   "                    <span class=\"iconClass-save\"></span> Save all sequences\n" +
+   "                </button>\n" +
+   "                <button class=\"btn btn-success\" id=\"importAllHelpSequencesFromFileButton\" role=\"button \">\n" +
+   "                    <span class=\"iconClass-upload\"></span> Import sequences from file\n" +
+   "                </button>\n" +
+   "            </div>\n" +
+   "        </div>\n" +
    "\n" +
    "	</div>\n" +
    "</div>\n" +

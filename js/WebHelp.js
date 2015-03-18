@@ -33,7 +33,8 @@ WebHelp = (function () {
                 "clear": "fa fa-refresh",
                 "add": "fa fa-plus",
                 "info": "fa fa-info-circle",
-                "edit": "fa fa-edit"
+                "edit": "fa fa-edit",
+                "upload": "fa fa-upload"
             };
         } else { //default to bootstrap
             this.iconClass = {
@@ -43,7 +44,8 @@ WebHelp = (function () {
                 "clear": "glyphicon glyphicon-refresh",
                 "add": "glyphicon glyphicon-plus",
                 "info": "glyphicon glyphicon-info-sign",
-                "edit": "glyphicon glyphicon-edit"
+                "edit": "glyphicon glyphicon-edit",
+                "upload": "glyphicon glyphicon-upload"
             };
         }
 
@@ -128,8 +130,8 @@ WebHelp = (function () {
             var webHelpContent = jQuery(WebHelpTemplates["../templates/WebHelpCreator.html"]);
             for (var icon in this.iconClass) {
                 if (this.iconClass.hasOwnProperty(icon)) {
-                    modalContent.find("iconClass-" + icon).addClass(this.iconClass[icon]);
-                    webHelpContent.find("iconClass-" + icon).addClass(this.iconClass[icon]);
+                    modalContent.find(".iconClass-" + icon).addClass(this.iconClass[icon]);
+                    webHelpContent.find(".iconClass-" + icon).addClass(this.iconClass[icon]);
                 }
             }
             var $body = jQuery("body");
@@ -156,7 +158,7 @@ WebHelp = (function () {
             var webHelpContent = jQuery(WebHelpTemplates["../templates/WebHelpCreator.html"]);
             for (var icon in this.iconClass) {
                 if (this.iconClass.hasOwnProperty(icon)) {
-                    webHelpContent.find("iconClass-" + icon).addClass(this.iconClass[icon]);
+                    webHelpContent.find(".iconClass-" + icon).addClass(this.iconClass[icon]);
                 }
             }
             jQuery("body").append(webHelpContent);
