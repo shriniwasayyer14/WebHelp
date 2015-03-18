@@ -220,6 +220,12 @@ module.exports = function (grunt) {
 		},
 		htmlConvert: {
 			WebHelpTemplates: {
+                options: {
+                  rename: function(moduleName) {
+                      var newName = moduleName.replace('.html', '').split('/');
+                      return newName[newName.length - 1];
+                  }
+                },
 				src: ['templates/*.html'],
 				dest: 'js/WebHelpTemplates.js'
 			}

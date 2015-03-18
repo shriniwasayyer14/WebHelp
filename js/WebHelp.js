@@ -126,8 +126,8 @@ WebHelp = (function () {
         this.addHelpIcon(this.helpIconPosition);
         this.ui.webHelpMainContent = jQuery("#webHelpMainContent");
         if (this.ui.webHelpMainContent.length <= 0) {
-            var modalContent = jQuery(WebHelpTemplates["../templates/WebHelpContent.html"]);
-            var webHelpContent = jQuery(WebHelpTemplates["../templates/WebHelpCreator.html"]);
+            var modalContent = jQuery(WebHelpTemplates["WebHelpContent"]);
+            var webHelpContent = jQuery(WebHelpTemplates["WebHelpCreator"]);
             for (var icon in this.iconClass) {
                 if (this.iconClass.hasOwnProperty(icon)) {
                     modalContent.find(".iconClass-" + icon).addClass(this.iconClass[icon]);
@@ -156,7 +156,7 @@ WebHelp = (function () {
         var self = this;
         this.ui.webHelpMainContent = jQuery("#webHelpMainContent");
         if (this.ui.webHelpMainContent.length === 0) {
-            var webHelpContent = jQuery(WebHelpTemplates["../templates/WebHelpCreator.html"]);
+            var webHelpContent = jQuery(WebHelpTemplates["WebHelpCreator"]);
             for (var icon in this.iconClass) {
                 if (this.iconClass.hasOwnProperty(icon)) {
                     webHelpContent.find(".iconClass-" + icon).addClass(this.iconClass[icon]);
@@ -166,7 +166,7 @@ WebHelp = (function () {
             this.ui.webHelpMainContent = jQuery("#webHelpMainContent");
         }
 
-        var sidebarToggleButton = jQuery(WebHelpTemplates["../templates/WebHelpSidebarToggle.html"]);
+        var sidebarToggleButton = jQuery(WebHelpTemplates["WebHelpSidebarToggle"]);
         this.ui.webHelpMainContent
             .addClass('creationModeSidebar')
             .addClass('hideSidebar')
@@ -429,7 +429,7 @@ WebHelp = (function () {
                     trigger: 'manual',
                     placement: 'auto top',
                     container: 'body', /*Show on top of all elements*/
-                    content: WebHelpTemplates["../templates/WebHelpSelectPopup.html"]
+                    content: WebHelpTemplates["WebHelpSelectPopup"]
                 })
                     .popover('show');
                 jQuery(".drag-select-yes").on("click", function () {
