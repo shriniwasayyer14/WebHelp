@@ -177,11 +177,11 @@ WebHelp = (function () {
 
         this.ui.sidebarToggleButton.on('click', function() {
             if (self.ui.webHelpMainContent.hasClass('hideSidebar')) {
-                self.ui.webHelpMainContent.children(':not(#creationModeSidebarshowHideSpan)').show('fast', function(){
+                self.ui.webHelpMainContent.children(':not(#creationModeSidebarshowHideSpan)').show('slow', function(){
                     self.ui.webHelpMainContent.removeClass('hideSidebar', 300);
                 });
             } else {
-                self.ui.webHelpMainContent.children(':not(#creationModeSidebarshowHideSpan)').hide('fast', function() {
+                self.ui.webHelpMainContent.children(':not(#creationModeSidebarshowHideSpan)').hide('slow', function() {
                     self.ui.webHelpMainContent.addClass('hideSidebar', 300);
                 });
             }
@@ -442,6 +442,7 @@ WebHelp = (function () {
                 jQuery(".drag-select-no").on("click", function () {
                     jQueryDragSelector.confirmSelection(false);
                 });
+                self.ui.sidebarToggleButton.trigger('click');
             } else {
                 jQuery('#noElementsSelectedDiv').show();
             }
