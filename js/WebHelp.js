@@ -178,11 +178,6 @@ WebHelp = (function () {
             self.ui.webHelpMainContent.toggleClass('hideSidebar', 200);
         });
 
-        /*this.ui.webHelpMainContent.BootSideMenu({
-            side: "right", // left or right
-            autoClose: true // auto close when page loads
-        });*/
-
         jQuery('.nav-tabs a[href=#addSequence]').trigger('click');
 
         //attach event handlers to webHelpContent
