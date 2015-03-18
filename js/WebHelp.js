@@ -438,14 +438,17 @@ WebHelp = (function () {
                             self.createStepForThisElement(arrayOfObjects);
                         }
                     });
+                    self.ui.sidebarToggleButton.trigger('click');
                 }.bind(self));
                 jQuery(".drag-select-no").on("click", function () {
                     jQueryDragSelector.confirmSelection(false);
+                    self.ui.sidebarToggleButton.trigger('click');
                 });
-                self.ui.sidebarToggleButton.trigger('click');
             } else {
                 jQuery('#noElementsSelectedDiv').show();
+                self.ui.sidebarToggleButton.trigger('click');
             }
+
         });
         jQuery("#startDragDropButton").tooltip({
             trigger: 'manual'
@@ -456,7 +459,8 @@ WebHelp = (function () {
     };
 
     WebHelp.prototype.createStepForThisElement = function (arrayOfElems) {
-        var t = jQuery("#stepsTable").DataTable();
+        var $stepsTable = jQuery("#stepsTable");
+        var t = $stepsTable.DataTable();
         var elemText = "";
         var elemType = "";
         if (arrayOfElems) {
@@ -468,14 +472,20 @@ WebHelp = (function () {
         elemText = elemText.substring(0, elemText.length - 1);
         elemType = elemType.substring(0, elemType.length - 1);
         t.row.add([
-            "<span class='" + this.iconClass.remove + "' aria-hidden='true'></span>",
+            "<span class='remove-step " + this.iconClass.remove + "' aria-hidden='true'></span>",
             "Editable title",
             elemType,
             elemText,
             "Editable content"])
             .draw();
         this.makeEditable();
+        var self = this;
+        $stepsTable.find('.remove-step').unbind('click')
+        $stepsTable.find('.remove-step').on('click', function() {
+            self.removeThisStep();
+        });
     };
+
 
     WebHelp.prototype.removeThisStep = function (event) {
         var t = jQuery("#stepsTable").DataTable();
