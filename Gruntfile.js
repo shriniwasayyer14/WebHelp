@@ -32,7 +32,7 @@ module.exports = function (grunt) {
 			basicJS: {
 				src: ['bower_components/intro.js/intro.js',
                     'js/vendor/*.js',
-                    'js/*.js',
+                    'js/*.js'
                 ],
 				dest: 'dist/js/<%= pkg.name %>.js'
 			},
@@ -107,10 +107,10 @@ module.exports = function (grunt) {
 				options: {
 					paths: ['css/stylusImports'],
 					compress: false,
-					urlfunc: 'embedurl', // use embedurl('test.png') in our code to trigger Data URI embedding
+					urlfunc: 'embedurl' // use embedurl('test.png') in our code to trigger Data URI embedding
 				},
 				files: {
-					'css/WebHelp.css': 'css/WebHelp.styl', // 1:1 compile
+					'css/WebHelp.css': 'css/WebHelp.styl' // 1:1 compile
 					//'path/to/another.css': ['path/to/sources/*.styl', 'path/to/more/*.styl'] // compile and concat into single file
 				}
 			}
@@ -238,11 +238,21 @@ module.exports = function (grunt) {
 			  urls: ['http://localhost:9000/index.html']
 			}
 		  }
-		}
+		},
+        browserSync: {
+            dev: {
+                bsFiles: {
+                    src : '*'
+                },
+                options: {
+                    proxy: "localhost:9000"
+                }
+            }
+        }
 	});
 
 	// Default task.
 	grunt.registerTask('default', ['htmlConvert', 'stylus:compile', 'concat', 'replace', 'jshint', 'uglify', 'cssmin', 'usebanner', 'lineending']);
-	grunt.registerTask('serve', ['connect', 'watch']);
+	grunt.registerTask('serve', ['connect', 'browserSync', 'watch']);
 
 };

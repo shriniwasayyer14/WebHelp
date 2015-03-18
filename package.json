@@ -15,6 +15,7 @@
   "devDependencies": {
     "grunt": "latest",
     "grunt-banner": "^0.3.1",
+    "grunt-browser-sync": "^2.0.0",
     "grunt-concat-css": "^0.3.1",
     "grunt-concurrent": "^1.0.0",
     "grunt-contrib-clean": "^0.6.0",
