@@ -170,12 +170,21 @@ WebHelp = (function () {
         this.ui.webHelpMainContent
             .addClass('creationModeSidebar')
             .addClass('hideSidebar')
-            .append(sidebarToggleButton);
+            .append(sidebarToggleButton)
+            .children(':not(#creationModeSidebarshowHideSpan)').hide();
 
         this.ui.sidebarToggleButton = jQuery('#creationModeSidebarshowHideSpan');
 
         this.ui.sidebarToggleButton.on('click', function() {
-            self.ui.webHelpMainContent.toggleClass('hideSidebar', 200);
+            if (self.ui.webHelpMainContent.hasClass('hideSidebar')) {
+                self.ui.webHelpMainContent.children(':not(#creationModeSidebarshowHideSpan)').show('fast', function(){
+                    self.ui.webHelpMainContent.removeClass('hideSidebar', 300);
+                });
+            } else {
+                self.ui.webHelpMainContent.children(':not(#creationModeSidebarshowHideSpan)').hide('fast', function() {
+                    self.ui.webHelpMainContent.addClass('hideSidebar', 300);
+                });
+            }
         });
 
         jQuery('.nav-tabs a[href=#addSequence]').trigger('click');
