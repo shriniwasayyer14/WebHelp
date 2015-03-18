@@ -734,9 +734,6 @@ WebHelp = (function () {
         var thisSequenceTitle = t.row(jQuery(event.target).parents('tr')).data()[1];
         //t.row(jQuery(event.target).parents('tr')).remove().draw();
         var stepsForThisSequence = this.getAllSequences()[thisSequenceTitle];
-        if (stepsForThisSequence.data) {
-            stepsForThisSequence.data = JSON.parse(stepsForThisSequence.data);
-        }
         var stepsTable = jQuery("#stepsTable").DataTable();
         stepsTable.clear().draw();
         var self = this;
