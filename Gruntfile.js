@@ -11,14 +11,6 @@ module.exports = function (grunt) {
 		// Metadata.
 		pkg: grunt.file.readJSON('package.json'),
 		separator: ';\n',
-		/*Add dummy CVS Header as banner template*/
-		banner: '/*    Last edited by:  $Author: akannan $\n' +
-			' *    on:  $Date: 2010-10-12 17:28:22 +0800 (Tue, 12 Oct 2010) $\n' +
-			' *    Filename:  $Id: manavik.html 436280 2010-10-12 09:28:22Z manavik $\n' +
-			' *    Revision:  $Revision: 436280 $\n' +
-			' *    Description\n' +
-			' */\n',
-		// Task configuration.
 		concat: {
 			options: {
 				stripBanners: {
@@ -117,7 +109,6 @@ module.exports = function (grunt) {
 		},
 		uglify: {
 			options: {
-				banner: '<%= banner %>',
 				mangle: {
 					except: ['jQuery']
 				},
@@ -170,18 +161,6 @@ module.exports = function (grunt) {
 					dest: '', //cssmin adds dist/css by itself
 					ext: '.min.css'
                 }]
-			}
-		},
-		usebanner: {
-			taskName: {
-				options: {
-					position: 'top',
-					banner: '<%= banner %>',
-					linebreak: true
-				},
-				files: {
-					src: ['dist/**/*.js', 'dist/**/*.css']
-				}
 			}
 		},
 		lineending: {
@@ -251,14 +230,14 @@ module.exports = function (grunt) {
                     src : '*'
                 },
                 options: {
-                    proxy: "localhost:9000"
+                    proxy: 'localhost:9000'
                 }
             }
         }
 	});
 
 	// Default task.
-	grunt.registerTask('default', ['htmlConvert', 'stylus:compile', 'concat', 'replace', 'jshint', 'uglify', 'cssmin', 'usebanner', 'lineending']);
+	grunt.registerTask('default', ['htmlConvert', 'stylus:compile', 'concat', 'replace', 'jshint', 'uglify', 'cssmin', 'lineending']);
 	grunt.registerTask('serve', ['connect', 'browserSync', 'watch']);
 
 };
