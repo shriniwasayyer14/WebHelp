@@ -37,19 +37,3 @@ jQuery.fn.extend({
         return path;
     }
 });
-
-jQuery.fn.xpathEvaluate = function (xpathExpression) {
-    // NOTE: vars not declared local for debug purposes
-    var $this = this.first(); // Don't make me deal with multiples before coffee
-
-    // Evaluate xpath and retrieve matching nodes
-    var xpathResult = this[0].evaluate(xpathExpression, this[0], null, XPathResult.ORDERED_NODE_ITERATOR_TYPE, null);
-
-    var result = [];
-    while (elem = xpathResult.iterateNext()) {
-        result.push(elem);
-    }
-
-    var $result = jQuery([]).pushStack(result);
-    return $result;
-};
