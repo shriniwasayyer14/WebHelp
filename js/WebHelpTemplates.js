@@ -1,6 +1,6 @@
 var WebHelpTemplates = {};
 
-WebHelpTemplates["../templates/WebHelpContent.html"] = "<div id=\"contentConsumptionModal\" class=\"modal\">\n" +
+WebHelpTemplates["WebHelpContent"] = "<div id=\"contentConsumptionModal\" class=\"modal\">\n" +
    "	<div class=\"modal-dialog\">\n" +
    "		<div class=\"modal-content\" style=\"width: 800px;\">\n" +
    "			<div class=\"modal-header ai-modal-title\">\n" +
@@ -16,7 +16,7 @@ WebHelpTemplates["../templates/WebHelpContent.html"] = "<div id=\"contentConsump
    "	</div>\n" +
    "</div>";
 
-WebHelpTemplates["../templates/WebHelpCreator.html"] = "\n" +
+WebHelpTemplates["WebHelpCreator"] = "\n" +
    "<div id=\"webHelpMainContent\">\n" +
    "	<div class=\"tabbable\">\n" +
    "		<!-- Only required for left/right tabs -->\n" +
@@ -108,10 +108,22 @@ WebHelpTemplates["../templates/WebHelpCreator.html"] = "\n" +
    "\n" +
    "";
 
-WebHelpTemplates["../templates/WebHelpSelectPopup.html"] = "<div>Go ahead with this selection ?</div>\n" +
+WebHelpTemplates["WebHelpSelectPopup"] = "<div>Go ahead with this selection ?</div>\n" +
    "<div class=\"btn-group\">\n" +
    "	<button type=\"button\" class=\"btn btn-success drag-select-yes\">Yes</button>\n" +
    "	<button type=\"button\" class=\"btn btn-danger drag-select-no\">No</button>\n" +
    "</div>";
 
-WebHelpTemplates["../templates/WebHelpSidebarToggle.html"] = "<span id=\"creationModeSidebarshowHideSpan\">Show/Hide Create Mode</span>";
+WebHelpTemplates["WebHelpSequenceConsumptionList"] = "<ul class=\"webHelpSequenceConsumptionList\"></ul>";
+
+WebHelpTemplates["WebHelpSequenceCreationList"] = "<ul class=\"webHelpSequenceCreationList\"></ul>";
+
+WebHelpTemplates["WebHelpSequenceStepListItem"] = "<li class=\"webHelpSequenceList\">\n" +
+   "    <div class=\"iconClass-remove\"></div>\n" +
+   "    <div contenteditable=\"true\" class=\"webHelpSequenceListItem-title\">Editable title</div>\n" +
+   "    <div class=\"webHelpSequenceListItem-selectionType\"></div>\n" +
+   "    <div class=\"webHelpSequenceListItem-selectionValue\"></div>\n" +
+   "    <div contenteditable=\"true\" class=\"webHelpSequenceItem-content\">Editable content</div>\n" +
+   "</li>";
+
+WebHelpTemplates["WebHelpSidebarToggle"] = "<span id=\"creationModeSidebarshowHideSpan\">Show/Hide Create Mode</span>";
