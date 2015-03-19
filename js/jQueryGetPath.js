@@ -1,14 +1,15 @@
 /* globals elem */
 jQuery.fn.extend({
     getPath: function () {
-        var path, node = this;
+        var path = undefined;
+        var node = this;
         /*Include only names and IDs since you can always programmatically add/remove classes*/
         var uniqueTags = ['name', 'id'];
         while (node.length) {
             var realNode = node[0], name = realNode.localName;
             if (!name) {
-							break;
-						}
+                break;
+            }
             name = name.toLowerCase();
 
             var parent = node.parent();
@@ -30,7 +31,7 @@ jQuery.fn.extend({
                 name += ':nth-child(' + index + ')';
             }
 
-            path = name + (path ? '>' + path : '');
+            path = name + (path ? ' > ' + path : '');
             node = parent;
         }
 
