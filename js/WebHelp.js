@@ -157,11 +157,6 @@ WebHelp = (function () {
         this.ui.webHelpMainContent = jQuery("#webHelpMainContent");
         if (this.ui.webHelpMainContent.length === 0) {
             var webHelpContent = jQuery(WebHelpTemplates["WebHelpCreator"]);
-            for (var icon in this.iconClass) {
-                if (this.iconClass.hasOwnProperty(icon)) {
-                    webHelpContent.find(".iconClass-" + icon).addClass(this.iconClass[icon]);
-                }
-            }
             jQuery("body").append(webHelpContent);
             this.ui.webHelpMainContent = jQuery("#webHelpMainContent");
         }
@@ -201,10 +196,23 @@ WebHelp = (function () {
         jQuery("#saveAllHelpSequencesToFileButton").on("click", this.saveAllHelpSequencesToFile.bind(self));
         jQuery("#importAllHelpSequencesFromFileButton").on("click", this.importAllHelpSequencesFromFile.bind(self));
 
-        var stepsTable = jQuery("#stepsTable");
-        stepsTable.on("click", ".remove-step", this.removeThisStep);
+        this.stepsTable = new TableList({
+            element: "#stepsTable",
+            useData: false, //Create one generic step
+            listTemplate: 'WebHelpSequenceCreationList',
+            listItemTemplate: 'WebHelpSequenceStepListItem'
+        });
 
-        stepsTable.dataTable({
+        jQuery(this.stepsTable.element).on("click", ".remove-step", this.removeThisStep);
+
+        for (var icon in this.iconClass) {
+            if (this.iconClass.hasOwnProperty(icon)) {
+                this.ui.webHelpMainContent.find(".iconClass-" + icon).addClass(this.iconClass[icon]);
+            }
+        }
+
+
+        /*stepsTable.dataTable({
             "sDom": "",
             "language": {
                 "emptyTable": "New steps will show up here!"
@@ -222,7 +230,7 @@ WebHelp = (function () {
                     "sTitle": "Attribute",
                     "sWidth": "7%",
                     "sClass": "invisibleColumnInStepsTable"
-                    /*Needs to be invisible, datatables bVisible false removes it from the DOM altogether*/
+                    *//*Needs to be invisible, datatables bVisible false removes it from the DOM altogether*//*
                 },
                 {
                     "sTitle": "Value",
@@ -235,7 +243,7 @@ WebHelp = (function () {
                 }
             ]
         }).rowReordering();
-        this.makeEditable();
+        this.makeEditable();*/
         var helpIconElement = jQuery(this.helpIconPosition);
         var currentTitleHTML = helpIconElement.html();
         currentTitleHTML += "[Edit mode]";
@@ -459,7 +467,7 @@ WebHelp = (function () {
     };
 
     WebHelp.prototype.createStepForThisElement = function (arrayOfElems) {
-        var $stepsTable = jQuery("#stepsTable");
+        /*var $stepsTable = jQuery("#stepsTable");
         var t = $stepsTable.DataTable();
         var elemText = "";
         var elemType = "";
@@ -483,7 +491,16 @@ WebHelp = (function () {
         $stepsTable.find('.remove-step').unbind('click');
         $stepsTable.find('.remove-step').on('click', function() {
             self.removeThisStep();
-        });
+        });*/
+        this.stepsTable.addRow();
+        for (var icon in this.iconClass) {
+            if (this.iconClass.hasOwnProperty(icon)) {
+                jQuery(this.stepsTable.element)
+                    .find(".iconClass-" + icon)
+                    .removeClass(this.iconClass[icon])
+                    .addClass(this.iconClass[icon]);
+            }
+        }
     };
 
 

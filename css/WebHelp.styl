@@ -8,13 +8,48 @@ opacity(n) {
   padding: 10px;
   font-size: 13px;
   ul > li.webHelpSequenceList {
-    border-bottom: 1px solid black;
+    padding: 4px;
     > div {
       display: inline-block;
     }
   }
   ul {
     list-style: none;
+    max-height: 80%;
+    overflow-y: scroll;
+  }
+  ul.webHelpSequenceCreationList {
+    padding: 5px 3px;
+    margin: 0 auto;
+    max-height: 50%;
+    > li.webHelpSequenceList {
+      background-color: #fbfbfb;
+      > div.webHelpSequenceListItem-title {
+        width: 30%;
+      }
+      > div.webHelpSequenceListItem-content {
+        width: 60%;
+      }
+      > div.iconClass-remove {
+        width: 5%;
+      }
+      > div.webHelpSequenceListItem-selectionType, > div.webHelpSequenceListItem-selectionValue {
+        display: none;
+      }
+      > div[contenteditable="true"] {
+        background-color: white;
+        border: 1px solid #dbdbdb;
+        border-radius: 4px;
+        padding: 3px;
+      }
+    }
+    > li.webHelpSequenceList.header {
+      font-weight: bold;
+    }
+    > li.webHelpSequenceList:nth-of-type(odd) {
+      background-color: #ebebeb;
+    }
+
   }
 }
 
@@ -83,13 +118,17 @@ opacity(n) {
 }
 
 #webHelpMainContent {
-  .nav-tabs > li.active > a,
-	.nav-tabs > li.active > a,
+
+.
+nav-tabs > li
+.
+active > a,
+.nav-tabs > li.active > a,
   .nav-tabs > li.active > a:hover,
   .nav-tabs > li.active > a:focus {
     background-color: whitesmoke;
-		color: #555 !important;
-   }
+    color: #555 !important;
+  }
   .btn {
     height: 34px;
     font-size: 12px;
@@ -112,78 +151,85 @@ opacity(n) {
     padding-top: 20px;
   }
 
-  .nav > li > a:hover,
-	.nav > li > a:focus,
-	.nav > li.active > a:hover,
-	.nav > li.active > a:focus {
-    background-color: #ebebeb;
+.
+nav > li > a
+:
+hover,
+.nav > li > a:focus,
+.nav > li.active > a:hover,
+.nav > li.active > a:focus {
+  background-color: #ebebeb;
+}
+
+.sorting, .sorting_asc, .sorting_desc {
+  background: none;
+}
+
+table#stepsTable {
+  > thead > tr > th {
+    display: table-cell;
+  }
+  > thead > tr > th.invisibleColumnInStepsTable {
+    display: none;
   }
 
-  .sorting, .sorting_asc, .sorting_desc {
-    background: none;
+}
+
+#stepsTable, .checkbox {
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+table, table.dataTable {
+  width: 100% !important; /*Prevent it getting scaled out of proportion*/
+  border-bottom: 1px solid #dbdbdb !important;
+  > thead > tr > th {
+    border: 1px solid #dbdbdb !important
+    font-size: 13px;
+    text-align: left;
   }
-  table#stepsTable {
-    > thead > tr > th {
-      display: table-cell;
+  tbody {
+    th, td {
+      border: 0;
+      padding: 12px;
+      font-size: 14px;
+      white-space: pre-wrap;
+      max-width: 100px;
     }
-    > thead > tr > th.invisibleColumnInStepsTable {
-      display: none;
+    td.invisibleColumnInStepsTable {
+      display: none !important;
     }
-
   }
-  #stepsTable, .checkbox {
-    margin-top: 15px;
-    margin-bottom: 15px;
+  #addSequence .well .btn.btn-default {
+    font-size: 16px;
+    height: auto;
+    background-color: whitesmoke;
+    color: #333333;
   }
-  table, table.dataTable {
-    width: 100% !important; /*Prevent it getting scaled out of proportion*/
-    border-bottom: 1px solid #dbdbdb !important;
-    > thead > tr > th {
-      border: 1px solid #dbdbdb !important
-      font-size: 13px;
-      text-align: left;
-    }
-    tbody {
-      th, td {
-        border: 0;
-        padding: 12px;
-        font-size: 14px;
-        white-space: pre-wrap;
-        max-width: 100px;
-      }
-      td.invisibleColumnInStepsTable {
-        display: none !important;
-      }
-    }
-    #addSequence .well .btn.btn-default {
-      font-size: 16px;
-      height: auto;
-      background-color: whitesmoke;
-      color: #333333;
-    }
 
-    .btn-success {
-      background-color: #339999;
-      border-color: #338888;
-    }
-
-    .btn-success:hover {
-      background-color: #336666;
-    }
-
-    input[type="checkbox"] {
-      -ms-transform: scale(1.4);
-      -moz-transform: scale(1.4);
-      -webkit-transform: scale(1.4);
-      -o-transform: scale(1.4);
-      margin-left: -15px;
-    }
-
-    .btn-group .btn {
-      padding-top: 8px;
-    }
-
+  .btn-success {
+    background-color: #339999;
+    border-color: #338888;
   }
+
+  .btn-success:hover {
+    background-color: #336666;
+  }
+
+  input[type="checkbox"] {
+    -ms-transform: scale(1.4);
+    -moz-transform: scale(1.4);
+    -webkit-transform: scale(1.4);
+    -o-transform: scale(1.4);
+    margin-left: -15px;
+  }
+
+  .btn-group .btn {
+    padding-top: 8px;
+  }
+
+}
+
 }
 
 .suggestionDiv {
