@@ -177,11 +177,11 @@ WebHelp = (function () {
 
         this.ui.sidebarToggleButton.on('click', function() {
             if (self.ui.webHelpMainContent.hasClass('hideSidebar')) {
-                self.ui.webHelpMainContent.children(':not(#creationModeSidebarshowHideSpan)').show('slow', function(){
+                self.ui.webHelpMainContent.children(':not(#creationModeSidebarshowHideSpan)').show('fast', function(){
                     self.ui.webHelpMainContent.removeClass('hideSidebar', 300);
                 });
             } else {
-                self.ui.webHelpMainContent.children(':not(#creationModeSidebarshowHideSpan)').hide('slow', function() {
+                self.ui.webHelpMainContent.children(':not(#creationModeSidebarshowHideSpan)').hide('fast', function() {
                     self.ui.webHelpMainContent.addClass('hideSidebar', 300);
                 });
             }
@@ -607,7 +607,7 @@ WebHelp = (function () {
             success: function(data) {
                 data = data.split(/\r?\n/);
                 for(var i=0;i<data.length;i++) {
-                    var keyVal = data[i].split("/t");
+                    var keyVal = data[i].split("\t");
                     userPrefs[keyVal[0]] = keyVal[1];
                 }
             }
@@ -616,7 +616,7 @@ WebHelp = (function () {
         var key = this.genKey();
         var seqIds = userPrefs[key];
         if (seqIds && seqIds.length > 0) {
-            return seqIds;
+            return seqIds.split(",");
         } else {
             return [];
         }
@@ -626,20 +626,23 @@ WebHelp = (function () {
     WebHelp.prototype.markThisSequenceAsSeen = function (seqId) {
         var visitedSeqIds = this.getAllVisitedSequences();
         var key = this.genKey();
+        var updatePreferences = false;
         if (visitedSeqIds.indexOf(seqId) < 0) {
             visitedSeqIds.push(seqId);
+            updatePreferences = true;
         }
-        this.setVisitedSequencesInUserPrefs(key, visitedSeqIds);
+        if(updatePreferences) {
+            this.setVisitedSequencesInUserPrefs(key, visitedSeqIds);
+            this.refreshWhatsNew();
+        }
     };
 
     WebHelp.prototype.setVisitedSequencesInUserPrefs = function(key, val) {
         var self = this;
+        val = val.join(",");
         jQuery.ajax({
-            type: "POST",
-            url:"/weblications/etc/setPrefs.epl",
-            data: {
-                key:val
-            },
+            type: "GET",
+            url:"/weblications/etc/setPrefs.epl?"+key+"="+val,
             success: function() {
                 self.refreshWhatsNew(); // new function
             }
@@ -764,7 +767,7 @@ WebHelp = (function () {
     };
 
     WebHelp.prototype.playThisSequence = function (event) {
-        var t = jQuery("#" + jQuery('.dataTable:visible').attr('id')).DataTable();
+        var t = jQuery("#" + jQuery('#webHelpMainContent').find('.dataTable:visible').attr('id')).DataTable();
         var sequenceName = [t.row(jQuery(event.target).parents('tr')).data()[1]];
         this.playSequence(sequenceName);
     };
