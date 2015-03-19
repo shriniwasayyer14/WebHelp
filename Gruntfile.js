@@ -5,7 +5,7 @@ module.exports = function (grunt) {
 	require('load-grunt-tasks')(grunt);
 	// Show elapsed time at the end
 	require('time-grunt')(grunt);
-  
+
 	// Project configuration.
 	grunt.initConfig({
 		// Metadata.
@@ -91,7 +91,7 @@ module.exports = function (grunt) {
 						src: ['dist/js/<%= pkg.name %>.js'],
 						dest: 'dist/js'
                     }
-                ]
+				]
 			}
 		},
 		stylus: {
@@ -103,7 +103,7 @@ module.exports = function (grunt) {
 				},
 				files: {
 					'css/WebHelp.css': 'css/WebHelp.styl' // 1:1 compile
-					//'path/to/another.css': ['path/to/sources/*.styl', 'path/to/more/*.styl'] // compile and concat into single file
+						//'path/to/another.css': ['path/to/sources/*.styl', 'path/to/more/*.styl'] // compile and concat into single file
 				}
 			}
 		},
@@ -149,7 +149,7 @@ module.exports = function (grunt) {
 				files: '<%= jshint.test.src %>',
 				tasks: ['jshint:test', 'qunit']
 			}
-    
+
 		},
 		cssmin: {
 			/*This removes all banners and comments - we may not want to use this in production*/
@@ -175,65 +175,65 @@ module.exports = function (grunt) {
 			}
 		},
 		jshint: {
-		  options: {
-			reporter: require('jshint-stylish')
-		  },
-		  gruntfile: {
 			options: {
-			  jshintrc: '.jshintrc'
+				reporter: require('jshint-stylish')
 			},
-			src: 'Gruntfile.js'
-		  },
-		  src: {
-			options: {
-			  jshintrc: 'js/.jshintrc'
+			gruntfile: {
+				options: {
+					jshintrc: '.jshintrc'
+				},
+				src: 'Gruntfile.js'
 			},
-			src: ['js/**/*.js']
-		  },
-		  test: {
-			options: {
-			  jshintrc: 'test/.jshintrc'
+			src: {
+				options: {
+					jshintrc: 'js/.jshintrc'
+				},
+				src: ['js/**/*.js']
 			},
-			src: ['test/**/*.js']
-		  }
+			test: {
+				options: {
+					jshintrc: 'test/.jshintrc'
+				},
+				src: ['test/**/*.js']
+			}
 		},
 		htmlConvert: {
 			WebHelpTemplates: {
-                options: {
-                  rename: function(moduleName) {
-                      var newName = moduleName.replace('.html', '').split('/');
-                      return newName[newName.length - 1];
-                  }
-                },
+				options: {
+					rename: function (moduleName) {
+						var newName = moduleName.replace('.html', '').split('/');
+						return newName[newName.length - 1];
+					}
+				},
 				src: ['templates/*.html'],
 				dest: 'js/WebHelpTemplates.js'
 			}
 		},
 		connect: {
-		  server: {
-			options: {
-			  hostname: '*',
-			  port: 9000
+			server: {
+				options: {
+					hostname: '*',
+					port: 9000
+				}
 			}
-		  }
 		},
 		qunit: {
-		  all: {
-			options: {
-			  urls: ['http://localhost:9000/index.html']
+			all: {
+				options: {
+					urls: ['http://localhost:9000/index.html']
+				}
 			}
-		  }
 		},
-        browserSync: {
-            dev: {
-                bsFiles: {
-                    src : '*'
-                },
-                options: {
-                    proxy: 'localhost:9000'
-                }
-            }
-        }
+		browserSync: {
+			dev: {
+				bsFiles: {
+					src: '*'
+				},
+				options: {
+					proxy: 'localhost:9000'
+				}
+			}
+		}
 	});
 
 	// Default task.
