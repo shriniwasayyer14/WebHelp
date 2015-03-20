@@ -26,12 +26,19 @@ opacity(n) {
       background-color: #fbfbfb;
       > div.webHelpSequenceListItem-title {
         width: 30%;
+        max-width: 30%;
       }
       > div.webHelpSequenceListItem-content {
         width: 60%;
+        max-width: 60%;
       }
       > div.iconClass-remove {
         width: 5%;
+        max-width: 5%;
+        cursor: pointer;
+      }
+      > div.iconClass-remove:hover {
+        font-size: 110%;
       }
       > div.webHelpSequenceListItem-selectionType, > div.webHelpSequenceListItem-selectionValue {
         display: none;
@@ -45,8 +52,21 @@ opacity(n) {
     }
     > li.webHelpSequenceStepListItem.header {
       font-weight: bold;
+      > div.iconClass-remove {
+        cursor: default;
+      }
+      > div.iconClass-remove:hover {
+        font-size: 100%;
+      }
     }
     > li.webHelpSequenceStepListItem:nth-of-type(odd) {
+      background-color: #ebebeb;
+    }
+    > li.webHelpSequenceStepListItem:hover {
+      background-color: #F9F7D1;
+    }
+    > li.webHelpSequenceStepListItem.header:hover {
+      background-color: inherit;
       background-color: #ebebeb;
     }
 
