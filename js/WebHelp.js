@@ -149,6 +149,7 @@ WebHelp = (function () {
             this.playSequence('Introduction');
         }
         this.refreshWhatsNew();
+        this.populateCurrentSequences();
         var self = this;
         this.watchWhatsNew = setInterval(function () {
             self.refreshWhatsNew();
@@ -290,7 +291,7 @@ WebHelp = (function () {
 		for (var seqName in sequences) {
 			if (sequences.hasOwnProperty(seqName)) {
 				var seq = sequences[seqName];
-				var seqId = seq.seqId;
+				var seqId = seq.seqId.toString();
 				if (seenSequences.indexOf(seqId) < 0) {
 					newSequences.push(seq);
 				}
@@ -542,8 +543,6 @@ WebHelp = (function () {
 				$showSequenceSavedSuccessAlert.hide();
 			}, 1000);
 		}
-
-
 	};
 
     WebHelp.prototype.getCurrentTablePreviewSteps = function () {
@@ -724,10 +723,6 @@ WebHelp = (function () {
 			type: 'GET',
 			dataType: 'json',
 			async: false,
-			data: {
-				method: "loadAllSequences",
-				tool: this.appName
-			},
 			success: function (data) {
 				self.sequences = data;
 			},
