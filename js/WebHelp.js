@@ -101,121 +101,121 @@ WebHelp = (function () {
 
 	WebHelp.prototype.addHelpIcon = function (navbarButtonElement, addTextToNavbar) {
 		var self = this;
-		if (!navbarButtonElement) {
-			navbarButtonElement = this.helpIconPosition;
-		}
-		var dropdownButtonHtml = '<button class="btn light" id="contentConsumptionNavButton" >' +
-			'<i class="' + this.iconClass.info + '"></i>';
-		if (addTextToNavbar) {
-			dropdownButtonHtml += 'App Help';
-		}
-		dropdownButtonHtml += '</button>';
-		this.ui.webHelpButton = jQuery(dropdownButtonHtml);
-		//Add to navbar if need be
-		if ((jQuery('.ai-navbar').length > 0) && (jQuery(navbarButtonElement + ':last-of-type').hasClass('nav-right'))) {
-			jQuery(navbarButtonElement + ':last-of-type').after(this.ui.webHelpButton);
-			this.ui.webHelpButton.addClass('nav-right');
-		} else {
-			jQuery(navbarButtonElement).after(this.ui.webHelpButton);
-		}
-		this.ui.webHelpButton.on('click', function (event) {
-			event.preventDefault();
-			self.showSequences();
-		});
-		this.ui.webHelpButton.attr('title', 'App Help');
-	};
+        if (!navbarButtonElement) {
+            navbarButtonElement = this.helpIconPosition;
+        }
+        var dropdownButtonHtml = '<button class="btn light" id="contentConsumptionNavButton" >' +
+            '<i class="' + this.iconClass.info + '"></i>';
+        if (addTextToNavbar) {
+            dropdownButtonHtml += 'App Help';
+        }
+        dropdownButtonHtml += '</button>';
+        this.ui.webHelpButton = jQuery(dropdownButtonHtml);
+        //Add to navbar if need be
+        if ((jQuery('.ai-navbar').length > 0) && (jQuery(navbarButtonElement + ':last-of-type').hasClass('nav-right'))) {
+            jQuery(navbarButtonElement + ':last-of-type').after(this.ui.webHelpButton);
+            this.ui.webHelpButton.addClass('nav-right');
+        } else {
+            jQuery(navbarButtonElement).after(this.ui.webHelpButton);
+        }
+        this.ui.webHelpButton.on('click', function (event) {
+            event.preventDefault();
+            self.showSequences();
+        });
+        this.ui.webHelpButton.attr('title', 'App Help');
+    };
 
-	WebHelp.prototype.showHelpConsumptionMode = function () {
-		this.addHelpIcon(this.helpIconPosition);
-		this.ui.webHelpMainContent = jQuery("#webHelpMainContent");
-		if (this.ui.webHelpMainContent.length <= 0) {
-			var modalContent = jQuery(WebHelpTemplates["WebHelpContent"]);
-			var webHelpContent = jQuery(WebHelpTemplates["WebHelpCreator"]);
-			for (var icon in this.iconClass) {
-				if (this.iconClass.hasOwnProperty(icon)) {
-					modalContent.find(".iconClass-" + icon).addClass(this.iconClass[icon]);
-					webHelpContent.find(".iconClass-" + icon).addClass(this.iconClass[icon]);
-				}
-			}
-			var $body = jQuery("body");
-			$body.append(modalContent);
-			$body.append(webHelpContent);
-			this.ui.webHelpMainContent = jQuery("#webHelpMainContent");
-		}
-		this.ui.webHelpMainContent.appendTo("#contentConsumptionModal .modal-body");
-		jQuery('.nav-tabs a[href=#addSequence]').hide();
-		jQuery('#globalWebHelpCreatorActionsWell').hide();
-		if (this.showIntroOnLoad) {
-			this.playSequence('Introduction');
-		}
-		this.refreshWhatsNew();
-		var self = this;
-		this.watchWhatsNew = setInterval(function () {
-			self.refreshWhatsNew();
-		}, 15000);
-	};
+    WebHelp.prototype.showHelpConsumptionMode = function () {
+        this.addHelpIcon(this.helpIconPosition);
+        this.ui.webHelpMainContent = jQuery("#webHelpMainContent");
+        if (this.ui.webHelpMainContent.length <= 0) {
+            var modalContent = jQuery(WebHelpTemplates["WebHelpContent"]);
+            var webHelpContent = jQuery(WebHelpTemplates["WebHelpCreator"]);
+            for (var icon in this.iconClass) {
+                if (this.iconClass.hasOwnProperty(icon)) {
+                    modalContent.find(".iconClass-" + icon).addClass(this.iconClass[icon]);
+                    webHelpContent.find(".iconClass-" + icon).addClass(this.iconClass[icon]);
+                }
+            }
+            var $body = jQuery("body");
+            $body.append(modalContent);
+            $body.append(webHelpContent);
+            this.ui.webHelpMainContent = jQuery("#webHelpMainContent");
+        }
+        this.ui.webHelpMainContent.appendTo("#contentConsumptionModal .modal-body");
+        jQuery('.nav-tabs a[href=#addSequence]').hide();
+        jQuery('#globalWebHelpCreatorActionsWell').hide();
+        if (this.showIntroOnLoad) {
+            this.playSequence('Introduction');
+        }
+        this.refreshWhatsNew();
+        var self = this;
+        this.watchWhatsNew = setInterval(function () {
+            self.refreshWhatsNew();
+        }, 15000);
+    };
 
-	WebHelp.prototype.showHelpCreationMode = function () {
-		var self = this;
-		this.ui.webHelpMainContent = jQuery("#webHelpMainContent");
-		if (this.ui.webHelpMainContent.length === 0) {
-			var webHelpContent = jQuery(WebHelpTemplates["WebHelpCreator"]);
-			for (var icon in this.iconClass) {
-				if (this.iconClass.hasOwnProperty(icon)) {
-					webHelpContent.find(".iconClass-" + icon).addClass(this.iconClass[icon]);
-				}
-			}
-			jQuery("body").append(webHelpContent);
-			this.ui.webHelpMainContent = jQuery("#webHelpMainContent");
-		}
+    WebHelp.prototype.showHelpCreationMode = function () {
+        var self = this;
+        this.ui.webHelpMainContent = jQuery("#webHelpMainContent");
+        if (this.ui.webHelpMainContent.length === 0) {
+            var webHelpContent = jQuery(WebHelpTemplates["WebHelpCreator"]);
+            for (var icon in this.iconClass) {
+                if (this.iconClass.hasOwnProperty(icon)) {
+                    webHelpContent.find(".iconClass-" + icon).addClass(this.iconClass[icon]);
+                }
+            }
+            jQuery("body").append(webHelpContent);
+            this.ui.webHelpMainContent = jQuery("#webHelpMainContent");
+        }
 
-		var sidebarToggleButton = jQuery(WebHelpTemplates["WebHelpSidebarToggle"]);
-		this.ui.webHelpMainContent
-			.addClass('creationModeSidebar')
-			.addClass('hideSidebar')
-			.append(sidebarToggleButton)
-			.children(':not(#creationModeSidebarshowHideSpan)').hide();
+        var sidebarToggleButton = jQuery(WebHelpTemplates["WebHelpSidebarToggle"]);
+        this.ui.webHelpMainContent
+            .addClass('creationModeSidebar')
+            .addClass('hideSidebar')
+            .append(sidebarToggleButton)
+            .children(':not(#creationModeSidebarshowHideSpan)').hide();
 
-		this.ui.sidebarToggleButton = jQuery('#creationModeSidebarshowHideSpan');
+        this.ui.sidebarToggleButton = jQuery('#creationModeSidebarshowHideSpan');
 
-		this.ui.sidebarToggleButton.on('click', function () {
-			if (self.ui.webHelpMainContent.hasClass('hideSidebar')) {
-				self.ui.webHelpMainContent.children(':not(#creationModeSidebarshowHideSpan)').show('slow', function () {
-					self.ui.webHelpMainContent.removeClass('hideSidebar', 300);
-				});
-			} else {
-				self.ui.webHelpMainContent.children(':not(#creationModeSidebarshowHideSpan)').hide('slow', function () {
-					self.ui.webHelpMainContent.addClass('hideSidebar', 300);
-				});
-			}
-		});
+        this.ui.sidebarToggleButton.on('click', function() {
+            if (self.ui.webHelpMainContent.hasClass('hideSidebar')) {
+                self.ui.webHelpMainContent.children(':not(#creationModeSidebarshowHideSpan)').show('fast', function(){
+                    self.ui.webHelpMainContent.removeClass('hideSidebar', 300);
+                });
+            } else {
+                self.ui.webHelpMainContent.children(':not(#creationModeSidebarshowHideSpan)').hide('fast', function() {
+                    self.ui.webHelpMainContent.addClass('hideSidebar', 300);
+                });
+            }
+        });
 
-		jQuery('.nav-tabs a[href=#addSequence]').trigger('click');
+        jQuery('.nav-tabs a[href=#addSequence]').trigger('click');
 
-		//attach event handlers to webHelpContent
-		jQuery("#sequencePreviewButton").on("click", this.preview.bind(self));
-		jQuery("#sequenceSaveButton").on("click", this.saveSequence.bind(self));
-		jQuery("#clearStepsButton").on("click", this.clearStepsInSequence.bind(self));
-		jQuery("#startDragDropButton").on("click", this.startSelectionOfElement.bind(self));
-		jQuery("#startEmptyStepButton").on("click", this.createStepForThisElement.bind(self));
-		jQuery("#cancelDragDropButton").on("click", jQueryDragSelector.off);
-		jQuery("#noElementsSelectedButton").on("click", jQuery('#noElementsSelectedDiv').hide);
-		jQuery("#noStepsInPreviewButton").on("click", jQuery('#noStepsInPreviewDiv').hide);
-		jQuery("#saveAllHelpSequencesToFileButton").on("click", this.saveAllHelpSequencesToFile.bind(self));
-		jQuery("#importAllHelpSequencesFromFileButton").on("click", this.importAllHelpSequencesFromFile.bind(self));
+        //attach event handlers to webHelpContent
+        jQuery("#sequencePreviewButton").on("click", this.preview.bind(self));
+        jQuery("#sequenceSaveButton").on("click", this.saveSequence.bind(self));
+        jQuery("#clearStepsButton").on("click", this.clearStepsInSequence.bind(self));
+        jQuery("#startDragDropButton").on("click", this.startSelectionOfElement.bind(self));
+        jQuery("#startEmptyStepButton").on("click", this.createStepForThisElement.bind(self));
+        jQuery("#cancelDragDropButton").on("click", jQueryDragSelector.off);
+        jQuery("#noElementsSelectedButton").on("click", jQuery('#noElementsSelectedDiv').hide);
+        jQuery("#noStepsInPreviewButton").on("click", jQuery('#noStepsInPreviewDiv').hide);
+        jQuery("#saveAllHelpSequencesToFileButton").on("click", this.saveAllHelpSequencesToFile.bind(self));
+        jQuery("#importAllHelpSequencesFromFileButton").on("click", this.importAllHelpSequencesFromFile.bind(self));
 
-		var stepsTable = jQuery("#stepsTable");
-		stepsTable.on("click", ".remove-step", this.removeThisStep);
+        var stepsTable = jQuery("#stepsTable");
+        stepsTable.on("click", ".remove-step", this.removeThisStep);
 
-		stepsTable.dataTable({
-			"sDom": "",
-			"language": {
-				"emptyTable": "New steps will show up here!"
-			},
-			"aoColumns": [
-				{
-					"sTitle": "",
-					"sWidth": "10%"
+        stepsTable.dataTable({
+            "sDom": "",
+            "language": {
+                "emptyTable": "New steps will show up here!"
+            },
+            "aoColumns": [
+                {
+                    "sTitle": "",
+                    "sWidth": "10%"
                 },
 				{
 					"sTitle": "Step",
@@ -546,120 +546,122 @@ WebHelp = (function () {
 
 	};
 
-	WebHelp.prototype.getCurrentTablePreviewSteps = function () {
-		var $stepsTable = jQuery("#stepsTable");
-		var numSteps = $stepsTable.find("td");
-		var tableHasData = !((numSteps.length <= 0) || ((numSteps.length === 1) && (numSteps.hasClass('dataTables_empty'))));
-		if (!tableHasData) {
-			jQuery('#noStepsInPreviewDiv').show();
-			return false;
-		}
+    WebHelp.prototype.getCurrentTablePreviewSteps = function () {
+        var $stepsTable = jQuery("#stepsTable");
+        var numSteps = $stepsTable.find("td");
+        var tableHasData = !((numSteps.length <= 0) || ((numSteps.length === 1) && (numSteps.hasClass('dataTables_empty'))));
+        if (!tableHasData) {
+            jQuery('#noStepsInPreviewDiv').show();
+            return false;
+        }
 
-		var previewSteps = [];
+        var previewSteps = [];
 
-		var tableRows = $stepsTable.find("tr");
-		var rows = [];
+        var tableRows = $stepsTable.find("tr");
+        var rows = [];
 
-		jQuery.each(tableRows, function (index, element) {
-			var cells = jQuery(element).find('td');
-			if (cells.length > 0) {
-				var thisRow = [];
-				for (var n = 0; n < cells.length; n++) {
-					thisRow.push(jQuery(cells[n]).text());
-				}
-				rows.push(thisRow);
-			}
-		});
+        jQuery.each(tableRows, function (index, element) {
+            var cells = jQuery(element).find('td');
+            if (cells.length > 0) {
+                var thisRow = [];
+                for (var n = 0; n < cells.length; n++) {
+                    thisRow.push(jQuery(cells[n]).text());
+                }
+                rows.push(thisRow);
+            }
+        });
 
-		for (var n = 0; n < rows.length; n++) {
-			var elemAttribVal = rows[n][3];
-			var elemAttribType = rows[n][2];
-			var stepTitle = rows[n][1];
-			var content = rows[n][4];
-			if (elemAttribVal) {
-				var elem = "";
-				if (elemAttribType !== 'CSSPath') {
-					elem = "[" + elemAttribType + "=\'" + elemAttribVal + "\']";
-				} else {
-					elem = elemAttribVal;
-				}
-				previewSteps.push({
-					element: elem,
-					intro: '<div><h3>' + stepTitle + '</h3><p>' + content + '</p></div>',
-					position: 'auto'
-				});
-			} else {
-				previewSteps.push({
-					intro: '<div><h3>' + stepTitle + '</h3><p>' + content + '</p></div>'
-				});
-			}
-		}
-		return previewSteps;
-	};
+        for (var n = 0; n < rows.length; n++) {
+            var elemAttribVal = rows[n][3];
+            var elemAttribType = rows[n][2];
+            var stepTitle = rows[n][1];
+            var content = rows[n][4];
+            if (elemAttribVal) {
+                var elem = "";
+                if (elemAttribType !== 'CSSPath') {
+                    elem = "[" + elemAttribType + "=\'" + elemAttribVal + "\']";
+                } else {
+                    elem = elemAttribVal;
+                }
+                previewSteps.push({
+                    element: elem,
+                    intro: '<div><h3>' + stepTitle + '</h3><p>' + content + '</p></div>',
+                    position: 'auto'
+                });
+            } else {
+                previewSteps.push({
+                    intro: '<div><h3>' + stepTitle + '</h3><p>' + content + '</p></div>'
+                });
+            }
+        }
+        return previewSteps;
+    };
 
-	WebHelp.prototype.genKey = function () {
-		return "WebHelp." + this.appName + "." + this.userName;
-	};
+    WebHelp.prototype.genKey = function () {
+        return "WebHelp." + this.appName + "." + this.userName;
+    };
 
-	// This function should be tied to the user and the app
-	// Returns an array of sequence IDs of the visited sequences
-	WebHelp.prototype.getAllVisitedSequences = function () {
-		var self = this;
-		var userPrefs = {};
-		jQuery.ajax({
-			async: false,
-			url: self.visitedBaseUrl,
-			success: function (data) {
-				data = data.split(/\r?\n/);
-				for (var i = 0; i < data.length; i++) {
-					var keyVal = data[i].split("/t");
-					userPrefs[keyVal[0]] = keyVal[1];
-				}
-			}
-		});
+    // This function should be tied to the user and the app
+    // Returns an array of sequence IDs of the visited sequences
+    WebHelp.prototype.getAllVisitedSequences = function () {
+        var userPrefs = {};
+        jQuery.ajax({
+            async : false,
+            url: "/weblications/etc/getPrefs.epl",
+            success: function(data) {
+                data = data.split(/\r?\n/);
+                for(var i=0;i<data.length;i++) {
+                    var keyVal = data[i].split("\t");
+                    userPrefs[keyVal[0]] = keyVal[1];
+                }
+            }
+        });
+        
+        var key = this.genKey();
+        var seqIds = userPrefs[key];
+        if (seqIds && seqIds.length > 0) {
+            return seqIds.split(",");
+        } else {
+            return [];
+        }
+    };
 
-		var key = this.genKey();
-		var seqIds = userPrefs[key];
-		if (seqIds && seqIds.length > 0) {
-			return seqIds;
-		} else {
-			return [];
-		}
-	};
+    // This method would mark the given sequence as seen
+    WebHelp.prototype.markThisSequenceAsSeen = function (seqId) {
+        var visitedSeqIds = this.getAllVisitedSequences();
+        var key = this.genKey();
+        var updatePreferences = false;
+        if (visitedSeqIds.indexOf(seqId) < 0) {
+            visitedSeqIds.push(seqId);
+            updatePreferences = true;
+        }
+        if(updatePreferences) {
+            this.setVisitedSequencesInUserPrefs(key, visitedSeqIds);
+            this.refreshWhatsNew();
+        }
+    };
 
-	// This method would mark the given sequence as seen
-	WebHelp.prototype.markThisSequenceAsSeen = function (seqId) {
-		var visitedSeqIds = this.getAllVisitedSequences();
-		var key = this.genKey();
-		if (visitedSeqIds.indexOf(seqId) < 0) {
-			visitedSeqIds.push(seqId);
-		}
-		this.setVisitedSequencesInUserPrefs(key, visitedSeqIds);
-	};
+    WebHelp.prototype.setVisitedSequencesInUserPrefs = function(key, val) {
+        var self = this;
+        val = val.join(",");
+        jQuery.ajax({
+            type: "GET",
+            url:"/weblications/etc/setPrefs.epl?"+key+"="+val,
+            success: function() {
+                self.refreshWhatsNew(); // new function
+            }
+        });
+    };
 
-	WebHelp.prototype.setVisitedSequencesInUserPrefs = function (key, val) {
-		var self = this;
-		jQuery.ajax({
-			type: "POST",
-			url: "/weblications/etc/setPrefs.epl",
-			data: {
-				key: val
-			},
-			success: function () {
-				self.refreshWhatsNew(); // new function
-			}
-		});
-	};
-
-	// This table will remove and add new contents to the new sequences table
-	WebHelp.prototype.updateNewSequencesTable = function (newSequences) {
-		if (newSequences.length >= 1) {
-			this.populateCurrentSequences();
-		}
-		var aaData = [];
-		var self = this;
-		jQuery.each(newSequences, function (key, value) {
-			aaData.push([
+    // This table will remove and add new contents to the new sequences table
+    WebHelp.prototype.updateNewSequencesTable = function (newSequences) {
+        if (newSequences.length >= 1) {
+            this.populateCurrentSequences();
+        }
+        var aaData = [];
+        var self = this;
+        jQuery.each(newSequences, function (key, value) {
+            aaData.push([
                 "<span class='play-sequence fa fa-play-circle-o' aria-hidden='true'></span>",
                 value.sequenceTitle,
                 "<span class='edit-sequence " + self.iconClass.edit + "' aria-hidden='true'>",
