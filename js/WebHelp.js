@@ -533,33 +533,17 @@ WebHelp = (function () {
 	};
 
     WebHelp.prototype.getCurrentTablePreviewSteps = function () {
-        var $stepsTable = jQuery("#stepsTable");
-        var numSteps = $stepsTable.find("td");
-        var tableHasData = !((numSteps.length <= 0) || ((numSteps.length === 1) && (numSteps.hasClass('dataTables_empty'))));
-        if (!tableHasData) {
+        var rows = this.stepsTable.getData();
+        if (rows.length <= 0) {
             jQuery('#noStepsInPreviewDiv').show();
             return false;
         }
-
         var previewSteps = [];
 
-        var tableRows = $stepsTable.find("tr");
-        var rows = [];
-
-        jQuery.each(tableRows, function (index, element) {
-            var cells = jQuery(element).find('td');
-            if (cells.length > 0) {
-                var thisRow = [];
-                for (var n = 0; n < cells.length; n++) {
-                    thisRow.push(jQuery(cells[n]).text());
-                }
-                rows.push(thisRow);
-            }
-        });
-
         for (var n = 0; n < rows.length; n++) {
-            var elemAttribVal = rows[n][3];
-            var elemAttribType = rows[n][2];
+            //escape ampersands (we may need other special characters in the content
+            var elemAttribVal = rows[n][3].replace(/[&<>"'\/]/g, '').trim();
+            var elemAttribType = rows[n][2].replace(/\&/g, '').trim();
             var stepTitle = rows[n][1];
             var content = rows[n][4];
             if (elemAttribVal) {

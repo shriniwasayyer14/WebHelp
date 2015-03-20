@@ -1,7 +1,7 @@
 /* globals jQuery */
 jQuery.fn.extend({
-    tableListBuilder: function (elementSelector, data) {
-        return new TableListBuilder({
+    tableList: function (elementSelector, data) {
+        return new TableList({
             element: elementSelector,
             data: data
         });
@@ -35,20 +35,19 @@ TableList = (function () {
     }
 
     TableList.prototype.test = function () {
-        i = 0;
+        var i = 0;
         var arrayItem = [];
         while (i < 5) {
             arrayItem.push(['', 'Title' + i, 'Type' + i, 'Value' + i, 'Content' + i]);
             i += 1;
         }
-        var a = new TableList({element: '#webHelpMainContent', data: arrayItem});
+        new TableList({element: '#webHelpMainContent', data: arrayItem});
     };
 
     TableList.prototype.renderList = function () {
         var $listTemplate = jQuery(WebHelpTemplates[this.listTemplate]);
         //If we have the list already, remove the data and re-render
         jQuery(this.element).children('.' + $listTemplate.attr('class')).remove();
-        var myListHtml = '';
         var listItemTemplate = WebHelpTemplates[this.listItemTemplate];
         if (this.useData) {
             var length = this.data.length;
@@ -99,6 +98,25 @@ TableList = (function () {
 
     TableList.prototype.numRows = function() {
         return jQuery(this.element).find('ul > li:not(.header)').length;
+    };
+
+    TableList.prototype.getData = function() {
+        /*No data binding, we have to evaluate this lazily*/
+        var listItems = jQuery(this.element).find('ul > li:not(.header)');
+        var length = listItems.length;
+        var returnArray = [];
+        for (var i = 0; i < length; i++) {
+            var rowArray = [];
+            var thisRow = jQuery(listItems[i]);
+            var thisRowContents = jQuery(thisRow).find('div');
+            var rowElementLength = thisRowContents.length;
+            for (var j = 0; j < rowElementLength; j++) {
+                rowArray.push(jQuery(thisRowContents[j]).text());
+                //Use text, otherwise ampersands and special characters will not be escaped
+            }
+            returnArray.push(rowArray);
+        }
+        return returnArray;
     };
 
     return TableList;

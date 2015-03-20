@@ -31,7 +31,7 @@ jQuery.fn.extend({
                 name += ':nth-child(' + index + ')';
             }
 
-            path = name + (path ? ' > ' + path : '');
+            path = name + (path ? '>' + path : '');
             node = parent;
         }
 
