@@ -251,6 +251,7 @@ WebHelp = (function () {
 		}
 		jQuery(elem).html(currentTitleHTML);
 		this.refreshWhatsNew();
+        this.populateCurrentSequences();
 	};
 
 	WebHelp.prototype.saveAllHelpSequencesToFile = function () {
