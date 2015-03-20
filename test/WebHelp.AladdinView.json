@@ -1,1 +1,20 @@
-{}
+{
+	"Sequence title": {
+		"method": "saveSequence",
+		"seqId": 1426861033573,
+		"sequenceTitle": "Sequence title",
+		"data": [
+			{
+				"element": "[name='a294']",
+				"intro": "<div><h3>Editable title</h3><p>Editable content</p></div>",
+				"position": "auto"
+			},
+			{
+				"intro": "<div><h3>Editable title</h3><p>Editable content</p></div>"
+			}
+		],
+		"tool": "AladdinView",
+		"active_flag": "N",
+		"url": "test"
+	}
+}

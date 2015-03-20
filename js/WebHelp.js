@@ -709,6 +709,7 @@ WebHelp = (function () {
 	};
 
 	WebHelp.prototype.refreshAllSequences = function (file) {
+		var self = this;
 		this.sequences = {};
 		if (!file){
 			file = this.sequencesBaseUrl + this.webHelpName + '.json';
@@ -726,7 +727,7 @@ WebHelp = (function () {
 				tool: this.appName
 			},
 			success: function (data) {
-				this.sequences = JSON.parse(data);
+				self.sequences = data;
 			},
 			error: function (xhr) {
 				if (xhr.status === 404) {
@@ -796,7 +797,7 @@ WebHelp = (function () {
 	};
 
 	WebHelp.prototype.playThisSequence = function (event) {
-		var t = jQuery("#" + jQuery('.dataTable:visible').attr('id')).DataTable();
+		var t = jQuery("#" + jQuery('#webHelpMainContent').find('.dataTable:visible').attr('id')).DataTable();
 		var sequenceName = [t.row(jQuery(event.target).parents('tr')).data()[1]];
 		this.playSequence(sequenceName);
 	};
