@@ -2,101 +2,104 @@
 
 var WebHelp;
 WebHelp = (function () {
-    function WebHelp(WebHelpOptions) {
-        //setup defaults
-        var defaultOptions = {
-            appName: 'DefaultApp',
-            mode: 'consume',
-            helpIconPosition: '.ai-header .ai-header-title',
-            showIntroOnLoad: false,
-            usesFontAwesome: false,
-            parameters: this.getWindowParameters(),
-            ui: {}
-        };
-        if (!WebHelpOptions) {
-            WebHelpOptions = defaultOptions;
-        }
-        for (var option in defaultOptions) {
-            if (!defaultOptions.hasOwnProperty(option)) {
-                continue;
-            }
-            this[option] = WebHelpOptions.hasOwnProperty(option) ? WebHelpOptions[option] : defaultOptions[option];
-        }
+	function WebHelp(WebHelpOptions) {
+		//setup defaults
+		var defaultOptions = {
+			appName: 'DefaultApp',
+			mode: 'consume',
+			helpIconPosition: '.ai-header .ai-header-title',
+			showIntroOnLoad: false,
+			usesFontAwesome: false,
+			parameters: this.getWindowParameters(),
+			ui: {},
+			sequences: {},
+			sequencesBaseUrl: '/WebHelp/',
+			visitedBaseUrl: '/weblications/etc/getPrefs.epl'
+		};
+		if (!WebHelpOptions) {
+			WebHelpOptions = defaultOptions;
+		}
+		for (var option in defaultOptions) {
+			if (!defaultOptions.hasOwnProperty(option)) {
+				continue;
+			}
+			this[option] = WebHelpOptions.hasOwnProperty(option) ? WebHelpOptions[option] : defaultOptions[option];
+		}
 		this.webHelpName = 'WebHelp.' + this.appName;
 
-        //setup icon classes
-        if (this.usesFontAwesome === true) {
-            this.iconClass = {
-                "remove": "fa fa-times",
-                "play": "fa fa-play-circle-o",
-                "save": "fa fa-floppy-o",
-                "clear": "fa fa-refresh",
-                "add": "fa fa-plus",
-                "info": "fa fa-info-circle",
-                "edit": "fa fa-edit",
-                "upload": "fa fa-upload"
-            };
-        } else { //default to bootstrap
-            this.iconClass = {
-                "remove": "glyphicon glyphicon-remove",
-                "play": "glyphicon glyphicon-play-circle",
-                "save": "glyphicon glyphicon-floppy-disk",
-                "clear": "glyphicon glyphicon-refresh",
-                "add": "glyphicon glyphicon-plus",
-                "info": "glyphicon glyphicon-info-sign",
-                "edit": "glyphicon glyphicon-edit",
-                "upload": "glyphicon glyphicon-upload"
-            };
-        }
+		//setup icon classes
+		if (this.usesFontAwesome === true) {
+			this.iconClass = {
+				"remove": "fa fa-times",
+				"play": "fa fa-play-circle-o",
+				"save": "fa fa-floppy-o",
+				"clear": "fa fa-refresh",
+				"add": "fa fa-plus",
+				"info": "fa fa-info-circle",
+				"edit": "fa fa-edit",
+				"upload": "fa fa-upload"
+			};
+		} else { //default to bootstrap
+			this.iconClass = {
+				"remove": "glyphicon glyphicon-remove",
+				"play": "glyphicon glyphicon-play-circle",
+				"save": "glyphicon glyphicon-floppy-disk",
+				"clear": "glyphicon glyphicon-refresh",
+				"add": "glyphicon glyphicon-plus",
+				"info": "glyphicon glyphicon-info-sign",
+				"edit": "glyphicon glyphicon-edit",
+				"upload": "glyphicon glyphicon-upload"
+			};
+		}
 
-        //build the gui
-        if (this.parameters.create !== undefined) {
-            this.mode = "create";
-            this.showHelpCreationMode();
-        } else {
-            this.mode = "consume";
-            this.showHelpConsumptionMode();
-        }
-        this.bindPlayEditButtons();
+		//build the gui
+		if (this.parameters.create !== undefined) {
+			this.mode = "create";
+			this.showHelpCreationMode();
+		} else {
+			this.mode = "consume";
+			this.showHelpConsumptionMode();
+		}
+		this.bindPlayEditButtons();
 
-    }
+	}
 
-    //detect jquery params
-    WebHelp.prototype.getWindowParameters = function () {
-        // This function is anonymous, is executed immediately and
-        // the return value is assigned to QueryString!
-        var query_string = {};
-        var query = window.location.search.substring(1);
-        var vars = query.split("&");
-        for (var i = 0; i < vars.length; i++) {
-            var pair = vars[i].split("=");
-            // If first entry with this name
-            if (typeof query_string[pair[0]] === "undefined") {
-                query_string[pair[0]] = pair[1];
-                // If second entry with this name
-            } else if (typeof query_string[pair[0]] === "string") {
-                query_string[pair[0]] = [query_string[pair[0]], pair[1]];
-                // If third or later entry with this name
-            } else {
-                query_string[pair[0]].push(pair[1]);
-            }
-        }
-        return query_string;
-    };
+	//detect jquery params
+	WebHelp.prototype.getWindowParameters = function () {
+		// This function is anonymous, is executed immediately and
+		// the return value is assigned to QueryString!
+		var query_string = {};
+		var query = window.location.search.substring(1);
+		var vars = query.split("&");
+		for (var i = 0; i < vars.length; i++) {
+			var pair = vars[i].split("=");
+			// If first entry with this name
+			if (typeof query_string[pair[0]] === "undefined") {
+				query_string[pair[0]] = pair[1];
+				// If second entry with this name
+			} else if (typeof query_string[pair[0]] === "string") {
+				query_string[pair[0]] = [query_string[pair[0]], pair[1]];
+				// If third or later entry with this name
+			} else {
+				query_string[pair[0]].push(pair[1]);
+			}
+		}
+		return query_string;
+	};
 
-    WebHelp.prototype.bindPlayEditButtons = function () {
-        var self = this;
-        //attach sequence specific handlers
-        this.ui.webHelpMainContent.on('click', '.play-sequence', this.playThisSequence.bind(self));
-        this.ui.webHelpMainContent.on('click', '.edit-sequence', this.editThisSequence.bind(self));
-        this.ui.webHelpMainContent.on('click', '.remove-sequence', this.removeThisSequence.bind(self));
-    };
-	
-	WebHelp.prototype.showSequences = function(){
+	WebHelp.prototype.bindPlayEditButtons = function () {
+		var self = this;
+		//attach sequence specific handlers
+		this.ui.webHelpMainContent.on('click', '.play-sequence', this.playThisSequence.bind(self));
+		this.ui.webHelpMainContent.on('click', '.edit-sequence', this.editThisSequence.bind(self));
+		this.ui.webHelpMainContent.on('click', '.remove-sequence', this.removeThisSequence.bind(self));
+	};
+
+	WebHelp.prototype.showSequences = function () {
 		jQuery('#contentConsumptionModal').modal('show');
 	};
 
-    WebHelp.prototype.addHelpIcon = function (navbarButtonElement, addTextToNavbar) {
+	WebHelp.prototype.addHelpIcon = function (navbarButtonElement, addTextToNavbar) {
 		var self = this;
         if (!navbarButtonElement) {
             navbarButtonElement = this.helpIconPosition;
@@ -214,330 +217,331 @@ WebHelp = (function () {
                     "sTitle": "",
                     "sWidth": "10%"
                 },
-                {
-                    "sTitle": "Step",
-                    "sWidth": "25%"
+				{
+					"sTitle": "Step",
+					"sWidth": "25%"
                 },
-                {
-                    "sTitle": "Attribute",
-                    "sWidth": "7%",
-                    "sClass": "invisibleColumnInStepsTable"
-                    /*Needs to be invisible, datatables bVisible false removes it from the DOM altogether*/
+				{
+					"sTitle": "Attribute",
+					"sWidth": "7%",
+					"sClass": "invisibleColumnInStepsTable"
+						/*Needs to be invisible, datatables bVisible false removes it from the DOM altogether*/
                 },
-                {
-                    "sTitle": "Value",
-                    "sWidth": "8%",
-                    "sClass": "invisibleColumnInStepsTable"
+				{
+					"sTitle": "Value",
+					"sWidth": "8%",
+					"sClass": "invisibleColumnInStepsTable"
                 },
-                {
-                    "sTitle": "Content",
-                    "sWidth": "50%"
+				{
+					"sTitle": "Content",
+					"sWidth": "50%"
                 }
             ]
-        }).rowReordering();
-        this.makeEditable();
-        var helpIconElement = jQuery(this.helpIconPosition);
-        var currentTitleHTML = helpIconElement.html();
-        currentTitleHTML += "[Edit mode]";
-        var elem;
-        if (helpIconElement && helpIconElement.length > 1) {
-            elem = helpIconElement[0];
-        } else {
-            elem = helpIconElement;
-        }
-        jQuery(elem).html(currentTitleHTML);
-        this.refreshWhatsNew();
-    };
+		}).rowReordering();
+		this.makeEditable();
+		var helpIconElement = jQuery(this.helpIconPosition);
+		var currentTitleHTML = helpIconElement.html();
+		currentTitleHTML += "[Edit mode]";
+		var elem;
+		if (helpIconElement && helpIconElement.length > 1) {
+			elem = helpIconElement[0];
+		} else {
+			elem = helpIconElement;
+		}
+		jQuery(elem).html(currentTitleHTML);
+		this.refreshWhatsNew();
+	};
 
-    WebHelp.prototype.saveAllHelpSequencesToFile = function() {
-        /* Uses the HTML5 download attribute to serve up a file without the server
-         * http://www.w3schools.com/tags/att_a_download.asp
-         */
+	WebHelp.prototype.saveAllHelpSequencesToFile = function () {
+		/* Uses the HTML5 download attribute to serve up a file without the server
+		 * http://www.w3schools.com/tags/att_a_download.asp
+		 */
 
-        //get required data
+		//get required data
 
-        //Pretty print the JSON content
-        //https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify
-        //Syntax: JSON.stringify(value[, replacer[, space]])
-        var content = JSON.stringify(this.getAllSequences(), null, '\t');
+		//Pretty print the JSON content
+		//https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify
+		//Syntax: JSON.stringify(value[, replacer[, space]])
+		var content = JSON.stringify(this.sequences, null, '\t');
 
-        var link = document.createElement('a'); //create a hyperlink
-        var mimeType = 'application/json';
+		var link = document.createElement('a'); //create a hyperlink
+		var mimeType = 'application/json';
 
-        //set attributes on top of the link
-        link.setAttribute('href', 'data:' + mimeType + ';charset=utf-8,' + encodeURIComponent(content));
-        link.setAttribute('download', this.webHelpName + '.json');
+		//set attributes on top of the link
+		link.setAttribute('href', 'data:' + mimeType + ';charset=utf-8,' + encodeURIComponent(content));
+		link.setAttribute('download', this.webHelpName + '.json');
 
-        //trigger the download
-        link.click();
+		//trigger the download
+		link.click();
 
-        //destroy the link
-        link.parentNode.removeChild(link);
-    };
+		//destroy the link
+		link.parentNode.removeChild(link);
+	};
 
-    WebHelp.prototype.importAllHelpSequencesFromFile = function() {
+	WebHelp.prototype.importAllHelpSequencesFromFile = function () {
 
-    };
+	};
 
-    WebHelp.prototype.refreshWhatsNew = function () {
-        var sequences = this.getAllSequences(); //new function
-        var seenSequences = this.getAllVisitedSequences(); //new function
-        var newSequences = [];
-        for (var seqName in sequences) {
-            if (sequences.hasOwnProperty(seqName)) {
-                var seq = sequences[seqName];
-                var seqId = seq.seqId;
-                if (seenSequences.indexOf(seqId) < 0) {
-                    newSequences.push(seq);
-                }
-            }
-        }
-        this.updateNewSequencesTable(newSequences); // new function
+	WebHelp.prototype.refreshWhatsNew = function () {
+		this.refreshAllSequences();
+		var sequences = this.sequences; //new function
+		var seenSequences = this.getAllVisitedSequences(); //new function
+		var newSequences = [];
+		for (var seqName in sequences) {
+			if (sequences.hasOwnProperty(seqName)) {
+				var seq = sequences[seqName];
+				var seqId = seq.seqId;
+				if (seenSequences.indexOf(seqId) < 0) {
+					newSequences.push(seq);
+				}
+			}
+		}
+		this.updateNewSequencesTable(newSequences); // new function
 
-        //update badge icon
-        var numOfNewSequences = newSequences.length;
+		//update badge icon
+		var numOfNewSequences = newSequences.length;
 
-        if (this.mode !== "create") {
-            if (numOfNewSequences > 0) {
-                this.ui.webHelpButton.attr('data-badge', numOfNewSequences);
-            } else {
-                this.ui.webHelpButton.removeAttr('data-badge');
-            }
-        }
+		if (this.mode !== "create") {
+			if (numOfNewSequences > 0) {
+				this.ui.webHelpButton.attr('data-badge', numOfNewSequences);
+			} else {
+				this.ui.webHelpButton.removeAttr('data-badge');
+			}
+		}
 
-    };
+	};
 
-    WebHelp.prototype.makeEditable = function () {
-        jQuery("#stepsTable").tableEdit({
-            columnsTr: "1,4"
-        });
-    };
+	WebHelp.prototype.makeEditable = function () {
+		jQuery("#stepsTable").tableEdit({
+			columnsTr: "1,4"
+		});
+	};
 
-    WebHelp.prototype.populateCurrentSequences = function () {
-        var isCreator = (this.parameters.create !== undefined);
-        var retrievedHtml = '';
-        var retrievedNewHtml = '';
-        var retrievedPopularHtml = '';
-        var retrievedSequences = this.getAllSequences();
+	WebHelp.prototype.populateCurrentSequences = function () {
+		var isCreator = (this.parameters.create !== undefined);
+		var retrievedHtml = '';
+		var retrievedNewHtml = '';
+		var retrievedPopularHtml = '';
+		var retrievedSequences = this.sequences;
 
-        var numNewSequences = 0;
-        if (retrievedSequences) {
-            retrievedHtml += '<table id="availableSequencesList">';
-            retrievedPopularHtml += '<table id="popularSequencesList">';
-            retrievedNewHtml += '<table id="newSequencesList">';
-            var self = this;
-            jQuery.each(retrievedSequences, function (key, value) {
-                var thisElement = "<tr>" +
-                    "<td><span class='play-sequence " + self.iconClass.play + "' aria-hidden='true'></span></td>" +
-                    "<td>" + key + "</td>" +
-                    "<td><span class='edit-sequence " + self.iconClass.edit + "' aria-hidden='true'></td>" +
-                    "<td><span class='remove-sequence " + self.iconClass.remove + "' aria-hidden='true' ></td>" +
-                    "<td>" + JSON.stringify(value) + "</td>" +
-                    "</tr>";
-                retrievedHtml += thisElement;
-                retrievedPopularHtml += thisElement;
-            });
-            retrievedHtml += '</table>';
-            retrievedPopularHtml += '</table>';
-            retrievedNewHtml += '</table>';
-            localStorage.setItem('WebHelp', JSON.stringify(retrievedSequences));
-            jQuery('#availableSequencesContent').html(retrievedHtml);
-            jQuery('#popularSequencesContent').html(retrievedPopularHtml);
-            jQuery("#availableSequencesList").dataTable({
-                "sDom": '<"top"f<"clear">>', //It should be a searchable table
-                "oLanguage": {
-                    "sSearch": "Search title and content: "
-                },
-                "aoColumns": [
-                    {
-                        "sTitle": "",
-                        "sWidth": "10%"
+		var numNewSequences = 0;
+		if (retrievedSequences) {
+			retrievedHtml += '<table id="availableSequencesList">';
+			retrievedPopularHtml += '<table id="popularSequencesList">';
+			retrievedNewHtml += '<table id="newSequencesList">';
+			var self = this;
+			jQuery.each(retrievedSequences, function (key, value) {
+				var thisElement = "<tr>" +
+					"<td><span class='play-sequence " + self.iconClass.play + "' aria-hidden='true'></span></td>" +
+					"<td>" + key + "</td>" +
+					"<td><span class='edit-sequence " + self.iconClass.edit + "' aria-hidden='true'></td>" +
+					"<td><span class='remove-sequence " + self.iconClass.remove + "' aria-hidden='true' ></td>" +
+					"<td>" + JSON.stringify(value) + "</td>" +
+					"</tr>";
+				retrievedHtml += thisElement;
+				retrievedPopularHtml += thisElement;
+			});
+			retrievedHtml += '</table>';
+			retrievedPopularHtml += '</table>';
+			retrievedNewHtml += '</table>';
+			jQuery('#availableSequencesContent').html(retrievedHtml);
+			jQuery('#popularSequencesContent').html(retrievedPopularHtml);
+			jQuery("#availableSequencesList").dataTable({
+				"sDom": '<"top"f<"clear">>', //It should be a searchable table
+				"oLanguage": {
+					"sSearch": "Search title and content: "
+				},
+				"aoColumns": [
+					{
+						"sTitle": "",
+						"sWidth": "10%"
                     },
-                    {
-                        "sTitle": "Topic"
+					{
+						"sTitle": "Topic"
                     },
-                    {
-                        "sTitle": "",
-                        "sWidth": "10%",
-                        "bVisible": isCreator
+					{
+						"sTitle": "",
+						"sWidth": "10%",
+						"bVisible": isCreator
                     },
-                    {
-                        "sTitle": "",
-                        "sWidth": "10%",
-                        "bVisible": isCreator
+					{
+						"sTitle": "",
+						"sWidth": "10%",
+						"bVisible": isCreator
                     },
-                    {
-                        "sTitle": "Data",
-                        "bVisible": false,
-                        "bSearchable": true
+					{
+						"sTitle": "Data",
+						"bVisible": false,
+						"bSearchable": true
                     }
                 ]
-            });
+			});
 
-            jQuery("#popularSequencesList").dataTable({
-                "sDom": '<"top"f<"clear">>', //It should be a searchable table
-                "oLanguage": {
-                    "sSearch": "Search title and content: "
-                },
-                "aoColumns": [
-                    {
-                        "sTitle": "",
-                        "sWidth": "10%"
+			jQuery("#popularSequencesList").dataTable({
+				"sDom": '<"top"f<"clear">>', //It should be a searchable table
+				"oLanguage": {
+					"sSearch": "Search title and content: "
+				},
+				"aoColumns": [
+					{
+						"sTitle": "",
+						"sWidth": "10%"
                     },
-                    {
-                        "sTitle": "Topic"
+					{
+						"sTitle": "Topic"
                     },
-                    {
-                        "sTitle": "",
-                        "sWidth": "10%",
-                        "bVisible": false
+					{
+						"sTitle": "",
+						"sWidth": "10%",
+						"bVisible": false
                     },
-                    {
-                        "sTitle": "",
-                        "sWidth": "10%",
-                        "bVisible": false
+					{
+						"sTitle": "",
+						"sWidth": "10%",
+						"bVisible": false
                     },
-                    {
-                        "sTitle": "Data",
-                        "bVisible": false,
-                        "bSearchable": true
+					{
+						"sTitle": "Data",
+						"bVisible": false,
+						"bSearchable": true
                     }
                 ]
-            });
-            jQuery('#whatsNewContent').html(retrievedNewHtml);
-            this.initWhatsNewTable();
-            jQuery('td .' + this.iconClass.play).attr('title', 'Play!');
-            jQuery('td .' + this.iconClass.edit).attr('title', 'Edit');
-            jQuery('td .' + this.iconClass.remove).attr('title', 'Delete');
+			});
+			jQuery('#whatsNewContent').html(retrievedNewHtml);
+			this.initWhatsNewTable();
+			jQuery('td .' + this.iconClass.play).attr('title', 'Play!');
+			jQuery('td .' + this.iconClass.edit).attr('title', 'Edit');
+			jQuery('td .' + this.iconClass.remove).attr('title', 'Delete');
 
-            //Convert all the tables to bootstrap-tables
-            jQuery('#webHelpMainContent').find('table.dataTable').addClass('table table-hover table-striped table-bordered');
-            return {
-                numNewSequences: numNewSequences
-            };
-        }
-    };
+			//Convert all the tables to bootstrap-tables
+			jQuery('#webHelpMainContent').find('table.dataTable').addClass('table table-hover table-striped table-bordered');
+			return {
+				numNewSequences: numNewSequences
+			};
+		}
+	};
 
-    WebHelp.prototype.startSelectionOfElement = function () {
-        var self = this;
-        /* Close the sidemenu if it is open*/
-        this.ui.sidebarToggleButton.trigger('click');
-        jQueryDragSelector.on(function (element) {
-            if (element) {
-                element.popover({
-                    html: true,
-                    trigger: 'manual',
-                    placement: 'auto top',
-                    container: 'body', /*Show on top of all elements*/
-                    content: WebHelpTemplates["WebHelpSelectPopup"]
-                })
-                    .popover('show');
-                jQuery(".drag-select-yes").on("click", function () {
-                    jQueryDragSelector.confirmSelection(true, function (arrayOfObjects) {
-                        if (arrayOfObjects) {
-                            self.createStepForThisElement(arrayOfObjects);
-                        }
-                    });
-                    self.ui.sidebarToggleButton.trigger('click');
-                }.bind(self));
-                jQuery(".drag-select-no").on("click", function () {
-                    jQueryDragSelector.confirmSelection(false);
-                    self.ui.sidebarToggleButton.trigger('click');
-                });
-            } else {
-                jQuery('#noElementsSelectedDiv').show();
-                self.ui.sidebarToggleButton.trigger('click');
-            }
+	WebHelp.prototype.startSelectionOfElement = function () {
+		var self = this;
+		/* Close the sidemenu if it is open*/
+		this.ui.sidebarToggleButton.trigger('click');
+		jQueryDragSelector.on(function (element) {
+			if (element) {
+				element.popover({
+						html: true,
+						trigger: 'manual',
+						placement: 'auto top',
+						container: 'body',
+						/*Show on top of all elements*/
+						content: WebHelpTemplates["WebHelpSelectPopup"]
+					})
+					.popover('show');
+				jQuery(".drag-select-yes").on("click", function () {
+					jQueryDragSelector.confirmSelection(true, function (arrayOfObjects) {
+						if (arrayOfObjects) {
+							self.createStepForThisElement(arrayOfObjects);
+						}
+					});
+					self.ui.sidebarToggleButton.trigger('click');
+				}.bind(self));
+				jQuery(".drag-select-no").on("click", function () {
+					jQueryDragSelector.confirmSelection(false);
+					self.ui.sidebarToggleButton.trigger('click');
+				});
+			} else {
+				jQuery('#noElementsSelectedDiv').show();
+				self.ui.sidebarToggleButton.trigger('click');
+			}
 
-        });
-        jQuery("#startDragDropButton").tooltip({
-            trigger: 'manual'
-        }).tooltip("show");
-        setTimeout(function () {
-            jQuery("#startDragDropButton").tooltip('hide');
-        }, 3000);
-    };
+		});
+		jQuery("#startDragDropButton").tooltip({
+			trigger: 'manual'
+		}).tooltip("show");
+		setTimeout(function () {
+			jQuery("#startDragDropButton").tooltip('hide');
+		}, 3000);
+	};
 
-    WebHelp.prototype.createStepForThisElement = function (arrayOfElems) {
-        var $stepsTable = jQuery("#stepsTable");
-        var t = $stepsTable.DataTable();
-        var elemText = "";
-        var elemType = "";
-        if (arrayOfElems) {
-            for (var i = 0; i < arrayOfElems.length; i++) {
-                elemText += arrayOfElems[i].value + "&";
-                elemType += arrayOfElems[i].attribute + "&";
-            }
-        }
-        elemText = elemText.substring(0, elemText.length - 1);
-        elemType = elemType.substring(0, elemType.length - 1);
-        t.row.add([
+	WebHelp.prototype.createStepForThisElement = function (arrayOfElems) {
+		var $stepsTable = jQuery("#stepsTable");
+		var t = $stepsTable.DataTable();
+		var elemText = "";
+		var elemType = "";
+		if (arrayOfElems) {
+			for (var i = 0; i < arrayOfElems.length; i++) {
+				elemText += arrayOfElems[i].value + "&";
+				elemType += arrayOfElems[i].attribute + "&";
+			}
+		}
+		elemText = elemText.substring(0, elemText.length - 1);
+		elemType = elemType.substring(0, elemType.length - 1);
+		t.row.add([
             "<span class='remove-step " + this.iconClass.remove + "' aria-hidden='true'></span>",
             "Editable title",
             elemType,
             elemText,
             "Editable content"])
-            .draw();
-        this.makeEditable();
-        var self = this;
-        $stepsTable.find('.remove-step').unbind('click');
-        $stepsTable.find('.remove-step').on('click', function() {
-            self.removeThisStep();
-        });
-    };
+			.draw();
+		this.makeEditable();
+		var self = this;
+		$stepsTable.find('.remove-step').unbind('click');
+		$stepsTable.find('.remove-step').on('click', function () {
+			self.removeThisStep();
+		});
+	};
 
 
-    WebHelp.prototype.removeThisStep = function (event) {
-        var t = jQuery("#stepsTable").DataTable();
-        t.row(jQuery(event.target).parents('tr')).remove().draw();
-    };
+	WebHelp.prototype.removeThisStep = function (event) {
+		var t = jQuery("#stepsTable").DataTable();
+		t.row(jQuery(event.target).parents('tr')).remove().draw();
+	};
 
-    WebHelp.prototype.preview = function () {
-        //destroyAndRedrawTable(); //Doesn't respect row reordering
-        var previewSteps = this.getCurrentTablePreviewSteps();
+	WebHelp.prototype.preview = function () {
+		//destroyAndRedrawTable(); //Doesn't respect row reordering
+		var previewSteps = this.getCurrentTablePreviewSteps();
 
-        if (previewSteps) {
-            var introJsObj = introJs();
-            introJsObj.setOptions({
-                steps: previewSteps,
-                showProgress: true,
-                showBullets: false,
-                tooltipPosition: 'auto'
-            });
-            this.ui.sidebarToggleButton.trigger('click'); //Close the side menu
-            setTimeout(function () {
-                introJsObj.start();
-            }, 500);
-        }
-    };
-	
-	WebHelp.prototype.saveSequence = function(){
+		if (previewSteps) {
+			var introJsObj = introJs();
+			introJsObj.setOptions({
+				steps: previewSteps,
+				showProgress: true,
+				showBullets: false,
+				tooltipPosition: 'auto'
+			});
+			this.ui.sidebarToggleButton.trigger('click'); //Close the side menu
+			setTimeout(function () {
+				introJsObj.start();
+			}, 500);
+		}
+	};
+
+	WebHelp.prototype.saveSequence = function () {
 		//saveToDB()
 		var sequenceTitle = jQuery("#sequenceTitleSetter").val().trim();
-        var stepsToSave = this.getCurrentTablePreviewSteps();
-        var sequences = this.getAllSequences();
-        sequences[sequenceTitle] = {
-            method: "saveSequence",
-            seqId: new Date().getTime(),
-            sequenceTitle: sequenceTitle,
-            data: stepsToSave,
-            tool: this.appName,
-            active_flag: 'N',
-            url: "test"
-        };
+		var stepsToSave = this.getCurrentTablePreviewSteps();
+		var sequences = this.sequences;
+		sequences[sequenceTitle] = {
+			method: "saveSequence",
+			seqId: new Date().getTime(),
+			sequenceTitle: sequenceTitle,
+			data: stepsToSave,
+			tool: this.appName,
+			active_flag: 'N',
+			url: "test"
+		};
 
-        var saveStatus = 'Sequence saved successfully!';
-        try {
-            localStorage.setItem(this.webHelpName, JSON.stringify(sequences));
-        } catch (error) {
-            saveStatus = 'Error saving the sequence!';
-        } finally {
-            var $showSequenceSavedSuccessAlert = jQuery('#showSequenceSavedSuccessAlert');
-            $showSequenceSavedSuccessAlert.html(saveStatus).show();
-            setTimeout(function() {
-                $showSequenceSavedSuccessAlert.hide();
-            }, 1000);
-        }
+		var saveStatus = 'Sequence saved successfully!';
+		try {
+			localStorage.setItem(this.webHelpName, JSON.stringify(sequences));
+		} catch (error) {
+			saveStatus = 'Error saving the sequence!';
+		} finally {
+			var $showSequenceSavedSuccessAlert = jQuery('#showSequenceSavedSuccessAlert');
+			$showSequenceSavedSuccessAlert.html(saveStatus).show();
+			setTimeout(function () {
+				$showSequenceSavedSuccessAlert.hide();
+			}, 1000);
+		}
 
 
 	};
@@ -666,157 +670,181 @@ WebHelp = (function () {
                 "<span class='remove-sequence " + self.iconClass.remove + "' aria-hidden='true'>",
                 JSON.stringify(value)
             ]);
-        });
-        this.initWhatsNewTable(aaData);
-    };
+		});
+		this.initWhatsNewTable(aaData);
+	};
 
-    WebHelp.prototype.initWhatsNewTable = function (aaData) {
-        jQuery("#newSequencesList").dataTable({
-            "sDom": '<"top"f>', //It should be a searchable table
-            "oLanguage": {
-                "sSearch": "Search title and content: "
-            },
-            "bDestroy": true,
-            "bRender": true,
-            "aoColumns": [
-                {
-                    "sTitle": "",
-                    "sWidth": "10%"
+	WebHelp.prototype.initWhatsNewTable = function (aaData) {
+		jQuery("#newSequencesList").dataTable({
+			"sDom": '<"top"f>', //It should be a searchable table
+			"oLanguage": {
+				"sSearch": "Search title and content: "
+			},
+			"bDestroy": true,
+			"bRender": true,
+			"aoColumns": [
+				{
+					"sTitle": "",
+					"sWidth": "10%"
                 },
-                {
-                    "sTitle": "Topic"
+				{
+					"sTitle": "Topic"
                 },
-                {
-                    "sTitle": "",
-                    "sWidth": "10%",
-                    "bVisible": false
+				{
+					"sTitle": "",
+					"sWidth": "10%",
+					"bVisible": false
                 },
-                {
-                    "sTitle": "",
-                    "sWidth": "10%",
-                    "bVisible": false
+				{
+					"sTitle": "",
+					"sWidth": "10%",
+					"bVisible": false
                 },
-                {
-                    "sTitle": "Data",
-                    "bVisible": false,
-                    "bSearchable": true
+				{
+					"sTitle": "Data",
+					"bVisible": false,
+					"bSearchable": true
                 }
             ],
-            "aaData": aaData || []
-        });
-    };
+			"aaData": aaData || []
+		});
+	};
 
-    WebHelp.prototype.getAllSequences = function () {
-        if (localStorage.getItem(this.webHelpName)) {
-            return JSON.parse(localStorage.getItem(this.webHelpName));
-        } else {
-            return {};
-        }
-    };
+	WebHelp.prototype.refreshAllSequences = function (file) {
+		var self = this;
+		this.sequences = {};
+		if (!file){
+			file = this.sequencesBaseUrl + this.webHelpName + '.json';
+		}
+		jQuery.ajax({
+			url: file,
+			xhrFields: {
+				withCredentials: true
+			},
+			type: 'GET',
+			dataType: 'json',
+			async: false,
+			data: {
+				method: "loadAllSequences",
+				tool: this.appName
+			},
+			success: function (data) {
+				self.sequences = data;
+			},
+			error: function (xhr) {
+				if (xhr.status === 404) {
+					if (localStorage.getItem(this.webHelpName)) {
+						this.sequences = JSON.parse(localStorage.getItem(this.webHelpName));
+					}
+					return this.sequences;
+				}
+				alert("Failed to load the sequences");
+			}
+		});
+		return this.sequences;
+	};
 
-    WebHelp.prototype.getAllSequencesFromDB = function () {
-        var sequences;
-        jQuery.ajax({
-            url: "http://devntsl002.blackrock.com:8558/weblications/WebHelp/WebHelp.epl",
-            type: "POST",
-            async: false,
-            data: {
-                method: "loadAllSequences",
-                tool: this.appName
-            },
-            success: function (data) {
-                sequences = JSON.parse(data);
-            },
-            error: function () {
-                alert("Failed to load the sequences");
-            }
-        });
+	WebHelp.prototype.getAllSequencesFromDB = function () {
+		var sequences;
+		jQuery.ajax({
+			url: "http://devntsl002.blackrock.com:8558/weblications/WebHelp/WebHelp.epl",
+			type: "POST",
+			async: false,
+			data: {
+				method: "loadAllSequences",
+				tool: this.appName
+			},
+			success: function (data) {
+				sequences = JSON.parse(data);
+			},
+			error: function () {
+				alert("Failed to load the sequences");
+			}
+		});
 
-        return sequences;
-    };
+		return sequences;
+	};
 
 
-    WebHelp.prototype.clearStepsInSequence = function () {
-        //Destroy and reinitialize the table to get the edited data
-        jQuery("#stepsTable").DataTable().clear().draw();
-    };
+	WebHelp.prototype.clearStepsInSequence = function () {
+		//Destroy and reinitialize the table to get the edited data
+		jQuery("#stepsTable").DataTable().clear().draw();
+	};
 
-    WebHelp.prototype.playSequence = function (sequenceName) {
-        var sequence = this.getAllSequences()[sequenceName];
-        var seqId = sequence.seqId;
-        var play = introJs();
-        play.setOptions({
-            steps: sequence.data,
-            showProgress: true,
-            showBullets: false
-        });
-        var self = this;
-        self.ui.webHelpMainContent.hide();
+	WebHelp.prototype.playSequence = function (sequenceName) {
+		var sequence = this.sequences[sequenceName];
+		var seqId = sequence.seqId;
+		var play = introJs();
+		play.setOptions({
+			steps: sequence.data,
+			showProgress: true,
+			showBullets: false
+		});
+		var self = this;
+		self.ui.webHelpMainContent.hide();
 
-        //Hacky workaround to introjs pushing fixed position elements into weird places while scrolling to play
-        play.oncomplete(function() {
-            self.ui.webHelpMainContent.show();
-        });
-        play.onexit(function() {
-            self.ui.webHelpMainContent.show();
-        });
+		//Hacky workaround to introjs pushing fixed position elements into weird places while scrolling to play
+		play.oncomplete(function () {
+			self.ui.webHelpMainContent.show();
+		});
+		play.onexit(function () {
+			self.ui.webHelpMainContent.show();
+		});
 
-        if (jQuery('#contentConsumptionModal').is(':visible')) {
-            jQuery('#contentConsumptionModal').modal('hide');
-        }
-        play.start();
-        this.markThisSequenceAsSeen(seqId);
-    };
+		if (jQuery('#contentConsumptionModal').is(':visible')) {
+			jQuery('#contentConsumptionModal').modal('hide');
+		}
+		play.start();
+		this.markThisSequenceAsSeen(seqId);
+	};
 
-    WebHelp.prototype.playThisSequence = function (event) {
-        var t = jQuery("#" + jQuery('#webHelpMainContent').find('.dataTable:visible').attr('id')).DataTable();
-        var sequenceName = [t.row(jQuery(event.target).parents('tr')).data()[1]];
-        this.playSequence(sequenceName);
-    };
+	WebHelp.prototype.playThisSequence = function (event) {
+		var t = jQuery("#" + jQuery('#webHelpMainContent').find('.dataTable:visible').attr('id')).DataTable();
+		var sequenceName = [t.row(jQuery(event.target).parents('tr')).data()[1]];
+		this.playSequence(sequenceName);
+	};
 
-    WebHelp.prototype.editThisSequence = function (event) {
-        var t = jQuery("#availableSequencesList").DataTable();
-        var thisSequenceTitle = t.row(jQuery(event.target).parents('tr')).data()[1];
-        //t.row(jQuery(event.target).parents('tr')).remove().draw();
-        var stepsForThisSequence = this.getAllSequences()[thisSequenceTitle];
-        var stepsTable = jQuery("#stepsTable").DataTable();
-        stepsTable.clear().draw();
-        var self = this;
-        jQuery.each(stepsForThisSequence.data, function (index, element) {
-            var title = jQuery(element.intro).children('h3').text() || '';
-            var text = jQuery(element.intro).children('p').text() || '';
-            var elementId = element.element || '';
-            elementId = elementId.replace(/(\[|\])/g, '');
-            var elementAttr = elementId;
-            if (elementId.split('#').length > 1) {
-                elementId = elementId.split('#')[1];
-            } else if (elementId.split('=').length > 1) {
-                var splitArray = elementId.split('=');
-                elementId = splitArray[1].replace(/\'/g, '');
-                elementAttr = splitArray[0];
-            }
-            stepsTable.row.add([
+	WebHelp.prototype.editThisSequence = function (event) {
+		var t = jQuery("#availableSequencesList").DataTable();
+		var thisSequenceTitle = t.row(jQuery(event.target).parents('tr')).data()[1];
+		//t.row(jQuery(event.target).parents('tr')).remove().draw();
+		var stepsForThisSequence = this.sequences[thisSequenceTitle];
+		var stepsTable = jQuery("#stepsTable").DataTable();
+		stepsTable.clear().draw();
+		var self = this;
+		jQuery.each(stepsForThisSequence.data, function (index, element) {
+			var title = jQuery(element.intro).children('h3').text() || '';
+			var text = jQuery(element.intro).children('p').text() || '';
+			var elementId = element.element || '';
+			elementId = elementId.replace(/(\[|\])/g, '');
+			var elementAttr = elementId;
+			if (elementId.split('#').length > 1) {
+				elementId = elementId.split('#')[1];
+			} else if (elementId.split('=').length > 1) {
+				var splitArray = elementId.split('=');
+				elementId = splitArray[1].replace(/\'/g, '');
+				elementAttr = splitArray[0];
+			}
+			stepsTable.row.add([
                 "<span class='remove-step " + self.iconClass.remove + "' aria-hidden='true'></span>",
                 title,
                 elementAttr,
                 elementId,
                 text])
-                .draw();
-        });
-        this.makeEditable();
-        jQuery('#sequenceTitleSetter').val(thisSequenceTitle);
-        jQuery('.nav-tabs a[href=#addSequence]').tab('show');
-    };
+				.draw();
+		});
+		this.makeEditable();
+		jQuery('#sequenceTitleSetter').val(thisSequenceTitle);
+		jQuery('.nav-tabs a[href=#addSequence]').tab('show');
+	};
 
-    WebHelp.prototype.removeThisSequence = function (event) {
-        var t = jQuery("#availableSequencesList").DataTable();
-        var storedSequences = this.getAllSequences();
-        delete storedSequences[t.row(jQuery(event.target).parents('tr')).data()[1]];
+	WebHelp.prototype.removeThisSequence = function (event) {
+		var t = jQuery("#availableSequencesList").DataTable();
+		var storedSequences = this.sequences;
+		delete storedSequences[t.row(jQuery(event.target).parents('tr')).data()[1]];
+		this.populateCurrentSequences();
+		this.refreshWhatsNew();
+	};
 
-        localStorage.setItem(this.webHelpName, JSON.stringify(storedSequences));
-        this.populateCurrentSequences();
-        this.refreshWhatsNew();
-    };
-
-    return WebHelp;
+	return WebHelp;
 })();
