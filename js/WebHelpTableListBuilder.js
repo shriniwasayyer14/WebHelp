@@ -75,15 +75,30 @@ TableList = (function () {
         }
         jQuery(this.element).append($listTemplate);
     };
-    TableList.prototype.addRow = function () {
+    TableList.prototype.addRow = function (rowData) {
         var $listTemplate = jQuery(WebHelpTemplates[this.listTemplate]);
-        if (this.useData) {
-
-        } else {
-            jQuery(this.element)
-                .children('.' + $listTemplate.attr('class'))
-                .append(jQuery(WebHelpTemplates[this.listItemTemplate]));
+        var $thisListItemTemplate = jQuery(WebHelpTemplates[this.listItemTemplate]);
+        if (rowData) {
+            var rowLength = rowData.length;
+            if (!rowLength || rowLength != $thisListItemTemplate.children('div').length) {
+                throw new Error('Attempted to add a row without any data or with incorrect parameters');
+            }
+            for (var j = 0; j < rowLength; j++) {
+                jQuery($thisListItemTemplate.find('div')[j]).html(rowData[j]);
+            }
+            $listTemplate.append($thisListItemTemplate);
         }
+        jQuery(this.element)
+            .children('.' + $listTemplate.attr('class'))
+            .append($thisListItemTemplate);
+    };
+
+    TableList.prototype.removeRow = function (clickEvent) {
+        jQuery(clickEvent.target).parents('li.webHelpSequenceStepListItem').remove();
+    };
+
+    TableList.prototype.numRows = function() {
+        return jQuery(this.element).find('ul > li:not(.header)').length;
     };
 
     return TableList;

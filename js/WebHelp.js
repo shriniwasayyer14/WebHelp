@@ -203,7 +203,7 @@ WebHelp = (function () {
             listItemTemplate: 'WebHelpSequenceStepListItem'
         });
 
-        jQuery(this.stepsTable.element).on("click", ".remove-step", this.removeThisStep);
+        jQuery(this.stepsTable.element).on("click", ".remove-step", this.removeThisStep.bind(self));
 
         for (var icon in this.iconClass) {
             if (this.iconClass.hasOwnProperty(icon)) {
@@ -211,39 +211,6 @@ WebHelp = (function () {
             }
         }
 
-
-        /*stepsTable.dataTable({
-            "sDom": "",
-            "language": {
-                "emptyTable": "New steps will show up here!"
-            },
-            "aoColumns": [
-                {
-                    "sTitle": "",
-                    "sWidth": "10%"
-                },
-                {
-                    "sTitle": "Step",
-                    "sWidth": "25%"
-                },
-                {
-                    "sTitle": "Attribute",
-                    "sWidth": "7%",
-                    "sClass": "invisibleColumnInStepsTable"
-                    *//*Needs to be invisible, datatables bVisible false removes it from the DOM altogether*//*
-                },
-                {
-                    "sTitle": "Value",
-                    "sWidth": "8%",
-                    "sClass": "invisibleColumnInStepsTable"
-                },
-                {
-                    "sTitle": "Content",
-                    "sWidth": "50%"
-                }
-            ]
-        }).rowReordering();
-        this.makeEditable();*/
         var helpIconElement = jQuery(this.helpIconPosition);
         var currentTitleHTML = helpIconElement.html();
         currentTitleHTML += "[Edit mode]";
@@ -467,8 +434,7 @@ WebHelp = (function () {
     };
 
     WebHelp.prototype.createStepForThisElement = function (arrayOfElems) {
-        /*var $stepsTable = jQuery("#stepsTable");
-        var t = $stepsTable.DataTable();
+        var $stepsTable = jQuery("#stepsTable");
         var elemText = "";
         var elemType = "";
         if (arrayOfElems) {
@@ -476,23 +442,20 @@ WebHelp = (function () {
                 elemText += arrayOfElems[i].value + "&";
                 elemType += arrayOfElems[i].attribute + "&";
             }
+            this.stepsTable.addRow([
+                "",
+                "Editable title",
+                elemType,
+                elemText,
+                "Editable content"]);
+        } else {
+            this.stepsTable.addRow();
         }
-        elemText = elemText.substring(0, elemText.length - 1);
-        elemType = elemType.substring(0, elemType.length - 1);
-        t.row.add([
-            "<span class='remove-step " + this.iconClass.remove + "' aria-hidden='true'></span>",
-            "Editable title",
-            elemType,
-            elemText,
-            "Editable content"])
-            .draw();
-        this.makeEditable();
-        var self = this;
         $stepsTable.find('.remove-step').unbind('click');
         $stepsTable.find('.remove-step').on('click', function() {
-            self.removeThisStep();
-        });*/
-        this.stepsTable.addRow();
+            self.removeThisStep.bind(self);
+        });
+
         for (var icon in this.iconClass) {
             if (this.iconClass.hasOwnProperty(icon)) {
                 jQuery(this.stepsTable.element)
@@ -505,8 +468,18 @@ WebHelp = (function () {
 
 
     WebHelp.prototype.removeThisStep = function (event) {
-        var t = jQuery("#stepsTable").DataTable();
-        t.row(jQuery(event.target).parents('tr')).remove().draw();
+        this.stepsTable.removeRow(event);
+        if (!this.stepsTable.numRows()) {
+            this.stepsTable.addRow();
+            for (var icon in this.iconClass) {
+                if (this.iconClass.hasOwnProperty(icon)) {
+                    jQuery(this.stepsTable.element)
+                        .find(".iconClass-" + icon)
+                        .removeClass(this.iconClass[icon])
+                        .addClass(this.iconClass[icon]);
+                }
+            }
+        }
     };
 
     WebHelp.prototype.preview = function () {
