@@ -119,6 +119,10 @@ TableList = (function () {
         return returnArray;
     };
 
+    TableList.prototype.setData = function(givenData) {
+        this.data = givenData;
+    };
+
     return TableList;
 })();
 

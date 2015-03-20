@@ -182,6 +182,13 @@ WebHelp = (function () {
             }
         });
 
+        this.stepsTable = new TableList({
+            element: "#stepsTable",
+            useData: false, //Create one generic step
+            listTemplate: 'WebHelpSequenceCreationList',
+            listItemTemplate: 'WebHelpSequenceStepListItem'
+        });
+
         jQuery('.nav-tabs a[href=#addSequence]').trigger('click');
 
         //attach event handlers to webHelpContent
@@ -195,13 +202,6 @@ WebHelp = (function () {
         jQuery("#noStepsInPreviewButton").on("click", jQuery('#noStepsInPreviewDiv').hide);
         jQuery("#saveAllHelpSequencesToFileButton").on("click", this.saveAllHelpSequencesToFile.bind(self));
         jQuery("#importAllHelpSequencesFromFileButton").on("click", this.importAllHelpSequencesFromFile.bind(self));
-
-        this.stepsTable = new TableList({
-            element: "#stepsTable",
-            useData: false, //Create one generic step
-            listTemplate: 'WebHelpSequenceCreationList',
-            listItemTemplate: 'WebHelpSequenceStepListItem'
-        });
 
         jQuery(this.stepsTable.element).on("click", ".remove-step", this.removeThisStep.bind(self));
 
@@ -707,7 +707,12 @@ WebHelp = (function () {
 
     WebHelp.prototype.clearStepsInSequence = function () {
         //Destroy and reinitialize the table to get the edited data
-        jQuery("#stepsTable").DataTable().clear().draw();
+        this.stepsTable.renderList();
+        for (var icon in this.iconClass) {
+            if (this.iconClass.hasOwnProperty(icon)) {
+                jQuery(this.stepsTable.element).find(".iconClass-" + icon).addClass(this.iconClass[icon]);
+            }
+        }
     };
 
     WebHelp.prototype.playSequence = function (sequenceName) {
