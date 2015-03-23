@@ -180,7 +180,8 @@ WebHelp = (function () {
 			element: "#stepsTable",
 			useData: false, //Create one generic step
 			listTemplate: 'WebHelpSequenceCreationList',
-			listItemTemplate: 'WebHelpSequenceStepListItem'
+			listItemTemplate: 'WebHelpSequenceStepListItem',
+			useSearchFilter: false
 		});
 
 		jQuery('.nav-tabs a[href=#addSequence]').trigger('click');
