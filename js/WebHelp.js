@@ -305,7 +305,7 @@ WebHelp = (function () {
 
 		if (this.mode !== "create") {
 			if (numOfNewSequences > 0) {
-				this.ui.webHelpButton.attr('data-badge', numOfNewSequences);
+				this.ui.webHelpButton.attr('data-badge', numOfNewSequences + ' new');
 			} else {
 				this.ui.webHelpButton.removeAttr('data-badge');
 			}
