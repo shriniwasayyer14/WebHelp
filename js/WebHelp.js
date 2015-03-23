@@ -667,8 +667,7 @@ WebHelp = (function () {
     };
 
     WebHelp.prototype.editThisSequence = function (event) {
-        var t = jQuery("#availableSequencesList").DataTable();
-        var thisSequenceTitle = t.row(jQuery(event.target).parents('tr')).data()[1];
+        var thisSequenceTitle = jQuery(event.target).parents('li').find('.webHelpSequenceItem-title').text();;
         //t.row(jQuery(event.target).parents('tr')).remove().draw();
         var stepsForThisSequence = this.getAllSequences()[thisSequenceTitle];
         var stepsTable = jQuery("#stepsTable").DataTable();
@@ -701,9 +700,9 @@ WebHelp = (function () {
     };
 
     WebHelp.prototype.removeThisSequence = function (event) {
-        var t = jQuery("#availableSequencesList").DataTable();
+		var sequenceName = jQuery(event.target).parents('li').find('.webHelpSequenceItem-title').text();
         var storedSequences = this.getAllSequences();
-        delete storedSequences[t.row(jQuery(event.target).parents('tr')).data()[1]];
+        delete storedSequences[sequenceName];
 
         localStorage.setItem(this.webHelpName, JSON.stringify(storedSequences));
         this.populateCurrentSequences();
