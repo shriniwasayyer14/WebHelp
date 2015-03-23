@@ -1,4 +1,4 @@
-/* globals jQuery, jQueryDragSelector, window, alert, WebHelpTemplates, introJs, setTimeout, setInterval, localStorage */
+/* globals jQuery, jQueryDragSelector, window, alert, WebHelpTemplates, introJs, setTimeout, setInterval, localStorage, TableList */
 
 var WebHelp;
 WebHelp = (function () {
@@ -58,7 +58,6 @@ WebHelp = (function () {
             this.showHelpConsumptionMode();
         }
         this.bindPlayEditButtons();
-
     }
 
     //detect jquery params
@@ -128,12 +127,7 @@ WebHelp = (function () {
         if (this.ui.webHelpMainContent.length <= 0) {
             var modalContent = jQuery(WebHelpTemplates["WebHelpContent"]);
             var webHelpContent = jQuery(WebHelpTemplates["WebHelpCreator"]);
-            for (var icon in this.iconClass) {
-                if (this.iconClass.hasOwnProperty(icon)) {
-                    modalContent.find(".iconClass-" + icon).addClass(this.iconClass[icon]);
-                    webHelpContent.find(".iconClass-" + icon).addClass(this.iconClass[icon]);
-                }
-            }
+            this.attachIcons();
             var $body = jQuery("body");
             $body.append(modalContent);
             $body.append(webHelpContent);
@@ -204,13 +198,7 @@ WebHelp = (function () {
         jQuery("#importAllHelpSequencesFromFileButton").on("click", this.importAllHelpSequencesFromFile.bind(self));
 
         jQuery(this.stepsTable.element).on("click", ".remove-step", this.removeThisStep.bind(self));
-
-        for (var icon in this.iconClass) {
-            if (this.iconClass.hasOwnProperty(icon)) {
-                this.ui.webHelpMainContent.find(".iconClass-" + icon).addClass(this.iconClass[icon]);
-            }
-        }
-
+        this.attachIcons();
         var helpIconElement = jQuery(this.helpIconPosition);
         var currentTitleHTML = helpIconElement.html();
         currentTitleHTML += "[Edit mode]";
@@ -223,6 +211,14 @@ WebHelp = (function () {
         jQuery(elem).html(currentTitleHTML);
         this.refreshWhatsNew();
     };
+
+	WebHelp.prototype.attachIcons = function() {
+		for (var icon in this.iconClass) {
+			if (this.iconClass.hasOwnProperty(icon)) {
+				this.ui.webHelpMainContent.find(".iconClass-" + icon).removeClass(this.iconClass[icon]).addClass(this.iconClass[icon]);
+			}
+		}
+	};
 
     WebHelp.prototype.saveAllHelpSequencesToFile = function() {
         /* Uses the HTML5 download attribute to serve up a file without the server
@@ -297,96 +293,37 @@ WebHelp = (function () {
 
         var numNewSequences = 0;
         if (retrievedSequences) {
-            retrievedHtml += '<table id="availableSequencesList">';
-            retrievedPopularHtml += '<table id="popularSequencesList">';
-            retrievedNewHtml += '<table id="newSequencesList">';
             var self = this;
-            jQuery.each(retrievedSequences, function (key, value) {
-                var thisElement = "<tr>" +
-                    "<td><span class='play-sequence " + self.iconClass.play + "' aria-hidden='true'></span></td>" +
-                    "<td>" + key + "</td>" +
-                    "<td><span class='edit-sequence " + self.iconClass.edit + "' aria-hidden='true'></td>" +
-                    "<td><span class='remove-sequence " + self.iconClass.remove + "' aria-hidden='true' ></td>" +
-                    "<td>" + JSON.stringify(value) + "</td>" +
-                    "</tr>";
-                retrievedHtml += thisElement;
-                retrievedPopularHtml += thisElement;
-            });
-            retrievedHtml += '</table>';
-            retrievedPopularHtml += '</table>';
-            retrievedNewHtml += '</table>';
-            localStorage.setItem('WebHelp', JSON.stringify(retrievedSequences));
-            jQuery('#availableSequencesContent').html(retrievedHtml);
-            jQuery('#popularSequencesContent').html(retrievedPopularHtml);
-            jQuery("#availableSequencesList").dataTable({
-                "sDom": '<"top"f<"clear">>', //It should be a searchable table
-                "oLanguage": {
-                    "sSearch": "Search title and content: "
-                },
-                "aoColumns": [
-                    {
-                        "sTitle": "",
-                        "sWidth": "10%"
-                    },
-                    {
-                        "sTitle": "Topic"
-                    },
-                    {
-                        "sTitle": "",
-                        "sWidth": "10%",
-                        "bVisible": isCreator
-                    },
-                    {
-                        "sTitle": "",
-                        "sWidth": "10%",
-                        "bVisible": isCreator
-                    },
-                    {
-                        "sTitle": "Data",
-                        "bVisible": false,
-                        "bSearchable": true
-                    }
-                ]
+			var sequenceData = [];
+            jQuery.each(retrievedSequences, function (sequenceTitle, sequenceContent) {
+				sequenceData.push([
+					'', //play
+					sequenceTitle, //title
+					'',//edit
+					'',//remove
+					JSON.stringify(sequenceContent)//content
+				]);
             });
 
-            jQuery("#popularSequencesList").dataTable({
-                "sDom": '<"top"f<"clear">>', //It should be a searchable table
-                "oLanguage": {
-                    "sSearch": "Search title and content: "
-                },
-                "aoColumns": [
-                    {
-                        "sTitle": "",
-                        "sWidth": "10%"
-                    },
-                    {
-                        "sTitle": "Topic"
-                    },
-                    {
-                        "sTitle": "",
-                        "sWidth": "10%",
-                        "bVisible": false
-                    },
-                    {
-                        "sTitle": "",
-                        "sWidth": "10%",
-                        "bVisible": false
-                    },
-                    {
-                        "sTitle": "Data",
-                        "bVisible": false,
-                        "bSearchable": true
-                    }
-                ]
-            });
-            jQuery('#whatsNewContent').html(retrievedNewHtml);
+			this.availableSequencesTable = new TableList({
+				element: '#availableSequencesContent',
+				data: sequenceData,
+				listTemplate: 'WebHelpSequenceConsumptionList',
+				listItemTemplate: 'WebHelpSequenceListItem'
+			});
+			this.popularSequencesTable = new TableList({
+				element: '#popularSequencesContent',
+				data: sequenceData,
+				listTemplate: 'WebHelpSequenceConsumptionList',
+				listItemTemplate: 'WebHelpSequenceListItem'
+			});
+			this.attachIcons();
+
             this.initWhatsNewTable();
-            jQuery('td .' + this.iconClass.play).attr('title', 'Play!');
-            jQuery('td .' + this.iconClass.edit).attr('title', 'Edit');
-            jQuery('td .' + this.iconClass.remove).attr('title', 'Delete');
+            this.ui.webHelpMainContent.find('div.iconClass-play').attr('title', 'Play!').on('click', self.playThisSequence.bind(self));
+			this.ui.webHelpMainContent.find('div.iconClass-edit').attr('title', 'Edit').on('click', self.editThisSequence.bind(self));
+			this.ui.webHelpMainContent.find('div.iconClass-remove').attr('title', 'Delete').on('click', self.removeThisSequence.bind(self));
 
-            //Convert all the tables to bootstrap-tables
-            jQuery('#webHelpMainContent').find('table.dataTable').addClass('table table-hover table-striped table-bordered');
             return {
                 numNewSequences: numNewSequences
             };
@@ -456,14 +393,7 @@ WebHelp = (function () {
             self.removeThisStep.bind(self);
         });
 
-        for (var icon in this.iconClass) {
-            if (this.iconClass.hasOwnProperty(icon)) {
-                jQuery(this.stepsTable.element)
-                    .find(".iconClass-" + icon)
-                    .removeClass(this.iconClass[icon])
-                    .addClass(this.iconClass[icon]);
-            }
-        }
+        this.attachIcons();
     };
 
 
@@ -471,14 +401,7 @@ WebHelp = (function () {
         this.stepsTable.removeRow(event);
         if (!this.stepsTable.numRows()) {
             this.stepsTable.addRow();
-            for (var icon in this.iconClass) {
-                if (this.iconClass.hasOwnProperty(icon)) {
-                    jQuery(this.stepsTable.element)
-                        .find(".iconClass-" + icon)
-                        .removeClass(this.iconClass[icon])
-                        .addClass(this.iconClass[icon]);
-                }
-            }
+            this.attachIcons();
         }
     };
 
@@ -708,11 +631,7 @@ WebHelp = (function () {
     WebHelp.prototype.clearStepsInSequence = function () {
         //Destroy and reinitialize the table to get the edited data
         this.stepsTable.renderList();
-        for (var icon in this.iconClass) {
-            if (this.iconClass.hasOwnProperty(icon)) {
-                jQuery(this.stepsTable.element).find(".iconClass-" + icon).addClass(this.iconClass[icon]);
-            }
-        }
+        this.attachIcons();
     };
 
     WebHelp.prototype.playSequence = function (sequenceName) {
@@ -743,8 +662,7 @@ WebHelp = (function () {
     };
 
     WebHelp.prototype.playThisSequence = function (event) {
-        var t = jQuery("#" + jQuery('.dataTable:visible').attr('id')).DataTable();
-        var sequenceName = [t.row(jQuery(event.target).parents('tr')).data()[1]];
+		var sequenceName = jQuery(event.target).parents('li').find('.webHelpSequenceItem-title').text();
         this.playSequence(sequenceName);
     };
 

@@ -41,7 +41,12 @@ TableList = (function () {
             arrayItem.push(['', 'Title' + i, 'Type' + i, 'Value' + i, 'Content' + i]);
             i += 1;
         }
-        new TableList({element: '#webHelpMainContent', data: arrayItem});
+        var a = new TableList({
+			element: '#webHelpMainContent',
+			data: arrayItem,
+			listTemplate: 'WebHelpSequenceConsumptionList',
+			listItemTemplate: 'WebHelpSequenceListItem'
+		});
     };
 
     TableList.prototype.renderList = function () {
@@ -72,6 +77,9 @@ TableList = (function () {
             var $listItemTemplate = jQuery(listItemTemplate);
             $listTemplate.append($listItemTemplate);
         }
+		//Attach default classes to the containers and the lists
+		jQuery(this.element).addClass('tableListContainer');
+		$listTemplate.addClass('tableList');
         jQuery(this.element).append($listTemplate);
     };
     TableList.prototype.addRow = function (rowData) {
