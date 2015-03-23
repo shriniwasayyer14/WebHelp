@@ -181,7 +181,8 @@ WebHelp = (function () {
 			useData: false, //Create one generic step
 			listTemplate: 'WebHelpSequenceCreationList',
 			listItemTemplate: 'WebHelpSequenceStepListItem',
-			useSearchFilter: false
+			useSearchFilter: false,
+			sortable:true
 		});
 
 		jQuery('.nav-tabs a[href=#addSequence]').trigger('click');

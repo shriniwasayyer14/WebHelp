@@ -19,6 +19,7 @@ TableList = (function () {
 			element: '',
 			expandable: true,
 			searchable: true,
+			sortable: false,
 			emptyListIndicator: 'No data yet!',
 			data: [],
 			useData: true,
@@ -34,22 +35,10 @@ TableList = (function () {
 			this[option] = tableListOptions.hasOwnProperty(option) ? tableListOptions[option] : defaultOptions[option];
 		}
 		this.renderList();
-	}
-
-	TableList.prototype.test = function () {
-		var i = 0;
-		var arrayItem = [];
-		while (i < 5) {
-			arrayItem.push(['', 'Title' + i, 'Type' + i, 'Value' + i, 'Content' + i]);
-			i += 1;
+		if (this.sortable) {
+			this._makeSortable();
 		}
-		var a = new TableList({
-			element: '#webHelpMainContent',
-			data: arrayItem,
-			listTemplate: 'WebHelpSequenceConsumptionList',
-			listItemTemplate: 'WebHelpSequenceListItem'
-		});
-	};
+	}
 
 	TableList.prototype.renderList = function () {
 		var $listTemplate = jQuery(WebHelpTemplates[this.listTemplate]);
@@ -155,6 +144,14 @@ TableList = (function () {
 
 	TableList.prototype.setData = function (givenData) {
 		this.data = givenData;
+	};
+
+	TableList.prototype._makeSortable = function() {
+		var $thisList = jQuery(this.element).find('.' + jQuery(WebHelpTemplates[this.listTemplate]).attr('class')); //Finds the list
+		$thisList.sortable({
+			items: 'li:not(.header)',
+			cancel: 'div[contenteditable="true"], .fa'
+		});
 	};
 
 	return TableList;
