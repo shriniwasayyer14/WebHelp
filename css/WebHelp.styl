@@ -7,8 +7,12 @@ opacity(n) {
   background-color: white;
   padding: 10px;
   font-size: 13px;
+  .nav-tabs > li.active > a,
+  .nav-tabs > li.active > a:hover,
+  .nav-tabs > li.active > a:focus {
+    color: #555 !important;
+  }
   ul > li {
-    padding: 4px;
     > div {
       display: inline-block;
     }
@@ -17,6 +21,9 @@ opacity(n) {
     list-style: none;
     max-height: 80%;
     overflow-y: scroll;
+    > li {
+      padding: 4px;
+    }
   }
   ul.webHelpSequenceCreationList {
     padding: 5px 3px;
