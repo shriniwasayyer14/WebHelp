@@ -26,6 +26,7 @@ opacity(n) {
     }
     > li.header {
       font-weight: bold;
+      border-bottom: 1px solid #dbdbdb;
       > div.fa:hover, > div.glyphicon:hover {
         cursor: default;
       }
@@ -36,17 +37,17 @@ opacity(n) {
     margin: 0 auto;
     max-height: 50%;
     > li {
-      padding: 2%;
-      border-bottom: 1px solid #ebebeb;
+      padding: 8px;
+      border-bottom: 1px solid #DBDBDB;
     }
     > li:nth-of-type(odd) {
-      background-color: whitesmoke;
+      background-color: #EBEBEB;
     }
     > li:hover {
-      background-color: #dbdbdb;
+      background-color: #FFF2BF;
     }
     > li.header {
-      background-color: #ebebeb;
+      background-color: #D1E1F3;
     }
   }
   ul.webHelpSequenceCreationList {
@@ -111,6 +112,7 @@ opacity(n) {
   z-index: 999;
   right: 0;
   height: 100%;
+  box-shadow: 10px 10px 10px 10px black;
 }
 
 #creationModeSidebarshowHideSpan {
@@ -142,6 +144,7 @@ opacity(n) {
   padding: 0px;
   right: 1px; /*prevent a scrollbar*/
   background: transparent;
+  box-shadow: none;
 }
 
 @media screen {
