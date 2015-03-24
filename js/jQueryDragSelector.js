@@ -1,6 +1,7 @@
-/* global jQuery, document */
+/* globals jQuery, document */
 var jQueryDragSelector = {
     on: function (callback) {
+		"use strict";
         var self = this;
         if (!this.isOn) {
             /*
@@ -60,6 +61,7 @@ var jQueryDragSelector = {
     isOn: false,
     selectedObjects: [],
     confirmSelection: function (confirmBoolean, callback) {
+		"use strict";
         jQuery(jQuery('.dragSelectedElement')[0]).popover('destroy');
         var arrayOfObjects = [];
         /* Open the side-menu if it is closed*/
@@ -120,6 +122,7 @@ var jQueryDragSelector = {
         this.off();
     },
     off: function () {
+		"use strict";
         if (this.isOn) {
             jQuery(document).unbind("draginit").unbind("dragstart").unbind("drag").unbind("dragend");
             jQuery('div, input, textarea, button, a, ul, li, tr, td, span').unbind("drop");
@@ -127,6 +130,7 @@ var jQueryDragSelector = {
         }
     },
     rectangleSelect: function (selector, selectionBoundingRect) {
+		"use strict";
         jQuery(selector).each(function () {
             var $this = jQuery(this);
             var elemBoundingRect = $this.get(0).getBoundingClientRect();
