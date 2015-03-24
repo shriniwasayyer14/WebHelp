@@ -112,6 +112,21 @@ opacity(n) {
   }
 }
 
+#contentConsumptionModal {
+  #webHelpMainContent {
+    ul.tableList {
+      > li {
+        > div.iconClass-edit, > div.iconClass-remove {
+          display: none;
+        }
+        > div.iconClass-play {
+          width: 15%;
+        }
+      }
+    }
+  }
+}
+
 #webHelpMainContent.creationModeSidebar {
   max-width: 35%;
   position: absolute;
@@ -342,10 +357,10 @@ opacity(n) {
   color: white;
   font-weight: bold;
   opacity: 0.9;
-  width: 15px;
+  width: 40px;
   /*height: 15px;*/
   text-align: center;
-  line-height: 18px;
+  line-height: 15px;
   border-radius: 15%;
   box-shadow: 0 0 1px #333;
 }
