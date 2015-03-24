@@ -1,7 +1,8 @@
-/* globals elem */
+/* globals elem, jQuery */
 jQuery.fn.extend({
-    getPath: function () {
-        var path = undefined;
+    getPath: function(){
+		"use strict";
+        var path;
         var node = this;
         /*Include only names and IDs since you can always programmatically add/remove classes*/
         var uniqueTags = ['name', 'id'];
