@@ -537,7 +537,7 @@ WebHelp = (function () {
 		var userPrefs = {};
 		jQuery.ajax({
 			async: false,
-			url: "/weblications/etc/getPrefs.epl",
+			url: this.visitedBaseUrl,
 			success: function (data) {
 				data = data.split(/\r?\n/);
 				for (var i = 0; i < data.length; i++) {
