@@ -1,34 +1,25 @@
 /* globals jQuery, WebHelpTemplates */
-jQuery.fn.extend({
-	tableList: function (elementSelector, data) {
-		return new TableList({
-			element: elementSelector,
-			data: data
-		});
-	}
-});
-
 var TableList;
 TableList = (function () {
-	function TableList(tableListOptions) {
-		if (tableListOptions.element === undefined) {
-			//console.error('TableList needs an element to work on');
-			throw new Error('TableList needs an element to work on');
-		}
-		var defaultOptions = {
-			element: '',
-			expandable: true,
-			searchable: true,
-			sortable: false,
-			emptyListIndicator: 'No data yet!',
-			data: [],
-			useData: true,
-			listTemplate: 'WebHelpSequenceConsumptionList',
-			listItemTemplate: 'WebHelpSequenceStepListItem',
-			searchListTemplate: 'WebHelpTableListSearch',
-			useSearchFilter: true
-		};
-		for (var option in defaultOptions) {
+    function TableList(tableListOptions) {
+        if (tableListOptions.element === undefined) {
+            //console.error('TableList needs an element to work on');
+            throw new Error('TableList needs an element to work on');
+        }
+        var defaultOptions = {
+            element: '',
+            expandable: true,
+            searchable: true,
+            sortable: false,
+            emptyListIndicator: 'No data yet!',
+            data: [],
+            useData: true,
+            listTemplate: 'WebHelpSequenceConsumptionList',
+            listItemTemplate: 'WebHelpSequenceStepListItem',
+            searchListTemplate: 'WebHelpTableListSearch',
+            useSearchFilter: true
+        };
+        for (var option in defaultOptions) {
 			if (!defaultOptions.hasOwnProperty(option)) {
 				continue;
 			}
