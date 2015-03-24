@@ -28,28 +28,24 @@ WebHelpTemplates["WebHelpCreator"] = "\n" +
    "		</ul>\n" +
    "		<div class=\"tab-content\">\n" +
    "			<div class=\"tab-pane active\" id=\"popularSequences\">\n" +
-   "				<div id=\"popularSequencesContent\">No popular items yet!</div>\n" +
+   "				<div id=\"popularSequencesContent\"></div>\n" +
    "			</div>\n" +
    "			<div class=\"tab-pane\" id=\"whatsNew\">\n" +
-   "				<div id=\"whatsNewContent\">\n" +
-   "					No new items yet!\n" +
-   "				</div>\n" +
+   "				<div id=\"whatsNewContent\"></div>\n" +
    "			</div>\n" +
    "			<div class=\"tab-pane\" id=\"availableSequences\">\n" +
-   "				<div id=\"availableSequencesContent\">\n" +
-   "					Placeholder where you can search for existing sequences\n" +
-   "				</div>\n" +
+   "				<div id=\"availableSequencesContent\"></div>\n" +
    "			</div>\n" +
    "\n" +
    "			<div class=\"tab-pane\" id=\"addSequence\">\n" +
    "				<div class=\"well\">\n" +
    "\n" +
-   "					<section contenteditable=\"true\">\n" +
+   "					<section>\n" +
    "						<div>\n" +
    "							<input type=\"text\" id=\"sequenceTitleSetter\" value=\"Sequence title\" />\n" +
    "						</div>\n" +
-   "						<table id=\"stepsTable\" class=\"table table-bordered table-hover\"></table>\n" +
-   "					</section>\n" +
+   "						<div id=\"stepsTable\" class=\"table table-bordered table-hover\"></div>\n" +
+   "                    </section>\n" +
    "\n" +
    "					<button type=\"button\" id='sequencePreviewButton' class=\"btn btn-default centered actionButton\" aria-label=\"Left Align\" style=\"margin-top:20px;\">\n" +
    "						<span class=\"iconClass-play\" aria-hidden=\"true \"></span> Preview\n" +
@@ -58,7 +54,7 @@ WebHelpTemplates["WebHelpCreator"] = "\n" +
    "					<button type=\"button \" id='sequenceSaveButton' class=\"btn btn-default centered \" aria-label=\"Left Align \" style=\"margin-top:20px;\">\n" +
    "						<span class=\"iconClass-save\" aria-hidden=\"true\"></span> Save\n" +
    "					</button>\n" +
-   "					<button type=\"button\" id='clearStepsButton ' class=\"btn btn-default centered\" aria-label=\"Left Align\" style=\"margin-top:20px;\">\n" +
+   "					<button type=\"button\" id='clearStepsButton' class=\"btn btn-default centered\" aria-label=\"Left Align\" style=\"margin-top:20px;\">\n" +
    "						<span class=\"iconClass-clear\" aria-hidden=\"true \"></span> Clear\n" +
    "					</button>\n" +
    "				</div>\n" +
@@ -114,16 +110,44 @@ WebHelpTemplates["WebHelpSelectPopup"] = "<div>Go ahead with this selection ?</d
    "	<button type=\"button\" class=\"btn btn-danger drag-select-no\">No</button>\n" +
    "</div>";
 
-WebHelpTemplates["WebHelpSequenceConsumptionList"] = "<ul class=\"webHelpSequenceConsumptionList\"></ul>";
+WebHelpTemplates["WebHelpSequenceConsumptionList"] = "<ul class=\"webHelpSequenceConsumptionList\">\n" +
+   "    <li class=\"webHelpSequenceList header\">\n" +
+   "        <div class=\"iconClass-play\"></div>\n" +
+   "        <div class=\"webHelpSequenceItem-title\">Topic</div>\n" +
+   "        <div class=\"iconClass-edit\"></div>\n" +
+   "        <div class=\"iconClass-remove\"></div>\n" +
+   "        <div class=\"webHelpSequenceItem-content\">Content</div>\n" +
+   "    </li>\n" +
+   "</ul>";
 
-WebHelpTemplates["WebHelpSequenceCreationList"] = "<ul class=\"webHelpSequenceCreationList\"></ul>";
+WebHelpTemplates["WebHelpSequenceCreationList"] = "<ul class=\"webHelpSequenceCreationList\">\n" +
+   "    <li class=\"webHelpSequenceStepListItem header\">\n" +
+   "        <div class=\"iconClass-remove\"></div>\n" +
+   "        <div class=\"webHelpSequenceListItem-title\">Title</div>\n" +
+   "        <div class=\"webHelpSequenceListItem-selectionType\"></div>\n" +
+   "        <div class=\"webHelpSequenceListItem-selectionValue\"></div>\n" +
+   "        <div class=\"webHelpSequenceListItem-content\">Content</div>\n" +
+   "    </li>\n" +
+   "</ul>";
 
-WebHelpTemplates["WebHelpSequenceStepListItem"] = "<li class=\"webHelpSequenceList\">\n" +
-   "    <span class=\"iconClass-remove\"></span>\n" +
-   "    <span contenteditable=\"true\" class=\"webHelpSequenceListItem-title\">Editable title</span>\n" +
-   "    <span class=\"webHelpSequenceListItem-selectionType\"></span>\n" +
-   "    <span class=\"webHelpSequenceListItem-selectionValue\"></span>\n" +
-   "    <span contenteditable=\"true\" class=\"webHelpSequenceItem-content\">Editable content</span>\n" +
+WebHelpTemplates["WebHelpSequenceListItem"] = "<li class=\"webHelpSequenceList\">\n" +
+   "    <div class=\"iconClass-play\"></div>\n" +
+   "    <div class=\"webHelpSequenceItem-title\"></div>\n" +
+   "    <div class=\"iconClass-edit\"></div>\n" +
+   "    <div class=\"iconClass-remove\"></div>\n" +
+   "    <div class=\"webHelpSequenceItem-content\">Content</div>\n" +
+   "</li>";
+
+WebHelpTemplates["WebHelpSequenceStepListItem"] = "<li class=\"webHelpSequenceStepListItem\">\n" +
+   "    <div class=\"iconClass-remove remove-step\"></div>\n" +
+   "    <div contenteditable=\"true\" class=\"webHelpSequenceListItem-title\">Editable title</div>\n" +
+   "    <div class=\"webHelpSequenceListItem-selectionType\"></div>\n" +
+   "    <div class=\"webHelpSequenceListItem-selectionValue\"></div>\n" +
+   "    <div contenteditable=\"true\" class=\"webHelpSequenceListItem-content\">Editable content</div>\n" +
    "</li>";
 
 WebHelpTemplates["WebHelpSidebarToggle"] = "<span id=\"creationModeSidebarshowHideSpan\">Show/Hide Create Mode</span>";
+
+WebHelpTemplates["WebHelpTableListSearch"] = "<div class=\"webHelpTableListSearch\">\n" +
+   "    <label>Search title and content: <input type=\"text\" placeholder=\"Type to search\"></label>\n" +
+   "</div>";

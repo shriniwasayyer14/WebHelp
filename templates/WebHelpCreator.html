@@ -10,28 +10,24 @@
 		</ul>
 		<div class="tab-content">
 			<div class="tab-pane active" id="popularSequences">
-				<div id="popularSequencesContent">No popular items yet!</div>
+				<div id="popularSequencesContent"></div>
 			</div>
 			<div class="tab-pane" id="whatsNew">
-				<div id="whatsNewContent">
-					No new items yet!
-				</div>
+				<div id="whatsNewContent"></div>
 			</div>
 			<div class="tab-pane" id="availableSequences">
-				<div id="availableSequencesContent">
-					Placeholder where you can search for existing sequences
-				</div>
+				<div id="availableSequencesContent"></div>
 			</div>
 
 			<div class="tab-pane" id="addSequence">
 				<div class="well">
 
-					<section contenteditable="true">
+					<section>
 						<div>
 							<input type="text" id="sequenceTitleSetter" value="Sequence title" />
 						</div>
-						<table id="stepsTable" class="table table-bordered table-hover"></table>
-					</section>
+						<div id="stepsTable" class="table table-bordered table-hover"></div>
+                    </section>
 
 					<button type="button" id='sequencePreviewButton' class="btn btn-default centered actionButton" aria-label="Left Align" style="margin-top:20px;">
 						<span class="iconClass-play" aria-hidden="true "></span> Preview
@@ -40,7 +36,7 @@
 					<button type="button " id='sequenceSaveButton' class="btn btn-default centered " aria-label="Left Align " style="margin-top:20px;">
 						<span class="iconClass-save" aria-hidden="true"></span> Done
 					</button>
-					<button type="button" id='clearStepsButton ' class="btn btn-default centered" aria-label="Left Align" style="margin-top:20px;">
+					<button type="button" id='clearStepsButton' class="btn btn-default centered" aria-label="Left Align" style="margin-top:20px;">
 						<span class="iconClass-clear" aria-hidden="true "></span> Clear
 					</button>
 				</div>
