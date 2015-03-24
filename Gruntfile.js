@@ -43,8 +43,6 @@ module.exports = function (grunt) {
 			},
 			basicCSS: {
 				src: ['bower_components/intro.js/minified/introjs.min.css',
-                    'css/BootSideMenu.css',
-                    'css/BootSideMenu.css',
                     'css/jQueryDragSelector.css',
                     'css/WebHelp.css'
                 ],
@@ -58,8 +56,6 @@ module.exports = function (grunt) {
 				src: ['bower_components/DataTables/media/css/jquery.dataTables.min.css',
                     'bower_components/DataTables/media/css/jquery.dataTables_themeroller.css',
                     'bower_components/intro.js/minified/introjs.min.css',
-                    'css/BootSideMenu.css',
-                    'css/BootSideMenu.css',
                     'css/jQueryDragSelector.css',
                     'css/WebHelp.css'
                 ],
