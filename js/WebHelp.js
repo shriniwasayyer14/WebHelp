@@ -1,6 +1,7 @@
 /* globals jQuery, jQueryDragSelector, window, alert, WebHelpTemplates, introJs, setTimeout, setInterval, localStorage, TableList */
 var WebHelp;
 WebHelp = (function () {
+    "use strict";
     function WebHelp(WebHelpOptions) {
         //setup defaults
         var defaultOptions = {
@@ -152,12 +153,12 @@ WebHelp = (function () {
 		var self = this;
 		this.ui.webHelpMainContent = jQuery("#webHelpMainContent");
 		if (this.ui.webHelpMainContent.length === 0) {
-			var webHelpContent = jQuery(WebHelpTemplates["WebHelpCreator"]);
+			var webHelpContent = jQuery(WebHelpTemplates.WebHelpCreator);
 			jQuery("body").append(webHelpContent);
 			this.ui.webHelpMainContent = jQuery("#webHelpMainContent");
 		}
 
-		var sidebarToggleButton = jQuery(WebHelpTemplates["WebHelpSidebarToggle"]);
+		var sidebarToggleButton = jQuery(WebHelpTemplates.WebHelpSidebarToggle);
 		this.ui.webHelpMainContent
 			.addClass('creationModeSidebar')
 			.addClass('hideSidebar')
@@ -330,7 +331,7 @@ WebHelp = (function () {
 					trigger: 'manual',
 					placement: 'auto top',
 					container: 'body', /*Show on top of all elements*/
-					content: WebHelpTemplates["WebHelpSelectPopup"]
+					content: WebHelpTemplates.WebHelpSelectPopup
 				})
 					.popover('show');
 				jQuery(".drag-select-yes").on("click", function () {
@@ -445,7 +446,7 @@ WebHelp = (function () {
 		}
 		var saveStatus = 'Sequence saved successfully!';
 		try {
-			localStorage.setItem(this.webHelpName, JSON.stringify(sequences));
+			localStorage.setItem(this.webHelpName, JSON.stringify(this.sequences));
 		} catch (error) {
 			saveStatus = 'Error saving the sequence!';
 		} finally {
