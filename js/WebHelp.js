@@ -615,7 +615,7 @@ WebHelp = (function () {
 					}
 					return self.sequences;
 				}
-				alert("Failed to load the sequences");
+				throw new Error("Failed to load help sequences");
 			}
 		});
 		return this.sequences;
@@ -646,7 +646,7 @@ WebHelp = (function () {
 				sequences = JSON.parse(data);
 			},
 			error: function () {
-				alert("Failed to load the sequences");
+				throw new Error("Failed to load help sequences");
 			}
 		});
 
