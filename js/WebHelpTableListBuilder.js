@@ -143,7 +143,7 @@ TableList = (function () {
 
 	TableList.prototype.getStatus = function () {
 		return this.status;
-	}
+	};
 
 	TableList.prototype._makeSortable = function() {
 		var $thisList = jQuery(this.element).find('.' + jQuery(WebHelpTemplates[this.listTemplate]).attr('class')); //Finds the list
