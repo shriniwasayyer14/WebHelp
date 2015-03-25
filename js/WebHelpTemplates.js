@@ -10,7 +10,7 @@ WebHelpTemplates["WebHelpContent"] = "<div id=\"contentConsumptionModal\" class=
    "			</div>\n" +
    "			<div class=\"modal-body\"></div>\n" +
    "			<div class=\"modal-footer\">\n" +
-   "				<button data-dismiss=\"modal\" class=\"btn btn-default\">Close</button>\n" +
+   "				<button data-dismiss=\"modal\" class=\"btn btn-warning\">Close</button>\n" +
    "			</div>\n" +
    "		</div>\n" +
    "	</div>\n" +
@@ -41,7 +41,7 @@ WebHelpTemplates["WebHelpCreator"] = "\n" +
    "\n" +
    "					<section>\n" +
    "						<div>\n" +
-   "							<input type=\"text\" id=\"sequenceTitleSetter\" value=\"Sequence title\" />\n" +
+   "							<input type=\"text\" id=\"sequenceTitleSetter\" placeholder=\"Sequence title\" />\n" +
    "						</div>\n" +
    "						<div id=\"stepsTable\" class=\"table table-bordered table-hover\"></div>\n" +
    "                    </section>\n" +
@@ -54,7 +54,7 @@ WebHelpTemplates["WebHelpCreator"] = "\n" +
    "						<span class=\"iconClass-save\" aria-hidden=\"true\"></span> Done\n" +
    "					</button>\n" +
    "					<button type=\"button\" id='clearStepsButton' class=\"btn btn-default centered\" aria-label=\"Left Align\" style=\"margin-top:20px;\">\n" +
-   "						<span class=\"iconClass-clear\" aria-hidden=\"true \"></span> Clear\n" +
+   "						<span class=\"iconClass-clear\" aria-hidden=\"true \"></span> New\n" +
    "					</button>\n" +
    "				</div>\n" +
    "\n" +

@@ -3,66 +3,111 @@
   padding: 10px;
   font-size: 13px;
 }
-#webHelpMainContent.creationModeSidebar {
-  max-width: 35%;
-  position: absolute;
-  top: 0;
-  z-index: 999;
-  right: 0;
-  height: 100%;
-}
-#creationModeSidebarshowHideSpan {
-  left: -95px;
-  width: 160px;
-  top: 45%;
-  position: absolute;
-  background-color: #f5f5f5;
-  border: 1px solid #666;
-  border-bottom: none;
-  padding: 6px;
-  border-radius: 4px 4px 0px 0px;
-  -webkit-transform: rotate(-90deg);
-  -moz-transform: rotate(-90deg);
-  -o-transform: rotate(-90deg);
-  -ms-transform: rotate(-90deg);
-  transform: rotate(-90deg);
-  z-index: 999;
-}
-#creationModeSidebarshowHideSpan:hover {
-  cursor: pointer;
-  background-color: #999;
-  color: #fff;
-}
-#webHelpMainContent.creationModeSidebar.hideSidebar {
-  width: 0px;
-  padding: 0px;
-  right: 1px; /*prevent a scrollbar*/
-  background: transparent;
-}
-@media screen {
-  .container .jumbotron {
-    padding-right: 5px;
-    padding-left: 5px;
-    padding-top: 10px;
-  }
-  .jumbotron p {
-    font-size: 14px;
-  }
-  #stepsTable th {
-    font-size: 13px;
-  }
-  #stepsTable td {
-    font-size: 14px;
-  }
-  .glyphicon-remove {
-    cursor: pointer;
-  }
-}
 #webHelpMainContent .nav-tabs > li.active > a,
 #webHelpMainContent .nav-tabs > li.active > a:hover,
 #webHelpMainContent .nav-tabs > li.active > a:focus {
-  background-color: #f5f5f5;
   color: #555 !important;
+}
+#webHelpMainContent ul.tableList {
+  list-style: none;
+  overflow-y: scroll;
+  padding: 5px 3px;
+  margin: 0 auto;
+  max-height: 50%;
+}
+#webHelpMainContent ul.tableList > li {
+  transition: all 0.3s ease-in;
+}
+#webHelpMainContent ul.tableList > li > div {
+  display: inline-block;
+}
+#webHelpMainContent ul.tableList > li > div.fa,
+#webHelpMainContent ul.tableList > li > div.glyphicon {
+  font-size: 130%;
+  transition: all 0.3s ease-in;
+}
+#webHelpMainContent ul.tableList > li > div.fa:hover,
+#webHelpMainContent ul.tableList > li > div.glyphicon:hover {
+  cursor: pointer;
+  -webkit-stroke-width: 5.3px;
+  -webkit-stroke-color: #fff;
+  -webkit-fill-color: #fff;
+}
+#webHelpMainContent ul.tableList > li > div.iconClass-remove:hover {
+  text-shadow: 1px 0px 20px #f00;
+}
+#webHelpMainContent ul.tableList > li > div.iconClass-play:hover {
+  text-shadow: 1px 0px 20px #008000;
+}
+#webHelpMainContent ul.tableList > li > div.iconClass-edit:hover {
+  text-shadow: 1px 0px 20px #00f;
+}
+#webHelpMainContent ul.tableList > li.header {
+  font-weight: bold;
+  border-bottom: 1px solid #dbdbdb;
+}
+#webHelpMainContent ul.tableList > li.header > div.fa,
+#webHelpMainContent ul.tableList > li.header > div.glyphicon {
+  color: transparent;
+}
+#webHelpMainContent ul.tableList > li.header > div.fa:hover,
+#webHelpMainContent ul.tableList > li.header > div.glyphicon:hover {
+  cursor: default;
+}
+#webHelpMainContent ul.tableList > li {
+  padding: 8px;
+  border-bottom: 1px solid #dbdbdb;
+}
+#webHelpMainContent ul.tableList > li:nth-of-type(odd) {
+  background-color: #ebebeb;
+}
+#webHelpMainContent ul.tableList > li:hover {
+  background-color: #fff2bf;
+}
+#webHelpMainContent ul.tableList > li.header {
+  background-color: #d1e1f3;
+}
+#webHelpMainContent ul.tableList.ui-sortable {
+  cursor: move;
+}
+#webHelpMainContent ul.webHelpSequenceCreationList > li.webHelpSequenceStepListItem > div.webHelpSequenceListItem-title {
+  width: 30%;
+  max-width: 30%;
+}
+#webHelpMainContent ul.webHelpSequenceCreationList > li.webHelpSequenceStepListItem > div.webHelpSequenceListItem-content {
+  width: 60%;
+  max-width: 60%;
+}
+#webHelpMainContent ul.webHelpSequenceCreationList > li.webHelpSequenceStepListItem > div.iconClass-remove {
+  width: 5%;
+  max-width: 5%;
+}
+#webHelpMainContent ul.webHelpSequenceCreationList > li.webHelpSequenceStepListItem > div.webHelpSequenceListItem-selectionType,
+#webHelpMainContent ul.webHelpSequenceCreationList > li.webHelpSequenceStepListItem > div.webHelpSequenceListItem-selectionValue {
+  display: none;
+}
+#webHelpMainContent ul.webHelpSequenceCreationList > li.webHelpSequenceStepListItem > div[contenteditable="true"] {
+  background-color: #fff;
+  border: 1px solid #dbdbdb;
+  border-radius: 4px;
+  padding: 3px;
+  cursor: text;
+}
+#webHelpMainContent ul.webHelpSequenceConsumptionList > li.webHelpSequenceList > div {
+  padding: 0px 0px 4px 4px;
+}
+#webHelpMainContent ul.webHelpSequenceConsumptionList > li.webHelpSequenceList > div.webHelpSequenceItem-content {
+  display: none;
+}
+#webHelpMainContent ul.webHelpSequenceConsumptionList > li.webHelpSequenceList > div.webHelpSequenceItem-title {
+  width: 70%;
+}
+#webHelpMainContent ul.webHelpSequenceConsumptionList > li.webHelpSequenceList > div.iconClass-edit,
+#webHelpMainContent ul.webHelpSequenceConsumptionList > li.webHelpSequenceList > div.iconClass-remove {
+  width: 10%;
+}
+#webHelpMainContent ul.webHelpSequenceConsumptionList > li.webHelpSequenceList.header {
+  font-weight: bold;
 }
 #webHelpMainContent .btn {
   height: 34px;
@@ -159,6 +204,87 @@
 #webHelpMainContent table.dataTable .btn-group .btn {
   padding-top: 8px;
 }
+/*Styles in consumption mode*/
+#contentConsumptionModal #webHelpMainContent ul.tableList > li > div.iconClass-edit,
+#contentConsumptionModal #webHelpMainContent ul.tableList > li > div.iconClass-remove {
+  display: none;
+}
+#contentConsumptionModal #webHelpMainContent ul.tableList > li > div.iconClass-play {
+  width: 15%;
+}
+#contentConsumptionModal #webHelpMainContent ul.webHelpSequenceConsumptionList > li.webHelpSequenceList {
+  cursor: pointer;
+}
+#contentConsumptionModal #webHelpMainContent ul.webHelpSequenceConsumptionList > li.webHelpSequenceList > div.iconClass-edit,
+#contentConsumptionModal #webHelpMainContent ul.webHelpSequenceConsumptionList > li.webHelpSequenceList > div.iconClass-remove {
+  display: none;
+}
+#contentConsumptionModal #webHelpMainContent ul.webHelpSequenceConsumptionList > li.webHelpSequenceList:hover > div.iconClass-play {
+  text-shadow: 1px 0px 20px #008000;
+}
+#contentConsumptionModal #webHelpMainContent ul.webHelpSequenceConsumptionList > li.header.webHelpSequenceList {
+  cursor: default;
+}
+#contentConsumptionModal #webHelpMainContent ul.webHelpSequenceConsumptionList > li.header.webHelpSequenceList:hover > div.iconClass-play {
+  text-shadow: none;
+}
+#webHelpMainContent.creationModeSidebar {
+  max-width: 35%;
+  position: absolute;
+  top: 0;
+  z-index: 999;
+  right: 0;
+  height: 100%;
+  box-shadow: 10px 10px 10px 10px #000;
+}
+#creationModeSidebarshowHideSpan {
+  left: -95px;
+  width: 160px;
+  top: 45%;
+  position: absolute;
+  background-color: #f5f5f5;
+  border: 1px solid #666;
+  border-bottom: none;
+  padding: 6px;
+  border-radius: 4px 4px 0px 0px;
+  -webkit-transform: rotate(-90deg);
+  -moz-transform: rotate(-90deg);
+  -o-transform: rotate(-90deg);
+  -ms-transform: rotate(-90deg);
+  transform: rotate(-90deg);
+  z-index: 999;
+}
+#creationModeSidebarshowHideSpan:hover {
+  cursor: pointer;
+  background-color: #999;
+  color: #fff;
+}
+#webHelpMainContent.creationModeSidebar.hideSidebar {
+  width: 0px;
+  padding: 0px;
+  right: 1px; /*prevent a scrollbar*/
+  background: transparent;
+  box-shadow: none;
+}
+@media screen {
+  .container .jumbotron {
+    padding-right: 5px;
+    padding-left: 5px;
+    padding-top: 10px;
+  }
+  .jumbotron p {
+    font-size: 14px;
+  }
+  #stepsTable th {
+    font-size: 13px;
+  }
+  #stepsTable td {
+    font-size: 14px;
+  }
+  .glyphicon-remove {
+    cursor: pointer;
+  }
+}
 .suggestionDiv {
   width: 80%;
 /*font-weight: bold;*/
@@ -203,23 +329,30 @@
   color: #fff;
   font-size: 18px;
   position: absolute;
+  transition: all 0.3s ease-in;
 /*height: 100%;*/
+}
+#contentConsumptionNavButton:hover {
+  -webkit-stroke-width: 5.3px;
+  -webkit-stroke-color: #fff;
+  -webkit-fill-color: #fff;
+  text-shadow: 1px 0px 20px #ff0;
 }
 #contentConsumptionNavButton[data-badge]:after {
   content: attr(data-badge);
   position: absolute;
   top: 1px;
-  right: 1px;
+/*right: 1px;*/
   font-size: 0.7em;
   background: #f00;
   color: #fff;
   font-weight: bold;
   opacity: 0.9;
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=90);
-  width: 15px;
-  height: 15px;
+  width: 40px;
+/*height: 15px;*/
   text-align: center;
-  line-height: 18px;
+  line-height: 15px;
   border-radius: 15%;
   box-shadow: 0 0 1px #333;
 }
