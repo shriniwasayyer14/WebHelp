@@ -1,4 +1,4 @@
-/* globals elem, jQuery */
+/* globals jQuery */
 jQuery.fn.extend({
     getPath: function(){
 		"use strict";

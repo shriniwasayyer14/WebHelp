@@ -144,7 +144,6 @@ WebHelp = (function () {
         if (this.showIntroOnLoad) {
             this.playSequence('Introduction');
         }
-
         this.refreshWhatsNew();
         this.populateCurrentSequences();
         var self = this;
@@ -255,7 +254,7 @@ WebHelp = (function () {
         //https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify
         //Syntax: JSON.stringify(value[, replacer[, space]])
         var allSequences = this.sequences;
-        jQuery.map(allSequences, function (val, i) {
+        jQuery.map(allSequences, function (val) {
             val["status"] = "O";
         });
         var content = JSON.stringify(allSequences, null, '\t');
@@ -291,9 +290,7 @@ WebHelp = (function () {
             }
         }
         this.updateNewSequencesTable(newSequences); // new function
-        if (newSequences.length >= 1) {
-            this.populateCurrentSequences();
-        }
+
         //update badge icon
         var numOfNewSequences = newSequences.length;
 
@@ -653,6 +650,35 @@ WebHelp = (function () {
                 throw new Error("Failed to load the sequences!");
             }
         });
+    };
+
+    WebHelp.prototype.refreshWhatsNew = function () {
+        this.refreshAllSequences();
+        var sequences = this.sequences; //new function
+        var seenSequences = this.getAllVisitedSequences(); //new function
+        var newSequences = [];
+        for (var seqName in sequences) {
+            if (sequences.hasOwnProperty(seqName)) {
+                var seq = sequences[seqName];
+                var seqId = seq.seqId.toString();
+                if (seenSequences.indexOf(seqId) < 0) {
+                    newSequences.push(seq);
+                }
+                throw new Error("Failed to load help sequences");
+            }
+        }
+        this.updateNewSequencesTable(newSequences); // new function
+
+        //update badge icon
+        var numOfNewSequences = newSequences.length;
+
+        if (this.mode !== "create") {
+            if (numOfNewSequences > 0) {
+                this.ui.webHelpButton.attr('data-badge', numOfNewSequences + ' new');
+            } else {
+                this.ui.webHelpButton.removeAttr('data-badge');
+            }
+        }
     };
 
     WebHelp.prototype.refreshScratchpad = function () {

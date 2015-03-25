@@ -78,8 +78,8 @@ module.exports = function (grunt) {
 							replacement: 'jQuery('
                         },
 						{
-							match: "parentElm.className += ' introjs-fixParent';",
-							replacement: "//parentElm.className += ' introjs-fixParent';"
+							match: 'parentElm.className += \' introjs-fixParent\';',
+							replacement: '//parentElm.className += \' introjs-fixParent\';'
 						}
                     ]
 				},
@@ -187,7 +187,7 @@ module.exports = function (grunt) {
 				options: {
 					jshintrc: 'js/.jshintrc'
 				},
-				src: ['js/**/*.js']
+				src: ['js/**/*.js', '!js/vendor/*.js']
 			},
 			test: {
 				options: {
