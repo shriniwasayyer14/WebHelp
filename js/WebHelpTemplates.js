@@ -4,7 +4,7 @@ WebHelpTemplates["WebHelpConsumption"] = "<div id=\"webHelpMainContent\">\n" +
    "    <div class=\"tabbable\">\n" +
    "        <!-- Only required for left/right tabs -->\n" +
    "        <ul class=\"nav nav-tabs\">\n" +
-   "            <li><a href=\"#whatsNew\" data-toggle=\"tab\" target=\"_self\">Scratchpad</a></li>\n" +
+   "            <li><a href=\"#whatsNew\" data-toggle=\"tab\" target=\"_self\">What's New?</a></li>\n" +
    "            <li><a href=\"#availableSequences\" data-toggle=\"tab\"  target=\"_self\">Topics</a></li>\n" +
    "        </ul>\n" +
    "        <div class=\"tab-content\">\n" +
