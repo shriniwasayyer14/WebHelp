@@ -115,7 +115,21 @@ opacity(n) {
       font-weight: bold;
     }
   }
-  #popularSequencesContent {
+}
+
+/*Styles in consumption mode*/
+#contentConsumptionModal {
+  #webHelpMainContent {
+    ul.tableList {
+      > li {
+        > div.iconClass-edit, > div.iconClass-remove {
+          display: none;
+        }
+        > div.iconClass-play {
+          width: 15%;
+        }
+      }
+    }
     ul.webHelpSequenceConsumptionList {
       > li.webHelpSequenceList {
         cursor: pointer;
@@ -134,21 +148,6 @@ opacity(n) {
       > li.header.webHelpSequenceList:hover {
         > div.iconClass-play {
           text-shadow: none;
-        }
-      }
-    }
-  }
-}
-
-#contentConsumptionModal {
-  #webHelpMainContent {
-    ul.tableList {
-      > li {
-        > div.iconClass-edit, > div.iconClass-remove {
-          display: none;
-        }
-        > div.iconClass-play {
-          width: 15%;
         }
       }
     }
