@@ -498,7 +498,7 @@ WebHelp = (function () {
 
 		for (var n = 0; n < rows.length; n++) {
 			//escape ampersands (we may need other special characters in the content
-			var elemAttribVal = rows[n][3];
+			var elemAttribVal = rows[n][3].replace(/\&/g, '').trim();
 			var elemAttribType = rows[n][2].replace(/\&/g, '').trim();
 			var stepTitle = rows[n][1];
 			var content = rows[n][4];
