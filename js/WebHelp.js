@@ -1,4 +1,4 @@
-/* globals jQuery, jQueryDragSelector, window, WebHelpTemplates, introJs, setTimeout, setInterval, localStorage, TableList, alert */
+/* globals jQuery, jQueryDragSelector, window, WebHelpTemplates, introJs, setTimeout, setInterval, localStorage, TableList */
 var WebHelp;
 WebHelp = (function () {
     "use strict";
