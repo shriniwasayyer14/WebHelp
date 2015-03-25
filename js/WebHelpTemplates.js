@@ -21,8 +21,7 @@ WebHelpTemplates["WebHelpCreator"] = "\n" +
    "	<div class=\"tabbable\">\n" +
    "		<!-- Only required for left/right tabs -->\n" +
    "		<ul class=\"nav nav-tabs\">\n" +
-   "			<li class=\"active\"><a href=\"#popularSequences\" data-toggle=\"tab\"  target=\"_self\">Popular</a></li>\n" +
-   "			<li><a href=\"#whatsNew\" data-toggle=\"tab\" target=\"_self\">What's New?</a></li>\n" +
+   "			<li><a href=\"#whatsNew\" data-toggle=\"tab\" target=\"_self\">Scratchpad</a></li>\n" +
    "			<li><a href=\"#availableSequences\" data-toggle=\"tab\"  target=\"_self\">Topics</a></li>\n" +
    "			<li><a href=\"#addSequence\" data-toggle=\"tab\"  target=\"_self\">Add/Edit Sequence</a></li>\n" +
    "		</ul>\n" +
@@ -52,7 +51,7 @@ WebHelpTemplates["WebHelpCreator"] = "\n" +
    "					</button>\n" +
    "\n" +
    "					<button type=\"button \" id='sequenceSaveButton' class=\"btn btn-default centered \" aria-label=\"Left Align \" style=\"margin-top:20px;\">\n" +
-   "						<span class=\"iconClass-save\" aria-hidden=\"true\"></span> Save\n" +
+   "						<span class=\"iconClass-save\" aria-hidden=\"true\"></span> Done\n" +
    "					</button>\n" +
    "					<button type=\"button\" id='clearStepsButton' class=\"btn btn-default centered\" aria-label=\"Left Align\" style=\"margin-top:20px;\">\n" +
    "						<span class=\"iconClass-clear\" aria-hidden=\"true \"></span> Clear\n" +
