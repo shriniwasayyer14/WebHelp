@@ -649,7 +649,7 @@ WebHelp = (function () {
                 self.sequences = data;
             },
             error: function () {
-                alert("Failed to load the sequences!");
+                //alert("Failed to load the sequences!");
             }
         });
     };
