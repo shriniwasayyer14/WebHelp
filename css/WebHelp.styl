@@ -118,9 +118,18 @@ opacity(n) {
   #popularSequencesContent {
     ul.webHelpSequenceConsumptionList {
       > li.webHelpSequenceList {
+        cursor: pointer;
         > div.iconClass-edit, > div.iconClass-remove {
           display: none;
         }
+      }
+      > li.webHelpSequenceList:hover {
+        > div.iconClass-play {
+          text-shadow: 1px 0px 20px green;
+        }
+      }
+      > li.header.webHelpSequenceList {
+        cursor: default;
       }
     }
   }
