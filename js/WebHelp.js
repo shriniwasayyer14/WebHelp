@@ -498,14 +498,14 @@ WebHelp = (function () {
 
 		for (var n = 0; n < rows.length; n++) {
 			//escape ampersands (we may need other special characters in the content
-			var elemAttribVal = rows[n][3].replace(/[&<>"'\/]/g, '').trim();
+			var elemAttribVal = rows[n][3];
 			var elemAttribType = rows[n][2].replace(/\&/g, '').trim();
 			var stepTitle = rows[n][1];
 			var content = rows[n][4];
 			if (elemAttribVal) {
 				var elem = "";
 				if (elemAttribType !== 'CSSPath') {
-					elem = "[" + elemAttribType + "=\'" + elemAttribVal + "\']";
+					elem = "[" + elemAttribType + "=\'" + elemAttribVal.replace(/[&<>"'\/]/g, '').trim() + "\']";
 				} else {
 					elem = elemAttribVal;
 				}
