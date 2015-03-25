@@ -60,7 +60,6 @@ WebHelp = (function () {
 			this.mode = "consume";
 			this.showHelpConsumptionMode();
 		}
-		this.bindPlayEditButtons();
 	}
 
 	//detect jquery params
@@ -84,14 +83,6 @@ WebHelp = (function () {
 			}
 		}
 		return query_string;
-	};
-
-	WebHelp.prototype.bindPlayEditButtons = function () {
-		var self = this;
-		//attach sequence specific handlers
-		this.ui.webHelpMainContent.on('click', '.play-sequence', this.playThisSequence.bind(self));
-		this.ui.webHelpMainContent.on('click', '.edit-sequence', this.editThisSequence.bind(self));
-		this.ui.webHelpMainContent.on('click', '.remove-sequence', this.removeThisSequence.bind(self));
 	};
 
 	WebHelp.prototype.showSequences = function () {
