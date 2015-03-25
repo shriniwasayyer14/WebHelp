@@ -1,5 +1,23 @@
 var WebHelpTemplates = {};
 
+WebHelpTemplates["WebHelpConsumption"] = "<div id=\"webHelpMainContent\">\n" +
+   "    <div class=\"tabbable\">\n" +
+   "        <!-- Only required for left/right tabs -->\n" +
+   "        <ul class=\"nav nav-tabs\">\n" +
+   "            <li><a href=\"#whatsNew\" data-toggle=\"tab\" target=\"_self\">Scratchpad</a></li>\n" +
+   "            <li><a href=\"#availableSequences\" data-toggle=\"tab\"  target=\"_self\">Topics</a></li>\n" +
+   "        </ul>\n" +
+   "        <div class=\"tab-content\">\n" +
+   "            <div class=\"tab-pane\" id=\"scratchpad\">\n" +
+   "                <div id=\"whatsNewContent\"></div>\n" +
+   "            </div>\n" +
+   "            <div class=\"tab-pane\" id=\"availableSequences\">\n" +
+   "                <div id=\"availableSequencesContent\"></div>\n" +
+   "            </div>\n" +
+   "        </div>\n" +
+   "    </div>\n" +
+   "</div>";
+
 WebHelpTemplates["WebHelpContent"] = "<div id=\"contentConsumptionModal\" class=\"modal\">\n" +
    "	<div class=\"modal-dialog\">\n" +
    "		<div class=\"modal-content\" style=\"width: 800px;\">\n" +
@@ -26,9 +44,6 @@ WebHelpTemplates["WebHelpCreator"] = "\n" +
    "			<li><a href=\"#addSequence\" data-toggle=\"tab\"  target=\"_self\">Add/Edit Sequence</a></li>\n" +
    "		</ul>\n" +
    "		<div class=\"tab-content\">\n" +
-   "			<div class=\"tab-pane active\" id=\"popularSequences\">\n" +
-   "				<div id=\"popularSequencesContent\"></div>\n" +
-   "			</div>\n" +
    "			<div class=\"tab-pane\" id=\"scratchpad\">\n" +
    "				<div id=\"scratchpadContent\"></div>\n" +
    "			</div>\n" +

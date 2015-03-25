@@ -131,7 +131,7 @@ WebHelp = (function () {
 		this.ui.webHelpMainContent = jQuery("#webHelpMainContent");
 		if (this.ui.webHelpMainContent.length <= 0) {
 			var modalContent = jQuery(WebHelpTemplates.WebHelpContent);
-			var webHelpContent = jQuery(WebHelpTemplates.WebHelpCreator);
+			var webHelpContent = jQuery(WebHelpTemplates.WebHelpConsumption);
 			this.attachIcons();
 			var $body = jQuery("body");
 			$body.append(modalContent);
@@ -580,9 +580,9 @@ WebHelp = (function () {
 
 	// This table will remove and add new contents to the new sequences table
 	WebHelp.prototype.updateNewSequencesTable = function (newSequences) {
-/*		if (newSequences.length >= 1) {
+		if (newSequences.length >= 1) {
 			this.populateCurrentSequences();
-		}*/
+		}
 		var aaData = [];
 		jQuery.each(newSequences, function (index, element) {
 			aaData.push([
