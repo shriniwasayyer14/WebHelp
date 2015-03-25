@@ -459,23 +459,21 @@ WebHelp = (function () {
 	};
 
 	WebHelp.prototype.saveSequence = function () {
-		//saveToDB()
-		var sequenceTitle = jQuery("#sequenceTitleSetter").val().trim();
-		var stepsToSave = this.getCurrentTablePreviewSteps();
-		var sequences = this.sequences;
-		sequences[sequenceTitle] = {
-			method: "saveSequence",
-			seqId: new Date().getTime(),
-			sequenceTitle: sequenceTitle,
-			data: stepsToSave,
-			tool: this.appName,
-			active_flag: 'N',
-			url: "test"
-		};
-
 		var saveStatus = 'Sequence saved successfully!';
 		try {
-			localStorage.setItem(this.webHelpName, JSON.stringify(sequences));
+			var sequenceTitle = jQuery("#sequenceTitleSetter").val().trim();
+			var stepsToSave = this.getCurrentTablePreviewSteps();
+			var sequences = this.sequences;
+			sequences[sequenceTitle] = {
+				method: "saveSequence",
+				seqId: new Date().getTime(),
+				sequenceTitle: sequenceTitle,
+				data: stepsToSave,
+				tool: this.appName,
+				active_flag: 'N',
+				isNew: "Y"
+			};
+			// Populate scratchpad
 		} catch (error) {
 			saveStatus = 'Error saving the sequence!';
 		} finally {
@@ -635,27 +633,6 @@ WebHelp = (function () {
 		});
 		this.attachIcons();
 		this.attachClickActionsToLists();
-	};
-
-	WebHelp.prototype.getAllSequencesFromDB = function () {
-		var sequences;
-		jQuery.ajax({
-			url: "http://devntsl002.blackrock.com:8558/weblications/WebHelp/WebHelp.epl",
-			type: "POST",
-			async: false,
-			data: {
-				method: "loadAllSequences",
-				tool: this.appName
-			},
-			success: function (data) {
-				sequences = JSON.parse(data);
-			},
-			error: function () {
-				alert("Failed to load the sequences");
-			}
-		});
-
-		return sequences;
 	};
 
 	WebHelp.prototype.clearStepsInSequence = function () {
