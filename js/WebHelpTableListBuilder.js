@@ -2,24 +2,26 @@
 var TableList;
 TableList = (function () {
 	"use strict";
-	function TableList(tableListOptions) {
-		if (tableListOptions.element === undefined) {
-			//console.error('TableList needs an element to work on');
-			throw new Error('TableList needs an element to work on');
-		}
-		var defaultOptions = {
-			element: '',
-			expandable: true,
-			searchable: true,
-			sortable: false,
-			emptyListIndicator: 'No data yet!',
-			data: [],
-			useData: true,
-			listTemplate: 'WebHelpSequenceConsumptionList',
-			listItemTemplate: 'WebHelpSequenceStepListItem',
-			searchListTemplate: 'WebHelpTableListSearch'
-		};
-		for (var option in defaultOptions) {
+    function TableList(tableListOptions) {
+        if (tableListOptions.element === undefined) {
+            //console.error('TableList needs an element to work on');
+            throw new Error('TableList needs an element to work on');
+        }
+        var defaultOptions = {
+            element: '',
+            expandable: true,
+            searchable: true,
+            sortable: false,
+            emptyListIndicator: 'No data yet!',
+            data: [],
+			status: "N",
+			seqId:null,
+            useData: true,
+            listTemplate: 'WebHelpSequenceConsumptionList',
+            listItemTemplate: 'WebHelpSequenceStepListItem',
+            searchListTemplate: 'WebHelpTableListSearch'
+        };
+        for (var option in defaultOptions) {
 			if (!defaultOptions.hasOwnProperty(option)) {
 				continue;
 			}
@@ -133,6 +135,22 @@ TableList = (function () {
 
 	TableList.prototype.setData = function (givenData) {
 		this.data = givenData;
+	};
+
+	TableList.prototype.setStatus = function (status) {
+		this.status = status;
+	};
+
+	TableList.prototype.getStatus = function () {
+		return this.status;
+	};
+
+	TableList.prototype.setSeqId = function (seqId) {
+		this.seqId = seqId;
+	};
+
+	TableList.prototype.getSeqId = function () {
+		return this.seqId;
 	};
 
 	TableList.prototype._makeSortable = function () {

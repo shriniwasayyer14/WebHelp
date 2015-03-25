@@ -1,5 +1,23 @@
 var WebHelpTemplates = {};
 
+WebHelpTemplates["WebHelpConsumption"] = "<div id=\"webHelpMainContent\">\n" +
+   "    <div class=\"tabbable\">\n" +
+   "        <!-- Only required for left/right tabs -->\n" +
+   "        <ul class=\"nav nav-tabs\">\n" +
+   "            <li><a href=\"#whatsNew\" data-toggle=\"tab\" target=\"_self\">What's New?</a></li>\n" +
+   "            <li><a href=\"#availableSequences\" data-toggle=\"tab\"  target=\"_self\">Topics</a></li>\n" +
+   "        </ul>\n" +
+   "        <div class=\"tab-content\">\n" +
+   "            <div class=\"tab-pane\" id=\"scratchpad\">\n" +
+   "                <div id=\"whatsNewContent\"></div>\n" +
+   "            </div>\n" +
+   "            <div class=\"tab-pane\" id=\"availableSequences\">\n" +
+   "                <div id=\"availableSequencesContent\"></div>\n" +
+   "            </div>\n" +
+   "        </div>\n" +
+   "    </div>\n" +
+   "</div>";
+
 WebHelpTemplates["WebHelpContent"] = "<div id=\"contentConsumptionModal\" class=\"modal\">\n" +
    "	<div class=\"modal-dialog\">\n" +
    "		<div class=\"modal-content\" style=\"width: 800px;\">\n" +
@@ -10,7 +28,7 @@ WebHelpTemplates["WebHelpContent"] = "<div id=\"contentConsumptionModal\" class=
    "			</div>\n" +
    "			<div class=\"modal-body\"></div>\n" +
    "			<div class=\"modal-footer\">\n" +
-   "				<button data-dismiss=\"modal\" class=\"btn btn-default\">Close</button>\n" +
+   "				<button data-dismiss=\"modal\" class=\"btn btn-warning\">Close</button>\n" +
    "			</div>\n" +
    "		</div>\n" +
    "	</div>\n" +
@@ -21,17 +39,13 @@ WebHelpTemplates["WebHelpCreator"] = "\n" +
    "	<div class=\"tabbable\">\n" +
    "		<!-- Only required for left/right tabs -->\n" +
    "		<ul class=\"nav nav-tabs\">\n" +
-   "			<li class=\"active\"><a href=\"#popularSequences\" data-toggle=\"tab\"  target=\"_self\">Popular</a></li>\n" +
-   "			<li><a href=\"#whatsNew\" data-toggle=\"tab\" target=\"_self\">What's New?</a></li>\n" +
+   "			<li><a href=\"#scratchpad\" data-toggle=\"tab\" target=\"_self\">Scratchpad</a></li>\n" +
    "			<li><a href=\"#availableSequences\" data-toggle=\"tab\"  target=\"_self\">Topics</a></li>\n" +
    "			<li><a href=\"#addSequence\" data-toggle=\"tab\"  target=\"_self\">Add/Edit Sequence</a></li>\n" +
    "		</ul>\n" +
    "		<div class=\"tab-content\">\n" +
-   "			<div class=\"tab-pane active\" id=\"popularSequences\">\n" +
-   "				<div id=\"popularSequencesContent\"></div>\n" +
-   "			</div>\n" +
-   "			<div class=\"tab-pane\" id=\"whatsNew\">\n" +
-   "				<div id=\"whatsNewContent\"></div>\n" +
+   "			<div class=\"tab-pane\" id=\"scratchpad\">\n" +
+   "				<div id=\"scratchpadContent\"></div>\n" +
    "			</div>\n" +
    "			<div class=\"tab-pane\" id=\"availableSequences\">\n" +
    "				<div id=\"availableSequencesContent\"></div>\n" +
@@ -42,7 +56,7 @@ WebHelpTemplates["WebHelpCreator"] = "\n" +
    "\n" +
    "					<section>\n" +
    "						<div>\n" +
-   "							<input type=\"text\" id=\"sequenceTitleSetter\" value=\"Sequence title\" />\n" +
+   "							<input type=\"text\" id=\"sequenceTitleSetter\" placeholder=\"Sequence title\" />\n" +
    "						</div>\n" +
    "						<div id=\"stepsTable\" class=\"table table-bordered table-hover\"></div>\n" +
    "                    </section>\n" +
@@ -52,10 +66,10 @@ WebHelpTemplates["WebHelpCreator"] = "\n" +
    "					</button>\n" +
    "\n" +
    "					<button type=\"button \" id='sequenceSaveButton' class=\"btn btn-default centered \" aria-label=\"Left Align \" style=\"margin-top:20px;\">\n" +
-   "						<span class=\"iconClass-save\" aria-hidden=\"true\"></span> Save\n" +
+   "						<span class=\"iconClass-save\" aria-hidden=\"true\"></span> Done\n" +
    "					</button>\n" +
    "					<button type=\"button\" id='clearStepsButton' class=\"btn btn-default centered\" aria-label=\"Left Align\" style=\"margin-top:20px;\">\n" +
-   "						<span class=\"iconClass-clear\" aria-hidden=\"true \"></span> Clear\n" +
+   "						<span class=\"iconClass-clear\" aria-hidden=\"true \"></span> New\n" +
    "					</button>\n" +
    "				</div>\n" +
    "\n" +

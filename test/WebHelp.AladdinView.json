@@ -1,20 +1,45 @@
 {
-	"Sequence title": {
-		"method": "saveSequence",
-		"seqId": 1426861033573,
-		"sequenceTitle": "Sequence title",
-		"data": [
-			{
-				"element": "[name='a294']",
-				"intro": "<div><h3>Editable title</h3><p>Editable content</p></div>",
-				"position": "auto"
-			},
-			{
-				"intro": "<div><h3>Editable title</h3><p>Editable content</p></div>"
-			}
-		],
-		"tool": "AladdinView",
-		"active_flag": "N",
-		"url": "test"
-	}
+  "Sequence title": {
+	"method": "saveSequence",
+	"seqId": 1426861033573,
+	"sequenceTitle": "Sequence title",
+	"data": [
+	  {
+		"element": "[name='a294']",
+		"intro": "<div><h3>Editable title</h3><p>Editable content</p></div>",
+		"position": "auto"
+	  },
+	  {
+		"intro": "<div><h3>Editable title</h3><p>Editable content</p></div>"
+	  }
+	],
+	"tool": "AladdinView",
+	"active_flag": "N",
+	"url": "test",
+	"status": "O"
+  },
+  "Test2": {
+	"method": "saveSequence",
+	"seqId": 1427312465893,
+	"sequenceTitle": "Test2",
+	"data": [
+	  {
+		"intro": "<div><h3>Test2</h3><p>Content2</p></div>"
+	  }
+	],
+	"tool": "AladdinView",
+	"status": "O"
+  },
+  "Test1": {
+	"method": "saveSequence",
+	"seqId": 1427312481021,
+	"sequenceTitle": "Test1",
+	"data": [
+	  {
+		"intro": "<div><h3>Content2</h3><p>Test2</p></div>"
+	  }
+	],
+	"tool": "AladdinView",
+	"status": "O"
+  }
 }

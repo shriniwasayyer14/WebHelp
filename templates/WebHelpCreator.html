@@ -3,17 +3,13 @@
 	<div class="tabbable">
 		<!-- Only required for left/right tabs -->
 		<ul class="nav nav-tabs">
-			<li class="active"><a href="#popularSequences" data-toggle="tab"  target="_self">Popular</a></li>
-			<li><a href="#whatsNew" data-toggle="tab" target="_self">What's New?</a></li>
+			<li><a href="#scratchpad" data-toggle="tab" target="_self">Scratchpad</a></li>
 			<li><a href="#availableSequences" data-toggle="tab"  target="_self">Topics</a></li>
 			<li><a href="#addSequence" data-toggle="tab"  target="_self">Add/Edit Sequence</a></li>
 		</ul>
 		<div class="tab-content">
-			<div class="tab-pane active" id="popularSequences">
-				<div id="popularSequencesContent"></div>
-			</div>
-			<div class="tab-pane" id="whatsNew">
-				<div id="whatsNewContent"></div>
+			<div class="tab-pane" id="scratchpad">
+				<div id="scratchpadContent"></div>
 			</div>
 			<div class="tab-pane" id="availableSequences">
 				<div id="availableSequencesContent"></div>
@@ -24,7 +20,7 @@
 
 					<section>
 						<div>
-							<input type="text" id="sequenceTitleSetter" value="Sequence title" />
+							<input type="text" id="sequenceTitleSetter" placeholder="Sequence title" />
 						</div>
 						<div id="stepsTable" class="table table-bordered table-hover"></div>
                     </section>
@@ -37,7 +33,7 @@
 						<span class="iconClass-save" aria-hidden="true"></span> Done
 					</button>
 					<button type="button" id='clearStepsButton' class="btn btn-default centered" aria-label="Left Align" style="margin-top:20px;">
-						<span class="iconClass-clear" aria-hidden="true "></span> Clear
+						<span class="iconClass-clear" aria-hidden="true "></span> New
 					</button>
 				</div>
 

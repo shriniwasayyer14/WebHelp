@@ -34,6 +34,7 @@ WebHelp = (function () {
 				"play": "fa fa-play-circle-o",
 				"save": "fa fa-floppy-o",
 				"clear": "fa fa-refresh",
+				"new" : "fa fa-plus",
 				"add": "fa fa-plus",
 				"info": "fa fa-info-circle",
 				"edit": "fa fa-edit",
@@ -43,6 +44,7 @@ WebHelp = (function () {
 			this.iconClass = {
 				"remove": "glyphicon glyphicon-remove",
 				"play": "glyphicon glyphicon-play-circle",
+				"new":	"glyphicon glyphicon-plus",
 				"save": "glyphicon glyphicon-floppy-disk",
 				"clear": "glyphicon glyphicon-refresh",
 				"add": "glyphicon glyphicon-plus",
@@ -60,6 +62,7 @@ WebHelp = (function () {
 			this.mode = "consume";
 			this.showHelpConsumptionMode();
 		}
+		this.bindPlayEditButtons();
 	}
 
 	//detect jquery params
@@ -83,6 +86,14 @@ WebHelp = (function () {
 			}
 		}
 		return query_string;
+	};
+
+	WebHelp.prototype.bindPlayEditButtons = function () {
+		var self = this;
+		//attach sequence specific handlers
+		this.ui.webHelpMainContent.on('click', '.play-sequence', this.playThisSequence.bind(self));
+		this.ui.webHelpMainContent.on('click', '.edit-sequence', this.editThisSequence.bind(self));
+		this.ui.webHelpMainContent.on('click', '.remove-sequence', this.removeThisSequence.bind(self));
 	};
 
 	WebHelp.prototype.showSequences = function () {
@@ -120,7 +131,7 @@ WebHelp = (function () {
 		this.ui.webHelpMainContent = jQuery("#webHelpMainContent");
 		if (this.ui.webHelpMainContent.length <= 0) {
 			var modalContent = jQuery(WebHelpTemplates.WebHelpContent);
-			var webHelpContent = jQuery(WebHelpTemplates.WebHelpCreator);
+			var webHelpContent = jQuery(WebHelpTemplates.WebHelpConsumption);
 			this.attachIcons();
 			var $body = jQuery("body");
 			$body.append(modalContent);
@@ -176,7 +187,8 @@ WebHelp = (function () {
 			listTemplate: 'WebHelpSequenceCreationList',
 			listItemTemplate: 'WebHelpSequenceStepListItem',
 			searchable: false,
-			sortable: true
+			sortable: true,
+			status: "N"
 		});
 
 		jQuery('.nav-tabs a[href=#addSequence]').trigger('click');
@@ -192,6 +204,22 @@ WebHelp = (function () {
 		jQuery("#noStepsInPreviewButton").on("click", jQuery('#noStepsInPreviewDiv').hide);
 		jQuery("#saveAllHelpSequencesToFileButton").on("click", this.saveAllHelpSequencesToFile.bind(self));
 
+		window.onbeforeunload = function (e) {
+			var scratchPadData = self.scratchPadTable.getData();
+			//TODO Check why scratchpadData always returns 1 elem even if empty
+			if(scratchPadData.length > 1) {
+				var message = "You have unsaved changes in your scratchpad!",
+					e = e || window.event;
+				// For IE and Firefox
+				if (e) {
+					e.returnValue = message;
+				}
+
+				// For Safari
+				return message;
+			}
+		};
+
 		jQuery(this.stepsTable.element).on("click", ".remove-step", this.removeThisStep.bind(self));
 		this.attachIcons();
 		var helpIconElement = jQuery(this.helpIconPosition);
@@ -204,7 +232,9 @@ WebHelp = (function () {
 			elem = helpIconElement;
 		}
 		jQuery(elem).html(currentTitleHTML);
-		this.refreshWhatsNew();
+		this.refreshAllSequences();
+		this.populateCurrentSequences();
+
 	};
 
 	WebHelp.prototype.attachIcons = function () {
@@ -221,7 +251,11 @@ WebHelp = (function () {
 		//Pretty print the JSON content
 		//https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify
 		//Syntax: JSON.stringify(value[, replacer[, space]])
-		var content = JSON.stringify(this.sequences, null, '\t');
+		var allSequences = this.sequences;
+		jQuery.map(allSequences, function(val, i) {
+			val["status"] = "O";
+		});
+		var content = JSON.stringify(allSequences, null, '\t');
 
 		var link = document.createElement('a'); //create a hyperlink
 		var mimeType = 'application/json';
@@ -234,7 +268,9 @@ WebHelp = (function () {
 		link.click();
 
 		//destroy the link
-		link.parentNode.removeChild(link);
+		//TODO The line below to remove child breaks, check why
+		//link.parentNode.removeChild(link);
+		this.updateNewSequencesTable([]);
 	};
 
 	WebHelp.prototype.refreshWhatsNew = function () {
@@ -244,9 +280,6 @@ WebHelp = (function () {
 		var newSequences = [];
 		for (var seqName in sequences) {
 			if (sequences.hasOwnProperty(seqName)) {
-				if ((sequences[seqName].visible !== undefined) && (sequences[seqName].visible === false)) {
-					continue;
-				}
 				var seq = sequences[seqName];
 				var seqId = seq.seqId.toString();
 				if (seenSequences.indexOf(seqId) < 0) {
@@ -271,7 +304,11 @@ WebHelp = (function () {
 
 	WebHelp.prototype.populateCurrentSequences = function () {
 		var retrievedSequences = this.sequences;
-		var numNewSequences = 0;
+		jQuery.map(retrievedSequences, function(val, i) {
+			if(val["status"] === "E") {
+				delete retrievedSequences[val];
+			}
+		});
 		if (retrievedSequences) {
 			var sequenceData = [];
 			jQuery.each(retrievedSequences, function (sequenceTitle, sequenceContent) {
@@ -294,19 +331,8 @@ WebHelp = (function () {
 				listItemTemplate: 'WebHelpSequenceListItem'
 			});
 
-			this.popularSequencesTable = new TableList({
-				element: '#popularSequencesContent',
-				data: sequenceData,
-				listTemplate: 'WebHelpSequenceConsumptionList',
-				listItemTemplate: 'WebHelpSequenceListItem'
-			});
-
-			this.initWhatsNewTable();
 			this.attachIcons();
 			this.attachClickActionsToLists();
-			return {
-				numNewSequences: numNewSequences
-			};
 		}
 	};
 
@@ -407,21 +433,6 @@ WebHelp = (function () {
 		}
 	};
 
-	WebHelp.prototype.saveSequence = function () {
-		var sequenceTitle = jQuery("#sequenceTitleSetter").val().trim();
-		var stepsToSave = this.getCurrentTablePreviewSteps();
-		var sequences = this.sequences;
-		sequences[sequenceTitle] = {
-			method: "saveSequence",
-			seqId: new Date().getTime(),
-			sequenceTitle: sequenceTitle,
-			data: stepsToSave,
-			tool: this.appName,
-			active_flag: 'N',
-			url: "test"
-		};
-	};
-
 	WebHelp.prototype.removeThisStep = function (event) {
 		this.stepsTable.removeRow(event);
 		if (!this.stepsTable.numRows()) {
@@ -460,31 +471,40 @@ WebHelp = (function () {
 	};
 
 	WebHelp.prototype.saveSequence = function () {
-		//saveToDB()
-		var sequenceTitle = jQuery("#sequenceTitleSetter").val().trim();
-		var stepsToSave = this.getCurrentTablePreviewSteps();
-		var sequences = this.sequences;
-		sequences[sequenceTitle] = {
-			method: "saveSequence",
-			seqId: new Date().getTime(),
-			sequenceTitle: sequenceTitle,
-			data: stepsToSave,
-			tool: this.appName,
-			active_flag: 'N',
-			url: "test"
-		};
-
 		var saveStatus = 'Sequence saved successfully!';
 		try {
-			localStorage.setItem(this.webHelpName, JSON.stringify(sequences));
+			var sequenceTitle = jQuery("#sequenceTitleSetter").val().trim();
+			var stepsToSave = this.getCurrentTablePreviewSteps();
+			var sequences = this.sequences;
+			var sequenceStatus = this.getCurrentTableStatus();
+			if(sequenceStatus == "E") {
+				var editedSeqId = this.getCurrentTableSeqId();
+				jQuery.map(this.sequences, function (val, i) {
+					if(val["seqId"] === editedSeqId) {
+						delete sequences[i];
+					}
+				});
+			}
+			sequences[sequenceTitle] = {
+				method: "saveSequence",
+				seqId: new Date().getTime(),
+				sequenceTitle: sequenceTitle,
+				data: stepsToSave,
+				tool: this.appName,
+				status:sequenceStatus
+			};
+			// Populate scratchpad
+			this.refreshScratchpad();
+			this.populateCurrentSequences();
 		} catch (error) {
 			saveStatus = 'Error saving the sequence!';
 		} finally {
 			var $showSequenceSavedSuccessAlert = jQuery('#showSequenceSavedSuccessAlert');
+			this.clearStepsInSequence();
 			$showSequenceSavedSuccessAlert.html(saveStatus).show();
 			setTimeout(function () {
 				$showSequenceSavedSuccessAlert.hide();
-			}, 1000);
+			}, 2000);
 		}
 	};
 
@@ -522,6 +542,15 @@ WebHelp = (function () {
 		}
 		return previewSteps;
 	};
+
+	WebHelp.prototype.getCurrentTableStatus = function() {
+		return this.stepsTable.getStatus();
+	};
+
+	WebHelp.prototype.getCurrentTableSeqId = function() {
+		return this.stepsTable.getSeqId();
+	};
+
 	WebHelp.prototype.genKey = function () {
 		//return "WebHelp." + this.appName + "." + this.userName;
 		/* Using preferences, so do not need the username in the key for now*/
@@ -594,7 +623,11 @@ WebHelp = (function () {
 				JSON.stringify(element)//content
 			]);
 		});
-		this.initWhatsNewTable(aaData);
+		if(this.mode === "consume") {
+			this.initWhatsNewTable(aaData);
+		} else {
+			this.initScratchPadTable(aaData);
+		}
 	};
 
 	WebHelp.prototype.refreshAllSequences = function (file) {
@@ -615,16 +648,50 @@ WebHelp = (function () {
 				self.sequences = data;
 			},
 			error: function (xhr) {
-				if (xhr.status === 404) {
-					if (localStorage.getItem(self.webHelpName)) {
-						self.sequences = JSON.parse(localStorage.getItem(self.webHelpName));
-					}
-					return self.sequences;
+				alert("Failed to load the sequences!");
+			}
+		});
+	};
+
+	WebHelp.prototype.refreshWhatsNew = function () {
+		this.refreshAllSequences();
+		var sequences = this.sequences; //new function
+		var seenSequences = this.getAllVisitedSequences(); //new function
+		var newSequences = [];
+		for (var seqName in sequences) {
+			if (sequences.hasOwnProperty(seqName)) {
+				var seq = sequences[seqName];
+				var seqId = seq.seqId.toString();
+				if (seenSequences.indexOf(seqId) < 0) {
+					newSequences.push(seq);
 				}
 				throw new Error("Failed to load help sequences");
 			}
+		}
+		this.updateNewSequencesTable(newSequences); // new function
+
+		//update badge icon
+		var numOfNewSequences = newSequences.length;
+
+		if (this.mode !== "create") {
+			if (numOfNewSequences > 0) {
+				this.ui.webHelpButton.attr('data-badge', numOfNewSequences + ' new');
+			} else {
+				this.ui.webHelpButton.removeAttr('data-badge');
+			}
+		}
+	};
+
+	WebHelp.prototype.refreshScratchpad = function () {
+		var unsavedSequences = {};
+		jQuery.map(this.sequences, function(val, i) {
+			var status = val["status"];
+			if(status != "O") {
+				unsavedSequences[i] = val;
+			}
 		});
-		return this.sequences;
+
+		this.updateNewSequencesTable(unsavedSequences);
 	};
 
 	WebHelp.prototype.initWhatsNewTable = function (aaData) {
@@ -638,32 +705,21 @@ WebHelp = (function () {
 		this.attachClickActionsToLists();
 	};
 
-	WebHelp.prototype.getAllSequencesFromDB = function () {
-		var sequences;
-		jQuery.ajax({
-			url: "http://devntsl002.blackrock.com:8558/weblications/WebHelp/WebHelp.epl",
-			type: "POST",
-			async: false,
-			data: {
-				method: "loadAllSequences",
-				tool: this.appName
-			},
-			success: function (data) {
-				sequences = JSON.parse(data);
-			},
-			error: function () {
-				throw new Error("Failed to load help sequences");
-			}
+	WebHelp.prototype.initScratchPadTable = function(aaData) {
+		this.scratchPadTable = new TableList({
+			element : '#scratchpadContent',
+			data: aaData || [],
+			listTemplate: 'WebHelpSequenceConsumptionList',
+			listItemTemplate: 'WebHelpSequenceListItem'
 		});
-
-		return sequences;
 	};
-
 
 	WebHelp.prototype.clearStepsInSequence = function () {
 		//Destroy and reinitialize the table to get the edited data
 		this.stepsTable.renderList();
 		this.attachIcons();
+		jQuery("#sequenceTitleSetter").val("").attr("placeholder","Sequence Title");
+		this.stepsTable.setStatus("N");
 	};
 
 	WebHelp.prototype.playSequence = function (sequenceName) {
@@ -700,9 +756,10 @@ WebHelp = (function () {
 
 	WebHelp.prototype.editThisSequence = function (event) {
 		var thisSequenceTitle = jQuery(event.target).parents('li').find('.webHelpSequenceItem-title').text();
-		var stepsForThisSequence = this.sequences[thisSequenceTitle];
+		var sequence = this.sequences[thisSequenceTitle];
 		var data = [];
-		jQuery.each(stepsForThisSequence.data, function (index, element) {
+		var seqId = sequence["seqId"];
+		jQuery.each(sequence.data, function (index, element) {
 			var title = jQuery(element.intro).children('h3').text() || '';
 			var text = jQuery(element.intro).children('p').text() || '';
 			var elementId = element.element || '';
@@ -724,6 +781,8 @@ WebHelp = (function () {
 			]);
 		});
 		this.stepsTable.setData(data);
+		this.stepsTable.setStatus("E");
+		this.stepsTable.setSeqId(seqId);
 		this.stepsTable.useData = true;
 		this.stepsTable.renderList();
 		this.attachIcons();
@@ -737,7 +796,7 @@ WebHelp = (function () {
 		var storedSequences = this.sequences;
 		delete storedSequences[sequenceName];
 		this.populateCurrentSequences();
-		this.refreshWhatsNew();
+		this.refreshScratchpad();
 	};
 
 	return WebHelp;
