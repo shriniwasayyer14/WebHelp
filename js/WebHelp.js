@@ -244,6 +244,9 @@ WebHelp = (function () {
 		var newSequences = [];
 		for (var seqName in sequences) {
 			if (sequences.hasOwnProperty(seqName)) {
+				if ((sequences[seqName].visible !== undefined) && (sequences[seqName].visible === false)) {
+					continue;
+				}
 				var seq = sequences[seqName];
 				var seqId = seq.seqId.toString();
 				if (seenSequences.indexOf(seqId) < 0) {
@@ -272,6 +275,9 @@ WebHelp = (function () {
 		if (retrievedSequences) {
 			var sequenceData = [];
 			jQuery.each(retrievedSequences, function (sequenceTitle, sequenceContent) {
+				if (sequenceContent.visible !== undefined && sequenceContent.visible === false) {
+					return true; //continue
+				}
 				sequenceData.push([
 					'', //play
 					sequenceTitle, //title
