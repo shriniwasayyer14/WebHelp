@@ -206,7 +206,8 @@ WebHelp = (function () {
 
 		window.onbeforeunload = function (e) {
 			var scratchPadData = self.scratchPadTable.getData();
-			if(scratchPadData) {
+			//TODO Check why scratchpadData always returns 1 elem even if empty
+			if(scratchPadData.length > 1) {
 				var message = "You have unsaved changes in your scratchpad!",
 					e = e || window.event;
 				// For IE and Firefox
@@ -216,8 +217,6 @@ WebHelp = (function () {
 
 				// For Safari
 				return message;
-			} else {
-				return;
 			}
 		};
 
@@ -269,7 +268,9 @@ WebHelp = (function () {
 		link.click();
 
 		//destroy the link
-		link.parentNode.removeChild(link);
+		//TODO The line below to remove child breaks, check why
+		//link.parentNode.removeChild(link);
+		this.updateNewSequencesTable([]);
 	};
 
 	/* Populates the topics table with all available sequences */
@@ -579,9 +580,9 @@ WebHelp = (function () {
 
 	// This table will remove and add new contents to the new sequences table
 	WebHelp.prototype.updateNewSequencesTable = function (newSequences) {
-		if (newSequences.length >= 1) {
+/*		if (newSequences.length >= 1) {
 			this.populateCurrentSequences();
-		}
+		}*/
 		var aaData = [];
 		jQuery.each(newSequences, function (index, element) {
 			aaData.push([
@@ -764,7 +765,7 @@ WebHelp = (function () {
 		var storedSequences = this.sequences;
 		delete storedSequences[sequenceName];
 		this.populateCurrentSequences();
-		this.refreshWhatsNew();
+		this.refreshScratchpad();
 	};
 
 	return WebHelp;

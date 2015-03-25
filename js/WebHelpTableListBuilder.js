@@ -15,6 +15,7 @@ TableList = (function () {
             emptyListIndicator: 'No data yet!',
             data: [],
 			status: "N",
+			seqId:null,
             useData: true,
             listTemplate: 'WebHelpSequenceConsumptionList',
             listItemTemplate: 'WebHelpSequenceStepListItem',
@@ -143,6 +144,14 @@ TableList = (function () {
 
 	TableList.prototype.getStatus = function () {
 		return this.status;
+	};
+
+	TableList.prototype.setSeqId = function (seqId) {
+		this.seqId = seqId;
+	};
+
+	TableList.prototype.getSeqId = function () {
+		return this.seqId;
 	};
 
 	TableList.prototype._makeSortable = function() {

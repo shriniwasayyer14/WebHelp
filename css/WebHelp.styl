@@ -115,99 +115,6 @@ opacity(n) {
       font-weight: bold;
     }
   }
-  #popularSequencesContent {
-    ul.webHelpSequenceConsumptionList {
-      > li.webHelpSequenceList {
-        > div.iconClass-edit, > div.iconClass-remove {
-          display: none;
-        }
-      }
-    }
-  }
-}
-
-#contentConsumptionModal {
-  #webHelpMainContent {
-    ul.tableList {
-      > li {
-        > div.iconClass-edit, > div.iconClass-remove {
-          display: none;
-        }
-        > div.iconClass-play {
-          width: 15%;
-        }
-      }
-    }
-  }
-}
-
-#webHelpMainContent.creationModeSidebar {
-  max-width: 35%;
-  position: absolute;
-  top: 0;
-  z-index: 999;
-  right: 0;
-  height: 100%;
-  box-shadow: 10px 10px 10px 10px black;
-}
-
-#creationModeSidebarshowHideSpan {
-  left: -95px;
-  width: 160px;
-  top: 45%;
-  position: absolute;
-  background-color: whitesmoke;
-  border: 1px solid #666;
-  border-bottom: none;
-  padding: 6px;
-  border-radius: 4px 4px 0px 0px;
-  -webkit-transform: rotate(-90deg);
-  -moz-transform: rotate(-90deg);
-  -o-transform: rotate(-90deg);
-  -ms-transform: rotate(-90deg);
-  transform: rotate(-90deg);
-  z-index: 999;
-}
-
-#creationModeSidebarshowHideSpan:hover {
-  cursor: pointer;
-  background-color: #999;
-  color: white;
-}
-
-#webHelpMainContent.creationModeSidebar.hideSidebar {
-  width: 0px;
-  padding: 0px;
-  right: 1px; /*prevent a scrollbar*/
-  background: transparent;
-  box-shadow: none;
-}
-
-@media screen {
-  .container .jumbotron {
-    padding-right: 5px;
-    padding-left: 5px;
-    padding-top: 10px;
-  }
-
-  .jumbotron p {
-    font-size: 14px;
-  }
-
-  #stepsTable th {
-    font-size: 13px;
-  }
-
-  #stepsTable td {
-    font-size: 14px;
-  }
-
-  .glyphicon-remove {
-    cursor: pointer;
-  }
-}
-
-#webHelpMainContent {
   .btn {
     height: 34px;
     font-size: 12px;
@@ -305,7 +212,109 @@ opacity(n) {
     }
 
   }
+}
 
+/*Styles in consumption mode*/
+#contentConsumptionModal {
+  #webHelpMainContent {
+    ul.tableList {
+      > li {
+        > div.iconClass-edit, > div.iconClass-remove {
+          display: none;
+        }
+        > div.iconClass-play {
+          width: 15%;
+        }
+      }
+    }
+    ul.webHelpSequenceConsumptionList {
+      > li.webHelpSequenceList {
+        cursor: pointer;
+        > div.iconClass-edit, > div.iconClass-remove {
+          display: none;
+        }
+      }
+      > li.webHelpSequenceList:hover {
+        > div.iconClass-play {
+          text-shadow: 1px 0px 20px green;
+        }
+      }
+      > li.header.webHelpSequenceList {
+        cursor: default;
+      }
+      > li.header.webHelpSequenceList:hover {
+        > div.iconClass-play {
+          text-shadow: none;
+        }
+      }
+    }
+  }
+}
+
+#webHelpMainContent.creationModeSidebar {
+  max-width: 35%;
+  position: absolute;
+  top: 0;
+  z-index: 999;
+  right: 0;
+  height: 100%;
+  box-shadow: 10px 10px 10px 10px black;
+}
+
+#creationModeSidebarshowHideSpan {
+  left: -95px;
+  width: 160px;
+  top: 45%;
+  position: absolute;
+  background-color: whitesmoke;
+  border: 1px solid #666;
+  border-bottom: none;
+  padding: 6px;
+  border-radius: 4px 4px 0px 0px;
+  -webkit-transform: rotate(-90deg);
+  -moz-transform: rotate(-90deg);
+  -o-transform: rotate(-90deg);
+  -ms-transform: rotate(-90deg);
+  transform: rotate(-90deg);
+  z-index: 999;
+}
+
+#creationModeSidebarshowHideSpan:hover {
+  cursor: pointer;
+  background-color: #999;
+  color: white;
+}
+
+#webHelpMainContent.creationModeSidebar.hideSidebar {
+  width: 0px;
+  padding: 0px;
+  right: 1px; /*prevent a scrollbar*/
+  background: transparent;
+  box-shadow: none;
+}
+
+@media screen {
+  .container .jumbotron {
+    padding-right: 5px;
+    padding-left: 5px;
+    padding-top: 10px;
+  }
+
+  .jumbotron p {
+    font-size: 14px;
+  }
+
+  #stepsTable th {
+    font-size: 13px;
+  }
+
+  #stepsTable td {
+    font-size: 14px;
+  }
+
+  .glyphicon-remove {
+    cursor: pointer;
+  }
 }
 
 .suggestionDiv {
