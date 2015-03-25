@@ -14,6 +14,7 @@ TableList = (function () {
             sortable: false,
             emptyListIndicator: 'No data yet!',
             data: [],
+			status: "N",
             useData: true,
             listTemplate: 'WebHelpSequenceConsumptionList',
             listItemTemplate: 'WebHelpSequenceStepListItem',
@@ -135,6 +136,14 @@ TableList = (function () {
 	TableList.prototype.setData = function (givenData) {
 		this.data = givenData;
 	};
+
+	TableList.prototype.setStatus = function (status) {
+		this.status = status;
+	};
+
+	TableList.prototype.getStatus = function () {
+		return this.status;
+	}
 
 	TableList.prototype._makeSortable = function() {
 		var $thisList = jQuery(this.element).find('.' + jQuery(WebHelpTemplates[this.listTemplate]).attr('class')); //Finds the list
