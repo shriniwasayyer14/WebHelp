@@ -29,7 +29,7 @@ module.exports = function (grunt) {
 				dest: 'dist/js/<%= pkg.name %>.js'
 			},
 			extrasJS: {
-				src: ['bower_components/DataTables/media/js/jquery.dataTables.min.js',
+				src: [
                     'bower_components/intro.js/intro.js',
                     'js/vendor/*.js',
                     'js/*.js',
@@ -53,8 +53,7 @@ module.exports = function (grunt) {
 				}
 			},
 			extrasCSS: {
-				src: ['bower_components/DataTables/media/css/jquery.dataTables.min.css',
-                    'bower_components/DataTables/media/css/jquery.dataTables_themeroller.css',
+				src: [
                     'bower_components/intro.js/minified/introjs.min.css',
                     'css/jQueryDragSelector.css',
                     'css/WebHelp.css'
@@ -77,7 +76,11 @@ module.exports = function (grunt) {
 						{
 							match: /\$\(/g,
 							replacement: 'jQuery('
-                        }
+                        },
+						{
+							match: "parentElm.className += ' introjs-fixParent';",
+							replacement: "//parentElm.className += ' introjs-fixParent';"
+						}
                     ]
 				},
 				files: [
