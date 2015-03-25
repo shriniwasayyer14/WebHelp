@@ -653,11 +653,6 @@ WebHelp = (function () {
 		return sequences;
 	};
 
-	WebHelp.prototype.clearStepsInSequence = function () {
-		//Destroy and reinitialize the table to get the edited data
-		jQuery("#stepsTable").DataTable().clear().draw();
-	};
-
 
 	WebHelp.prototype.clearStepsInSequence = function () {
 		//Destroy and reinitialize the table to get the edited data
