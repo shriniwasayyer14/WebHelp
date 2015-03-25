@@ -115,6 +115,103 @@ opacity(n) {
       font-weight: bold;
     }
   }
+  .btn {
+    height: 34px;
+    font-size: 12px;
+  }
+
+  td .fa {
+    cursor: pointer;
+    font-size: 150%;
+  }
+  input {
+    border-radius: 5px;
+    border: 1px solid #888;
+    padding: 3px;
+  }
+  .btn-default .fa {
+    font-size: 150%;
+  }
+  .tab-content > .active {
+    padding: 5px;
+    padding-top: 20px;
+  }
+
+  .nav > li > a:hover,
+  .nav > li > a:focus,
+  .nav > li.active > a:hover,
+  .nav > li.active > a:focus {
+    background-color: #ebebeb;
+  }
+
+  .sorting, .sorting_asc, .sorting_desc {
+    background: none;
+  }
+
+  table#stepsTable {
+    > thead > tr > th {
+      display: table-cell;
+    }
+    > thead > tr > th.invisibleColumnInStepsTable {
+      display: none;
+    }
+
+  }
+
+  #stepsTable, .checkbox {
+    margin-top: 15px;
+    margin-bottom: 15px;
+  }
+
+  table, table.dataTable {
+    width: 100% !important; /*Prevent it getting scaled out of proportion*/
+    border-bottom: 1px solid #dbdbdb !important;
+    > thead > tr > th {
+      border: 1px solid #dbdbdb !important
+      font-size: 13px;
+      text-align: left;
+    }
+    tbody {
+      th, td {
+        border: 0;
+        padding: 12px;
+        font-size: 14px;
+        white-space: pre-wrap;
+        max-width: 100px;
+      }
+      td.invisibleColumnInStepsTable {
+        display: none !important;
+      }
+    }
+    #addSequence .well .btn.btn-default {
+      font-size: 16px;
+      height: auto;
+      background-color: whitesmoke;
+      color: #333333;
+    }
+
+    .btn-success {
+      background-color: #339999;
+      border-color: #338888;
+    }
+
+    .btn-success:hover {
+      background-color: #336666;
+    }
+
+    input[type="checkbox"] {
+      -ms-transform: scale(1.4);
+      -moz-transform: scale(1.4);
+      -webkit-transform: scale(1.4);
+      -o-transform: scale(1.4);
+      margin-left: -15px;
+    }
+
+    .btn-group .btn {
+      padding-top: 8px;
+    }
+
+  }
 }
 
 /*Styles in consumption mode*/
@@ -218,107 +315,6 @@ opacity(n) {
   .glyphicon-remove {
     cursor: pointer;
   }
-}
-
-#webHelpMainContent {
-  .btn {
-    height: 34px;
-    font-size: 12px;
-  }
-
-  td .fa {
-    cursor: pointer;
-    font-size: 150%;
-  }
-  input {
-    border-radius: 5px;
-    border: 1px solid #888;
-    padding: 3px;
-  }
-  .btn-default .fa {
-    font-size: 150%;
-  }
-  .tab-content > .active {
-    padding: 5px;
-    padding-top: 20px;
-  }
-
-  .nav > li > a:hover,
-  .nav > li > a:focus,
-  .nav > li.active > a:hover,
-  .nav > li.active > a:focus {
-    background-color: #ebebeb;
-  }
-
-  .sorting, .sorting_asc, .sorting_desc {
-    background: none;
-  }
-
-  table#stepsTable {
-    > thead > tr > th {
-      display: table-cell;
-    }
-    > thead > tr > th.invisibleColumnInStepsTable {
-      display: none;
-    }
-
-  }
-
-  #stepsTable, .checkbox {
-    margin-top: 15px;
-    margin-bottom: 15px;
-  }
-
-  table, table.dataTable {
-    width: 100% !important; /*Prevent it getting scaled out of proportion*/
-    border-bottom: 1px solid #dbdbdb !important;
-    > thead > tr > th {
-      border: 1px solid #dbdbdb !important
-      font-size: 13px;
-      text-align: left;
-    }
-    tbody {
-      th, td {
-        border: 0;
-        padding: 12px;
-        font-size: 14px;
-        white-space: pre-wrap;
-        max-width: 100px;
-      }
-      td.invisibleColumnInStepsTable {
-        display: none !important;
-      }
-    }
-    #addSequence .well .btn.btn-default {
-      font-size: 16px;
-      height: auto;
-      background-color: whitesmoke;
-      color: #333333;
-    }
-
-    .btn-success {
-      background-color: #339999;
-      border-color: #338888;
-    }
-
-    .btn-success:hover {
-      background-color: #336666;
-    }
-
-    input[type="checkbox"] {
-      -ms-transform: scale(1.4);
-      -moz-transform: scale(1.4);
-      -webkit-transform: scale(1.4);
-      -o-transform: scale(1.4);
-      margin-left: -15px;
-    }
-
-    .btn-group .btn {
-      padding-top: 8px;
-    }
-
-  }
-
 }
 
 .suggestionDiv {
