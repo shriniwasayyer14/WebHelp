@@ -2,24 +2,24 @@
 var TableList;
 TableList = (function () {
 	"use strict";
-    function TableList(tableListOptions) {
-        if (tableListOptions.element === undefined) {
-            //console.error('TableList needs an element to work on');
-            throw new Error('TableList needs an element to work on');
-        }
-        var defaultOptions = {
-            element: '',
-            expandable: true,
-            searchable: true,
-            sortable: false,
-            emptyListIndicator: 'No data yet!',
-            data: [],
-            useData: true,
-            listTemplate: 'WebHelpSequenceConsumptionList',
-            listItemTemplate: 'WebHelpSequenceStepListItem',
-            searchListTemplate: 'WebHelpTableListSearch'
-        };
-        for (var option in defaultOptions) {
+	function TableList(tableListOptions) {
+		if (tableListOptions.element === undefined) {
+			//console.error('TableList needs an element to work on');
+			throw new Error('TableList needs an element to work on');
+		}
+		var defaultOptions = {
+			element: '',
+			expandable: true,
+			searchable: true,
+			sortable: false,
+			emptyListIndicator: 'No data yet!',
+			data: [],
+			useData: true,
+			listTemplate: 'WebHelpSequenceConsumptionList',
+			listItemTemplate: 'WebHelpSequenceStepListItem',
+			searchListTemplate: 'WebHelpTableListSearch'
+		};
+		for (var option in defaultOptions) {
 			if (!defaultOptions.hasOwnProperty(option)) {
 				continue;
 			}
@@ -120,15 +120,14 @@ TableList = (function () {
 	};
 
 	TableList.prototype._searchFunction = function () {
-		var $listItems = jQuery(this.element).find('.' + jQuery(WebHelpTemplates[this.listTemplate]).attr('class')).find('li');
+		var $listItems = jQuery(this.element).find('.' + jQuery(WebHelpTemplates[this.listTemplate]).attr('class')).find('li:not(.header)');
 		var $searchBox = jQuery(this.element).find('.' + jQuery(WebHelpTemplates[this.searchListTemplate]).attr('class')).find('input');
-		var val = '^(?=.*\\b' + $searchBox.val().trim().split(/\s+/).join('\\b)(?=.*\\b') + ').*$';
-		var reg = new RegExp(val, 'i');
+		var val = $searchBox.val().trim();
 		var text;
 
 		$listItems.show().addClass('searchResults').filter(function () {
 			text = jQuery(this).text().replace(/\s+/g, ' ');
-			return !reg.test(text);
+			return !_fuzzySearch(text, val);
 		}).hide();
 	};
 
@@ -136,13 +135,25 @@ TableList = (function () {
 		this.data = givenData;
 	};
 
-	TableList.prototype._makeSortable = function() {
+	TableList.prototype._makeSortable = function () {
 		var $thisList = jQuery(this.element).find('.' + jQuery(WebHelpTemplates[this.listTemplate]).attr('class')); //Finds the list
 		$thisList.sortable({
 			items: 'li:not(.header)',
 			cancel: 'div[contenteditable="true"], .fa'
 		});
 	};
+
+	function _fuzzySearch(target, searchTerm) {
+		/*http://stackoverflow.com/a/15252131*/
+		var hay = target.toLowerCase(), i = 0, n = -1, l;
+		searchTerm = searchTerm.toLowerCase();
+		for (; l = searchTerm[i++];) {
+			if (!~(n = hay.indexOf(l, n + 1))) {
+				return false;
+			}
+		}
+		return true;
+	}
 
 	return TableList;
 })();
