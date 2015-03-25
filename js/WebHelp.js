@@ -184,7 +184,7 @@ WebHelp = (function () {
 			useData: false, //Create one generic step
 			listTemplate: 'WebHelpSequenceCreationList',
 			listItemTemplate: 'WebHelpSequenceStepListItem',
-			useSearchFilter: false,
+			searchable: false,
 			sortable: true
 		});
 

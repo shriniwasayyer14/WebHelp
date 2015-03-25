@@ -17,8 +17,7 @@ TableList = (function () {
             useData: true,
             listTemplate: 'WebHelpSequenceConsumptionList',
             listItemTemplate: 'WebHelpSequenceStepListItem',
-            searchListTemplate: 'WebHelpTableListSearch',
-            useSearchFilter: true
+            searchListTemplate: 'WebHelpTableListSearch'
         };
         for (var option in defaultOptions) {
 			if (!defaultOptions.hasOwnProperty(option)) {
@@ -37,7 +36,7 @@ TableList = (function () {
 		var $searchListTemplate = jQuery(WebHelpTemplates[this.searchListTemplate]);
 		//If we have the list already, remove the data and re-render
 		jQuery(this.element).children('.' + $listTemplate.attr('class')).remove();
-		if (this.useSearchFilter) {
+		if (this.searchable) {
 			jQuery(this.element).children('.' + $searchListTemplate.attr('class')).remove();
 		}
 
@@ -68,7 +67,7 @@ TableList = (function () {
 		//Attach default classes to the containers and the lists
 		jQuery(this.element).addClass('tableListContainer');
 		$listTemplate.addClass('tableList');
-		if (this.useSearchFilter) {
+		if (this.searchable) {
 			jQuery(this.element).append($searchListTemplate).append($listTemplate);
 			$searchListTemplate.on('keyup', this._searchFunction.bind(this));
 		} else {
