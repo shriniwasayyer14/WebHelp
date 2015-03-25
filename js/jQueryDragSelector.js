@@ -1,4 +1,6 @@
 /* globals jQuery, document */
+/* exported jQueryDragSelector */
+
 var jQueryDragSelector = {
     on: function (callback) {
 		"use strict";

@@ -9,4 +9,4 @@ config["WebHelp Tests"] = {
     tests: [
         "test/*-test.js"
     ]
-}
+};
