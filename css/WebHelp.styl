@@ -14,14 +14,28 @@ opacity(n) {
   }
   ul.tableList {
     > li {
+      transition: all 0.3s ease-in;
       > div {
         display: inline-block;
       }
       > div.fa, > div.glyphicon {
         font-size: 130%;
+        transition: all 0.3s ease-in;
       }
       > div.fa:hover, > div.glyphicon:hover {
         cursor: pointer;
+        -webkit-stroke-width: 5.3px;
+        -webkit-stroke-color: #FFFFFF;
+        -webkit-fill-color: #FFFFFF;
+      }
+      > div.iconClass-remove:hover {
+        text-shadow: 1px 0px 20px red;
+      }
+      > div.iconClass-play:hover {
+        text-shadow: 1px 0px 20px green;
+      }
+      > div.iconClass-edit:hover {
+        text-shadow: 1px 0px 20px blue;
       }
     }
     > li.header {
