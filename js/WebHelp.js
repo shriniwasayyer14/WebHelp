@@ -144,7 +144,9 @@ WebHelp = (function () {
         if (this.showIntroOnLoad) {
             this.playSequence('Introduction');
         }
+
         this.refreshWhatsNew();
+        this.populateCurrentSequences();
         var self = this;
         this.watchWhatsNew = setInterval(function () {
             self.refreshWhatsNew();
@@ -191,6 +193,8 @@ WebHelp = (function () {
             status: "N"
         });
 
+        this.initScratchPadTable();
+
         jQuery('.nav-tabs a[href=#addSequence]').trigger('click');
 
         //attach event handlers to webHelpContent
@@ -206,8 +210,7 @@ WebHelp = (function () {
 
         window.onbeforeunload = function (e) {
             var scratchPadData = self.scratchPadTable.getData();
-            //TODO Check why scratchpadData always returns 1 elem even if empty
-            if (scratchPadData.length > 1) {
+            if (scratchPadData.length > 0) {
                 var message = "You have unsaved changes in your scratchpad!",
                     e = e || window.event;
                 // For IE and Firefox
@@ -288,7 +291,9 @@ WebHelp = (function () {
             }
         }
         this.updateNewSequencesTable(newSequences); // new function
-
+        if (newSequences.length >= 1) {
+            this.populateCurrentSequences();
+        }
         //update badge icon
         var numOfNewSequences = newSequences.length;
 
@@ -610,9 +615,6 @@ WebHelp = (function () {
 
     // This table will remove and add new contents to the new sequences table
     WebHelp.prototype.updateNewSequencesTable = function (newSequences) {
-        if (newSequences.length >= 1) {
-            this.populateCurrentSequences();
-        }
         var aaData = [];
         jQuery.each(newSequences, function (index, element) {
             aaData.push([
@@ -648,38 +650,9 @@ WebHelp = (function () {
                 self.sequences = data;
             },
             error: function (xhr) {
-                alert("Failed to load the sequences!");
+                throw new Error("Failed to load the sequences!");
             }
         });
-    };
-
-    WebHelp.prototype.refreshWhatsNew = function () {
-        this.refreshAllSequences();
-        var sequences = this.sequences; //new function
-        var seenSequences = this.getAllVisitedSequences(); //new function
-        var newSequences = [];
-        for (var seqName in sequences) {
-            if (sequences.hasOwnProperty(seqName)) {
-                var seq = sequences[seqName];
-                var seqId = seq.seqId.toString();
-                if (seenSequences.indexOf(seqId) < 0) {
-                    newSequences.push(seq);
-                }
-                throw new Error("Failed to load help sequences");
-            }
-        }
-        this.updateNewSequencesTable(newSequences); // new function
-
-        //update badge icon
-        var numOfNewSequences = newSequences.length;
-
-        if (this.mode !== "create") {
-            if (numOfNewSequences > 0) {
-                this.ui.webHelpButton.attr('data-badge', numOfNewSequences + ' new');
-            } else {
-                this.ui.webHelpButton.removeAttr('data-badge');
-            }
-        }
     };
 
     WebHelp.prototype.refreshScratchpad = function () {

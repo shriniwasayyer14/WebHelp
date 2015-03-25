@@ -46,7 +46,7 @@ TableList = (function () {
 		if (this.useData) {
 			var length = this.data.length;
 			if (!length) {
-				$listTemplate.html('<li>' + this.emptyListIndicator + '</li>');
+				$listTemplate.html('<li class=\"webHelpEmptyListIndicator\">' + this.emptyListIndicator + '</li>');
 				jQuery(this.element).append($listTemplate);
 				return;
 			}
@@ -104,7 +104,7 @@ TableList = (function () {
 
 	TableList.prototype.getData = function () {
 		/*No data binding, we have to evaluate this lazily*/
-		var listItems = jQuery(this.element).find('ul').find('li:not(.header)');
+		var listItems = jQuery(this.element).find('ul').find('li:not(.header):not(.webHelpEmptyListIndicator)');
 		var length = listItems.length;
 		var returnArray = [];
 		for (var i = 0; i < length; i++) {
@@ -161,6 +161,7 @@ TableList = (function () {
 		});
 	};
 
+	//TODO Partial matching not complete
 	function _fuzzySearch(target, searchTerm) {
 		/*http://stackoverflow.com/a/15252131*/
 		var hay = target.toLowerCase(), i = 0, n = -1, l;
