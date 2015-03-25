@@ -137,7 +137,7 @@ WebHelp = (function () {
 		var self = this;
 		this.watchWhatsNew = setInterval(function () {
 			self.refreshWhatsNew();
-		}, 15000);
+		}, 1800000);
 	};
 
 	WebHelp.prototype.showHelpCreationMode = function () {
