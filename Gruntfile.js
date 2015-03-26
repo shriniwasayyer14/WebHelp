@@ -22,10 +22,20 @@ module.exports = function (grunt) {
 				footer: ';\n'
 			},
 			basicJS: {
-				src: ['bower_components/intro.js/intro.js',
-                    'js/vendor/*.js',
-                    'js/*.js'
-                ],
+				src: [
+					'bower_components/intro.js/intro.js',
+					'bower_components/jquery-ui/ui/core.js',
+					'bower_components/jquery-ui/ui/widget.js',
+					'bower_components/jquery-ui/ui/mouse.js',
+					'bower_components/jquery-ui/ui/position.js',
+					'bower_components/jquery-ui/ui/sortable.js',
+					'bower_components/bootstrap/js/modal.js',
+					'bower_components/bootstrap/js/tooltip.js',
+					'bower_components/bootstrap/js/popover.js',
+					'bower_components/bootstrap/js/tab.js',
+					'js/vendor/*.js',
+					'js/*.js'
+				],
 				dest: 'dist/js/<%= pkg.name %>.js'
 			},
 			extrasJS: {
