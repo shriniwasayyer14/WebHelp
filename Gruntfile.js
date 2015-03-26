@@ -31,13 +31,17 @@ module.exports = function (grunt) {
 			extrasJS: {
 				src: [
                     'bower_components/intro.js/intro.js',
+					'bower_components/jquery-ui/ui/core.js',
+					'bower_components/jquery-ui/ui/widget.js',
+					'bower_components/jquery-ui/ui/mouse.js',
+					'bower_components/jquery-ui/ui/position.js',
+					'bower_components/jquery-ui/ui/sortable.js',
+					'bower_components/bootstrap/js/modal.js',
+					'bower_components/bootstrap/js/tooltip.js',
+					'bower_components/bootstrap/js/popover.js',
+					'bower_components/bootstrap/js/tab.js',
                     'js/vendor/*.js',
-                    'js/*.js',
-                    '!js/vendor/jquery.event.drop*.js',
-                    '!js/vendor/jquery-*.js',
-                    '!js/vendor/jquery*.live-*.js',
-                    '!js/vendor/jquery.jpanelmenu*.js',
-                    '!js/modernizr*js'
+                    'js/*.js'
                 ],
 				dest: 'dist/js/<%= pkg.name %>WithExtras.js'
 			},
