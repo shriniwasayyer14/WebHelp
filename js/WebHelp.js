@@ -1,4 +1,4 @@
-/* globals jQuery, jQueryDragSelector, window, alert, WebHelpTemplates, introJs, setTimeout, setInterval, localStorage, TableList */
+/* globals jQuery, jQueryDragSelector, window, WebHelpTemplates, introJs, setTimeout, setInterval, localStorage, TableList */
 var WebHelp;
 WebHelp = (function () {
     "use strict";
@@ -145,7 +145,6 @@ WebHelp = (function () {
             this.playSequence('Introduction');
         }
         this.refreshWhatsNew();
-        this.populateCurrentSequences();
         var self = this;
         this.watchWhatsNew = setInterval(function () {
             self.refreshWhatsNew();
@@ -192,8 +191,6 @@ WebHelp = (function () {
             status: "N"
         });
 
-        this.initScratchPadTable();
-
         jQuery('.nav-tabs a[href=#addSequence]').trigger('click');
 
         //attach event handlers to webHelpContent
@@ -209,9 +206,11 @@ WebHelp = (function () {
 
         window.onbeforeunload = function (e) {
             var scratchPadData = self.scratchPadTable.getData();
-            if (scratchPadData.length > 0) {
-                var message = "You have unsaved changes in your scratchpad!",
-                    e = e || window.event;
+            //TODO Check why scratchpadData always returns 1 elem even if empty
+            if (scratchPadData.length > 1) {
+                var message = "You have unsaved changes in your scratchpad!";
+                e = e || window.event;
+
                 // For IE and Firefox
                 if (e) {
                     e.returnValue = message;
@@ -306,7 +305,7 @@ WebHelp = (function () {
 
     WebHelp.prototype.populateCurrentSequences = function () {
         var retrievedSequences = this.sequences;
-        jQuery.map(retrievedSequences, function (val, i) {
+        jQuery.map(retrievedSequences, function (val) {
             if (val["status"] === "E") {
                 delete retrievedSequences[val];
             }
@@ -479,7 +478,7 @@ WebHelp = (function () {
             var stepsToSave = this.getCurrentTablePreviewSteps();
             var sequences = this.sequences;
             var sequenceStatus = this.getCurrentTableStatus();
-            if (sequenceStatus == "E") {
+            if (sequenceStatus === "E") {
                 var editedSeqId = this.getCurrentTableSeqId();
                 jQuery.map(this.sequences, function (val, i) {
                     if (val["seqId"] === editedSeqId) {
@@ -612,6 +611,9 @@ WebHelp = (function () {
 
     // This table will remove and add new contents to the new sequences table
     WebHelp.prototype.updateNewSequencesTable = function (newSequences) {
+        if (newSequences.length >= 1) {
+            this.populateCurrentSequences();
+        }
         var aaData = [];
         jQuery.each(newSequences, function (index, element) {
             aaData.push([
@@ -646,8 +648,8 @@ WebHelp = (function () {
             success: function (data) {
                 self.sequences = data;
             },
-            error: function (xhr) {
-                throw new Error("Failed to load the sequences!");
+            error: function () {
+                //alert("Failed to load the sequences!");
             }
         });
     };
@@ -685,7 +687,7 @@ WebHelp = (function () {
         var unsavedSequences = {};
         jQuery.map(this.sequences, function (val, i) {
             var status = val["status"];
-            if (status != "O") {
+            if (status !== "O") {
                 unsavedSequences[i] = val;
             }
         });
