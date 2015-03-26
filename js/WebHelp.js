@@ -284,6 +284,9 @@ WebHelp = (function () {
         for (var seqName in sequences) {
             if (sequences.hasOwnProperty(seqName)) {
                 var seq = sequences[seqName];
+				if (seq.visible !== undefined && seq.visible === false) {
+					continue;
+				}
                 var seqId = seq.seqId.toString();
                 if (seenSequences.indexOf(seqId) < 0) {
                     newSequences.push(seq);
