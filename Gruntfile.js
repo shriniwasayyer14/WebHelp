@@ -29,10 +29,6 @@ module.exports = function (grunt) {
 					'bower_components/jquery-ui/ui/mouse.js',
 					'bower_components/jquery-ui/ui/position.js',
 					'bower_components/jquery-ui/ui/sortable.js',
-					'bower_components/bootstrap/js/modal.js',
-					'bower_components/bootstrap/js/tooltip.js',
-					'bower_components/bootstrap/js/popover.js',
-					'bower_components/bootstrap/js/tab.js',
 					'js/vendor/*.js',
 					'js/*.js'
 				],
@@ -46,10 +42,6 @@ module.exports = function (grunt) {
 					'bower_components/jquery-ui/ui/mouse.js',
 					'bower_components/jquery-ui/ui/position.js',
 					'bower_components/jquery-ui/ui/sortable.js',
-					'bower_components/bootstrap/js/modal.js',
-					'bower_components/bootstrap/js/tooltip.js',
-					'bower_components/bootstrap/js/popover.js',
-					'bower_components/bootstrap/js/tab.js',
                     'js/vendor/*.js',
                     'js/*.js'
                 ],
