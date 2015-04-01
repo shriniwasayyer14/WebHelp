@@ -600,6 +600,7 @@ WebHelp = (function () {
 
     // Given a seqId, check if the sequence has been previously seen or not
     WebHelp.prototype.isThisSequenceSeen = function (seqId) {
+        var seqId = seqId.toString();
         var visitedSeqIds = this.getAllVisitedSequences();
         if (visitedSeqIds.indexOf(seqId) < 0) {
             return false;
@@ -611,6 +612,7 @@ WebHelp = (function () {
     // This method would mark the given sequence as seen
     WebHelp.prototype.markThisSequenceAsSeen = function (seqId) {
         var visitedSeqIds = this.getAllVisitedSequences();
+        var seqId = seqId.toString();
         var key = this.genKey();
         var updatePreferences = false;
         if (visitedSeqIds.indexOf(seqId) < 0) {
