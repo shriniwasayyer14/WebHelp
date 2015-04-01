@@ -141,16 +141,18 @@ WebHelp = (function () {
         this.ui.webHelpMainContent.appendTo("#contentConsumptionModal .modal-body");
         jQuery('.nav-tabs a[href=#addSequence]').hide();
         jQuery('#globalWebHelpCreatorActionsWell').hide();
-        if (this.showIntroOnLoad) {
-            this.playSequence('Introduction');
-        }
-
         this.refreshWhatsNew();
         this.populateCurrentSequences();
         var self = this;
         this.watchWhatsNew = setInterval(function () {
             self.refreshWhatsNew();
         }, 1800000);
+        if (this.showIntroOnLoad) {
+            var introSeqId = this.getSeqIdForSequence('Introduction');
+            if(introSeqId && !this.isThisSequenceSeen(introSeqId)) {
+                this.playSequence('Introduction');
+            }
+        }
     };
 
     WebHelp.prototype.showHelpCreationMode = function () {
@@ -588,6 +590,23 @@ WebHelp = (function () {
             return [];
         }
     };
+
+    // This method returns back the seq id for a sequence with title
+    WebHelp.prototype.getSeqIdForSequence = function(sequenceName) {
+        var sequence = this.sequences[sequenceName];
+        var seqId = sequence.seqId;
+        return seqId;
+    };
+
+    // Given a seqId, check if the sequence has been previously seen or not
+    WebHelp.prototype.isThisSequenceSeen = function (seqId) {
+        var visitedSeqIds = this.getAllVisitedSequences();
+        if (visitedSeqIds.indexOf(seqId) < 0) {
+            return false;
+        } else {
+            return true;
+        }
+    }
 
     // This method would mark the given sequence as seen
     WebHelp.prototype.markThisSequenceAsSeen = function (seqId) {
