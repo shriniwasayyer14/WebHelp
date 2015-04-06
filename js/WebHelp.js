@@ -693,7 +693,8 @@ WebHelp = (function () {
             element: '#whatsNewContent',
             data: aaData || [],
             listTemplate: 'WebHelpSequenceConsumptionList',
-            listItemTemplate: 'WebHelpSequenceListItem'
+            listItemTemplate: 'WebHelpSequenceListItem',
+            emptyListIndicator: 'All new help sequences viewed - Congratulations!'
         });
         this.attachIcons();
         this.attachClickActionsToLists();
