@@ -258,7 +258,7 @@ WebHelp = (function () {
         //Syntax: JSON.stringify(value[, replacer[, space]])
         var allSequences = this.sequences;
         jQuery.map(allSequences, function (val) {
-            val["status"] = "O";
+            val.status = "O";
         });
         var content = JSON.stringify(allSequences, null, '\t');
 
@@ -315,7 +315,7 @@ WebHelp = (function () {
     WebHelp.prototype.populateCurrentSequences = function () {
         var retrievedSequences = this.sequences;
         jQuery.map(retrievedSequences, function (val) {
-            if (val["status"] === "E") {
+            if (val.status === "E") {
                 delete retrievedSequences[val];
             }
         });
@@ -490,7 +490,7 @@ WebHelp = (function () {
             if (sequenceStatus === "E") {
                 var editedSeqId = this.getCurrentTableSeqId();
                 jQuery.map(this.sequences, function (val, i) {
-                    if (val["seqId"] === editedSeqId) {
+                    if (val.seqId === editedSeqId) {
                         delete sequences[i];
                     }
                 });
@@ -528,8 +528,8 @@ WebHelp = (function () {
 
         for (var n = 0; n < rows.length; n++) {
             //escape ampersands (we may need other special characters in the content
-            var elemAttribVal = rows[n][3].replace(/\&/g, '').trim();
-            var elemAttribType = rows[n][2].replace(/\&/g, '').trim();
+            var elemAttribVal = rows[n][3].replace(/&/g, '').trim();
+            var elemAttribType = rows[n][2].replace(/&/g, '').trim();
             var stepTitle = rows[n][1];
             var content = rows[n][4];
             if (elemAttribVal) {
@@ -602,11 +602,7 @@ WebHelp = (function () {
     // Given a seqId, check if the sequence has been previously seen or not
     WebHelp.prototype.isThisSequenceSeen = function (seqId) {
         var visitedSeqIds = this.getAllVisitedSequences();
-        if (visitedSeqIds.indexOf(seqId.toString()) < 0) {
-            return false;
-        } else {
-            return true;
-        }
+        return visitedSeqIds.indexOf(seqId.toString()) >= 0;
     };
 
     // This method would mark the given sequence as seen
@@ -683,7 +679,7 @@ WebHelp = (function () {
     WebHelp.prototype.refreshScratchpad = function () {
         var unsavedSequences = {};
         jQuery.map(this.sequences, function (val, i) {
-            var status = val["status"];
+            var status = val.status;
             if (status !== "O") {
                 unsavedSequences[i] = val;
             }
@@ -756,7 +752,7 @@ WebHelp = (function () {
         var thisSequenceTitle = jQuery(event.target).parents('li').find('.webHelpSequenceItem-title').text();
         var sequence = this.sequences[thisSequenceTitle];
         var data = [];
-        var seqId = sequence["seqId"];
+        var seqId = sequence.seqId;
         jQuery.each(sequence.data, function (index, element) {
             var title = jQuery(element.intro).children('h3').text() || '';
             var text = jQuery(element.intro).children('p').text() || '';
