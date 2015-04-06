@@ -16,6 +16,7 @@ WebHelp = (function () {
             sequencesBaseUrl: '/WebHelp/',
             visitedBaseUrl: '/weblications/etc/getPrefs.epl'
         };
+
         if (!WebHelpOptions) {
             WebHelpOptions = defaultOptions;
         }
@@ -38,7 +39,10 @@ WebHelp = (function () {
                 "add": "fa fa-plus",
                 "info": "fa fa-info-circle",
                 "edit": "fa fa-edit",
-                "upload": "fa fa-upload"
+                "upload": "fa fa-upload",
+                "next": "fa fa-2x fa-arrow-circle-right",
+                "prev": "fa fa-2x fa-arrow-circle-left",
+                "done": "fa fa-2x fa-times-circle"
             };
         } else { //default to bootstrap
             this.iconClass = {
@@ -50,9 +54,19 @@ WebHelp = (function () {
                 "add": "glyphicon glyphicon-plus",
                 "info": "glyphicon glyphicon-info-sign",
                 "edit": "glyphicon glyphicon-edit",
-                "upload": "glyphicon glyphicon-upload"
+                "upload": "glyphicon glyphicon-upload",
+                "next": "glyphicon glyphicon-circle-arrow-right",
+                "prev": "glyphicon glyphicon-circle-arrow-left",
+                "done": "glyphicon glyphicon-remove-sign"
             };
         }
+
+        this.defaultIntroJsOptions = {
+            nextLabel: '<span class=\"' + this.iconClass.next + '\"></span> Next',
+            prevLabel: '<span class=\"' + this.iconClass.prev + '\"></span> Previous',
+            skipLabel: '<span class=\"' + this.iconClass.done + '\"></span> Skip',
+            doneLabel: '<span class=\"' + this.iconClass.done + '\"></span> Done'
+        };
 
         //build the gui
         if (this.parameters.create !== undefined) {
@@ -424,25 +438,6 @@ WebHelp = (function () {
         this.attachIcons();
     };
 
-    WebHelp.prototype.preview = function () {
-        //destroyAndRedrawTable(); //Doesn't respect row reordering
-        var previewSteps = this.getCurrentTablePreviewSteps();
-
-        if (previewSteps) {
-            var introJsObj = introJs();
-            introJsObj.setOptions({
-                steps: previewSteps,
-                showProgress: true,
-                showBullets: false,
-                tooltipPosition: 'auto'
-            });
-            this.ui.sidebarToggleButton.trigger('click'); //Close the side menu
-            setTimeout(function () {
-                introJsObj.start();
-            }, 500);
-        }
-    };
-
     WebHelp.prototype.removeThisStep = function (event) {
         this.stepsTable.removeRow(event);
         if (!this.stepsTable.numRows()) {
@@ -455,12 +450,18 @@ WebHelp = (function () {
         var previewSteps = this.getCurrentTablePreviewSteps();
         if (previewSteps) {
             var introJsObj = introJs();
-            introJsObj.setOptions({
+            var options  = {
                 steps: previewSteps,
                 showProgress: true,
                 showBullets: false,
                 tooltipPosition: 'auto'
-            });
+            };
+            for (var option in this.defaultIntroJsOptions) {
+                if (this.defaultIntroJsOptions.hasOwnProperty(option)) {
+                    options[option] = this.defaultIntroJsOptions[option];
+                }
+            }
+            introJsObj.setOptions(options);
             this.ui.sidebarToggleButton.trigger('click'); //Close the side menu
             setTimeout(function () {
                 introJsObj.start();
@@ -721,11 +722,17 @@ WebHelp = (function () {
         var sequence = this.sequences[sequenceName];
         var seqId = sequence.seqId;
         var play = introJs();
-        play.setOptions({
+        var options  = {
             steps: sequence.data,
             showProgress: true,
             showBullets: false
-        });
+        };
+        for (var option in this.defaultIntroJsOptions) {
+            if (this.defaultIntroJsOptions.hasOwnProperty(option)) {
+                options[option] = this.defaultIntroJsOptions[option];
+            }
+        }
+        play.setOptions(options);
         var self = this;
         self.ui.webHelpMainContent.hide();
 
