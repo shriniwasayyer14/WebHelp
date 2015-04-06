@@ -61,6 +61,8 @@ WebHelp = (function () {
             };
         }
 
+
+
         this.defaultIntroJsOptions = {
             nextLabel: '<span class=\"' + this.iconClass.next + '\"></span> Next',
             prevLabel: '<span class=\"' + this.iconClass.prev + '\"></span> Previous',
