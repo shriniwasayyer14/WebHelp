@@ -576,7 +576,6 @@ WebHelp = (function () {
         var userPrefs = {};
         jQuery.ajax({
             async: false,
-			cache: false,
             url: this.visitedBaseUrl,
             success: function (data) {
                 data = data.split(/\r?\n/);
@@ -627,7 +626,6 @@ WebHelp = (function () {
         var self = this;
         val = val.join(",");
         jQuery.ajax({
-			cache: false,
             type: "GET",
             url: "/weblications/etc/setPrefs.epl?" + key + "=" + val,
             success: function () {
