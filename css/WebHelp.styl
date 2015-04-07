@@ -404,13 +404,17 @@ opacity(n) {
 
 a.introjs-button {
   text-decoration: none;
-  font-size: 14px;
-  width: 30%;
-  border: none;
+  font-size: 15px;
+  min-width: 30%;
+  margin: 10px 5px;
+  border: 1px solid white;
+  padding: 3px;
+  border-radius: 4px;
+  text-align: center;
   background-color: transparent !important;
   background-image: none !important;
   vertical-align: middle;
-  color: whitesmoke;
+  color: #f5f5f5;
   text-shadow: none;
   font-family: 'Roboto', Tahoma, Arial, Helvetica, sans-serif;
 }
@@ -424,6 +428,7 @@ a.introjs-button:focus {
 a.introjs-button:hover {
   box-shadow: none;
   color: #36CBCB;
+  border-color: #36CBCB;
 }
 
 a.introjs-button.introjs-disabled {
@@ -434,6 +439,7 @@ a.introjs-button.introjs-disabled:hover {
   text-shadow: none;
   cursor: default;
   color: white;
+  border-color: white;
 }
 
 .introjs-tooltipbuttons {

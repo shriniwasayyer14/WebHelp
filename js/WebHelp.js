@@ -40,9 +40,9 @@ WebHelp = (function () {
                 "info": "fa fa-info-circle",
                 "edit": "fa fa-edit",
                 "upload": "fa fa-upload",
-                "next": "fa fa-2x fa-arrow-circle-right",
-                "prev": "fa fa-2x fa-arrow-circle-left",
-                "done": "fa fa-2x fa-times-circle"
+                "next": "fa fa-arrow-circle-right",
+                "prev": "fa fa-arrow-circle-left",
+                "done": "fa fa-times-circle"
             };
         } else { //default to bootstrap
             this.iconClass = {
