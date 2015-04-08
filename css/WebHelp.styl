@@ -64,9 +64,6 @@ opacity(n) {
       padding: 8px;
       border-bottom: 1px solid #DBDBDB;
     }
-    > li:nth-of-type(odd) {
-      background-color: #EBEBEB;
-    }
     > li:hover {
       background-color: #FFF2BF;
     }
@@ -102,6 +99,9 @@ opacity(n) {
         cursor: text;
       }
     }
+    > li:nth-of-type(odd) {
+      background-color: #EBEBEB;
+    }
   }
   ul.webHelpSequenceConsumptionList {
     > li.webHelpSequenceList {
@@ -119,18 +119,17 @@ opacity(n) {
       }
     }
     li.webHelpSequenceList.unseen {
+      font-weight: bold;
       > div.webHelpSequenceItem-title::after {
         display: inline;
-        content: 'New!';
+        content: 'New';
         font-size: 11px;
-        vertical-align: text-top;
+        vertical-align: super;
         margin-left: 5px;
-        background-color: green;
-        color: white;
+        color: green;
         padding: 3px;
-        border-radius: 3px;
-        opacity: 0.6;
-        font-weight: bold;
+        opacity: 0.8;
+        font-weight: normal;
       }
     }
     > li.webHelpSequenceList.header {
@@ -472,6 +471,11 @@ a.introjs-button.introjs-disabled:hover {
   font-size: 10px;
   font-style: italic;
 }
+@media only screen and (max-device-width : 1024px) {
+  .introjs-tooltipbuttons::after {
+    display: none;
+  }
+}
 
 
 .introjs-helperNumberLayer {
@@ -483,10 +487,10 @@ a.introjs-button.introjs-disabled:hover {
   font-size: 20px;
 }
 
-a.introjs-skipbutton + a.introjs-button.introjs-prevbutton + a.introjs-button.introjs-nextbutton.introjs-disabled {
-  /*When skip button shows 'done' i.e. last step, show done at right*/
+/*a.introjs-skipbutton + a.introjs-button.introjs-prevbutton + a.introjs-button.introjs-nextbutton.introjs-disabled {
+  /!*When skip button shows 'done' i.e. last step, show done at right*!/
   float: right;
-}
+}*/
 
 .edit_from_te {
   white-space: pre-wrap;
