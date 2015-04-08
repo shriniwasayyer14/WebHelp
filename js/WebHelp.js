@@ -306,7 +306,9 @@ WebHelp = (function () {
 					continue;
 				}
                 var seqId = seq.seqId.toString();
-                if (seenSequences.indexOf(seqId) < 0) {
+                if (seenSequences.indexOf(seqId) >= 0) {
+                    //jQuery(this.availableSequencesTable.element).find
+                } else {
                     newSequences.push(seq);
                 }
             }
@@ -337,6 +339,8 @@ WebHelp = (function () {
         });
         if (retrievedSequences) {
             var sequenceData = [];
+            var self = this;
+            var supplementalClasses = []; //Array of classes to add to each row if we want
             jQuery.each(retrievedSequences, function (sequenceTitle, sequenceContent) {
                 if (sequenceContent.visible !== undefined && sequenceContent.visible === false) {
                     return true; //continue
@@ -348,13 +352,19 @@ WebHelp = (function () {
                     '',//remove
                     JSON.stringify(sequenceContent)//content
                 ]);
+                if (self.isThisSequenceSeen(sequenceContent.seqId)) {
+                    supplementalClasses.push('seen')
+                } else {
+                    supplementalClasses.push('unseen')
+                }
             });
 
             this.availableSequencesTable = new TableList({
                 element: '#availableSequencesContent',
                 data: sequenceData,
                 listTemplate: 'WebHelpSequenceConsumptionList',
-                listItemTemplate: 'WebHelpSequenceListItem'
+                listItemTemplate: 'WebHelpSequenceListItem',
+                supplementalClasses: supplementalClasses
             });
 
             this.attachIcons();

@@ -118,6 +118,20 @@ opacity(n) {
         width: 10%;
       }
     }
+    li.webHelpSequenceList.unseen::after {
+      display: inline;
+      content: 'New!';
+      font-size: 11px;
+      vertical-align: text-top;
+      position: absolute;
+      right: 5%;
+      background-color: green;
+      color: white;
+      padding: 3px;
+      border-radius: 3px;
+      opacity: 0.6;
+      font-weight: bold;
+    }
     > li.webHelpSequenceList.header {
       font-weight: bold;
     }

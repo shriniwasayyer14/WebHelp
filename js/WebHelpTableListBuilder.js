@@ -1,3 +1,4 @@
+
 /* globals jQuery, WebHelpTemplates */
 var TableList;
 TableList = (function () {
@@ -19,7 +20,8 @@ TableList = (function () {
             useData: true,
             listTemplate: 'WebHelpSequenceConsumptionList',
             listItemTemplate: 'WebHelpSequenceStepListItem',
-            searchListTemplate: 'WebHelpTableListSearch'
+            searchListTemplate: 'WebHelpTableListSearch',
+			supplementalClasses: []
         };
         for (var option in defaultOptions) {
 			if (!defaultOptions.hasOwnProperty(option)) {
@@ -59,6 +61,9 @@ TableList = (function () {
 				}
 				for (var j = 0; j < rowLength; j++) {
 					jQuery($thisListItemTemplate.find('div')[j]).html(thisRow[j]);
+				}
+				if (this.supplementalClasses.length > 0) {
+					$thisListItemTemplate.addClass(this.supplementalClasses[i]);
 				}
 				$listTemplate.append($thisListItemTemplate);
 			}
