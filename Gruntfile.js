@@ -29,6 +29,7 @@ module.exports = function (grunt) {
 					'bower_components/jquery-ui/ui/mouse.js',
 					'bower_components/jquery-ui/ui/position.js',
 					'bower_components/jquery-ui/ui/sortable.js',
+					'bower_components/jquery-get-path/dist/js/jQueryGetPath.js',
 					'js/vendor/*.js',
 					'js/*.js'
 				],
@@ -42,6 +43,7 @@ module.exports = function (grunt) {
 					'bower_components/jquery-ui/ui/mouse.js',
 					'bower_components/jquery-ui/ui/position.js',
 					'bower_components/jquery-ui/ui/sortable.js',
+					'bower_components/jquery-get-path/dist/js/jQueryGetPath.js',
                     'js/vendor/*.js',
                     'js/*.js'
                 ],
