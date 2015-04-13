@@ -66,7 +66,7 @@ WebHelp = (function () {
         this.defaultIntroJsOptions = {
             nextLabel: '<span class=\"' + this.iconClass.next + '\"></span> Next',
             prevLabel: '<span class=\"' + this.iconClass.prev + '\"></span> Previous',
-            skipLabel: '<span class=\"' + this.iconClass.done + '\"></span> Skip',
+            skipLabel: '<span class=\"' + this.iconClass.done + '\"></span> Close',
             doneLabel: '<span class=\"' + this.iconClass.done + '\"></span> Done'
         };
 
@@ -353,9 +353,9 @@ WebHelp = (function () {
                     JSON.stringify(sequenceContent)//content
                 ]);
                 if (self.isThisSequenceSeen(sequenceContent.seqId)) {
-                    supplementalClasses.push('seen')
+                    supplementalClasses.push('seen');
                 } else {
-                    supplementalClasses.push('unseen')
+                    supplementalClasses.push('unseen');
                 }
             });
 
