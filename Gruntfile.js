@@ -37,23 +37,23 @@ module.exports = function (grunt) {
 			},
 			extrasJS: {
 				src: [
-                    'bower_components/intro.js/intro.js',
+					'bower_components/intro.js/intro.js',
 					'bower_components/jquery-ui/ui/core.js',
 					'bower_components/jquery-ui/ui/widget.js',
 					'bower_components/jquery-ui/ui/mouse.js',
 					'bower_components/jquery-ui/ui/position.js',
 					'bower_components/jquery-ui/ui/sortable.js',
 					'bower_components/jquery-get-path/dist/js/jQueryGetPath.js',
-                    'js/vendor/*.js',
-                    'js/*.js'
-                ],
+					'js/vendor/*.js',
+					'js/*.js'
+				],
 				dest: 'dist/js/<%= pkg.name %>WithExtras.js'
 			},
 			basicCSS: {
 				src: ['bower_components/intro.js/minified/introjs.min.css',
-                    'css/jQueryDragSelector.css',
-                    'css/WebHelp.css'
-                ],
+					'css/jQueryDragSelector.css',
+					'css/WebHelp.css'
+				],
 				dest: 'dist/css/<%= pkg.name %>.css',
 				options: {
 					separator: '',
@@ -62,10 +62,10 @@ module.exports = function (grunt) {
 			},
 			extrasCSS: {
 				src: [
-                    'bower_components/intro.js/minified/introjs.min.css',
-                    'css/jQueryDragSelector.css',
-                    'css/WebHelp.css'
-                ],
+					'bower_components/intro.js/minified/introjs.min.css',
+					'css/jQueryDragSelector.css',
+					'css/WebHelp.css'
+				],
 				dest: 'dist/css/<%= pkg.name %>WithExtras.css',
 				options: {
 					separator: '',
@@ -75,32 +75,51 @@ module.exports = function (grunt) {
 		},
 		replace: {
 			dist: {
+				src: ['dist/js/*.js'],             // source files array (supports minimatch)
+				overwrite: true,
+				replacements: [{
+					from: 'introjs-fixParent',                   // string replacement
+					to: 'introjs-customFixParent'
+				}]
+				/*Also add later*/
+				/*{
+					match: /\$\./g,
+					replacement: 'jQuery.'
+				},
+				{
+					match: /\$\(/g,
+					replacement: 'jQuery('
+				},*/
+			}
+		},
+		/*replace: {
+			dist: {
 				options: {
 					patterns: [
 						{
 							match: /\$\./g,
 							replacement: 'jQuery.'
-                        },
+						},
 						{
 							match: /\$\(/g,
 							replacement: 'jQuery('
-                        },
+						},
 						{
-							match: 'parentElm.className += \' introjs-fixParent\';',
-							replacement: '//parentElm.className += \' introjs-fixParent\';'
+							match: '/introjs-fixParent/g',
+							replacement: '/introjs-customFixParent/'
 						}
-                    ]
+					]
 				},
 				files: [
 					{
 						expand: true,
 						flatten: true,
-						src: ['dist/js/<%= pkg.name %>.js'],
+						src: ['dist/js/*.js'],
 						dest: 'dist/js'
-                    }
+					}
 				]
 			}
-		},
+		},*/
 		stylus: {
 			compile: {
 				options: {
@@ -167,7 +186,7 @@ module.exports = function (grunt) {
 					src: ['dist/css/*.css'],
 					dest: '', //cssmin adds dist/css by itself
 					ext: '.min.css'
-                }]
+				}]
 			}
 		},
 		lineending: {
