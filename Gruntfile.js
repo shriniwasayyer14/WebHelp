@@ -24,11 +24,11 @@ module.exports = function (grunt) {
 			basicJS: {
 				src: [
 					'bower_components/intro.js/intro.js',
-					'bower_components/jquery-ui/ui/core.js',
+					/*'bower_components/jquery-ui/ui/core.js',
 					'bower_components/jquery-ui/ui/widget.js',
 					'bower_components/jquery-ui/ui/mouse.js',
 					'bower_components/jquery-ui/ui/position.js',
-					'bower_components/jquery-ui/ui/sortable.js',
+					'bower_components/jquery-ui/ui/sortable.js',*/
 					'bower_components/jquery-get-path/dist/js/jQueryGetPath.js',
 					'js/vendor/*.js',
 					'js/*.js'
