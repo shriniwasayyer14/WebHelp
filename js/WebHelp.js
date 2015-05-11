@@ -14,7 +14,8 @@ WebHelp = (function () {
             ui: {},
             sequences: {},
             sequencesBaseUrl: '/WebHelp/',
-            visitedBaseUrl: '/weblications/etc/getPrefs.epl'
+            visitedBaseUrl: '/weblications/etc/getPrefs.epl',
+            usesFlexbox: false
         };
 
         if (!WebHelpOptions) {
@@ -753,6 +754,32 @@ WebHelp = (function () {
         play.onexit(function () {
             self.ui.webHelpMainContent.show();
         });
+
+        //Workaround for flexbox
+        /*
+        * Flexbox elements are asynchronously rendered
+        * Therefore, the intro tooltip pushes them out of place,
+        * causing them to look distorted
+        *
+        * The remedy for this is to re-render the items that
+        * use flex display.
+        * Pure CSS was not able to remedy the issue.
+        * This solution is somewhat non-performant, but currently works
+        * TODO: find a more performant or pure CSS-based solution
+        * */
+        if (self.usesFlexbox) {
+            var $flexBoxItems = jQuery('body').children().filter(function (el) {
+                return (jQuery(this).css('display') === 'flex');
+            });
+            if ($flexBoxItems.length) {
+                play.onbeforechange(function () {
+                    $flexBoxItems.css('position', 'static');
+                });
+                play.onafterchange(function () {
+                    $flexBoxItems.css('position', 'relative');
+                });
+            }
+        }
 
         if (jQuery('#contentConsumptionModal').is(':visible')) {
             jQuery('#contentConsumptionModal').modal('hide');
