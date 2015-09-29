@@ -158,18 +158,19 @@ WebHelp = (function () {
         this.ui.webHelpMainContent.appendTo("#contentConsumptionModal .modal-body");
         jQuery('.nav-tabs a[href=#addSequence]').hide();
         jQuery('#globalWebHelpCreatorActionsWell').hide();
-        this.refreshWhatsNew();
-        this.populateCurrentSequences();
         var self = this;
-        this.watchWhatsNew = setInterval(function () {
-            self.refreshWhatsNew();
-        }, 1800000);
-        if (this.showIntroOnLoad) {
-            var introSeqId = this.getSeqIdForSequence('Introduction');
-            if(introSeqId && !this.isThisSequenceSeen(introSeqId)) {
-                this.playSequence('Introduction');
+        this.refreshWhatsNew().then(function() {
+            self.populateCurrentSequences();
+            self.watchWhatsNew = setInterval(function () {
+                self.refreshWhatsNew();
+            }, 1800000);
+            if (self.showIntroOnLoad) {
+                var introSeqId = self.getSeqIdForSequence('Introduction');
+                if(introSeqId && !self.isThisSequenceSeen(introSeqId)) {
+                    self.playSequence('Introduction');
+                }
             }
-        }
+        });
     };
 
     WebHelp.prototype.showHelpCreationMode = function () {
@@ -254,9 +255,10 @@ WebHelp = (function () {
             elem = helpIconElement;
         }
         jQuery(elem).html(currentTitleHTML);
-        this.refreshAllSequences();
-        this.populateCurrentSequences();
-
+        var self = this;
+        this.refreshAllSequences().then(function() {
+            self.populateCurrentSequences();
+        });
     };
 
     WebHelp.prototype.attachIcons = function () {
@@ -296,38 +298,42 @@ WebHelp = (function () {
     };
 
     WebHelp.prototype.refreshWhatsNew = function () {
-        this.refreshAllSequences();
-        var sequences = this.sequences; //new function
-        var seenSequences = this.getAllVisitedSequences(); //new function
-        var newSequences = [];
-        for (var seqName in sequences) {
-            if (sequences.hasOwnProperty(seqName)) {
-                var seq = sequences[seqName];
-				if (seq.visible !== undefined && seq.visible === false) {
-					continue;
-				}
-                var seqId = seq.seqId.toString();
-                if (seenSequences.indexOf(seqId) >= 0) {
-                    //jQuery(this.availableSequencesTable.element).find
-                } else {
-                    newSequences.push(seq);
+        var self = this;
+        var dfd = new jQuery.Deferred();
+        this.refreshAllSequences().then(function() {
+            var sequences = self.sequences; //new function
+            var seenSequences = self.getAllVisitedSequences(); //new function
+            var newSequences = [];
+            for (var seqName in sequences) {
+                if (sequences.hasOwnProperty(seqName)) {
+                    var seq = sequences[seqName];
+                    if (seq.visible !== undefined && seq.visible === false) {
+                        continue;
+                    }
+                    var seqId = seq.seqId.toString();
+                    if (seenSequences.indexOf(seqId) >= 0) {
+                        //jQuery(this.availableSequencesTable.element).find
+                    } else {
+                        newSequences.push(seq);
+                    }
                 }
             }
-        }
-        this.updateNewSequencesTable(newSequences); // new function
-        if (newSequences.length >= 1) {
-            this.populateCurrentSequences();
-        }
-        //update badge icon
-        var numOfNewSequences = newSequences.length;
-
-        if (this.mode !== "create") {
-            if (numOfNewSequences > 0) {
-                this.ui.webHelpButton.attr('data-badge', numOfNewSequences + ' new');
-            } else {
-                this.ui.webHelpButton.removeAttr('data-badge');
+            self.updateNewSequencesTable(newSequences); // new function
+            if (newSequences.length >= 1) {
+                self.populateCurrentSequences();
             }
-        }
+            //update badge icon
+            var numOfNewSequences = newSequences.length;
+            if (self.mode !== "create") {
+                if (numOfNewSequences > 0) {
+                    self.ui.webHelpButton.attr('data-badge', numOfNewSequences + ' new');
+                } else {
+                    self.ui.webHelpButton.removeAttr('data-badge');
+                }
+            }
+            dfd.resolve();
+        });
+        return dfd.promise();
     };
 
 
@@ -670,19 +676,19 @@ WebHelp = (function () {
         if (!file) {
             file = this.sequencesBaseUrl + this.webHelpName + '.json';
         }
-        jQuery.ajax({
+        return jQuery.ajax({
             url: file,
             xhrFields: {
                 withCredentials: true
             },
-			cache: false,
+            cache: false,
             type: 'GET',
             dataType: 'json',
-            async: false,
             success: function (data) {
                 self.sequences = data;
             },
-            error: function () {
+            error: function (e) {
+                console.error(e);
                 throw new Error("Failed to load the sequences!");
             }
         });
