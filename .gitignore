@@ -51,3 +51,6 @@ bower_components/*
 .idea
 css/WebHelp.css
 .idea/jsLibraryMappings.xml
+.idea/libraries/WebHelp_node_modules.xml
+*.xml
+.idea/WebHelp.iml

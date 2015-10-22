@@ -11,7 +11,7 @@
   background-color: #fff !important;
 }
 #webHelpMainContent .webHelpTableListSearch label {
-  font-weight: bold;
+  font-weight: normal;
 }
 #webHelpMainContent ul.tableList {
   list-style: none;
@@ -63,9 +63,6 @@
   padding: 8px;
   border-bottom: 1px solid #dbdbdb;
 }
-#webHelpMainContent ul.tableList > li:nth-of-type(odd) {
-  background-color: #ebebeb;
-}
 #webHelpMainContent ul.tableList > li:hover {
   background-color: #fff2bf;
 }
@@ -98,6 +95,9 @@
   padding: 3px;
   cursor: text;
 }
+#webHelpMainContent ul.webHelpSequenceCreationList > li:nth-of-type(odd) {
+  background-color: #ebebeb;
+}
 #webHelpMainContent ul.webHelpSequenceConsumptionList > li.webHelpSequenceList > div {
   padding: 0px 0px 4px 4px;
 }
@@ -110,6 +110,21 @@
 #webHelpMainContent ul.webHelpSequenceConsumptionList > li.webHelpSequenceList > div.iconClass-edit,
 #webHelpMainContent ul.webHelpSequenceConsumptionList > li.webHelpSequenceList > div.iconClass-remove {
   width: 10%;
+}
+#webHelpMainContent ul.webHelpSequenceConsumptionList li.webHelpSequenceList.unseen {
+  font-weight: bold;
+}
+#webHelpMainContent ul.webHelpSequenceConsumptionList li.webHelpSequenceList.unseen > div.webHelpSequenceItem-title::after {
+  display: inline;
+  content: 'New';
+  font-size: 11px;
+  vertical-align: super;
+  margin-left: 5px;
+  color: #008000;
+  padding: 3px;
+  opacity: 0.8;
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=80);
+  font-weight: normal;
 }
 #webHelpMainContent ul.webHelpSequenceConsumptionList > li.webHelpSequenceList.header {
   font-weight: bold;
@@ -224,9 +239,6 @@
 #contentConsumptionModal #webHelpMainContent ul.webHelpSequenceConsumptionList > li.webHelpSequenceList > div.iconClass-remove {
   display: none;
 }
-#contentConsumptionModal #webHelpMainContent ul.webHelpSequenceConsumptionList > li.webHelpSequenceList:hover {
-  font-weight: bold;
-}
 #contentConsumptionModal #webHelpMainContent ul.webHelpSequenceConsumptionList > li.webHelpSequenceList:hover > div.iconClass-play {
   text-shadow: 1px 0px 20px #008000;
 }
@@ -321,11 +333,6 @@
 .introjs-tooltiptext {
   display: inline-block;
 }
-.introjs-button {
-  font-size: 70%;
-  text-decoration: none;
-  margin-top: 20px;
-}
 .introjs-button:hover {
   box-shadow: none;
 }
@@ -370,6 +377,73 @@
 }
 a.introjs-button {
   text-decoration: none;
+  font-size: 15px;
+  min-width: 30%;
+  margin: 10px 5px;
+  border: 1px solid #fff;
+  padding: 3px;
+  border-radius: 4px;
+  text-align: center;
+  background-color: transparent !important;
+  background-image: none !important;
+  vertical-align: middle;
+  color: #f5f5f5;
+  text-shadow: none;
+  font-family: 'Roboto', Tahoma, Arial, Helvetica, sans-serif;
+}
+.introjs-customFixParent {
+  z-index: auto !important;
+  opacity: 1;
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
+  -webkit-transform: none !important;
+  -moz-transform: none !important;
+  -ms-transform: none !important;
+  -o-transform: none !important;
+  transform: none !important;
+}
+a.introjs-button:focus {
+  outline: none;
+  color: #f5f5f5;
+  text-decoration: none;
+}
+a.introjs-button:hover {
+  box-shadow: none;
+  color: #36cbcb;
+  border-color: #36cbcb;
+}
+a.introjs-button.introjs-skipbutton {
+  float: right;
+}
+a.introjs-button.introjs-disabled {
+  opacity: 0.5;
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=50);
+}
+a.introjs-button.introjs-disabled:hover {
+  box-shadow: none;
+  text-shadow: none;
+  cursor: default;
+  color: #fff;
+  border-color: #fff;
+}
+.introjs-tooltipbuttons {
+  text-align: left;
+  white-space: nowrap;
+  width: 100%;
+  border-top: 1px solid #fff;
+  margin-top: 25px;
+}
+.introjs-tooltipbuttons::after {
+  content: 'Use mouse or <- and -> arrow keys to navigate. Esc key to skip/quit';
+  display: block;
+  text-align: center;
+  font-size: 10px;
+  font-style: italic;
+  clear: both;
+}
+@media only screen and (max-device-width: 1024px) {
+  .introjs-tooltipbuttons::after {
+    display: none;
+  }
 }
 .introjs-helperNumberLayer {
   border: 0;
@@ -379,10 +453,10 @@ a.introjs-button {
   height: 30px;
   font-size: 20px;
 }
-a.introjs-skipbutton + a.introjs-button.introjs-prevbutton + a.introjs-button.introjs-nextbutton.introjs-disabled {
-/*When skip button shows 'done' i.e. last step, show done at right*/
-  float: right;
-}
+/*a.introjs-skipbutton + a.introjs-button.introjs-prevbutton + a.introjs-button.introjs-nextbutton.introjs-disabled {
+	/!*When skip button shows 'done' i.e. last step, show done at right*!/
+	float: right;
+}*/
 .edit_from_te {
   white-space: pre-wrap;
   max-width: 100px;
