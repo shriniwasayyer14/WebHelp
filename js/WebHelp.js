@@ -193,10 +193,10 @@ WebHelp = (function () {
 		WebHelpInstance.ui.webHelpMainContent.appendTo("#contentConsumptionModal .modal-body");
 		jQuery('.nav-tabs a[href=#addSequence]').hide();
 		jQuery('#globalWebHelpCreatorActionsWell').hide();
-		WebHelpInstance.refreshWhatsNew().then(function () {
+		_refreshWhatsNew(WebHelpInstance).then(function () {
 			_populateCurrentSequences(WebHelpInstance);
 			WebHelpInstance.watchWhatsNew = setInterval(function () {
-				WebHelpInstance.refreshWhatsNew();
+				_refreshWhatsNew(WebHelpInstance);
 			}, 1800000);
 			if (WebHelpInstance.showIntroOnLoad) {
 				var introSeqId = WebHelpInstance.getSeqIdForSequence('Introduction');
@@ -347,12 +347,13 @@ WebHelp = (function () {
 	}
 
 	/**
-	 * Refresh to figure out which sequences are new, and accordingly perform UI actions
-	 * @returns {promise}
+	 * Refresh new sequence count and data
+	 *
+	 * @param {WebHelp} WebHelpInstance The current instance of WebHelp
+	 * @returns {promise} Resolves when all sequences have been pulled, without a resolve parameter,
+	 * @private
 	 */
-
-	WebHelp.prototype.refreshWhatsNew = function () {
-		var WebHelpInstance = this;
+	function _refreshWhatsNew(WebHelpInstance) {
 		var dfd = new jQuery.Deferred();
 		_refreshAllSequences(WebHelpInstance).then(function () {
 			var sequences = WebHelpInstance.sequences; //new function
@@ -365,9 +366,7 @@ WebHelp = (function () {
 						continue;
 					}
 					var seqId = seq.seqId.toString();
-					if (seenSequences.indexOf(seqId) >= 0) {
-						//jQuery(self.availableSequencesTable.element).find
-					} else {
+					if (seenSequences.indexOf(seqId) < 0) {
 						newSequences.push(seq);
 					}
 				}
@@ -388,7 +387,8 @@ WebHelp = (function () {
 			dfd.resolve();
 		});
 		return dfd.promise();
-	};
+	}
+
 	/**
 	 * Populates all current sequences from the sequences parameter that was read from the file
 	 *
@@ -780,7 +780,7 @@ WebHelp = (function () {
 		}
 		if (updatePreferences) {
 			_setVisitedSequencesInUserPrefs(WebHelpInstance, key, visitedSeqIds);
-			WebHelpInstance.refreshWhatsNew();
+			_refreshWhatsNew(WebHelpInstance);
 		}
 	}
 
@@ -798,7 +798,7 @@ WebHelp = (function () {
 			type: "GET",
 			url: "/weblications/etc/setPrefs.epl?" + key + "=" + val,
 			success: function () {
-				WebHelpInstance.refreshWhatsNew(); // new function
+				_refreshWhatsNew(WebHelpInstance);
 			}
 		});
 	}
