@@ -1009,7 +1009,8 @@ WebHelp = (function () {
 
 	/**
 	 * Edit the sequence that was clicked on
-	 * @param {WebHelp} WebHelpInstance
+	 * @param {WebHelp} WebHelpInstance The current instance
+	 * @param {TableList} WebHelpInstance.stepsTable The table used by the current instance
 	 * @param {Event} event The click event
 	 * @private
 	 */
@@ -1049,6 +1050,7 @@ WebHelp = (function () {
 		jQuery('#sequenceTitleSetter').val(thisSequenceTitle);
 		jQuery('.nav-tabs a[href=#addSequence]').tab('show');
 	}
+
 	//TODO: Try and find a way to not use delete
 	/**
 	 * Removes (deletes) a given sequence
