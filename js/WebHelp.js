@@ -103,6 +103,7 @@ WebHelp = (function () {
 	 * Bind click actions to the play and edit buttons
 	 *
 	 * @param {WebHelp} WebHelpInstance The current instance of WebHelp
+	 * @param {Object} WebHelpInstance.ui
 	 * @api private
 	 * @private
 	 */
@@ -123,6 +124,7 @@ WebHelp = (function () {
 	 *
 	 * @api private
 	 * @param {WebHelp} WebHelpInstance the current instance of WebHelp
+	 * @param {Object} WebHelpInstance.ui
 	 * @param {selector} navbarButtonElement
 	 * @param {Boolean} addTextToNavbar
 	 * @private
@@ -150,7 +152,7 @@ WebHelp = (function () {
 			WebHelpInstance.showSequences();
 		});
 		WebHelpInstance.ui.webHelpButton.attr('title', 'App Help');
-	};
+	}
 	WebHelp.prototype.showHelpConsumptionMode = function () {
 		_addHelpIcon(this, this.helpIconPosition);
 		this.ui.webHelpMainContent = jQuery("#webHelpMainContent");
@@ -261,6 +263,7 @@ WebHelp = (function () {
 	 *
 	 * @api private
 	 * @param {WebHelp} WebHelpInstance
+	 * @param {Object} WebHelpInstance.ui
 	 * @private
 	 */
 	function _attachIcons(WebHelpInstance) {
@@ -269,7 +272,7 @@ WebHelp = (function () {
 				WebHelpInstance.ui.webHelpMainContent.find(".iconClass-" + icon).removeClass(WebHelpInstance.iconClass[icon]).addClass(WebHelpInstance.iconClass[icon]);
 			}
 		}
-	};
+	}
 	WebHelp.prototype.saveAllHelpSequencesToFile = function () {
 		//get required data
 		//Pretty print the JSON content
@@ -369,6 +372,7 @@ WebHelp = (function () {
 	 *
 	 * @api private
 	 * @param {WebHelp} WebHelpInstance the current instance of the WebHelp object
+	 * @param {Object} WebHelpInstance.ui
 	 * @private
 	 */
 	function _attachClickActionsToLists(WebHelpInstance) {
@@ -379,7 +383,8 @@ WebHelp = (function () {
 		}
 		WebHelpInstance.ui.webHelpMainContent.find('div.iconClass-edit').attr('title', 'Edit').unbind('click').on('click', WebHelpInstance.editThisSequence.bind(WebHelpInstance));
 		WebHelpInstance.ui.webHelpMainContent.find('div.iconClass-remove').attr('title', 'Delete').unbind('click').on('click', WebHelpInstance.removeThisSequence.bind(WebHelpInstance));
-	};
+	}
+
 	WebHelp.prototype.startSelectionOfElement = function () {
 		var self = this;
 		/* Close the sidemenu if it is open*/
@@ -462,7 +467,7 @@ WebHelp = (function () {
 			WebHelpInstance.removeThisStep.bind(WebHelpInstance);
 		});
 		_attachIcons(WebHelpInstance);
-	};
+	}
 	WebHelp.prototype.removeThisStep = function (event) {
 		this.stepsTable.removeRow(event);
 		if (!this.stepsTable.numRows()) {
@@ -593,7 +598,7 @@ WebHelp = (function () {
 		//return "WebHelp." + this.appName + "." + this.userName;
 		/* Using preferences, so do not need the username in the key for now*/
 		return "WebHelp." + WebHelpInstance.appName;
-	};
+	}
 	// This function should be tied to the user and the app
 	// Returns an array of sequence IDs of the visited sequences
 	WebHelp.prototype.getAllVisitedSequences = function () {
