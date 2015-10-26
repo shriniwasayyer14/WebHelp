@@ -177,7 +177,7 @@ WebHelp = (function () {
 		jQuery('.nav-tabs a[href=#addSequence]').hide();
 		jQuery('#globalWebHelpCreatorActionsWell').hide();
 		this.refreshWhatsNew();
-		this.populateCurrentSequences();
+		_populateCurrentSequences(this);
 		var self = this;
 		this.watchWhatsNew = setInterval(function () {
 			self.refreshWhatsNew();
@@ -264,7 +264,7 @@ WebHelp = (function () {
 		}
 		jQuery(elem).html(currentTitleHTML);
 		this.refreshAllSequences();
-		this.populateCurrentSequences();
+		_populateCurrentSequences(this);
 	};
 	/**
 	 * Attach all required icons within the main UI content
@@ -324,7 +324,7 @@ WebHelp = (function () {
 		}
 		this.updateNewSequencesTable(newSequences); // new function
 		if (newSequences.length >= 1) {
-			this.populateCurrentSequences();
+			_populateCurrentSequences(this);
 		}
 		//update badge icon
 		var numOfNewSequences = newSequences.length;
@@ -336,8 +336,16 @@ WebHelp = (function () {
 			}
 		}
 	};
-	WebHelp.prototype.populateCurrentSequences = function () {
-		var retrievedSequences = this.sequences;
+	/**
+	 * Populates all current sequences from the sequences parameter that was read from the file
+	 *
+	 * @param {WebHelp} WebHelpInstance The current instance
+	 * @param {Object} WebHelpInstance.sequences The sequences that were read into the attribute
+	 * @param {Object} WebHelpInstance.ui The UI parameter
+	 * @private
+	 */
+	function _populateCurrentSequences(WebHelpInstance) {
+		var retrievedSequences = WebHelpInstance.sequences;
 		jQuery.map(retrievedSequences, function (val) {
 			if (val.status === "E") {
 				delete retrievedSequences[val];
@@ -345,7 +353,6 @@ WebHelp = (function () {
 		});
 		if (retrievedSequences) {
 			var sequenceData = [];
-			var self = this;
 			var supplementalClasses = []; //Array of classes to add to each row if we want
 			jQuery.each(retrievedSequences, function (sequenceTitle, sequenceContent) {
 				if (sequenceContent.visible !== undefined && sequenceContent.visible === false) {
@@ -358,23 +365,23 @@ WebHelp = (function () {
 					'',//remove
 					JSON.stringify(sequenceContent)//content
 				]);
-				if (self.isThisSequenceSeen(sequenceContent.seqId)) {
+				if (WebHelpInstance.isThisSequenceSeen(sequenceContent.seqId)) {
 					supplementalClasses.push('seen');
 				} else {
 					supplementalClasses.push('unseen');
 				}
 			});
-			this.availableSequencesTable = new TableList({
+			WebHelpInstance.availableSequencesTable = new TableList({
 				element: '#availableSequencesContent',
 				data: sequenceData,
 				listTemplate: 'WebHelpSequenceConsumptionList',
 				listItemTemplate: 'WebHelpSequenceListItem',
 				supplementalClasses: supplementalClasses
 			});
-			_attachIcons(this);
-			_attachClickActionsToLists(this);
+			_attachIcons(WebHelpInstance);
+			_attachClickActionsToLists(WebHelpInstance);
 		}
-	};
+	}
 	/**
 	 * Attach click icons to the given lists
 	 *
@@ -542,7 +549,7 @@ WebHelp = (function () {
 			};
 			// Populate scratchpad
 			this.refreshScratchpad();
-			this.populateCurrentSequences();
+			_populateCurrentSequences(this);
 		} catch (error) {
 			saveStatus = 'Error saving the sequence!';
 		} finally {
@@ -908,7 +915,7 @@ WebHelp = (function () {
 		var sequenceName = jQuery(event.target).parents('li').find('.webHelpSequenceItem-title').text();
 		var storedSequences = this.sequences;
 		delete storedSequences[sequenceName];
-		this.populateCurrentSequences();
+		_populateCurrentSequences(this);
 		this.refreshScratchpad();
 	};
 	return WebHelp;
