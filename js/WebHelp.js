@@ -201,7 +201,7 @@ WebHelp = (function () {
 				_refreshWhatsNew(webHelpInstance);
 			}, 1800000);
 			if (webHelpInstance.showIntroOnLoad) {
-				var introSeqId = webHelpInstance.getSeqIdForSequence('Introduction');
+				var introSeqId = webHelpInstance.getSequenceIdForSequenceName('Introduction');
 				if (introSeqId && !webHelpInstance.isSequenceAlreadyViewed({seqId: introSeqId})) {
 					webHelpInstance.playSequence('Introduction');
 				}
@@ -758,8 +758,12 @@ WebHelp = (function () {
 			return [];
 		}
 	};
-	// This method returns back the seq id for a sequence with title
-	WebHelp.prototype.getSeqIdForSequence = function (sequenceName) {
+	/**
+	 * Get the sequence ID for a given sequence name
+	 * @param {String} sequenceName
+	 * @returns {int} The sequence ID
+	 */
+	WebHelp.prototype.getSequenceIdForSequenceName = function (sequenceName) {
 		var sequence = this.sequences[sequenceName];
 		var seqId = sequence.seqId;
 		return seqId;
@@ -778,7 +782,7 @@ WebHelp = (function () {
 		var seqId = options.seqId;
 		var seqName = options.seqName;
 		if (seqName && (!seqId)) {
-			seqId = this.getSeqIdForSequence(seqName);
+			seqId = this.getSequenceIdForSequenceName(seqName);
 		}
 		if (!(seqName || seqId)) {
 			console.error('Called function with no identifiers for sequence');
