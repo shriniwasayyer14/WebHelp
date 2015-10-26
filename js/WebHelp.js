@@ -221,7 +221,9 @@ WebHelp = (function () {
 		jQuery("#sequenceSaveButton").on("click", this.saveSequence.bind(self));
 		jQuery("#clearStepsButton").on("click", this.clearStepsInSequence.bind(self));
 		jQuery("#startDragDropButton").on("click", this.startSelectionOfElement.bind(self));
-		jQuery("#startEmptyStepButton").on("click", this.createStepForThisElement.bind(self));
+		jQuery("#startEmptyStepButton").on("click", function () {
+			_createStepForThisElement(self);
+		});
 		jQuery("#cancelDragDropButton").on("click", jQueryDragSelector.off);
 		jQuery("#noElementsSelectedButton").on("click", jQuery('#noElementsSelectedDiv').hide);
 		jQuery("#noStepsInPreviewButton").on("click", jQuery('#noStepsInPreviewDiv').hide);
@@ -402,7 +404,7 @@ WebHelp = (function () {
 				jQuery(".drag-select-yes").on("click", function () {
 					jQueryDragSelector.confirmSelection(true, element, function (arrayOfObjects) {
 						if (arrayOfObjects) {
-							self.createStepForThisElement(arrayOfObjects, selectionDetails);
+							_createStepForThisElement(self, arrayOfObjects, selectionDetails);
 						}
 					});
 					self.ui.sidebarToggleButton.trigger('click');
@@ -423,8 +425,15 @@ WebHelp = (function () {
 			jQuery("#startDragDropButton").tooltip('hide');
 		}, 3000);
 	};
-	WebHelp.prototype.createStepForThisElement = function (arrayOfElems, selectionDetails) {
-		var self = this;
+	/**
+	 * Create a step for a given element once it's selected
+	 *
+	 * @param {WebHelp} WebHelpInstance The current WebHelp instance
+	 * @param {Array=} arrayOfElems An array containing all the selected elements (if used)
+	 * @param {Object=} selectionDetails selection details (especially if it contains iFrames and such (if used)
+	 * @private
+	 */
+	function _createStepForThisElement(WebHelpInstance, arrayOfElems, selectionDetails) {
 		var $stepsTable = jQuery("#stepsTable");
 		var elemText = '';
 		var elemType = '';
@@ -438,7 +447,7 @@ WebHelp = (function () {
 				elemText += "&";
 				elemType += arrayOfElems[i].attribute + "&";
 			}
-			this.stepsTable.addRow([
+			WebHelpInstance.stepsTable.addRow([
 				"",
 				"Editable title",
 				elemType,
@@ -446,13 +455,13 @@ WebHelp = (function () {
 				elemFrame,
 				"Editable content"]);
 		} else {
-			this.stepsTable.addRow();
+			WebHelpInstance.stepsTable.addRow();
 		}
 		$stepsTable.find('.remove-step').unbind('click');
 		$stepsTable.find('.remove-step').on('click', function () {
-			self.removeThisStep.bind(self);
+			WebHelpInstance.removeThisStep.bind(WebHelpInstance);
 		});
-		_attachIcons(this);
+		_attachIcons(WebHelpInstance);
 	};
 	WebHelp.prototype.removeThisStep = function (event) {
 		this.stepsTable.removeRow(event);
