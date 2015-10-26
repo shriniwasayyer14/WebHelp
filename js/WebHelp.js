@@ -346,8 +346,8 @@ WebHelp = (function () {
 		} else {
 			WebHelpInstance.ui.webHelpMainContent.find('div.iconClass-play').attr('title', 'Play!').unbind('click').on('click', WebHelpInstance.playClickedSequence.bind(WebHelpInstance));
 		}
-		WebHelpInstance.ui.webHelpMainContent.find('div.iconClass-edit').attr('title', 'Edit').unbind('click').on('click', WebHelpInstance.editWebHelpInstanceSequence.bind(WebHelpInstance));
-		WebHelpInstance.ui.webHelpMainContent.find('div.iconClass-remove').attr('title', 'Delete').unbind('click').on('click', WebHelpInstance.removeWebHelpInstanceSequence.bind(WebHelpInstance));
+		WebHelpInstance.ui.webHelpMainContent.find('div.iconClass-edit').attr('title', 'Edit').unbind('click').on('click', WebHelpInstance.editThisSequence.bind(WebHelpInstance));
+		WebHelpInstance.ui.webHelpMainContent.find('div.iconClass-remove').attr('title', 'Delete').unbind('click').on('click', WebHelpInstance.removeThisSequence.bind(WebHelpInstance));
 	};
 	WebHelp.prototype.startSelectionOfElement = function () {
 		var self = this;
