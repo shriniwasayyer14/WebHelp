@@ -501,10 +501,11 @@ WebHelp = (function () {
 	 * @param {WebHelp} WebHelpInstance
 	 * @param {Object} WebHelpInstance.ui The UI parameter
 	 * @param {Boolean} WebHelpInstance.usesIframes Does this app use iFrames ?
+	 * @param {TableList} WebHelpInstance.stepsTable The TableList used to list the steps
 	 * @private
 	 */
 	function _previewClickedSequence(WebHelpInstance) {
-		var previewSteps = _getCurrentTablePreviewSteps(this);
+		var previewSteps = _getCurrentTablePreviewSteps(WebHelpInstance);
 		if (previewSteps) {
 			var introJsObj = introJs();
 			if (WebHelpInstance.usesIframes) {
