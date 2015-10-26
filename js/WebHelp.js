@@ -227,7 +227,9 @@ WebHelp = (function () {
 		_initScratchPadTable(this);
 		jQuery('.nav-tabs a[href=#addSequence]').trigger('click');
 		//attach event handlers to webHelpContent
-		jQuery("#sequencePreviewButton").on("click", this.preview.bind(self));
+		jQuery("#sequencePreviewButton").on("click", function () {
+			_previewClickedSequence(self);
+		});
 		jQuery("#sequenceSaveButton").on("click", this.saveSequence.bind(self));
 		jQuery("#clearStepsButton").on("click", this.clearStepsInSequence.bind(self));
 		jQuery("#startDragDropButton").on("click", this.startSelectionOfElement.bind(self));
@@ -494,11 +496,18 @@ WebHelp = (function () {
 			_attachIcons(this);
 		}
 	};
-	WebHelp.prototype.preview = function () {
+	/**
+	 * Preview the clicked sequence (from the table, usually)
+	 * @param {WebHelp} WebHelpInstance
+	 * @param {Object} WebHelpInstance.ui The UI parameter
+	 * @param {Boolean} WebHelpInstance.usesIframes Does this app use iFrames ?
+	 * @private
+	 */
+	function _previewClickedSequence(WebHelpInstance) {
 		var previewSteps = _getCurrentTablePreviewSteps(this);
 		if (previewSteps) {
 			var introJsObj = introJs();
-			if (this.usesIframes) {
+			if (WebHelpInstance.usesIframes) {
 				for (var i = previewSteps.length - 1; i >= 0; i--) {
 					var thisStep = previewSteps[i];
 					if (thisStep.iframeId) {
@@ -512,18 +521,19 @@ WebHelp = (function () {
 				showBullets: false,
 				tooltipPosition: 'auto'
 			};
-			for (var option in this.defaultIntroJsOptions) {
-				if (this.defaultIntroJsOptions.hasOwnProperty(option)) {
-					options[option] = this.defaultIntroJsOptions[option];
+			for (var option in WebHelpInstance.defaultIntroJsOptions) {
+				if (WebHelpInstance.defaultIntroJsOptions.hasOwnProperty(option)) {
+					options[option] = WebHelpInstance.defaultIntroJsOptions[option];
 				}
 			}
 			introJsObj.setOptions(options);
-			this.ui.sidebarToggleButton.trigger('click'); //Close the side menu
+			WebHelpInstance.ui.sidebarToggleButton.trigger('click'); //Close the side menu
 			setTimeout(function () {
 				introJsObj.start();
 			}, 500);
 		}
-	};
+	}
+
 	WebHelp.prototype.saveSequence = function () {
 		var saveStatus = 'Sequence saved successfully!';
 		try {
@@ -639,8 +649,6 @@ WebHelp = (function () {
 	 * @private
 	 */
 	function _genKey(WebHelpInstance) {
-		//return "WebHelp." + this.appName + "." + this.userName;
-		/* Using preferences, so do not need the username in the key for now*/
 		return "WebHelp." + WebHelpInstance.appName;
 	}
 	// This function should be tied to the user and the app
