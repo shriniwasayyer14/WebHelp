@@ -203,7 +203,7 @@ WebHelp = (function () {
 			if (webHelpInstance.showIntroOnLoad) {
 				var introSeqId = webHelpInstance.getSequenceIdForSequenceName('Introduction');
 				if (introSeqId && !webHelpInstance.isSequenceAlreadyViewed({seqId: introSeqId})) {
-					webHelpInstance.playSequence({sequenceName: 'Introduction'});
+					webHelpInstance.playSequence('Introduction');
 				}
 			}
 		});
