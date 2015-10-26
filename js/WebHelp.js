@@ -74,7 +74,7 @@ WebHelp = (function () {
 			this.mode = "consume";
 			this.showHelpConsumptionMode();
 		}
-		this.bindPlayEditButtons();
+		_bindPlayEditButtons(this);
 	}
 
 	//detect jquery params
@@ -99,12 +99,18 @@ WebHelp = (function () {
 		}
 		return query_string;
 	};
-	WebHelp.prototype.bindPlayEditButtons = function () {
-		var self = this;
+	/**
+	 * Bind click actions to the play and edit buttons
+	 *
+	 * @param {WebHelp} WebHelpInstance The current instance of WebHelp
+	 * @api private
+	 * @private
+	 */
+	function _bindPlayEditButtons(WebHelpInstance) {
 		//attach sequence specific handlers
-		this.ui.webHelpMainContent.on('click', '.play-sequence', this.playClickedSequence.bind(self));
-		this.ui.webHelpMainContent.on('click', '.edit-sequence', this.editThisSequence.bind(self));
-		this.ui.webHelpMainContent.on('click', '.remove-sequence', this.removeThisSequence.bind(self));
+		WebHelpInstance.ui.webHelpMainContent.on('click', '.play-sequence', WebHelpInstance.playClickedSequence.bind(WebHelpInstance));
+		WebHelpInstance.ui.webHelpMainContent.on('click', '.edit-sequence', WebHelpInstance.editThisSequence.bind(WebHelpInstance));
+		WebHelpInstance.ui.webHelpMainContent.on('click', '.remove-sequence', WebHelpInstance.removeThisSequence.bind(WebHelpInstance));
 	};
 	WebHelp.prototype.showSequences = function () {
 		jQuery('#contentConsumptionModal').modal('show');
