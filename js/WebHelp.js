@@ -771,7 +771,7 @@ WebHelp = (function () {
 	 * @param {Object} options The options object
 	 * @param {int=} options.seqId The sequence ID for the given sequence
 	 * @param {String=} options.seqName The sequence name for the given sequence
-	 * @returns {boolean} Whether the sequence has been previously viewed
+	 * @returns {Boolean} Whether the sequence has been previously viewed
 	 */
 	WebHelp.prototype.isSequenceAlreadyViewed = function (options) {
 		var seqId = options.seqId;
