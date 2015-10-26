@@ -511,9 +511,9 @@ WebHelp = (function () {
 			var sequenceTitle = jQuery("#sequenceTitleSetter").val().trim();
 			var stepsToSave = _getCurrentTablePreviewSteps(this);
 			var sequences = this.sequences;
-			var sequenceStatus = this.getCurrentTableStatus();
+			var sequenceStatus = _getCurrentTableStatus(this);
 			if (sequenceStatus === "E") {
-				var editedSeqId = this.getCurrentTableSeqId();
+				var editedSeqId = _getCurrentTableSeqId(this);
 				jQuery.map(this.sequences, function (val, i) {
 					if (val.seqId === editedSeqId) {
 						delete sequences[i];
@@ -589,18 +589,33 @@ WebHelp = (function () {
 		return previewSteps;
 	}
 
-	WebHelp.prototype.getCurrentTableStatus = function () {
-		return this.stepsTable.getStatus();
+	/**
+	 * Get the status for the given table
+	 *
+	 * @param {WebHelp} WebHelpInstance
+	 * @param {TableList} WebHelpInstance.stepsTable
+	 * @returns {String} The status
+	 * @private
+	 */
+	WebHelp.prototype.getCurrentTableStatus = function (WebHelpInstance) {
+		return WebHelpInstance.stepsTable.getStatus();
 	};
-	WebHelp.prototype.getCurrentTableSeqId = function () {
-		return this.stepsTable.getSeqId();
-	};
+	/**
+	 * Get the current sequence ID for the given table
+	 *
+	 * @param {WebHelp} WebHelpInstance
+	 * @param {TableList} WebHelpInstance.stepsTable
+	 * @returns {String|int} The Sequence ID
+	 * @private
+	 */
+	function _getCurrentTableSeqId(WebHelpInstance) {
+		return WebHelpInstance.stepsTable.getSeqId();
+	}
+
 	/**
 	 * Generates the sequencing key
 	 *
-	 * @param {WebHelp} WebHelpInstance
-	 * @param {String} WebHelpInstance.appName
-	 * @returns {string} The WebHelp app key
+	 *
 	 * @private
 	 */
 	function _genKey(WebHelpInstance) {
