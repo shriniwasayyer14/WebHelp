@@ -667,6 +667,7 @@ WebHelp = (function () {
 
 	// This function should be tied to the user and the app
 	// Returns an array of sequence IDs of the visited sequences
+	/*TODO: Get rid of async false and convert to promise chain!!!!!!*/
 	WebHelp.prototype.getAllVisitedSequences = function () {
 		var userPrefs = {};
 		jQuery.ajax({
