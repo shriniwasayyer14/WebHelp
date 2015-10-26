@@ -10,7 +10,7 @@ WebHelp = (function () {
 			helpIconPosition: '.ai-header .ai-header-title',
 			showIntroOnLoad: false,
 			usesFontAwesome: false,
-			parameters: this.getWindowParameters(),
+			parameters: _getWindowParameters(),
 			ui: {},
 			sequences: {},
 			sequencesBaseUrl: '/WebHelp/',
@@ -77,8 +77,13 @@ WebHelp = (function () {
 		_bindPlayEditButtons(this);
 	}
 
-	//detect jquery params
-	WebHelp.prototype.getWindowParameters = function () {
+	/**
+	 * Get the parameters used in the URL query string
+	 *
+	 * @returns {{}} An object of the different parameters used in the URL
+	 * @private
+	 */
+	function _getWindowParameters() {
 		// This function is anonymous, is executed immediately and
 		// the return value is assigned to QueryString!
 		var query_string = {};
@@ -98,7 +103,8 @@ WebHelp = (function () {
 			}
 		}
 		return query_string;
-	};
+	}
+
 	/**
 	 * Bind click actions to the play and edit buttons
 	 *
