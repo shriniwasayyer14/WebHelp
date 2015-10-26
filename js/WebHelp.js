@@ -572,7 +572,7 @@ WebHelp = (function () {
 				status: sequenceStatus
 			};
 			// Populate scratchpad
-			this.refreshScratchpad();
+			_refreshScratchpad(this);
 			_populateCurrentSequences(this);
 		} catch (error) {
 			saveStatus = 'Error saving the sequence!';
@@ -781,16 +781,24 @@ WebHelp = (function () {
 		});
 	}
 
-	WebHelp.prototype.refreshScratchpad = function () {
+	/**
+	 * Refresh the scratchpad as needed
+	 *
+	 * @param {WebHelp} WebHelpInstance The current WebHelp instance
+	 * @param {Object} WebHelpInstance.sequences The sequences attribute
+	 * @private
+	 */
+	function _refreshScratchpad(WebHelpInstance) {
 		var unsavedSequences = {};
-		jQuery.map(this.sequences, function (val, i) {
+		jQuery.map(WebHelpInstance.sequences, function (val, i) {
 			var status = val.status;
 			if (status !== "O") {
 				unsavedSequences[i] = val;
 			}
 		});
 		this.updateNewSequencesTable(unsavedSequences);
-	};
+	}
+
 	/**
 	 * Initialize the "What's New" table
 	 *
@@ -947,7 +955,7 @@ WebHelp = (function () {
 		var storedSequences = this.sequences;
 		delete storedSequences[sequenceName];
 		_populateCurrentSequences(this);
-		this.refreshScratchpad();
+		_refreshScratchpad(this);
 	};
 	return WebHelp;
 })();
