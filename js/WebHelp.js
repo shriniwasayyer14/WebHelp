@@ -222,7 +222,7 @@ WebHelp = (function () {
 			sortable: true,
 			status: "N"
 		});
-		this.initScratchPadTable();
+		_initScratchPadTable(this);
 		jQuery('.nav-tabs a[href=#addSequence]').trigger('click');
 		//attach event handlers to webHelpContent
 		jQuery("#sequencePreviewButton").on("click", this.preview.bind(self));
@@ -704,7 +704,7 @@ WebHelp = (function () {
 		if (this.mode === "consume") {
 			this.initWhatsNewTable(aaData);
 		} else {
-			this.initScratchPadTable(aaData);
+			_initScratchPadTable(this, aaData);
 		}
 	};
 	WebHelp.prototype.refreshAllSequences = function (file) {
@@ -751,14 +751,21 @@ WebHelp = (function () {
 		_attachIcons(this);
 		_attachClickActionsToLists(this);
 	};
-	WebHelp.prototype.initScratchPadTable = function (aaData) {
-		this.scratchPadTable = new TableList({
+	/**
+	 * Initialize the table in the scratchpad
+	 *
+	 * @param {WebHelp} WebHelpInstance
+	 * @param {Array=} aaData
+	 * @private
+	 */
+	function _initScratchPadTable(WebHelpInstance, aaData) {
+		WebHelpInstance.scratchPadTable = new TableList({
 			element: '#scratchpadContent',
 			data: aaData || [],
 			listTemplate: 'WebHelpSequenceConsumptionList',
 			listItemTemplate: 'WebHelpSequenceListItem'
 		});
-	};
+	}
 	WebHelp.prototype.clearStepsInSequence = function () {
 		//Destroy and reinitialize the table to get the edited data
 		this.stepsTable.renderList();
