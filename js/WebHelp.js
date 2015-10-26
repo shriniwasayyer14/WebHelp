@@ -597,9 +597,10 @@ WebHelp = (function () {
 	 * @returns {String} The status
 	 * @private
 	 */
-	WebHelp.prototype.getCurrentTableStatus = function (WebHelpInstance) {
+	function _getCurrentTableStatus(WebHelpInstance) {
 		return WebHelpInstance.stepsTable.getStatus();
-	};
+	}
+
 	/**
 	 * Get the current sequence ID for the given table
 	 *
