@@ -128,7 +128,7 @@ WebHelp = (function () {
 
 	/**
 	 * Programmatically trigger the sequence list modal when in consumption mode
-	 * @api public
+	 * @public
 	 */
 	WebHelp.prototype.showSequenceConsumptionModal = function () {
 		if (this.mode === 'consume') {
@@ -772,7 +772,7 @@ WebHelp = (function () {
 	/**
 	 * Given a seqence ID or name, check if the sequence has been previously seen or not
 	 *
-	 * @api public
+	 * @public
 	 * @param {Object} options The options object
 	 * @param {int=} options.seqId The sequence ID for the given sequence
 	 * @param {String=} options.seqName The sequence name for the given sequence
@@ -956,21 +956,16 @@ WebHelp = (function () {
 
 	/**
 	 * Play a sequence programmatically given its identifier (name or ID)
-	 *
-	 * @param {Object} options The options object
-	 * @param {int=} options.seqId The sequence ID for the given sequence
-	 * @param {String=} options.seqName The sequence name for the given sequence
-	 * @api public
+	 * @public
+	 * @param {String|int} nameOrId The sequence name or ID for a given sequence
 	 */
-	WebHelp.prototype.playSequence = function (options) {
-		var seqName = options.seqName;
-		var seqId = options.seqId;
-		if (!(seqName || seqId)) {
-			console.error('Called function with no identifiers for sequence');
-			return;
-		}
-		if (seqName && (!seqId)) {
+	WebHelp.prototype.playSequence = function (nameOrId) {
+		var seqName, seqId;
+		if (isNaN(parseInt(nameOrId))) {
+			seqName = nameOrId;
 			seqId = this.getSequenceIdForSequenceName(seqName);
+		} else {
+			seqId = parseInt(nameOrId);
 		}
 		var play = introJs();
 		if (this.usesIframes) {

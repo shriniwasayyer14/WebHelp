@@ -171,8 +171,10 @@ WebHelpTemplates["WebHelpSequenceStepListItem"] = "<li class=\"webHelpSequenceSt
    "    <div contenteditable=\"true\" class=\"webHelpSequenceListItem-title\">Editable title</div>\n" +
    "    <div class=\"webHelpSequenceListItem-selectionType\"></div>\n" +
    "    <div class=\"webHelpSequenceListItem-selectionValue\"></div>\n" +
+  "    <div class=\"webHelpSequenceListItem-selectionFrame\"></div>\n" +
    "    <div contenteditable=\"true\" class=\"webHelpSequenceListItem-content\">Editable content</div>\n" +
-   "</li>";
+  "</li>\n" +
+  "";
 
 WebHelpTemplates["WebHelpSidebarToggle"] = "<span id=\"creationModeSidebarshowHideSpan\">Show/Hide Create Mode</span>";
 
