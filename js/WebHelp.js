@@ -664,20 +664,27 @@ WebHelp = (function () {
 		var visitedSeqIds = this.getAllVisitedSequences();
 		return visitedSeqIds.indexOf(seqId.toString()) >= 0;
 	};
-	// This method would mark the given sequence as seen
-	WebHelp.prototype.markThisSequenceAsSeen = function (seqId) {
-		var visitedSeqIds = this.getAllVisitedSequences();
-		var key = _genKey(this);
+	/**
+	 * Method to mark the given sequence as seen
+	 *
+	 * @param {WebHelp} WebHelpInstance
+	 * @param {int|String} seqId
+	 * @private
+	 */
+	function _markThisSequenceAsSeen(WebHelpInstance, seqId) {
+		var visitedSeqIds = WebHelpInstance.getAllVisitedSequences();
+		var key = _genKey(WebHelpInstance);
 		var updatePreferences = false;
 		if (visitedSeqIds.indexOf(seqId.toString()) < 0) {
 			visitedSeqIds.push(seqId);
 			updatePreferences = true;
 		}
 		if (updatePreferences) {
-			this.setVisitedSequencesInUserPrefs(key, visitedSeqIds);
-			this.refreshWhatsNew();
+			WebHelpInstance.setVisitedSequencesInUserPrefs(key, visitedSeqIds);
+			WebHelpInstance.refreshWhatsNew();
 		}
-	};
+	}
+
 	WebHelp.prototype.setVisitedSequencesInUserPrefs = function (key, val) {
 		var self = this;
 		val = val.join(",");
@@ -842,7 +849,7 @@ WebHelp = (function () {
 			jQuery('#contentConsumptionModal').modal('hide');
 		}
 		play.start();
-		this.markThisSequenceAsSeen(seqId);
+		_markThisSequenceAsSeen(this, seqId);
 	};
 	WebHelp.prototype.playClickedSequence = function (event) {
 		var sequenceName = jQuery(event.target).parents('li').find('.webHelpSequenceItem-title').text();
