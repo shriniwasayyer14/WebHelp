@@ -112,6 +112,15 @@ WebHelp = (function () {
 			'zIndex': '100'
 		});
 	};
+	/**
+	 * Add the help icon to the specified page element
+	 *
+	 * @api private
+	 * @param {WebHelp} WebHelpInstance the current instance of WebHelp
+	 * @param {selector} navbarButtonElement
+	 * @param {Boolean} addTextToNavbar
+	 * @private
+	 */
 	function _addHelpIcon (WebHelpInstance, navbarButtonElement, addTextToNavbar) {
 		if (!navbarButtonElement) {
 			navbarButtonElement = WebHelpInstance.helpIconPosition;
@@ -239,6 +248,13 @@ WebHelp = (function () {
 		this.refreshAllSequences();
 		this.populateCurrentSequences();
 	};
+	/**
+	 * Attach all required icons within the main UI content
+	 *
+	 * @api private
+	 * @param {WebHelp} WebHelpInstance
+	 * @private
+	 */
 	function _attachIcons(WebHelpInstance) {
 		for (var icon in WebHelpInstance.iconClass) {
 			if (WebHelpInstance.iconClass.hasOwnProperty(icon)) {
@@ -340,6 +356,13 @@ WebHelp = (function () {
 			_attachClickActionsToLists(this);
 		}
 	};
+	/**
+	 * Attach click icons to the given lists
+	 *
+	 * @api private
+	 * @param {WebHelp} WebHelpInstance the current instance of the WebHelp object
+	 * @private
+	 */
 	function _attachClickActionsToLists(WebHelpInstance) {
 		if (WebHelpInstance.mode !== 'create') {
 			WebHelpInstance.ui.webHelpMainContent.find('div.iconClass-play').parents('li.webHelpSequenceList:not(.header)').attr('title', 'Play!').unbind('click').on('click', WebHelpInstance.playClickedSequence.bind(WebHelpInstance));
