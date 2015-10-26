@@ -63,8 +63,8 @@ WebHelp = (function () {
 		this.defaultIntroJsOptions = {
 			nextLabel: 'Next <span class=\"' + this.iconClass.next + '\"></span>',
 			prevLabel: '<span class=\"' + this.iconClass.prev + '\"></span> Previous',
-			skipLabel: '<span class=\"' + this.iconClass.done + '\"></span> Close',
-			doneLabel: '<span class=\"' + this.iconClass.done + '\"></span> Done'
+			skipLabel: '<span class=\"' + this.iconClass.done + '\"></span>',
+			doneLabel: '<span class=\"' + this.iconClass.done + '\"></span>'
 		};
 		//build the gui
 		if (this.parameters.create !== undefined) {

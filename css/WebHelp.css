@@ -320,7 +320,6 @@
   border-radius: 8px;
   min-width: 300px;
   max-width: 600px;
-  padding-top: 30px;
 }
 .introjs-tooltipReferenceLayer {
   opacity: 0.8;
@@ -381,7 +380,7 @@ a.introjs-button {
   font-size: 15px;
   min-width: 45%;
   margin: 10px 5px;
-  border: 1px solid #fff;
+  border: 1px solid #888;
   padding: 3px;
   border-radius: 4px;
   text-align: center;
@@ -391,16 +390,6 @@ a.introjs-button {
   color: #f5f5f5;
   text-shadow: none;
   font-family: 'Roboto', Tahoma, Arial, Helvetica, sans-serif;
-}
-.introjs-customFixParent {
-  z-index: auto !important;
-  opacity: 1;
-  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
-  -webkit-transform: none !important;
-  -moz-transform: none !important;
-  -ms-transform: none !important;
-  -o-transform: none !important;
-  transform: none !important;
 }
 a.introjs-button:focus {
   outline: none;
@@ -412,12 +401,28 @@ a.introjs-button:hover {
   color: #36cbcb;
   border-color: #36cbcb;
 }
+.introjs-customFixParent {
+  z-index: auto !important;
+  opacity: 1;
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
+  -webkit-transform: none !important;
+  -moz-transform: none !important;
+  -ms-transform: none !important;
+  -o-transform: none !important;
+  transform: none !important;
+}
 a.introjs-button.introjs-skipbutton {
   position: absolute;
   top: 0;
   right: 0;
-  min-width: 30%;
-  border-color: #ff8c00;
+  min-width: 0;
+  margin: 0;
+  border: none;
+  font-size: 20px;
+}
+a.introjs-button.introjs-skipbutton:hover {
+  color: #ffa500;
+  border-color: #ffa500;
 }
 a.introjs-button.introjs-disabled {
   opacity: 0.5;
