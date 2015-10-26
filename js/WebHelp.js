@@ -135,8 +135,8 @@ WebHelp = (function () {
 	 * @api private
 	 * @param {WebHelp} WebHelpInstance the current instance of WebHelp
 	 * @param {Object} WebHelpInstance.ui
-	 * @param {selector} navbarButtonElement
-	 * @param {Boolean} addTextToNavbar
+	 * @param {selector=} navbarButtonElement
+	 * @param {Boolean=} addTextToNavbar
 	 * @private
 	 */
 	function _addHelpIcon (WebHelpInstance, navbarButtonElement, addTextToNavbar) {
@@ -270,7 +270,6 @@ WebHelp = (function () {
 			elem = helpIconElement;
 		}
 		jQuery(elem).html(currentTitleHTML);
-		var WebHelpInstance = this;
 		_refreshAllSequences(WebHelpInstance).then(function () {
 			_populateCurrentSequences(WebHelpInstance);
 		});
