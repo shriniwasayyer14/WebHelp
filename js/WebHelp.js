@@ -42,7 +42,7 @@ WebHelp = (function () {
 				"upload": "fa fa-upload",
 				"next": "fa fa-step-forward",
 				"prev": "fa fa-step-backward",
-				"done": "fa fa-times-circle"
+				"done": "fa fa-times"
 			};
 		} else { //default to bootstrap
 			this.iconClass = {
@@ -57,7 +57,7 @@ WebHelp = (function () {
 				"upload": "glyphicon glyphicon-upload",
 				"next": "glyphicon glyphicon-step-forward",
 				"prev": "glyphicon glyphicon-step-backward",
-				"done": "glyphicon glyphicon-remove-sign"
+				"done": "glyphicon glyphicon-remove"
 			};
 		}
 		this.defaultIntroJsOptions = {
