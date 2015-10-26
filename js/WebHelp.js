@@ -702,7 +702,7 @@ WebHelp = (function () {
 			]);
 		});
 		if (this.mode === "consume") {
-			this.initWhatsNewTable(aaData);
+			_initWhatsNewTable(aaData);
 		} else {
 			_initScratchPadTable(this, aaData);
 		}
@@ -740,17 +740,25 @@ WebHelp = (function () {
 		});
 		this.updateNewSequencesTable(unsavedSequences);
 	};
-	WebHelp.prototype.initWhatsNewTable = function (aaData) {
-		this.whatsNewTable = new TableList({
+	/**
+	 * Initialize the "What's New" table
+	 *
+	 * @param {WebHelp} WebHelpInstance
+	 * @param {Array=} aaData
+	 * @private
+	 */
+	function _initWhatsNewTable(WebHelpInstance, aaData) {
+		WebHelpInstance.whatsNewTable = new TableList({
 			element: '#whatsNewContent',
 			data: aaData || [],
 			listTemplate: 'WebHelpSequenceConsumptionList',
 			listItemTemplate: 'WebHelpSequenceListItem',
 			emptyListIndicator: 'All new help sequences viewed - Congratulations!'
 		});
-		_attachIcons(this);
-		_attachClickActionsToLists(this);
-	};
+		_attachIcons(WebHelpInstance);
+		_attachClickActionsToLists(WebHelpInstance);
+	}
+
 	/**
 	 * Initialize the table in the scratchpad
 	 *
