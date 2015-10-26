@@ -615,7 +615,7 @@ WebHelp = (function () {
 				$showSequenceSavedSuccessAlert.hide();
 			}, 2000);
 		}
-	};
+	}
 	/**
 	 * Get all the steps relevant to the current table
 	 *
