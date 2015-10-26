@@ -176,18 +176,19 @@ WebHelp = (function () {
 		this.ui.webHelpMainContent.appendTo("#contentConsumptionModal .modal-body");
 		jQuery('.nav-tabs a[href=#addSequence]').hide();
 		jQuery('#globalWebHelpCreatorActionsWell').hide();
-		this.refreshWhatsNew();
-		_populateCurrentSequences(this);
 		var self = this;
-		this.watchWhatsNew = setInterval(function () {
-			self.refreshWhatsNew();
-		}, 1800000);
-		if (this.showIntroOnLoad) {
-			var introSeqId = this.getSeqIdForSequence('Introduction');
-			if (introSeqId && !this.isThisSequenceSeen(introSeqId)) {
-				this.playSequence('Introduction');
+		self.refreshWhatsNew().then(function () {
+			_populateCurrentSequences(this);
+			self.watchWhatsNew = setInterval(function () {
+				self.refreshWhatsNew();
+			}, 1800000);
+			if (self.showIntroOnLoad) {
+				var introSeqId = self.getSeqIdForSequence('Introduction');
+				if (introSeqId && !self.isThisSequenceSeen(introSeqId)) {
+					self.playSequence('Introduction');
+				}
 			}
-		}
+		});
 	};
 	WebHelp.prototype.showHelpCreationMode = function () {
 		var self = this;
@@ -265,8 +266,10 @@ WebHelp = (function () {
 			elem = helpIconElement;
 		}
 		jQuery(elem).html(currentTitleHTML);
-		_refreshAllSequences(this);
-		_populateCurrentSequences(this);
+		var WebHelpInstance = this;
+		_refreshAllSequences(WebHelpInstance).then(function () {
+			_populateCurrentSequences(WebHelpInstance);
+		});
 	};
 	/**
 	 * Attach all required icons within the main UI content
@@ -305,38 +308,48 @@ WebHelp = (function () {
 		//link.parentNode.removeChild(link);
 		this.updateNewSequencesTable([]);
 	};
+	/**
+	 * Refresh to figure out which sequences are new, and accordingly perform UI actions
+	 * @returns {promise}
+	 */
+
 	WebHelp.prototype.refreshWhatsNew = function () {
-		_refreshAllSequences(this);
-		var sequences = this.sequences; //new function
-		var seenSequences = this.getAllVisitedSequences(); //new function
-		var newSequences = [];
-		for (var seqName in sequences) {
-			if (sequences.hasOwnProperty(seqName)) {
-				var seq = sequences[seqName];
-				if (seq.visible !== undefined && seq.visible === false) {
-					continue;
+		var self = this;
+		var dfd = new jQuery.Deferred();
+		_refreshAllSequences(self).then(function () {
+			var sequences = self.sequences; //new function
+			var seenSequences = self.getAllVisitedSequences(); //new function
+			var newSequences = [];
+			for (var seqName in sequences) {
+				if (sequences.hasOwnProperty(seqName)) {
+					var seq = sequences[seqName];
+					if (seq.visible !== undefined && seq.visible === false) {
+						continue;
+					}
+					var seqId = seq.seqId.toString();
+					if (seenSequences.indexOf(seqId) >= 0) {
+						//jQuery(self.availableSequencesTable.element).find
+					} else {
+						newSequences.push(seq);
+					}
 				}
-				var seqId = seq.seqId.toString();
-				if (seenSequences.indexOf(seqId) >= 0) {
-					//jQuery(this.availableSequencesTable.element).find
+			}
+			self.updateNewSequencesTable(newSequences); // new function
+			if (newSequences.length >= 1) {
+				_populateCurrentSequences(self);
+			}
+			//update badge icon
+			var numOfNewSequences = newSequences.length;
+			if (self.mode !== "create") {
+				if (numOfNewSequences > 0) {
+					self.ui.webHelpButton.attr('data-badge', numOfNewSequences + ' new');
 				} else {
-					newSequences.push(seq);
+					self.ui.webHelpButton.removeAttr('data-badge');
 				}
 			}
-		}
-		this.updateNewSequencesTable(newSequences); // new function
-		if (newSequences.length >= 1) {
-			_populateCurrentSequences(this);
-		}
-		//update badge icon
-		var numOfNewSequences = newSequences.length;
-		if (this.mode !== "create") {
-			if (numOfNewSequences > 0) {
-				this.ui.webHelpButton.attr('data-badge', numOfNewSequences + ' new');
-			} else {
-				this.ui.webHelpButton.removeAttr('data-badge');
-			}
-		}
+			dfd.resolve();
+		});
+		return dfd.promise();
 	};
 	/**
 	 * Populates all current sequences from the sequences parameter that was read from the file
@@ -645,13 +658,13 @@ WebHelp = (function () {
 
 	/**
 	 * Generates the sequencing key
-	 *
-	 *
+	 * @returns {String} The WebHelps app key
 	 * @private
 	 */
 	function _genKey(WebHelpInstance) {
 		return "WebHelp." + WebHelpInstance.appName;
 	}
+
 	// This function should be tied to the user and the app
 	// Returns an array of sequence IDs of the visited sequences
 	WebHelp.prototype.getAllVisitedSequences = function () {
@@ -742,6 +755,7 @@ WebHelp = (function () {
 	 * @param {WebHelp} WebHelpInstance
 	 * @param {String} WebHelpInstance.sequencesBaseUrl The base of the URL to call for the sequence file from
 	 * @param {String=} filename
+	 * @returns {promise} When the AJAX call is complete
 	 * @private
 	 */
 	function _refreshAllSequences(WebHelpInstance, filename) {
@@ -749,7 +763,7 @@ WebHelp = (function () {
 		if (!filename) {
 			filename = WebHelpInstance.sequencesBaseUrl + WebHelpInstance.webHelpName + '.json';
 		}
-		jQuery.ajax({
+		return jQuery.ajax({
 			url: filename,
 			xhrFields: {
 				withCredentials: true
@@ -757,7 +771,6 @@ WebHelp = (function () {
 			cache: false,
 			type: 'GET',
 			dataType: 'json',
-			async: false,
 			success: function (data) {
 				WebHelpInstance.sequences = data;
 			},
