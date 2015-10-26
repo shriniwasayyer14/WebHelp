@@ -257,7 +257,9 @@ WebHelp = (function () {
 			_saveSequence(WebHelpInstance);
 		});
 		jQuery("#clearStepsButton").on("click", WebHelpInstance.clearStepsInSequence.bind(WebHelpInstance));
-		jQuery("#startDragDropButton").on("click", WebHelpInstance.startSelectionOfElement.bind(WebHelpInstance));
+		jQuery("#startDragDropButton").on("click", function () {
+			_startSelectionOfElement(WebHelpInstance);
+		});
 		jQuery("#startEmptyStepButton").on("click", function () {
 			_createStepForThisElement(WebHelpInstance);
 		});
@@ -457,13 +459,20 @@ WebHelp = (function () {
 		});
 	}
 
-	WebHelp.prototype.startSelectionOfElement = function () {
-		var self = this;
+	/**
+	 * Trigger the selection event (start dragging to select a DOM element)
+	 * Only available in consumption mode
+	 *
+	 * @param {WebHelp} WebHelpInstance The current instance of WebHelp
+	 * @param {Boolean} WebHelpInstance.usesIframes Does this app use iFrames ?
+	 * @private
+	 */
+	function _startSelectionOfElement(WebHelpInstance) {
 		/* Close the sidemenu if it is open*/
-		this.ui.sidebarToggleButton.trigger('click');
+		WebHelpInstance.ui.sidebarToggleButton.trigger('click');
 		jQueryDragSelector.setPaneState(true);
 		var dragSelectionOptions = {
-			usesIframes: self.usesIframes
+			usesIframes: WebHelpInstance.usesIframes
 		};
 		jQueryDragSelector.on(dragSelectionOptions, function (selectionDetails) {
 			var element = selectionDetails.$element;
@@ -481,18 +490,18 @@ WebHelp = (function () {
 				jQuery(".drag-select-yes").on("click", function () {
 					jQueryDragSelector.confirmSelection(true, element, function (arrayOfObjects) {
 						if (arrayOfObjects) {
-							_createStepForThisElement(self, arrayOfObjects, selectionDetails);
+							_createStepForThisElement(WebHelpInstance, arrayOfObjects, selectionDetails);
 						}
 					});
-					self.ui.sidebarToggleButton.trigger('click');
-				}.bind(self));
+					WebHelpInstance.ui.sidebarToggleButton.trigger('click');
+				}.bind(WebHelpInstance));
 				jQuery(".drag-select-no").on("click", function () {
 					jQueryDragSelector.confirmSelection(false, element);
-					self.ui.sidebarToggleButton.trigger('click');
+					WebHelpInstance.ui.sidebarToggleButton.trigger('click');
 				});
 			} else {
 				jQuery('#noElementsSelectedDiv').show();
-				self.ui.sidebarToggleButton.trigger('click');
+				WebHelpInstance.ui.sidebarToggleButton.trigger('click');
 			}
 		});
 		jQuery("#startDragDropButton").tooltip({
@@ -501,7 +510,8 @@ WebHelp = (function () {
 		setTimeout(function () {
 			jQuery("#startDragDropButton").tooltip('hide');
 		}, 3000);
-	};
+	}
+
 	/**
 	 * Create a step for a given element once it's selected
 	 *
