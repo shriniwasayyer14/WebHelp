@@ -2901,3 +2901,49 @@ var jQueryDragSelector = {
 }());
 // Place any jQuery/helper plugins in here.
 ;
+
+/*
+ -- Helper methods --
+ addHelpIcon
+ attachClickActionsToLists
+ attachIcons
+ bindPlayEditButtons
+ createStepForThisElement
+ genKey
+ getAllVisitedSequences
+ getCurrentTablePreviewSteps
+ getCurrentTableSeqId
+ getCurrentTableStatus
+ getWindowParameters
+ initScratchPadTable
+ initWhatsNewTable
+ markThisSequenceAsSeen
+ playClickedSequence
+ populateCurrentSequences
+ preview
+ refreshAllSequences
+ refreshScratchpad
+ removeThisSequence
+ removeThisStep
+ saveAllHelpSequencesToFile
+ saveSequence
+ setVisitedSequencesInUserPrefs
+ showHelpConsumptionMode
+ showHelpCreationMode
+ showSequences
+ startSelectionOfElement
+ updateNewSequencesTable
+ refreshWhatsNew
+ clearStepsInSequence
+ editThisSequence
+
+ -- Public API --
+ isThisSequenceSeen
+ playSequence({
+ name:
+ OR
+ id:
+ })
+ getSeqIdForSequence(name)
+
+ */

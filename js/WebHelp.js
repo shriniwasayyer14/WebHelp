@@ -102,7 +102,7 @@ WebHelp = (function () {
 	WebHelp.prototype.bindPlayEditButtons = function () {
 		var self = this;
 		//attach sequence specific handlers
-		this.ui.webHelpMainContent.on('click', '.play-sequence', this.playThisSequence.bind(self));
+		this.ui.webHelpMainContent.on('click', '.play-sequence', this.playClickedSequence.bind(self));
 		this.ui.webHelpMainContent.on('click', '.edit-sequence', this.editThisSequence.bind(self));
 		this.ui.webHelpMainContent.on('click', '.remove-sequence', this.removeThisSequence.bind(self));
 	};
@@ -112,33 +112,32 @@ WebHelp = (function () {
 			'zIndex': '100'
 		});
 	};
-	WebHelp.prototype.addHelpIcon = function (navbarButtonElement, addTextToNavbar) {
-		var self = this;
+	function _addHelpIcon (WebHelpInstance, navbarButtonElement, addTextToNavbar) {
 		if (!navbarButtonElement) {
-			navbarButtonElement = this.helpIconPosition;
+			navbarButtonElement = WebHelpInstance.helpIconPosition;
 		}
 		var dropdownButtonHtml = '<button class="btn light" id="contentConsumptionNavButton" >' +
-			'<i class="' + this.iconClass.info + '"></i>';
+			'<i class="' + WebHelpInstance.iconClass.info + '"></i>';
 		if (addTextToNavbar) {
 			dropdownButtonHtml += 'App Help';
 		}
 		dropdownButtonHtml += '</button>';
-		this.ui.webHelpButton = jQuery(dropdownButtonHtml);
+		WebHelpInstance.ui.webHelpButton = jQuery(dropdownButtonHtml);
 		//Add to navbar if need be
 		if ((jQuery('.ai-navbar').length > 0) && (jQuery(navbarButtonElement + ':last-of-type').hasClass('nav-right'))) {
-			jQuery(navbarButtonElement + ':last-of-type').after(this.ui.webHelpButton);
-			this.ui.webHelpButton.addClass('nav-right');
+			jQuery(navbarButtonElement + ':last-of-type').after(WebHelpInstance.ui.webHelpButton);
+			WebHelpInstance.ui.webHelpButton.addClass('nav-right');
 		} else {
-			jQuery(navbarButtonElement).after(this.ui.webHelpButton);
+			jQuery(navbarButtonElement).after(WebHelpInstance.ui.webHelpButton);
 		}
-		this.ui.webHelpButton.on('click', function (event) {
+		WebHelpInstance.ui.webHelpButton.on('click', function (event) {
 			event.preventDefault();
-			self.showSequences();
+			WebHelpInstance.showSequences();
 		});
-		this.ui.webHelpButton.attr('title', 'App Help');
+		WebHelpInstance.ui.webHelpButton.attr('title', 'App Help');
 	};
 	WebHelp.prototype.showHelpConsumptionMode = function () {
-		this.addHelpIcon(this.helpIconPosition);
+		_addHelpIcon(this, this.helpIconPosition);
 		this.ui.webHelpMainContent = jQuery("#webHelpMainContent");
 		if (this.ui.webHelpMainContent.length <= 0) {
 			var modalContent = jQuery(WebHelpTemplates.WebHelpContent);
@@ -344,9 +343,9 @@ WebHelp = (function () {
 	WebHelp.prototype.attachClickActionsToLists = function () {
 		var self = this;
 		if (self.mode !== 'create') {
-			this.ui.webHelpMainContent.find('div.iconClass-play').parents('li.webHelpSequenceList:not(.header)').attr('title', 'Play!').unbind('click').on('click', self.playThisSequence.bind(self));
+			this.ui.webHelpMainContent.find('div.iconClass-play').parents('li.webHelpSequenceList:not(.header)').attr('title', 'Play!').unbind('click').on('click', self.playClickedSequence.bind(self));
 		} else {
-			this.ui.webHelpMainContent.find('div.iconClass-play').attr('title', 'Play!').unbind('click').on('click', self.playThisSequence.bind(self));
+			this.ui.webHelpMainContent.find('div.iconClass-play').attr('title', 'Play!').unbind('click').on('click', self.playClickedSequence.bind(self));
 		}
 		this.ui.webHelpMainContent.find('div.iconClass-edit').attr('title', 'Edit').unbind('click').on('click', self.editThisSequence.bind(self));
 		this.ui.webHelpMainContent.find('div.iconClass-remove').attr('title', 'Delete').unbind('click').on('click', self.removeThisSequence.bind(self));
@@ -749,7 +748,7 @@ WebHelp = (function () {
 		play.start();
 		this.markThisSequenceAsSeen(seqId);
 	};
-	WebHelp.prototype.playThisSequence = function (event) {
+	WebHelp.prototype.playClickedSequence = function (event) {
 		var sequenceName = jQuery(event.target).parents('li').find('.webHelpSequenceItem-title').text();
 		this.playSequence(sequenceName);
 	};
