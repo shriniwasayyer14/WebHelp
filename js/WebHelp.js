@@ -233,7 +233,9 @@ WebHelp = (function () {
 		jQuery("#sequencePreviewButton").on("click", function () {
 			_previewClickedSequence(WebHelpInstance);
 		});
-		jQuery("#sequenceSaveButton").on("click", this.saveSequence.bind(WebHelpInstance));
+		jQuery("#sequenceSaveButton").on("click", function () {
+			_saveSequence(WebHelpInstance);
+		});
 		jQuery("#clearStepsButton").on("click", this.clearStepsInSequence.bind(WebHelpInstance));
 		jQuery("#startDragDropButton").on("click", this.startSelectionOfElement.bind(WebHelpInstance));
 		jQuery("#startEmptyStepButton").on("click", function () {
@@ -571,16 +573,22 @@ WebHelp = (function () {
 		}
 	}
 
-	WebHelp.prototype.saveSequence = function () {
+	/**
+	 * Save a given sequences to the sequences object
+	 * @param {WebHelp} WebHelpInstance The current instance
+	 * @param {Object} WebHelpInstance.sequences The current sequences
+	 * @private
+	 */
+	function _saveSequence(WebHelpInstance) {
 		var saveStatus = 'Sequence saved successfully!';
 		try {
 			var sequenceTitle = jQuery("#sequenceTitleSetter").val().trim();
-			var stepsToSave = _getCurrentTablePreviewSteps(this);
-			var sequences = this.sequences;
-			var sequenceStatus = _getCurrentTableStatus(this);
+			var stepsToSave = _getCurrentTablePreviewSteps(WebHelpInstance);
+			var sequences = WebHelpInstance.sequences;
+			var sequenceStatus = _getCurrentTableStatus(WebHelpInstance);
 			if (sequenceStatus === "E") {
-				var editedSeqId = _getCurrentTableSeqId(this);
-				jQuery.map(this.sequences, function (val, i) {
+				var editedSeqId = _getCurrentTableSeqId(WebHelpInstance);
+				jQuery.map(WebHelpInstance.sequences, function (val, i) {
 					if (val.seqId === editedSeqId) {
 						delete sequences[i];
 					}
@@ -591,17 +599,17 @@ WebHelp = (function () {
 				seqId: new Date().getTime(),
 				sequenceTitle: sequenceTitle,
 				data: stepsToSave,
-				tool: this.appName,
+				tool: WebHelpInstance.appName,
 				status: sequenceStatus
 			};
 			// Populate scratchpad
-			_refreshScratchpad(this);
-			_populateCurrentSequences(this);
+			_refreshScratchpad(WebHelpInstance);
+			_populateCurrentSequences(WebHelpInstance);
 		} catch (error) {
 			saveStatus = 'Error saving the sequence!';
 		} finally {
 			var $showSequenceSavedSuccessAlert = jQuery('#showSequenceSavedSuccessAlert');
-			this.clearStepsInSequence();
+			WebHelpInstance.clearStepsInSequence();
 			$showSequenceSavedSuccessAlert.html(saveStatus).show();
 			setTimeout(function () {
 				$showSequenceSavedSuccessAlert.hide();
