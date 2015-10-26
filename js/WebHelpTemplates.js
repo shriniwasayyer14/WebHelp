@@ -152,9 +152,11 @@ WebHelpTemplates["WebHelpSequenceCreationList"] = "<ul class=\"webHelpSequenceCr
    "        <div class=\"webHelpSequenceListItem-title\">Title</div>\n" +
    "        <div class=\"webHelpSequenceListItem-selectionType\"></div>\n" +
    "        <div class=\"webHelpSequenceListItem-selectionValue\"></div>\n" +
+   "        <div class=\"webHelpSequenceListItem-selectionFrame\"></div>\n" +
    "        <div class=\"webHelpSequenceListItem-content\">Content</div>\n" +
    "    </li>\n" +
-   "</ul>";
+   "</ul>\n" +
+   "";
 
 WebHelpTemplates["WebHelpSequenceListItem"] = "<li class=\"webHelpSequenceList\">\n" +
    "    <div class=\"iconClass-play\"></div>\n" +

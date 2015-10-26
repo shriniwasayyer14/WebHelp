@@ -1,4 +1,4 @@
-/* globals jQuery, jQueryDragSelector, window, WebHelpTemplates, introJs, setTimeout, setInterval, localStorage, TableList */
+/* globals jQuery, jQueryDragSelector, window, WebHelpTemplates, introJs, setTimeout, setInterval, TableList */
 var WebHelp;
 WebHelp = (function () {
 	"use strict";
@@ -15,7 +15,8 @@ WebHelp = (function () {
 			sequences: {},
 			sequencesBaseUrl: '/WebHelp/',
 			visitedBaseUrl: '/weblications/etc/getPrefs.epl',
-			usesFlexbox: false
+			usesFlexbox: false,
+			usesIframes: false
 		};
 		if (!WebHelpOptions) {
 			WebHelpOptions = defaultOptions;
@@ -148,19 +149,18 @@ WebHelp = (function () {
 		this.ui.webHelpMainContent.appendTo("#contentConsumptionModal .modal-body");
 		jQuery('.nav-tabs a[href=#addSequence]').hide();
 		jQuery('#globalWebHelpCreatorActionsWell').hide();
+		this.refreshWhatsNew();
+		this.populateCurrentSequences();
 		var self = this;
-		this.refreshWhatsNew().then(function () {
-			self.populateCurrentSequences();
-			self.watchWhatsNew = setInterval(function () {
-				self.refreshWhatsNew();
-			}, 1800000);
-			if (self.showIntroOnLoad) {
-				var introSeqId = self.getSeqIdForSequence('Introduction');
-				if (introSeqId && !self.isThisSequenceSeen(introSeqId)) {
-					self.playSequence('Introduction');
-				}
+		this.watchWhatsNew = setInterval(function () {
+			self.refreshWhatsNew();
+		}, 1800000);
+		if (this.showIntroOnLoad) {
+			var introSeqId = this.getSeqIdForSequence('Introduction');
+			if (introSeqId && !this.isThisSequenceSeen(introSeqId)) {
+				this.playSequence('Introduction');
 			}
-		});
+		}
 	};
 	WebHelp.prototype.showHelpCreationMode = function () {
 		var self = this;
@@ -234,10 +234,8 @@ WebHelp = (function () {
 			elem = helpIconElement;
 		}
 		jQuery(elem).html(currentTitleHTML);
-		var self = this;
-		this.refreshAllSequences().then(function () {
-			self.populateCurrentSequences();
-		});
+		this.refreshAllSequences();
+		this.populateCurrentSequences();
 	};
 	WebHelp.prototype.attachIcons = function () {
 		for (var icon in this.iconClass) {
@@ -269,42 +267,37 @@ WebHelp = (function () {
 		this.updateNewSequencesTable([]);
 	};
 	WebHelp.prototype.refreshWhatsNew = function () {
-		var self = this;
-		var dfd = new jQuery.Deferred();
-		this.refreshAllSequences().then(function () {
-			var sequences = self.sequences; //new function
-			var seenSequences = self.getAllVisitedSequences(); //new function
-			var newSequences = [];
-			for (var seqName in sequences) {
-				if (sequences.hasOwnProperty(seqName)) {
-					var seq = sequences[seqName];
-					if (seq.visible !== undefined && seq.visible === false) {
-						continue;
-					}
-					var seqId = seq.seqId.toString();
-					if (seenSequences.indexOf(seqId) >= 0) {
-						//jQuery(this.availableSequencesTable.element).find
-					} else {
-						newSequences.push(seq);
-					}
+		this.refreshAllSequences();
+		var sequences = this.sequences; //new function
+		var seenSequences = this.getAllVisitedSequences(); //new function
+		var newSequences = [];
+		for (var seqName in sequences) {
+			if (sequences.hasOwnProperty(seqName)) {
+				var seq = sequences[seqName];
+				if (seq.visible !== undefined && seq.visible === false) {
+					continue;
 				}
-			}
-			self.updateNewSequencesTable(newSequences); // new function
-			if (newSequences.length >= 1) {
-				self.populateCurrentSequences();
-			}
-			//update badge icon
-			var numOfNewSequences = newSequences.length;
-			if (self.mode !== "create") {
-				if (numOfNewSequences > 0) {
-					self.ui.webHelpButton.attr('data-badge', numOfNewSequences + ' new');
+				var seqId = seq.seqId.toString();
+				if (seenSequences.indexOf(seqId) >= 0) {
+					//jQuery(this.availableSequencesTable.element).find
 				} else {
-					self.ui.webHelpButton.removeAttr('data-badge');
+					newSequences.push(seq);
 				}
 			}
-			dfd.resolve();
-		});
-		return dfd.promise();
+		}
+		this.updateNewSequencesTable(newSequences); // new function
+		if (newSequences.length >= 1) {
+			this.populateCurrentSequences();
+		}
+		//update badge icon
+		var numOfNewSequences = newSequences.length;
+		if (this.mode !== "create") {
+			if (numOfNewSequences > 0) {
+				this.ui.webHelpButton.attr('data-badge', numOfNewSequences + ' new');
+			} else {
+				this.ui.webHelpButton.removeAttr('data-badge');
+			}
+		}
 	};
 	WebHelp.prototype.populateCurrentSequences = function () {
 		var retrievedSequences = this.sequences;
@@ -359,7 +352,15 @@ WebHelp = (function () {
 		var self = this;
 		/* Close the sidemenu if it is open*/
 		this.ui.sidebarToggleButton.trigger('click');
-		jQueryDragSelector.on(function (element) {
+		jQueryDragSelector.setPaneState(true);
+		var dragSelectionOptions = {
+			usesIframes: self.usesIframes
+		};
+		jQueryDragSelector.on(dragSelectionOptions, function (selectionDetails) {
+			var element = selectionDetails.$element;
+			if (selectionDetails.iframeAttributes) {
+				element = selectionDetails.iframeAttributes.$body.find(selectionDetails.$element);
+			}
 			if (element) {
 				element.popover({
 					html: true,
@@ -367,18 +368,17 @@ WebHelp = (function () {
 					placement: 'auto top',
 					container: 'body', /*Show on top of all elements*/
 					content: WebHelpTemplates.WebHelpSelectPopup
-				})
-					.popover('show');
+				}).popover('show');
 				jQuery(".drag-select-yes").on("click", function () {
-					jQueryDragSelector.confirmSelection(true, function (arrayOfObjects) {
+					jQueryDragSelector.confirmSelection(true, element, function (arrayOfObjects) {
 						if (arrayOfObjects) {
-							self.createStepForThisElement(arrayOfObjects);
+							self.createStepForThisElement(arrayOfObjects, selectionDetails);
 						}
 					});
 					self.ui.sidebarToggleButton.trigger('click');
 				}.bind(self));
 				jQuery(".drag-select-no").on("click", function () {
-					jQueryDragSelector.confirmSelection(false);
+					jQueryDragSelector.confirmSelection(false, element);
 					self.ui.sidebarToggleButton.trigger('click');
 				});
 			} else {
@@ -393,14 +393,19 @@ WebHelp = (function () {
 			jQuery("#startDragDropButton").tooltip('hide');
 		}, 3000);
 	};
-	WebHelp.prototype.createStepForThisElement = function (arrayOfElems) {
+	WebHelp.prototype.createStepForThisElement = function (arrayOfElems, selectionDetails) {
 		var self = this;
 		var $stepsTable = jQuery("#stepsTable");
-		var elemText = "";
-		var elemType = "";
+		var elemText = '';
+		var elemType = '';
+		var elemFrame = '';
 		if (arrayOfElems) {
 			for (var i = 0; i < arrayOfElems.length; i++) {
-				elemText += arrayOfElems[i].value + "&";
+				elemText += arrayOfElems[i].value;
+				if (selectionDetails.iframeAttributes) {
+					elemFrame = selectionDetails.iframeAttributes.$frame.id;
+				}
+				elemText += "&";
 				elemType += arrayOfElems[i].attribute + "&";
 			}
 			this.stepsTable.addRow([
@@ -408,6 +413,7 @@ WebHelp = (function () {
 				"Editable title",
 				elemType,
 				elemText,
+				elemFrame,
 				"Editable content"]);
 		} else {
 			this.stepsTable.addRow();
@@ -429,6 +435,14 @@ WebHelp = (function () {
 		var previewSteps = this.getCurrentTablePreviewSteps();
 		if (previewSteps) {
 			var introJsObj = introJs();
+			if (this.usesIframes) {
+				for (var i = previewSteps.length - 1; i >= 0; i--) {
+					var thisStep = previewSteps[i];
+					if (thisStep.iframeId) {
+						thisStep.element = jQuery('#' + thisStep.iframeId).contents().find(thisStep.element).get(0);
+					}
+				}
+			}
 			var options = {
 				steps: previewSteps,
 				showProgress: true,
@@ -445,18 +459,6 @@ WebHelp = (function () {
 			setTimeout(function () {
 				introJsObj.start();
 			}, 500);
-		}
-		var saveStatus = 'Sequence saved successfully!';
-		try {
-			localStorage.setItem(this.webHelpName, JSON.stringify(this.sequences));
-		} catch (error) {
-			saveStatus = 'Error saving the sequence!';
-		} finally {
-			var $showSequenceSavedSuccessAlert = jQuery('#showSequenceSavedSuccessAlert');
-			$showSequenceSavedSuccessAlert.html(saveStatus).show();
-			setTimeout(function () {
-				$showSequenceSavedSuccessAlert.hide();
-			}, 1000);
 		}
 	};
 	WebHelp.prototype.saveSequence = function () {
@@ -506,9 +508,13 @@ WebHelp = (function () {
 		for (var n = 0; n < rows.length; n++) {
 			//escape ampersands (we may need other special characters in the content
 			var elemAttribVal = rows[n][3].replace(/&/g, '').trim();
+			var iframeElementId = rows[n][4].replace(/&/g, '').trim();
+			if (iframeElementId === '') {
+				iframeElementId = false;
+			}
 			var elemAttribType = rows[n][2].replace(/&/g, '').trim();
 			var stepTitle = rows[n][1];
-			var content = rows[n][4];
+			var content = rows[n][5];
 			if (elemAttribVal) {
 				var elem = "";
 				if (elemAttribType !== 'CSSPath') {
@@ -519,7 +525,8 @@ WebHelp = (function () {
 				previewSteps.push({
 					element: elem,
 					intro: '<div><h3>' + stepTitle + '</h3><p>' + content + '</p></div>',
-					position: 'auto'
+					position: 'auto',
+					iframeId: iframeElementId
 				});
 			} else {
 				previewSteps.push({
@@ -623,7 +630,7 @@ WebHelp = (function () {
 		if (!file) {
 			file = this.sequencesBaseUrl + this.webHelpName + '.json';
 		}
-		return jQuery.ajax({
+		jQuery.ajax({
 			url: file,
 			xhrFields: {
 				withCredentials: true
@@ -631,11 +638,11 @@ WebHelp = (function () {
 			cache: false,
 			type: 'GET',
 			dataType: 'json',
+			async: false,
 			success: function (data) {
 				self.sequences = data;
 			},
-			error: function (e) {
-				console.error(e);
+			error: function () {
 				throw new Error("Failed to load the sequences!");
 			}
 		});
@@ -680,6 +687,14 @@ WebHelp = (function () {
 		var sequence = this.sequences[sequenceName];
 		var seqId = sequence.seqId;
 		var play = introJs();
+		if (this.usesIframes) {
+			for (var i = sequence.data.length - 1; i >= 0; i--) {
+				var thisStep = sequence.data[i];
+				if (thisStep.iframeId) {
+					thisStep.element = jQuery('#' + thisStep.iframeId).contents().find(thisStep.element).get(0);
+				}
+			}
+		}
 		var options = {
 			steps: sequence.data,
 			showProgress: true,
@@ -713,7 +728,7 @@ WebHelp = (function () {
 		 * TODO: find a more performant or pure CSS-based solution
 		 * */
 		if (self.usesFlexbox) {
-			var $flexBoxItems = jQuery('body').children().filter(function (el) {
+			var $flexBoxItems = jQuery('body').children().filter(function () {
 				return (jQuery(this).css('display') === 'flex');
 			});
 			if ($flexBoxItems.length) {
