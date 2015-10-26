@@ -343,7 +343,7 @@ WebHelp = (function () {
 		//destroy the link
 		//TODO The line below to remove child breaks, check why
 		//link.parentNode.removeChild(link);
-		WebHelpInstance.updateNewSequencesTable([]);
+		_updateNewSequencesTable(WebHelpInstance, []);
 	}
 
 	/**
@@ -352,11 +352,11 @@ WebHelp = (function () {
 	 */
 
 	WebHelp.prototype.refreshWhatsNew = function () {
-		var self = this;
+		var WebHelpInstance = this;
 		var dfd = new jQuery.Deferred();
-		_refreshAllSequences(self).then(function () {
-			var sequences = self.sequences; //new function
-			var seenSequences = self.getAllVisitedSequences(); //new function
+		_refreshAllSequences(WebHelpInstance).then(function () {
+			var sequences = WebHelpInstance.sequences; //new function
+			var seenSequences = WebHelpInstance.getAllVisitedSequences(); //new function
 			var newSequences = [];
 			for (var seqName in sequences) {
 				if (sequences.hasOwnProperty(seqName)) {
@@ -372,17 +372,17 @@ WebHelp = (function () {
 					}
 				}
 			}
-			self.updateNewSequencesTable(newSequences); // new function
+			_updateNewSequencesTable(WebHelpInstance, newSequences); // new function
 			if (newSequences.length >= 1) {
-				_populateCurrentSequences(self);
+				_populateCurrentSequences(WebHelpInstance);
 			}
 			//update badge icon
 			var numOfNewSequences = newSequences.length;
-			if (self.mode !== "create") {
+			if (WebHelpInstance.mode !== "create") {
 				if (numOfNewSequences > 0) {
-					self.ui.webHelpButton.attr('data-badge', numOfNewSequences + ' new');
+					WebHelpInstance.ui.webHelpButton.attr('data-badge', numOfNewSequences + ' new');
 				} else {
-					self.ui.webHelpButton.removeAttr('data-badge');
+					WebHelpInstance.ui.webHelpButton.removeAttr('data-badge');
 				}
 			}
 			dfd.resolve();
@@ -803,8 +803,14 @@ WebHelp = (function () {
 		});
 	}
 
-	// This table will remove and add new contents to the new sequences table
-	WebHelp.prototype.updateNewSequencesTable = function (newSequences) {
+	/**
+	 * Add/remove new contents to the new sequences table
+	 *
+	 * @param {WebHelp} WebHelpInstance
+	 * @param {Array} newSequences The list of new sequences
+	 * @private
+	 */
+	function _updateNewSequencesTable(WebHelpInstance, newSequences) {
 		var aaData = [];
 		jQuery.each(newSequences, function (index, element) {
 			aaData.push([
@@ -815,12 +821,13 @@ WebHelp = (function () {
 				JSON.stringify(element)//content
 			]);
 		});
-		if (this.mode === "consume") {
-			_initWhatsNewTable(this, aaData);
+		if (WebHelpInstance.mode === "consume") {
+			_initWhatsNewTable(WebHelpInstance, aaData);
 		} else {
-			_initScratchPadTable(this, aaData);
+			_initScratchPadTable(WebHelpInstance, aaData);
 		}
-	};
+	}
+
 	/**
 	 * Refresh and get all sequences from the given filename via RESTful call
 	 *
@@ -867,7 +874,7 @@ WebHelp = (function () {
 				unsavedSequences[i] = val;
 			}
 		});
-		this.updateNewSequencesTable(unsavedSequences);
+		_updateNewSequencesTable(WebHelpInstance, unsavedSequences);
 	}
 
 	/**
