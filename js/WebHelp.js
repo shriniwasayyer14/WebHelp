@@ -256,7 +256,9 @@ WebHelp = (function () {
 		jQuery("#sequenceSaveButton").on("click", function () {
 			_saveSequence(WebHelpInstance);
 		});
-		jQuery("#clearStepsButton").on("click", WebHelpInstance.clearStepsInSequence.bind(WebHelpInstance));
+		jQuery("#clearStepsButton").on("click", function () {
+			_clearStepsInSequence(WebHelpInstance);
+		});
 		jQuery("#startDragDropButton").on("click", function () {
 			_startSelectionOfElement(WebHelpInstance);
 		});
@@ -640,7 +642,7 @@ WebHelp = (function () {
 			saveStatus = 'Error saving the sequence!';
 		} finally {
 			var $showSequenceSavedSuccessAlert = jQuery('#showSequenceSavedSuccessAlert');
-			WebHelpInstance.clearStepsInSequence();
+			_clearStepsInSequence(WebHelpInstance);
 			$showSequenceSavedSuccessAlert.html(saveStatus).show();
 			setTimeout(function () {
 				$showSequenceSavedSuccessAlert.hide();
@@ -911,13 +913,21 @@ WebHelp = (function () {
 			listItemTemplate: 'WebHelpSequenceListItem'
 		});
 	}
-	WebHelp.prototype.clearStepsInSequence = function () {
+
+	/**
+	 * Clear out all the steps in the current sequence
+	 *
+	 * @param {WebHelp} WebHelpInstance The current instance
+	 * @private
+	 */
+	function _clearStepsInSequence(WebHelpInstance) {
 		//Destroy and reinitialize the table to get the edited data
-		this.stepsTable.renderList();
-		_attachIcons(this);
+		WebHelpInstance.stepsTable.renderList();
+		_attachIcons(WebHelpInstance);
 		jQuery("#sequenceTitleSetter").val("").attr("placeholder", "Sequence Title");
 		this.stepsTable.setStatus("N");
-	};
+	}
+
 	WebHelp.prototype.playSequence = function (sequenceName) {
 		var sequence = this.sequences[sequenceName];
 		var seqId = sequence.seqId;
