@@ -1,4 +1,4 @@
-/* globals jQuery, jQueryDragSelector, window, WebHelpTemplates, introJs, setTimeout, setInterval, TableList */
+/* globals jQuery, jQueryDragSelector, window, WebHelpTemplates, introJs, setTimeout, setInterval, TableList, console */
 var WebHelp;
 WebHelp = (function () {
 	"use strict";
@@ -341,7 +341,7 @@ WebHelp = (function () {
 		var mimeType = 'application/json';
 		//set attributes on top of the link
 		link.setAttribute('href', 'data:' + mimeType + ';charset=utf-8,' + encodeURIComponent(content));
-		link.setAttribute('download', this.webHelpName + '.json');
+		link.setAttribute('download', webHelpInstance.webHelpName + '.json');
 		//trigger the download
 		link.click();
 		//destroy the link
@@ -967,7 +967,7 @@ WebHelp = (function () {
 		webHelpInstance.stepsTable.renderList();
 		_attachIcons(webHelpInstance);
 		jQuery("#sequenceTitleSetter").val("").attr("placeholder", "Sequence Title");
-		this.stepsTable.setStatus("N");
+		webHelpInstance.stepsTable.setStatus("N");
 	}
 
 	/**
