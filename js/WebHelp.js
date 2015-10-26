@@ -108,21 +108,21 @@ WebHelp = (function () {
 	/**
 	 * Bind click actions to the play and edit buttons
 	 *
-	 * @param {WebHelp} WebHelpInstance The current instance of WebHelp
-	 * @param {Object} WebHelpInstance.ui
+	 * @param {WebHelp} webHelpInstance The current instance of WebHelp
+	 * @param {Object} webHelpInstance.ui
 	 * @api private
 	 * @private
 	 */
-	function _bindPlayEditButtons(WebHelpInstance) {
+	function _bindPlayEditButtons(webHelpInstance) {
 		//attach sequence specific handlers
-		WebHelpInstance.ui.webHelpMainContent.on('click', '.play-sequence', function (event) {
-			_playClickedSequence(WebHelpInstance, event);
+		webHelpInstance.ui.webHelpMainContent.on('click', '.play-sequence', function (event) {
+			_playClickedSequence(webHelpInstance, event);
 		});
-		WebHelpInstance.ui.webHelpMainContent.on('click', '.edit-sequence', function (event) {
-			_editThisSequence(WebHelpInstance, event);
+		webHelpInstance.ui.webHelpMainContent.on('click', '.edit-sequence', function (event) {
+			_editThisSequence(webHelpInstance, event);
 		});
-		WebHelpInstance.ui.webHelpMainContent.on('click', '.remove-sequence', function (event) {
-			_removeThisSequence.bind(WebHelpInstance, event);
+		webHelpInstance.ui.webHelpMainContent.on('click', '.remove-sequence', function (event) {
+			_removeThisSequence.bind(webHelpInstance, event);
 		});
 	}
 
@@ -143,67 +143,67 @@ WebHelp = (function () {
 	 * Add the help icon to the specified page element
 	 *
 	 * @api private
-	 * @param {WebHelp} WebHelpInstance the current instance of WebHelp
-	 * @param {Object} WebHelpInstance.ui
+	 * @param {WebHelp} webHelpInstance the current instance of WebHelp
+	 * @param {Object} webHelpInstance.ui
 	 * @param {selector=} navbarButtonElement
 	 * @param {Boolean=} addTextToNavbar
 	 * @private
 	 */
-	function _addHelpIcon (WebHelpInstance, navbarButtonElement, addTextToNavbar) {
+	function _addHelpIcon(webHelpInstance, navbarButtonElement, addTextToNavbar) {
 		if (!navbarButtonElement) {
-			navbarButtonElement = WebHelpInstance.helpIconPosition;
+			navbarButtonElement = webHelpInstance.helpIconPosition;
 		}
 		var dropdownButtonHtml = '<button class="btn light" id="contentConsumptionNavButton" >' +
-			'<i class="' + WebHelpInstance.iconClass.info + '"></i>';
+			'<i class="' + webHelpInstance.iconClass.info + '"></i>';
 		if (addTextToNavbar) {
 			dropdownButtonHtml += 'App Help';
 		}
 		dropdownButtonHtml += '</button>';
-		WebHelpInstance.ui.webHelpButton = jQuery(dropdownButtonHtml);
+		webHelpInstance.ui.webHelpButton = jQuery(dropdownButtonHtml);
 		//Add to navbar if need be
 		if ((jQuery('.ai-navbar').length > 0) && (jQuery(navbarButtonElement + ':last-of-type').hasClass('nav-right'))) {
-			jQuery(navbarButtonElement + ':last-of-type').after(WebHelpInstance.ui.webHelpButton);
-			WebHelpInstance.ui.webHelpButton.addClass('nav-right');
+			jQuery(navbarButtonElement + ':last-of-type').after(webHelpInstance.ui.webHelpButton);
+			webHelpInstance.ui.webHelpButton.addClass('nav-right');
 		} else {
-			jQuery(navbarButtonElement).after(WebHelpInstance.ui.webHelpButton);
+			jQuery(navbarButtonElement).after(webHelpInstance.ui.webHelpButton);
 		}
-		WebHelpInstance.ui.webHelpButton.on('click', function (event) {
+		webHelpInstance.ui.webHelpButton.on('click', function (event) {
 			event.preventDefault();
-			WebHelpInstance.showSequenceConsumptionModal();
+			webHelpInstance.showSequenceConsumptionModal();
 		});
-		WebHelpInstance.ui.webHelpButton.attr('title', 'App Help');
+		webHelpInstance.ui.webHelpButton.attr('title', 'App Help');
 	}
 
 	/**
 	 * Perform the necessary actions to show the consumption mode
-	 * @param {WebHelp} WebHelpInstance The current instance of WebHelp
-	 * @param {Object} WebHelpInstance.ui The UI parameters
+	 * @param {WebHelp} webHelpInstance The current instance of WebHelp
+	 * @param {Object} webHelpInstance.ui The UI parameters
 	 * @private
 	 */
-	function _showHelpConsumptionMode(WebHelpInstance) {
-		_addHelpIcon(WebHelpInstance, WebHelpInstance.helpIconPosition);
-		WebHelpInstance.ui.webHelpMainContent = jQuery("#webHelpMainContent");
-		if (WebHelpInstance.ui.webHelpMainContent.length <= 0) {
+	function _showHelpConsumptionMode(webHelpInstance) {
+		_addHelpIcon(webHelpInstance, webHelpInstance.helpIconPosition);
+		webHelpInstance.ui.webHelpMainContent = jQuery("#webHelpMainContent");
+		if (webHelpInstance.ui.webHelpMainContent.length <= 0) {
 			var modalContent = jQuery(WebHelpTemplates.WebHelpContent);
 			var webHelpContent = jQuery(WebHelpTemplates.WebHelpConsumption);
-			_attachIcons(WebHelpInstance);
+			_attachIcons(webHelpInstance);
 			var $body = jQuery("body");
 			$body.append(modalContent);
 			$body.append(webHelpContent);
-			WebHelpInstance.ui.webHelpMainContent = jQuery("#webHelpMainContent");
+			webHelpInstance.ui.webHelpMainContent = jQuery("#webHelpMainContent");
 		}
-		WebHelpInstance.ui.webHelpMainContent.appendTo("#contentConsumptionModal .modal-body");
+		webHelpInstance.ui.webHelpMainContent.appendTo("#contentConsumptionModal .modal-body");
 		jQuery('.nav-tabs a[href=#addSequence]').hide();
 		jQuery('#globalWebHelpCreatorActionsWell').hide();
-		_refreshWhatsNew(WebHelpInstance).then(function () {
-			_populateCurrentSequences(WebHelpInstance);
-			WebHelpInstance.watchWhatsNew = setInterval(function () {
-				_refreshWhatsNew(WebHelpInstance);
+		_refreshWhatsNew(webHelpInstance).then(function () {
+			_populateCurrentSequences(webHelpInstance);
+			webHelpInstance.watchWhatsNew = setInterval(function () {
+				_refreshWhatsNew(webHelpInstance);
 			}, 1800000);
-			if (WebHelpInstance.showIntroOnLoad) {
-				var introSeqId = WebHelpInstance.getSeqIdForSequence('Introduction');
-				if (introSeqId && !WebHelpInstance.isThisSequenceSeen(introSeqId)) {
-					WebHelpInstance.playSequence('Introduction');
+			if (webHelpInstance.showIntroOnLoad) {
+				var introSeqId = webHelpInstance.getSeqIdForSequence('Introduction');
+				if (introSeqId && !webHelpInstance.isThisSequenceSeen(introSeqId)) {
+					webHelpInstance.playSequence('Introduction');
 				}
 			}
 		});
@@ -211,36 +211,36 @@ WebHelp = (function () {
 
 	/**
 	 * Perform the necessary actions to show the consumption mode
-	 * @param {WebHelp} WebHelpInstance The current instance of WebHelp
-	 * @param {Object} WebHelpInstance.ui The UI parameters
+	 * @param {WebHelp} webHelpInstance The current instance of WebHelp
+	 * @param {Object} webHelpInstance.ui The UI parameters
 	 * @private
 	 */
-	function _showHelpCreationMode(WebHelpInstance) {
-		WebHelpInstance.ui.webHelpMainContent = jQuery("#webHelpMainContent");
-		if (WebHelpInstance.ui.webHelpMainContent.length === 0) {
+	function _showHelpCreationMode(webHelpInstance) {
+		webHelpInstance.ui.webHelpMainContent = jQuery("#webHelpMainContent");
+		if (webHelpInstance.ui.webHelpMainContent.length === 0) {
 			var webHelpContent = jQuery(WebHelpTemplates.WebHelpCreator);
 			jQuery("body").append(webHelpContent);
-			WebHelpInstance.ui.webHelpMainContent = jQuery("#webHelpMainContent");
+			webHelpInstance.ui.webHelpMainContent = jQuery("#webHelpMainContent");
 		}
 		var sidebarToggleButton = jQuery(WebHelpTemplates.WebHelpSidebarToggle);
-		WebHelpInstance.ui.webHelpMainContent
+		webHelpInstance.ui.webHelpMainContent
 			.addClass('creationModeSidebar')
 			.addClass('hideSidebar')
 			.append(sidebarToggleButton)
 			.children(':not(#creationModeSidebarshowHideSpan)').hide();
-		WebHelpInstance.ui.sidebarToggleButton = jQuery('#creationModeSidebarshowHideSpan');
-		WebHelpInstance.ui.sidebarToggleButton.on('click', function () {
-			if (WebHelpInstance.ui.webHelpMainContent.hasClass('hideSidebar')) {
-				WebHelpInstance.ui.webHelpMainContent.children(':not(#creationModeSidebarshowHideSpan)').show('slow', function () {
-					WebHelpInstance.ui.webHelpMainContent.removeClass('hideSidebar', 300);
+		webHelpInstance.ui.sidebarToggleButton = jQuery('#creationModeSidebarshowHideSpan');
+		webHelpInstance.ui.sidebarToggleButton.on('click', function () {
+			if (webHelpInstance.ui.webHelpMainContent.hasClass('hideSidebar')) {
+				webHelpInstance.ui.webHelpMainContent.children(':not(#creationModeSidebarshowHideSpan)').show('slow', function () {
+					webHelpInstance.ui.webHelpMainContent.removeClass('hideSidebar', 300);
 				});
 			} else {
-				WebHelpInstance.ui.webHelpMainContent.children(':not(#creationModeSidebarshowHideSpan)').hide('slow', function () {
-					WebHelpInstance.ui.webHelpMainContent.addClass('hideSidebar', 300);
+				webHelpInstance.ui.webHelpMainContent.children(':not(#creationModeSidebarshowHideSpan)').hide('slow', function () {
+					webHelpInstance.ui.webHelpMainContent.addClass('hideSidebar', 300);
 				});
 			}
 		});
-		WebHelpInstance.stepsTable = new TableList({
+		webHelpInstance.stepsTable = new TableList({
 			element: "#stepsTable",
 			useData: false, //Create one generic step
 			listTemplate: 'WebHelpSequenceCreationList',
@@ -249,32 +249,32 @@ WebHelp = (function () {
 			sortable: true,
 			status: "N"
 		});
-		_initScratchPadTable(WebHelpInstance);
+		_initScratchPadTable(webHelpInstance);
 		jQuery('.nav-tabs a[href=#addSequence]').trigger('click');
 		//attach event handlers to webHelpContent
 		jQuery("#sequencePreviewButton").on("click", function () {
-			_previewClickedSequence(WebHelpInstance);
+			_previewClickedSequence(webHelpInstance);
 		});
 		jQuery("#sequenceSaveButton").on("click", function () {
-			_saveSequence(WebHelpInstance);
+			_saveSequence(webHelpInstance);
 		});
 		jQuery("#clearStepsButton").on("click", function () {
-			_clearStepsInSequence(WebHelpInstance);
+			_clearStepsInSequence(webHelpInstance);
 		});
 		jQuery("#startDragDropButton").on("click", function () {
-			_startSelectionOfElement(WebHelpInstance);
+			_startSelectionOfElement(webHelpInstance);
 		});
 		jQuery("#startEmptyStepButton").on("click", function () {
-			_createStepForThisElement(WebHelpInstance);
+			_createStepForThisElement(webHelpInstance);
 		});
 		jQuery("#cancelDragDropButton").on("click", jQueryDragSelector.off);
 		jQuery("#noElementsSelectedButton").on("click", jQuery('#noElementsSelectedDiv').hide);
 		jQuery("#noStepsInPreviewButton").on("click", jQuery('#noStepsInPreviewDiv').hide);
 		jQuery("#saveAllHelpSequencesToFileButton").on("click", function () {
-			_saveAllHelpSequencesToFile(WebHelpInstance);
+			_saveAllHelpSequencesToFile(webHelpInstance);
 		});
 		window.onbeforeunload = function (e) {
-			var scratchPadData = WebHelpInstance.scratchPadTable.getData();
+			var scratchPadData = webHelpInstance.scratchPadTable.getData();
 			if (scratchPadData.length > 0) {
 				var message = "You have unsaved changes in your scratchpad!";
 				var err = e || window.event;
@@ -286,11 +286,11 @@ WebHelp = (function () {
 				return message;
 			}
 		};
-		jQuery(WebHelpInstance.stepsTable.element).on("click", ".remove-step", function (event) {
-			_removeThisStep(WebHelpInstance, event);
+		jQuery(webHelpInstance.stepsTable.element).on("click", ".remove-step", function (event) {
+			_removeThisStep(webHelpInstance, event);
 		});
-		_attachIcons(WebHelpInstance);
-		var helpIconElement = jQuery(WebHelpInstance.helpIconPosition);
+		_attachIcons(webHelpInstance);
+		var helpIconElement = jQuery(webHelpInstance.helpIconPosition);
 		var currentTitleHTML = helpIconElement.html();
 		currentTitleHTML += "[Edit mode]";
 		var elem;
@@ -300,8 +300,8 @@ WebHelp = (function () {
 			elem = helpIconElement;
 		}
 		jQuery(elem).html(currentTitleHTML);
-		_refreshAllSequences(WebHelpInstance).then(function () {
-			_populateCurrentSequences(WebHelpInstance);
+		_refreshAllSequences(webHelpInstance).then(function () {
+			_populateCurrentSequences(webHelpInstance);
 		});
 	}
 
@@ -309,30 +309,30 @@ WebHelp = (function () {
 	 * Attach all required icons within the main UI content
 	 *
 	 * @api private
-	 * @param {WebHelp} WebHelpInstance
-	 * @param {Object} WebHelpInstance.ui
+	 * @param {WebHelp} webHelpInstance
+	 * @param {Object} webHelpInstance.ui
 	 * @private
 	 */
-	function _attachIcons(WebHelpInstance) {
-		for (var icon in WebHelpInstance.iconClass) {
-			if (WebHelpInstance.iconClass.hasOwnProperty(icon)) {
-				WebHelpInstance.ui.webHelpMainContent.find(".iconClass-" + icon).removeClass(WebHelpInstance.iconClass[icon]).addClass(WebHelpInstance.iconClass[icon]);
+	function _attachIcons(webHelpInstance) {
+		for (var icon in webHelpInstance.iconClass) {
+			if (webHelpInstance.iconClass.hasOwnProperty(icon)) {
+				webHelpInstance.ui.webHelpMainContent.find(".iconClass-" + icon).removeClass(webHelpInstance.iconClass[icon]).addClass(webHelpInstance.iconClass[icon]);
 			}
 		}
 	}
 
 	/**
 	 * Save the current help sequences toa  file (Chrome only!)
-	 * @param {WebHelp} WebHelpInstance The current instance
-	 * @param {Object} WebHelpInstance.sequences The sequences attribute (including created sequences)
+	 * @param {WebHelp} webHelpInstance The current instance
+	 * @param {Object} webHelpInstance.sequences The sequences attribute (including created sequences)
 	 * @private
 	 */
-	function _saveAllHelpSequencesToFile(WebHelpInstance) {
+	function _saveAllHelpSequencesToFile(webHelpInstance) {
 		//get required data
 		//Pretty print the JSON content
 		//https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify
 		//Syntax: JSON.stringify(value[, replacer[, space]])
-		var allSequences = WebHelpInstance.sequences;
+		var allSequences = webHelpInstance.sequences;
 		jQuery.map(allSequences, function (val) {
 			val.status = "O";
 		});
@@ -347,21 +347,21 @@ WebHelp = (function () {
 		//destroy the link
 		//TODO The line below to remove child breaks, check why
 		//link.parentNode.removeChild(link);
-		_updateNewSequencesTable(WebHelpInstance, []);
+		_updateNewSequencesTable(webHelpInstance, []);
 	}
 
 	/**
 	 * Refresh new sequence count and data
 	 *
-	 * @param {WebHelp} WebHelpInstance The current instance of WebHelp
+	 * @param {WebHelp} webHelpInstance The current instance of WebHelp
 	 * @returns {promise} Resolves when all sequences have been pulled, without a resolve parameter,
 	 * @private
 	 */
-	function _refreshWhatsNew(WebHelpInstance) {
+	function _refreshWhatsNew(webHelpInstance) {
 		var dfd = new jQuery.Deferred();
-		_refreshAllSequences(WebHelpInstance).then(function () {
-			var sequences = WebHelpInstance.sequences; //new function
-			var seenSequences = WebHelpInstance.getAllVisitedSequences(); //new function
+		_refreshAllSequences(webHelpInstance).then(function () {
+			var sequences = webHelpInstance.sequences; //new function
+			var seenSequences = webHelpInstance.getAllVisitedSequences(); //new function
 			var newSequences = [];
 			for (var seqName in sequences) {
 				if (sequences.hasOwnProperty(seqName)) {
@@ -375,17 +375,17 @@ WebHelp = (function () {
 					}
 				}
 			}
-			_updateNewSequencesTable(WebHelpInstance, newSequences); // new function
+			_updateNewSequencesTable(webHelpInstance, newSequences); // new function
 			if (newSequences.length >= 1) {
-				_populateCurrentSequences(WebHelpInstance);
+				_populateCurrentSequences(webHelpInstance);
 			}
 			//update badge icon
 			var numOfNewSequences = newSequences.length;
-			if (WebHelpInstance.mode !== "create") {
+			if (webHelpInstance.mode !== "create") {
 				if (numOfNewSequences > 0) {
-					WebHelpInstance.ui.webHelpButton.attr('data-badge', numOfNewSequences + ' new');
+					webHelpInstance.ui.webHelpButton.attr('data-badge', numOfNewSequences + ' new');
 				} else {
-					WebHelpInstance.ui.webHelpButton.removeAttr('data-badge');
+					webHelpInstance.ui.webHelpButton.removeAttr('data-badge');
 				}
 			}
 			dfd.resolve();
@@ -396,13 +396,13 @@ WebHelp = (function () {
 	/**
 	 * Populates all current sequences from the sequences parameter that was read from the file
 	 *
-	 * @param {WebHelp} WebHelpInstance The current instance
-	 * @param {Object} WebHelpInstance.sequences The sequences that were read into the attribute
-	 * @param {Object} WebHelpInstance.ui The UI parameter
+	 * @param {WebHelp} webHelpInstance The current instance
+	 * @param {Object} webHelpInstance.sequences The sequences that were read into the attribute
+	 * @param {Object} webHelpInstance.ui The UI parameter
 	 * @private
 	 */
-	function _populateCurrentSequences(WebHelpInstance) {
-		var retrievedSequences = WebHelpInstance.sequences;
+	function _populateCurrentSequences(webHelpInstance) {
+		var retrievedSequences = webHelpInstance.sequences;
 		jQuery.map(retrievedSequences, function (val) {
 			if (val.status === "E") {
 				delete retrievedSequences[val];
@@ -422,46 +422,46 @@ WebHelp = (function () {
 					'',//remove
 					JSON.stringify(sequenceContent)//content
 				]);
-				if (WebHelpInstance.isThisSequenceSeen(sequenceContent.seqId)) {
+				if (webHelpInstance.isThisSequenceSeen(sequenceContent.seqId)) {
 					supplementalClasses.push('seen');
 				} else {
 					supplementalClasses.push('unseen');
 				}
 			});
-			WebHelpInstance.availableSequencesTable = new TableList({
+			webHelpInstance.availableSequencesTable = new TableList({
 				element: '#availableSequencesContent',
 				data: sequenceData,
 				listTemplate: 'WebHelpSequenceConsumptionList',
 				listItemTemplate: 'WebHelpSequenceListItem',
 				supplementalClasses: supplementalClasses
 			});
-			_attachIcons(WebHelpInstance);
-			_attachClickActionsToLists(WebHelpInstance);
+			_attachIcons(webHelpInstance);
+			_attachClickActionsToLists(webHelpInstance);
 		}
 	}
 	/**
 	 * Attach click icons to the given lists
 	 *
 	 * @api private
-	 * @param {WebHelp} WebHelpInstance the current instance of the WebHelp object
-	 * @param {Object} WebHelpInstance.ui
+	 * @param {WebHelp} webHelpInstance the current instance of the WebHelp object
+	 * @param {Object} webHelpInstance.ui
 	 * @private
 	 */
-	function _attachClickActionsToLists(WebHelpInstance) {
-		if (WebHelpInstance.mode !== 'create') {
-			WebHelpInstance.ui.webHelpMainContent.find('div.iconClass-play').parents('li.webHelpSequenceList:not(.header)').attr('title', 'Play!').unbind('click').on('click', function (event) {
-				_playClickedSequence(WebHelpInstance, event);
+	function _attachClickActionsToLists(webHelpInstance) {
+		if (webHelpInstance.mode !== 'create') {
+			webHelpInstance.ui.webHelpMainContent.find('div.iconClass-play').parents('li.webHelpSequenceList:not(.header)').attr('title', 'Play!').unbind('click').on('click', function (event) {
+				_playClickedSequence(webHelpInstance, event);
 			});
 		} else {
-			WebHelpInstance.ui.webHelpMainContent.find('div.iconClass-play').attr('title', 'Play!').unbind('click').on('click', function (event) {
-				_playClickedSequence(WebHelpInstance, event);
+			webHelpInstance.ui.webHelpMainContent.find('div.iconClass-play').attr('title', 'Play!').unbind('click').on('click', function (event) {
+				_playClickedSequence(webHelpInstance, event);
 			});
 		}
-		WebHelpInstance.ui.webHelpMainContent.find('div.iconClass-edit').attr('title', 'Edit').unbind('click').on('click', function (event) {
-			_editThisSequence(WebHelpInstance, event);
+		webHelpInstance.ui.webHelpMainContent.find('div.iconClass-edit').attr('title', 'Edit').unbind('click').on('click', function (event) {
+			_editThisSequence(webHelpInstance, event);
 		});
-		WebHelpInstance.ui.webHelpMainContent.find('div.iconClass-remove').attr('title', 'Delete').unbind('click').on('click', function (event) {
-			_removeThisSequence.bind(WebHelpInstance, event);
+		webHelpInstance.ui.webHelpMainContent.find('div.iconClass-remove').attr('title', 'Delete').unbind('click').on('click', function (event) {
+			_removeThisSequence.bind(webHelpInstance, event);
 		});
 	}
 
@@ -469,16 +469,16 @@ WebHelp = (function () {
 	 * Trigger the selection event (start dragging to select a DOM element)
 	 * Only available in consumption mode
 	 *
-	 * @param {WebHelp} WebHelpInstance The current instance of WebHelp
-	 * @param {Boolean} WebHelpInstance.usesIframes Does this app use iFrames ?
+	 * @param {WebHelp} webHelpInstance The current instance of WebHelp
+	 * @param {Boolean} webHelpInstance.usesIframes Does this app use iFrames ?
 	 * @private
 	 */
-	function _startSelectionOfElement(WebHelpInstance) {
+	function _startSelectionOfElement(webHelpInstance) {
 		/* Close the sidemenu if it is open*/
-		WebHelpInstance.ui.sidebarToggleButton.trigger('click');
+		webHelpInstance.ui.sidebarToggleButton.trigger('click');
 		jQueryDragSelector.setPaneState(true);
 		var dragSelectionOptions = {
-			usesIframes: WebHelpInstance.usesIframes
+			usesIframes: webHelpInstance.usesIframes
 		};
 		jQueryDragSelector.on(dragSelectionOptions, function (selectionDetails) {
 			var element = selectionDetails.$element;
@@ -496,18 +496,18 @@ WebHelp = (function () {
 				jQuery(".drag-select-yes").on("click", function () {
 					jQueryDragSelector.confirmSelection(true, element, function (arrayOfObjects) {
 						if (arrayOfObjects) {
-							_createStepForThisElement(WebHelpInstance, arrayOfObjects, selectionDetails);
+							_createStepForThisElement(webHelpInstance, arrayOfObjects, selectionDetails);
 						}
 					});
-					WebHelpInstance.ui.sidebarToggleButton.trigger('click');
-				}.bind(WebHelpInstance));
+					webHelpInstance.ui.sidebarToggleButton.trigger('click');
+				}.bind(webHelpInstance));
 				jQuery(".drag-select-no").on("click", function () {
 					jQueryDragSelector.confirmSelection(false, element);
-					WebHelpInstance.ui.sidebarToggleButton.trigger('click');
+					webHelpInstance.ui.sidebarToggleButton.trigger('click');
 				});
 			} else {
 				jQuery('#noElementsSelectedDiv').show();
-				WebHelpInstance.ui.sidebarToggleButton.trigger('click');
+				webHelpInstance.ui.sidebarToggleButton.trigger('click');
 			}
 		});
 		jQuery("#startDragDropButton").tooltip({
@@ -521,12 +521,12 @@ WebHelp = (function () {
 	/**
 	 * Create a step for a given element once it's selected
 	 *
-	 * @param {WebHelp} WebHelpInstance The current WebHelp instance
+	 * @param {WebHelp} webHelpInstance The current WebHelp instance
 	 * @param {Array=} arrayOfElems An array containing all the selected elements (if used)
 	 * @param {Object=} selectionDetails selection details (especially if it contains iFrames and such (if used)
 	 * @private
 	 */
-	function _createStepForThisElement(WebHelpInstance, arrayOfElems, selectionDetails) {
+	function _createStepForThisElement(webHelpInstance, arrayOfElems, selectionDetails) {
 		var $stepsTable = jQuery("#stepsTable");
 		var elemText = '';
 		var elemType = '';
@@ -540,7 +540,7 @@ WebHelp = (function () {
 				elemText += "&";
 				elemType += arrayOfElems[i].attribute + "&";
 			}
-			WebHelpInstance.stepsTable.addRow([
+			webHelpInstance.stepsTable.addRow([
 				"",
 				"Editable title",
 				elemType,
@@ -548,42 +548,42 @@ WebHelp = (function () {
 				elemFrame,
 				"Editable content"]);
 		} else {
-			WebHelpInstance.stepsTable.addRow();
+			webHelpInstance.stepsTable.addRow();
 		}
 		$stepsTable.find('.remove-step').unbind('click');
 		$stepsTable.find('.remove-step').on('click', function (event) {
-			_removeThisStep(WebHelpInstance, event);
+			_removeThisStep(webHelpInstance, event);
 		});
-		_attachIcons(WebHelpInstance);
+		_attachIcons(webHelpInstance);
 	}
 
 	/**
 	 * Remove the clicked step
-	 * @param {WebHelp} WebHelpInstance The current instance
+	 * @param {WebHelp} webHelpInstance The current instance
 	 * @param {event} event The click event
 	 * @private
 	 */
-	function _removeThisStep(WebHelpInstance, event) {
-		WebHelpInstance.stepsTable.removeRow(event);
-		if (!WebHelpInstance.stepsTable.numRows()) {
-			WebHelpInstance.stepsTable.addRow();
-			_attachIcons(WebHelpInstance);
+	function _removeThisStep(webHelpInstance, event) {
+		webHelpInstance.stepsTable.removeRow(event);
+		if (!webHelpInstance.stepsTable.numRows()) {
+			webHelpInstance.stepsTable.addRow();
+			_attachIcons(webHelpInstance);
 		}
 	}
 
 	/**
 	 * Preview the clicked sequence (from the table, usually)
-	 * @param {WebHelp} WebHelpInstance
-	 * @param {Object} WebHelpInstance.ui The UI parameter
-	 * @param {Boolean} WebHelpInstance.usesIframes Does this app use iFrames ?
-	 * @param {TableList} WebHelpInstance.stepsTable The TableList used to list the steps
+	 * @param {WebHelp} webHelpInstance
+	 * @param {Object} webHelpInstance.ui The UI parameter
+	 * @param {Boolean} webHelpInstance.usesIframes Does this app use iFrames ?
+	 * @param {TableList} webHelpInstance.stepsTable The TableList used to list the steps
 	 * @private
 	 */
-	function _previewClickedSequence(WebHelpInstance) {
-		var previewSteps = _getCurrentTablePreviewSteps(WebHelpInstance);
+	function _previewClickedSequence(webHelpInstance) {
+		var previewSteps = _getCurrentTablePreviewSteps(webHelpInstance);
 		if (previewSteps) {
 			var introJsObj = introJs();
-			if (WebHelpInstance.usesIframes) {
+			if (webHelpInstance.usesIframes) {
 				for (var i = previewSteps.length - 1; i >= 0; i--) {
 					var thisStep = previewSteps[i];
 					if (thisStep.iframeId) {
@@ -597,13 +597,13 @@ WebHelp = (function () {
 				showBullets: false,
 				tooltipPosition: 'auto'
 			};
-			for (var option in WebHelpInstance.defaultIntroJsOptions) {
-				if (WebHelpInstance.defaultIntroJsOptions.hasOwnProperty(option)) {
-					options[option] = WebHelpInstance.defaultIntroJsOptions[option];
+			for (var option in webHelpInstance.defaultIntroJsOptions) {
+				if (webHelpInstance.defaultIntroJsOptions.hasOwnProperty(option)) {
+					options[option] = webHelpInstance.defaultIntroJsOptions[option];
 				}
 			}
 			introJsObj.setOptions(options);
-			WebHelpInstance.ui.sidebarToggleButton.trigger('click'); //Close the side menu
+			webHelpInstance.ui.sidebarToggleButton.trigger('click'); //Close the side menu
 			setTimeout(function () {
 				introJsObj.start();
 			}, 500);
@@ -612,20 +612,20 @@ WebHelp = (function () {
 
 	/**
 	 * Save a given sequences to the sequences object
-	 * @param {WebHelp} WebHelpInstance The current instance
-	 * @param {Object} WebHelpInstance.sequences The current sequences
+	 * @param {WebHelp} webHelpInstance The current instance
+	 * @param {Object} webHelpInstance.sequences The current sequences
 	 * @private
 	 */
-	function _saveSequence(WebHelpInstance) {
+	function _saveSequence(webHelpInstance) {
 		var saveStatus = 'Sequence saved successfully!';
 		try {
 			var sequenceTitle = jQuery("#sequenceTitleSetter").val().trim();
-			var stepsToSave = _getCurrentTablePreviewSteps(WebHelpInstance);
-			var sequences = WebHelpInstance.sequences;
-			var sequenceStatus = _getCurrentTableStatus(WebHelpInstance);
+			var stepsToSave = _getCurrentTablePreviewSteps(webHelpInstance);
+			var sequences = webHelpInstance.sequences;
+			var sequenceStatus = _getCurrentTableStatus(webHelpInstance);
 			if (sequenceStatus === "E") {
-				var editedSeqId = _getCurrentTableSeqId(WebHelpInstance);
-				jQuery.map(WebHelpInstance.sequences, function (val, i) {
+				var editedSeqId = _getCurrentTableSeqId(webHelpInstance);
+				jQuery.map(webHelpInstance.sequences, function (val, i) {
 					if (val.seqId === editedSeqId) {
 						delete sequences[i];
 					}
@@ -636,17 +636,17 @@ WebHelp = (function () {
 				seqId: new Date().getTime(),
 				sequenceTitle: sequenceTitle,
 				data: stepsToSave,
-				tool: WebHelpInstance.appName,
+				tool: webHelpInstance.appName,
 				status: sequenceStatus
 			};
 			// Populate scratchpad
-			_refreshScratchpad(WebHelpInstance);
-			_populateCurrentSequences(WebHelpInstance);
+			_refreshScratchpad(webHelpInstance);
+			_populateCurrentSequences(webHelpInstance);
 		} catch (error) {
 			saveStatus = 'Error saving the sequence!';
 		} finally {
 			var $showSequenceSavedSuccessAlert = jQuery('#showSequenceSavedSuccessAlert');
-			_clearStepsInSequence(WebHelpInstance);
+			_clearStepsInSequence(webHelpInstance);
 			$showSequenceSavedSuccessAlert.html(saveStatus).show();
 			setTimeout(function () {
 				$showSequenceSavedSuccessAlert.hide();
@@ -657,13 +657,13 @@ WebHelp = (function () {
 	/**
 	 * Get all the steps relevant to the current table
 	 *
-	 * @param {WebHelp} WebHelpInstance
-	 * @param {TableList} WebHelpInstance.stepsTable
+	 * @param {WebHelp} webHelpInstance
+	 * @param {TableList} webHelpInstance.stepsTable
 	 * @returns {Boolean|Array} previewSteps
 	 * @private
 	 */
-	function _getCurrentTablePreviewSteps(WebHelpInstance) {
-		var rows = WebHelpInstance.stepsTable.getData();
+	function _getCurrentTablePreviewSteps(webHelpInstance) {
+		var rows = webHelpInstance.stepsTable.getData();
 		if (rows.length <= 0) {
 			jQuery('#noStepsInPreviewDiv').show();
 			return false;
@@ -704,25 +704,25 @@ WebHelp = (function () {
 	/**
 	 * Get the status for the given table
 	 *
-	 * @param {WebHelp} WebHelpInstance
-	 * @param {TableList} WebHelpInstance.stepsTable
+	 * @param {WebHelp} webHelpInstance
+	 * @param {TableList} webHelpInstance.stepsTable
 	 * @returns {String} The status
 	 * @private
 	 */
-	function _getCurrentTableStatus(WebHelpInstance) {
-		return WebHelpInstance.stepsTable.getStatus();
+	function _getCurrentTableStatus(webHelpInstance) {
+		return webHelpInstance.stepsTable.getStatus();
 	}
 
 	/**
 	 * Get the current sequence ID for the given table
 	 *
-	 * @param {WebHelp} WebHelpInstance
-	 * @param {TableList} WebHelpInstance.stepsTable
+	 * @param {WebHelp} webHelpInstance
+	 * @param {TableList} webHelpInstance.stepsTable
 	 * @returns {String|int} The Sequence ID
 	 * @private
 	 */
-	function _getCurrentTableSeqId(WebHelpInstance) {
-		return WebHelpInstance.stepsTable.getSeqId();
+	function _getCurrentTableSeqId(webHelpInstance) {
+		return webHelpInstance.stepsTable.getSeqId();
 	}
 
 	/**
@@ -730,8 +730,8 @@ WebHelp = (function () {
 	 * @returns {String} The WebHelps app key
 	 * @private
 	 */
-	function _genKey(WebHelpInstance) {
-		return "WebHelp." + WebHelpInstance.appName;
+	function _genKey(webHelpInstance) {
+		return "WebHelp." + webHelpInstance.appName;
 	}
 
 	// This function should be tied to the user and the app
@@ -772,39 +772,39 @@ WebHelp = (function () {
 	/**
 	 * Method to mark the given sequence as seen
 	 *
-	 * @param {WebHelp} WebHelpInstance
+	 * @param {WebHelp} webHelpInstance
 	 * @param {int} seqId
 	 * @private
 	 */
-	function _markThisSequenceAsSeen(WebHelpInstance, seqId) {
-		var visitedSeqIds = WebHelpInstance.getAllVisitedSequences();
-		var key = _genKey(WebHelpInstance);
+	function _markThisSequenceAsSeen(webHelpInstance, seqId) {
+		var visitedSeqIds = webHelpInstance.getAllVisitedSequences();
+		var key = _genKey(webHelpInstance);
 		var updatePreferences = false;
 		if (visitedSeqIds.indexOf(seqId.toString()) < 0) {
 			visitedSeqIds.push(seqId);
 			updatePreferences = true;
 		}
 		if (updatePreferences) {
-			_setVisitedSequencesInUserPrefs(WebHelpInstance, key, visitedSeqIds);
-			_refreshWhatsNew(WebHelpInstance);
+			_setVisitedSequencesInUserPrefs(webHelpInstance, key, visitedSeqIds);
+			_refreshWhatsNew(webHelpInstance);
 		}
 	}
 
 	/**
 	 * Set visited sequences in userprefs
 	 *
-	 * @param {WebHelp} WebHelpInstance
+	 * @param {WebHelp} webHelpInstance
 	 * @param {String} key The preference key
 	 * @param {Array} val The set of values for the given app key
 	 * @private
 	 */
-	function _setVisitedSequencesInUserPrefs(WebHelpInstance, key, val) {
+	function _setVisitedSequencesInUserPrefs(webHelpInstance, key, val) {
 		val = val.join(",");
 		jQuery.ajax({
 			type: "GET",
 			url: "/weblications/etc/setPrefs.epl?" + key + "=" + val,
 			success: function () {
-				_refreshWhatsNew(WebHelpInstance);
+				_refreshWhatsNew(webHelpInstance);
 			}
 		});
 	}
@@ -812,11 +812,11 @@ WebHelp = (function () {
 	/**
 	 * Add/remove new contents to the new sequences table
 	 *
-	 * @param {WebHelp} WebHelpInstance
+	 * @param {WebHelp} webHelpInstance
 	 * @param {Array} newSequences The list of new sequences
 	 * @private
 	 */
-	function _updateNewSequencesTable(WebHelpInstance, newSequences) {
+	function _updateNewSequencesTable(webHelpInstance, newSequences) {
 		var aaData = [];
 		jQuery.each(newSequences, function (index, element) {
 			aaData.push([
@@ -827,26 +827,26 @@ WebHelp = (function () {
 				JSON.stringify(element)//content
 			]);
 		});
-		if (WebHelpInstance.mode === "consume") {
-			_initWhatsNewTable(WebHelpInstance, aaData);
+		if (webHelpInstance.mode === "consume") {
+			_initWhatsNewTable(webHelpInstance, aaData);
 		} else {
-			_initScratchPadTable(WebHelpInstance, aaData);
+			_initScratchPadTable(webHelpInstance, aaData);
 		}
 	}
 
 	/**
 	 * Refresh and get all sequences from the given filename via RESTful call
 	 *
-	 * @param {WebHelp} WebHelpInstance
-	 * @param {String} WebHelpInstance.sequencesBaseUrl The base of the URL to call for the sequence file from
+	 * @param {WebHelp} webHelpInstance
+	 * @param {String} webHelpInstance.sequencesBaseUrl The base of the URL to call for the sequence file from
 	 * @param {String=} filename
 	 * @returns {promise} When the AJAX call is complete
 	 * @private
 	 */
-	function _refreshAllSequences(WebHelpInstance, filename) {
-		WebHelpInstance.sequences = {};
+	function _refreshAllSequences(webHelpInstance, filename) {
+		webHelpInstance.sequences = {};
 		if (!filename) {
-			filename = WebHelpInstance.sequencesBaseUrl + WebHelpInstance.webHelpName + '.json';
+			filename = webHelpInstance.sequencesBaseUrl + webHelpInstance.webHelpName + '.json';
 		}
 		return jQuery.ajax({
 			url: filename,
@@ -857,7 +857,7 @@ WebHelp = (function () {
 			type: 'GET',
 			dataType: 'json',
 			success: function (data) {
-				WebHelpInstance.sequences = data;
+				webHelpInstance.sequences = data;
 			},
 			error: function () {
 				throw new Error("Failed to load the sequences!");
@@ -868,49 +868,49 @@ WebHelp = (function () {
 	/**
 	 * Refresh the scratchpad as needed
 	 *
-	 * @param {WebHelp} WebHelpInstance The current WebHelp instance
-	 * @param {Object} WebHelpInstance.sequences The sequences attribute
+	 * @param {WebHelp} webHelpInstance The current WebHelp instance
+	 * @param {Object} webHelpInstance.sequences The sequences attribute
 	 * @private
 	 */
-	function _refreshScratchpad(WebHelpInstance) {
+	function _refreshScratchpad(webHelpInstance) {
 		var unsavedSequences = {};
-		jQuery.map(WebHelpInstance.sequences, function (val, i) {
+		jQuery.map(webHelpInstance.sequences, function (val, i) {
 			var status = val.status;
 			if (status !== "O") {
 				unsavedSequences[i] = val;
 			}
 		});
-		_updateNewSequencesTable(WebHelpInstance, unsavedSequences);
+		_updateNewSequencesTable(webHelpInstance, unsavedSequences);
 	}
 
 	/**
 	 * Initialize the "What's New" table
 	 *
-	 * @param {WebHelp} WebHelpInstance
+	 * @param {WebHelp} webHelpInstance
 	 * @param {Array=} aaData
 	 * @private
 	 */
-	function _initWhatsNewTable(WebHelpInstance, aaData) {
-		WebHelpInstance.whatsNewTable = new TableList({
+	function _initWhatsNewTable(webHelpInstance, aaData) {
+		webHelpInstance.whatsNewTable = new TableList({
 			element: '#whatsNewContent',
 			data: aaData || [],
 			listTemplate: 'WebHelpSequenceConsumptionList',
 			listItemTemplate: 'WebHelpSequenceListItem',
 			emptyListIndicator: 'All new help sequences viewed - Congratulations!'
 		});
-		_attachIcons(WebHelpInstance);
-		_attachClickActionsToLists(WebHelpInstance);
+		_attachIcons(webHelpInstance);
+		_attachClickActionsToLists(webHelpInstance);
 	}
 
 	/**
 	 * Initialize the table in the scratchpad
 	 *
-	 * @param {WebHelp} WebHelpInstance
+	 * @param {WebHelp} webHelpInstance
 	 * @param {Array=} aaData
 	 * @private
 	 */
-	function _initScratchPadTable(WebHelpInstance, aaData) {
-		WebHelpInstance.scratchPadTable = new TableList({
+	function _initScratchPadTable(webHelpInstance, aaData) {
+		webHelpInstance.scratchPadTable = new TableList({
 			element: '#scratchpadContent',
 			data: aaData || [],
 			listTemplate: 'WebHelpSequenceConsumptionList',
@@ -921,13 +921,13 @@ WebHelp = (function () {
 	/**
 	 * Clear out all the steps in the current sequence
 	 *
-	 * @param {WebHelp} WebHelpInstance The current instance
+	 * @param {WebHelp} webHelpInstance The current instance
 	 * @private
 	 */
-	function _clearStepsInSequence(WebHelpInstance) {
+	function _clearStepsInSequence(webHelpInstance) {
 		//Destroy and reinitialize the table to get the edited data
-		WebHelpInstance.stepsTable.renderList();
-		_attachIcons(WebHelpInstance);
+		webHelpInstance.stepsTable.renderList();
+		_attachIcons(webHelpInstance);
 		jQuery("#sequenceTitleSetter").val("").attr("placeholder", "Sequence Title");
 		this.stepsTable.setStatus("N");
 	}
@@ -955,14 +955,14 @@ WebHelp = (function () {
 			}
 		}
 		play.setOptions(options);
-		var WebHelpInstance = this;
-		WebHelpInstance.ui.webHelpMainContent.hide();
+		var webHelpInstance = this;
+		webHelpInstance.ui.webHelpMainContent.hide();
 		//Hacky workaround to introjs pushing fixed position elements into weird places while scrolling to play
 		play.oncomplete(function () {
-			WebHelpInstance.ui.webHelpMainContent.show();
+			webHelpInstance.ui.webHelpMainContent.show();
 		});
 		play.onexit(function () {
-			WebHelpInstance.ui.webHelpMainContent.show();
+			webHelpInstance.ui.webHelpMainContent.show();
 		});
 		//Workaround for flexbox
 		/*
@@ -976,7 +976,7 @@ WebHelp = (function () {
 		 * This solution is somewhat non-performant, but currently works
 		 * TODO: find a more performant or pure CSS-based solution
 		 * */
-		if (WebHelpInstance.usesFlexbox) {
+		if (webHelpInstance.usesFlexbox) {
 			var $flexBoxItems = jQuery('body').children().filter(function () {
 				return (jQuery(this).css('display') === 'flex');
 			});
@@ -998,25 +998,25 @@ WebHelp = (function () {
 
 	/**
 	 * Play the sequence that was clicked on
-	 * @param {WebHelp} WebHelpInstance
+	 * @param {WebHelp} webHelpInstance
 	 * @param {Event} event The click event
 	 * @private
 	 */
-	function _playClickedSequence(WebHelpInstance, event) {
+	function _playClickedSequence(webHelpInstance, event) {
 		var sequenceName = jQuery(event.target).parents('li').find('.webHelpSequenceItem-title').text();
-		WebHelpInstance.playSequence(sequenceName);
+		webHelpInstance.playSequence(sequenceName);
 	}
 
 	/**
 	 * Edit the sequence that was clicked on
-	 * @param {WebHelp} WebHelpInstance The current instance
-	 * @param {TableList} WebHelpInstance.stepsTable The table used by the current instance
+	 * @param {WebHelp} webHelpInstance The current instance
+	 * @param {TableList} webHelpInstance.stepsTable The table used by the current instance
 	 * @param {Event} event The click event
 	 * @private
 	 */
-	function _editThisSequence(WebHelpInstance, event) {
+	function _editThisSequence(webHelpInstance, event) {
 		var thisSequenceTitle = jQuery(event.target).parents('li').find('.webHelpSequenceItem-title').text();
-		var sequence = WebHelpInstance.sequences[thisSequenceTitle];
+		var sequence = webHelpInstance.sequences[thisSequenceTitle];
 		var data = [];
 		var seqId = sequence.seqId;
 		jQuery.each(sequence.data, function (index, element) {
@@ -1040,13 +1040,13 @@ WebHelp = (function () {
 				text
 			]);
 		});
-		WebHelpInstance.stepsTable.setData(data);
-		WebHelpInstance.stepsTable.setStatus("E");
-		WebHelpInstance.stepsTable.setSeqId(seqId);
-		WebHelpInstance.stepsTable.useData = true;
-		WebHelpInstance.stepsTable.renderList();
-		_attachIcons(WebHelpInstance);
-		WebHelpInstance.stepsTable.useData = false;
+		webHelpInstance.stepsTable.setData(data);
+		webHelpInstance.stepsTable.setStatus("E");
+		webHelpInstance.stepsTable.setSeqId(seqId);
+		webHelpInstance.stepsTable.useData = true;
+		webHelpInstance.stepsTable.renderList();
+		_attachIcons(webHelpInstance);
+		webHelpInstance.stepsTable.useData = false;
 		jQuery('#sequenceTitleSetter').val(thisSequenceTitle);
 		jQuery('.nav-tabs a[href=#addSequence]').tab('show');
 	}
@@ -1054,16 +1054,16 @@ WebHelp = (function () {
 	//TODO: Try and find a way to not use delete
 	/**
 	 * Removes (deletes) a given sequence
-	 * @param {WebHelp} WebHelpInstance
+	 * @param {WebHelp} webHelpInstance
 	 * @param {event} event
 	 * @private
 	 */
-	function _removeThisSequence(WebHelpInstance, event) {
+	function _removeThisSequence(webHelpInstance, event) {
 		var sequenceName = jQuery(event.target).parents('li').find('.webHelpSequenceItem-title').text();
-		var storedSequences = WebHelpInstance.sequences;
+		var storedSequences = webHelpInstance.sequences;
 		delete storedSequences[sequenceName];
-		_populateCurrentSequences(WebHelpInstance);
-		_refreshScratchpad(WebHelpInstance);
+		_populateCurrentSequences(webHelpInstance);
+		_refreshScratchpad(webHelpInstance);
 	}
 
 	return WebHelp;
