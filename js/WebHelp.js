@@ -203,7 +203,7 @@ WebHelp = (function () {
 			if (webHelpInstance.showIntroOnLoad) {
 				var introSeqId = webHelpInstance.getSequenceIdForSequenceName('Introduction');
 				if (introSeqId && !webHelpInstance.isSequenceAlreadyViewed({seqId: introSeqId})) {
-					webHelpInstance.playSequence('Introduction');
+					webHelpInstance.playSequence({sequenceName: 'Introduction'});
 				}
 			}
 		});
@@ -954,9 +954,24 @@ WebHelp = (function () {
 		this.stepsTable.setStatus("N");
 	}
 
-	WebHelp.prototype.playSequence = function (sequenceName) {
-		var sequence = this.sequences[sequenceName];
-		var seqId = sequence.seqId;
+	/**
+	 * Play a sequence programmatically given its identifier (name or ID)
+	 *
+	 * @param {Object} options The options object
+	 * @param {int=} options.seqId The sequence ID for the given sequence
+	 * @param {String=} options.seqName The sequence name for the given sequence
+	 * @api public
+	 */
+	WebHelp.prototype.playSequence = function (options) {
+		var seqName = options.seqName;
+		var seqId = options.seqId;
+		if (!(seqName || seqId)) {
+			console.error('Called function with no identifiers for sequence');
+			return;
+		}
+		if (seqName && (!seqId)) {
+			seqId = this.getSequenceIdForSequenceName(seqName);
+		}
 		var play = introJs();
 		if (this.usesIframes) {
 			for (var i = sequence.data.length - 1; i >= 0; i--) {
@@ -1026,7 +1041,7 @@ WebHelp = (function () {
 	 */
 	function _playClickedSequence(webHelpInstance, event) {
 		var sequenceName = jQuery(event.target).parents('li').find('.webHelpSequenceItem-title').text();
-		webHelpInstance.playSequence(sequenceName);
+		webHelpInstance.playSequence({sequenceName: sequenceName});
 	}
 
 	/**
