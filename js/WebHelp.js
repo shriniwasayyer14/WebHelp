@@ -616,6 +616,7 @@ WebHelp = (function () {
 			}, 2000);
 		}
 	}
+
 	/**
 	 * Get all the steps relevant to the current table
 	 *
@@ -747,22 +748,30 @@ WebHelp = (function () {
 			updatePreferences = true;
 		}
 		if (updatePreferences) {
-			WebHelpInstance.setVisitedSequencesInUserPrefs(key, visitedSeqIds);
+			_setVisitedSequencesInUserPrefs(WebHelpInstance, key, visitedSeqIds);
 			WebHelpInstance.refreshWhatsNew();
 		}
 	}
 
-	WebHelp.prototype.setVisitedSequencesInUserPrefs = function (key, val) {
-		var self = this;
+	/**
+	 * Set visited sequences in userprefs
+	 *
+	 * @param {WebHelp} WebHelpInstance
+	 * @param {String} key The preference key
+	 * @param {Array} val The set of values for the given app key
+	 * @private
+	 */
+	function _setVisitedSequencesInUserPrefs(WebHelpInstance, key, val) {
 		val = val.join(",");
 		jQuery.ajax({
 			type: "GET",
 			url: "/weblications/etc/setPrefs.epl?" + key + "=" + val,
 			success: function () {
-				self.refreshWhatsNew(); // new function
+				WebHelpInstance.refreshWhatsNew(); // new function
 			}
 		});
-	};
+	}
+
 	// This table will remove and add new contents to the new sequences table
 	WebHelp.prototype.updateNewSequencesTable = function (newSequences) {
 		var aaData = [];
