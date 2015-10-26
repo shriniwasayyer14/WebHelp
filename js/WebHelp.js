@@ -764,6 +764,7 @@ WebHelp = (function () {
 		var seqId = sequence.seqId;
 		return seqId;
 	};
+
 	/**
 	 * Given a seqence ID or name, check if the sequence has been previously seen or not
 	 *
@@ -777,7 +778,7 @@ WebHelp = (function () {
 		var seqId = options.seqId;
 		var seqName = options.seqName;
 		if (seqName && (!seqId)) {
-			seqId = parseInt(this.sequences[seqName].seqId);
+			seqId = this.getSeqIdForSequence(seqName);
 		}
 		if (!(seqName || seqId)) {
 			console.error('Called function with no identifiers for sequence');
