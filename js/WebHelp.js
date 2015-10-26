@@ -265,7 +265,7 @@ WebHelp = (function () {
 			elem = helpIconElement;
 		}
 		jQuery(elem).html(currentTitleHTML);
-		this.refreshAllSequences();
+		_refreshAllSequences(this);
 		_populateCurrentSequences(this);
 	};
 	/**
@@ -306,7 +306,7 @@ WebHelp = (function () {
 		this.updateNewSequencesTable([]);
 	};
 	WebHelp.prototype.refreshWhatsNew = function () {
-		this.refreshAllSequences();
+		_refreshAllSequences(this);
 		var sequences = this.sequences; //new function
 		var seenSequences = this.getAllVisitedSequences(); //new function
 		var newSequences = [];
@@ -736,14 +736,21 @@ WebHelp = (function () {
 			_initScratchPadTable(this, aaData);
 		}
 	};
-	WebHelp.prototype.refreshAllSequences = function (file) {
-		var self = this;
-		this.sequences = {};
-		if (!file) {
-			file = this.sequencesBaseUrl + this.webHelpName + '.json';
+	/**
+	 * Refresh and get all sequences from the given filename via RESTful call
+	 *
+	 * @param {WebHelp} WebHelpInstance
+	 * @param {String} WebHelpInstance.sequencesBaseUrl The base of the URL to call for the sequence file from
+	 * @param {String=} filename
+	 * @private
+	 */
+	function _refreshAllSequences(WebHelpInstance, filename) {
+		WebHelpInstance.sequences = {};
+		if (!filename) {
+			filename = WebHelpInstance.sequencesBaseUrl + WebHelpInstance.webHelpName + '.json';
 		}
 		jQuery.ajax({
-			url: file,
+			url: filename,
 			xhrFields: {
 				withCredentials: true
 			},
@@ -758,7 +765,8 @@ WebHelp = (function () {
 				throw new Error("Failed to load the sequences!");
 			}
 		});
-	};
+	}
+
 	WebHelp.prototype.refreshScratchpad = function () {
 		var unsavedSequences = {};
 		jQuery.map(this.sequences, function (val, i) {
