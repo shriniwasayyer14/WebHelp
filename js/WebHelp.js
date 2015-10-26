@@ -142,7 +142,7 @@ WebHelp = (function () {
 		if (this.ui.webHelpMainContent.length <= 0) {
 			var modalContent = jQuery(WebHelpTemplates.WebHelpContent);
 			var webHelpContent = jQuery(WebHelpTemplates.WebHelpConsumption);
-			this.attachIcons();
+			_attachIcons(this);
 			var $body = jQuery("body");
 			$body.append(modalContent);
 			$body.append(webHelpContent);
@@ -225,7 +225,7 @@ WebHelp = (function () {
 			}
 		};
 		jQuery(this.stepsTable.element).on("click", ".remove-step", this.removeThisStep.bind(self));
-		this.attachIcons();
+		_attachIcons(this);
 		var helpIconElement = jQuery(this.helpIconPosition);
 		var currentTitleHTML = helpIconElement.html();
 		currentTitleHTML += "[Edit mode]";
@@ -239,10 +239,10 @@ WebHelp = (function () {
 		this.refreshAllSequences();
 		this.populateCurrentSequences();
 	};
-	WebHelp.prototype.attachIcons = function () {
-		for (var icon in this.iconClass) {
-			if (this.iconClass.hasOwnProperty(icon)) {
-				this.ui.webHelpMainContent.find(".iconClass-" + icon).removeClass(this.iconClass[icon]).addClass(this.iconClass[icon]);
+	function _attachIcons(WebHelpInstance) {
+		for (var icon in WebHelpInstance.iconClass) {
+			if (WebHelpInstance.iconClass.hasOwnProperty(icon)) {
+				WebHelpInstance.ui.webHelpMainContent.find(".iconClass-" + icon).removeClass(WebHelpInstance.iconClass[icon]).addClass(WebHelpInstance.iconClass[icon]);
 			}
 		}
 	};
@@ -336,7 +336,7 @@ WebHelp = (function () {
 				listItemTemplate: 'WebHelpSequenceListItem',
 				supplementalClasses: supplementalClasses
 			});
-			this.attachIcons();
+			_attachIcons(this);
 			_attachClickActionsToLists(this);
 		}
 	};
@@ -423,13 +423,13 @@ WebHelp = (function () {
 		$stepsTable.find('.remove-step').on('click', function () {
 			self.removeThisStep.bind(self);
 		});
-		this.attachIcons();
+		_attachIcons(this);
 	};
 	WebHelp.prototype.removeThisStep = function (event) {
 		this.stepsTable.removeRow(event);
 		if (!this.stepsTable.numRows()) {
 			this.stepsTable.addRow();
-			this.attachIcons();
+			_attachIcons(this);
 		}
 	};
 	WebHelp.prototype.preview = function () {
@@ -666,7 +666,7 @@ WebHelp = (function () {
 			listItemTemplate: 'WebHelpSequenceListItem',
 			emptyListIndicator: 'All new help sequences viewed - Congratulations!'
 		});
-		this.attachIcons();
+		_attachIcons(this);
 		_attachClickActionsToLists(this);
 	};
 	WebHelp.prototype.initScratchPadTable = function (aaData) {
@@ -680,7 +680,7 @@ WebHelp = (function () {
 	WebHelp.prototype.clearStepsInSequence = function () {
 		//Destroy and reinitialize the table to get the edited data
 		this.stepsTable.renderList();
-		this.attachIcons();
+		_attachIcons(this);
 		jQuery("#sequenceTitleSetter").val("").attr("placeholder", "Sequence Title");
 		this.stepsTable.setStatus("N");
 	};
@@ -782,7 +782,7 @@ WebHelp = (function () {
 		this.stepsTable.setSeqId(seqId);
 		this.stepsTable.useData = true;
 		this.stepsTable.renderList();
-		this.attachIcons();
+		_attachIcons(this);
 		this.stepsTable.useData = false;
 		jQuery('#sequenceTitleSetter').val(thisSequenceTitle);
 		jQuery('.nav-tabs a[href=#addSequence]').tab('show');
