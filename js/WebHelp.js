@@ -40,8 +40,8 @@ WebHelp = (function () {
 				"info": "fa fa-info-circle",
 				"edit": "fa fa-edit",
 				"upload": "fa fa-upload",
-				"next": "fa fa-arrow-circle-right",
-				"prev": "fa fa-arrow-circle-left",
+				"next": "fa fa-step-forward",
+				"prev": "fa fa-step-backward",
 				"done": "fa fa-times-circle"
 			};
 		} else { //default to bootstrap
@@ -55,13 +55,13 @@ WebHelp = (function () {
 				"info": "glyphicon glyphicon-info-sign",
 				"edit": "glyphicon glyphicon-edit",
 				"upload": "glyphicon glyphicon-upload",
-				"next": "glyphicon glyphicon-circle-arrow-right",
-				"prev": "glyphicon glyphicon-circle-arrow-left",
+				"next": "glyphicon glyphicon-step-forward",
+				"prev": "glyphicon glyphicon-step-backward",
 				"done": "glyphicon glyphicon-remove-sign"
 			};
 		}
 		this.defaultIntroJsOptions = {
-			nextLabel: '<span class=\"' + this.iconClass.next + '\"></span> Next',
+			nextLabel: 'Next <span class=\"' + this.iconClass.next + '\"></span>',
 			prevLabel: '<span class=\"' + this.iconClass.prev + '\"></span> Previous',
 			skipLabel: '<span class=\"' + this.iconClass.done + '\"></span> Close',
 			doneLabel: '<span class=\"' + this.iconClass.done + '\"></span> Done'

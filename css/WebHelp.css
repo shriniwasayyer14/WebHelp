@@ -320,6 +320,7 @@
   border-radius: 8px;
   min-width: 300px;
   max-width: 600px;
+  padding-top: 30px;
 }
 .introjs-tooltipReferenceLayer {
   opacity: 0.8;
@@ -378,7 +379,7 @@
 a.introjs-button {
   text-decoration: none;
   font-size: 15px;
-  min-width: 30%;
+  min-width: 45%;
   margin: 10px 5px;
   border: 1px solid #fff;
   padding: 3px;
@@ -412,7 +413,11 @@ a.introjs-button:hover {
   border-color: #36cbcb;
 }
 a.introjs-button.introjs-skipbutton {
-  float: right;
+  position: absolute;
+  top: 0;
+  right: 0;
+  min-width: 30%;
+  border-color: #ff8c00;
 }
 a.introjs-button.introjs-disabled {
   opacity: 0.5;
