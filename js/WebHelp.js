@@ -476,7 +476,7 @@ WebHelp = (function () {
 		}
 	};
 	WebHelp.prototype.preview = function () {
-		var previewSteps = this.getCurrentTablePreviewSteps();
+		var previewSteps = _getCurrentTablePreviewSteps(this);
 		if (previewSteps) {
 			var introJsObj = introJs();
 			if (this.usesIframes) {
@@ -509,7 +509,7 @@ WebHelp = (function () {
 		var saveStatus = 'Sequence saved successfully!';
 		try {
 			var sequenceTitle = jQuery("#sequenceTitleSetter").val().trim();
-			var stepsToSave = this.getCurrentTablePreviewSteps();
+			var stepsToSave = _getCurrentTablePreviewSteps(this);
 			var sequences = this.sequences;
 			var sequenceStatus = this.getCurrentTableStatus();
 			if (sequenceStatus === "E") {
@@ -542,8 +542,16 @@ WebHelp = (function () {
 			}, 2000);
 		}
 	};
-	WebHelp.prototype.getCurrentTablePreviewSteps = function () {
-		var rows = this.stepsTable.getData();
+	/**
+	 * Get all the steps relevant to the current table
+	 *
+	 * @param {WebHelp} WebHelpInstance
+	 * @param {TableList} WebHelpInstance.stepsTable
+	 * @returns {Boolean|Array} previewSteps
+	 * @private
+	 */
+	function _getCurrentTablePreviewSteps(WebHelpInstance) {
+		var rows = WebHelpInstance.stepsTable.getData();
 		if (rows.length <= 0) {
 			jQuery('#noStepsInPreviewDiv').show();
 			return false;
@@ -579,7 +587,8 @@ WebHelp = (function () {
 			}
 		}
 		return previewSteps;
-	};
+	}
+
 	WebHelp.prototype.getCurrentTableStatus = function () {
 		return this.stepsTable.getStatus();
 	};
