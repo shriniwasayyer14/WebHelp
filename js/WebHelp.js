@@ -69,10 +69,10 @@ WebHelp = (function () {
 		//build the gui
 		if (this.parameters.create !== undefined) {
 			this.mode = "create";
-			this.showHelpCreationMode();
+			_showHelpCreationMode(this);
 		} else {
 			this.mode = "consume";
-			this.showHelpConsumptionMode();
+			_showHelpConsumptionMode(this);
 		}
 		_bindPlayEditButtons(this);
 	}
@@ -129,6 +129,7 @@ WebHelp = (function () {
 			'zIndex': '100'
 		});
 	};
+
 	/**
 	 * Add the help icon to the specified page element
 	 *
@@ -163,51 +164,63 @@ WebHelp = (function () {
 		});
 		WebHelpInstance.ui.webHelpButton.attr('title', 'App Help');
 	}
-	WebHelp.prototype.showHelpConsumptionMode = function () {
-		_addHelpIcon(this, this.helpIconPosition);
-		this.ui.webHelpMainContent = jQuery("#webHelpMainContent");
-		if (this.ui.webHelpMainContent.length <= 0) {
+
+	/**
+	 * Perform the necessary actions to show the consumption mode
+	 * @param {WebHelp} WebHelpInstance The current instance of WebHelp
+	 * @param {Object} WebHelpInstance.ui The UI parameters
+	 * @private
+	 */
+	function _showHelpConsumptionMode(WebHelpInstance) {
+		_addHelpIcon(WebHelpInstance, WebHelpInstance.helpIconPosition);
+		WebHelpInstance.ui.webHelpMainContent = jQuery("#webHelpMainContent");
+		if (WebHelpInstance.ui.webHelpMainContent.length <= 0) {
 			var modalContent = jQuery(WebHelpTemplates.WebHelpContent);
 			var webHelpContent = jQuery(WebHelpTemplates.WebHelpConsumption);
-			_attachIcons(this);
+			_attachIcons(WebHelpInstance);
 			var $body = jQuery("body");
 			$body.append(modalContent);
 			$body.append(webHelpContent);
-			this.ui.webHelpMainContent = jQuery("#webHelpMainContent");
+			WebHelpInstance.ui.webHelpMainContent = jQuery("#webHelpMainContent");
 		}
-		this.ui.webHelpMainContent.appendTo("#contentConsumptionModal .modal-body");
+		WebHelpInstance.ui.webHelpMainContent.appendTo("#contentConsumptionModal .modal-body");
 		jQuery('.nav-tabs a[href=#addSequence]').hide();
 		jQuery('#globalWebHelpCreatorActionsWell').hide();
-		var self = this;
-		self.refreshWhatsNew().then(function () {
-			_populateCurrentSequences(this);
-			self.watchWhatsNew = setInterval(function () {
-				self.refreshWhatsNew();
+		WebHelpInstance.refreshWhatsNew().then(function () {
+			_populateCurrentSequences(WebHelpInstance);
+			WebHelpInstance.watchWhatsNew = setInterval(function () {
+				WebHelpInstance.refreshWhatsNew();
 			}, 1800000);
-			if (self.showIntroOnLoad) {
-				var introSeqId = self.getSeqIdForSequence('Introduction');
-				if (introSeqId && !self.isThisSequenceSeen(introSeqId)) {
-					self.playSequence('Introduction');
+			if (WebHelpInstance.showIntroOnLoad) {
+				var introSeqId = WebHelpInstance.getSeqIdForSequence('Introduction');
+				if (introSeqId && !WebHelpInstance.isThisSequenceSeen(introSeqId)) {
+					WebHelpInstance.playSequence('Introduction');
 				}
 			}
 		});
-	};
-	WebHelp.prototype.showHelpCreationMode = function () {
-		var WebHelpInstance = this;
-		this.ui.webHelpMainContent = jQuery("#webHelpMainContent");
-		if (this.ui.webHelpMainContent.length === 0) {
+	}
+
+	/**
+	 * Perform the necessary actions to show the consumption mode
+	 * @param {WebHelp} WebHelpInstance The current instance of WebHelp
+	 * @param {Object} WebHelpInstance.ui The UI parameters
+	 * @private
+	 */
+	function _showHelpCreationMode(WebHelpInstance) {
+		WebHelpInstance.ui.webHelpMainContent = jQuery("#webHelpMainContent");
+		if (WebHelpInstance.ui.webHelpMainContent.length === 0) {
 			var webHelpContent = jQuery(WebHelpTemplates.WebHelpCreator);
 			jQuery("body").append(webHelpContent);
-			this.ui.webHelpMainContent = jQuery("#webHelpMainContent");
+			WebHelpInstance.ui.webHelpMainContent = jQuery("#webHelpMainContent");
 		}
 		var sidebarToggleButton = jQuery(WebHelpTemplates.WebHelpSidebarToggle);
-		this.ui.webHelpMainContent
+		WebHelpInstance.ui.webHelpMainContent
 			.addClass('creationModeSidebar')
 			.addClass('hideSidebar')
 			.append(sidebarToggleButton)
 			.children(':not(#creationModeSidebarshowHideSpan)').hide();
-		this.ui.sidebarToggleButton = jQuery('#creationModeSidebarshowHideSpan');
-		this.ui.sidebarToggleButton.on('click', function () {
+		WebHelpInstance.ui.sidebarToggleButton = jQuery('#creationModeSidebarshowHideSpan');
+		WebHelpInstance.ui.sidebarToggleButton.on('click', function () {
 			if (WebHelpInstance.ui.webHelpMainContent.hasClass('hideSidebar')) {
 				WebHelpInstance.ui.webHelpMainContent.children(':not(#creationModeSidebarshowHideSpan)').show('slow', function () {
 					WebHelpInstance.ui.webHelpMainContent.removeClass('hideSidebar', 300);
@@ -218,7 +231,7 @@ WebHelp = (function () {
 				});
 			}
 		});
-		this.stepsTable = new TableList({
+		WebHelpInstance.stepsTable = new TableList({
 			element: "#stepsTable",
 			useData: false, //Create one generic step
 			listTemplate: 'WebHelpSequenceCreationList',
@@ -227,7 +240,7 @@ WebHelp = (function () {
 			sortable: true,
 			status: "N"
 		});
-		_initScratchPadTable(this);
+		_initScratchPadTable(WebHelpInstance);
 		jQuery('.nav-tabs a[href=#addSequence]').trigger('click');
 		//attach event handlers to webHelpContent
 		jQuery("#sequencePreviewButton").on("click", function () {
@@ -236,8 +249,8 @@ WebHelp = (function () {
 		jQuery("#sequenceSaveButton").on("click", function () {
 			_saveSequence(WebHelpInstance);
 		});
-		jQuery("#clearStepsButton").on("click", this.clearStepsInSequence.bind(WebHelpInstance));
-		jQuery("#startDragDropButton").on("click", this.startSelectionOfElement.bind(WebHelpInstance));
+		jQuery("#clearStepsButton").on("click", WebHelpInstance.clearStepsInSequence.bind(WebHelpInstance));
+		jQuery("#startDragDropButton").on("click", WebHelpInstance.startSelectionOfElement.bind(WebHelpInstance));
 		jQuery("#startEmptyStepButton").on("click", function () {
 			_createStepForThisElement(WebHelpInstance);
 		});
@@ -260,11 +273,11 @@ WebHelp = (function () {
 				return message;
 			}
 		};
-		jQuery(this.stepsTable.element).on("click", ".remove-step", function (event) {
+		jQuery(WebHelpInstance.stepsTable.element).on("click", ".remove-step", function (event) {
 			_removeThisStep(WebHelpInstance, event);
 		});
 		_attachIcons(WebHelpInstance);
-		var helpIconElement = jQuery(this.helpIconPosition);
+		var helpIconElement = jQuery(WebHelpInstance.helpIconPosition);
 		var currentTitleHTML = helpIconElement.html();
 		currentTitleHTML += "[Edit mode]";
 		var elem;
@@ -277,7 +290,8 @@ WebHelp = (function () {
 		_refreshAllSequences(WebHelpInstance).then(function () {
 			_populateCurrentSequences(WebHelpInstance);
 		});
-	};
+	}
+
 	/**
 	 * Attach all required icons within the main UI content
 	 *
