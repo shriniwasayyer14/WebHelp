@@ -581,10 +581,18 @@ WebHelp = (function () {
 	WebHelp.prototype.getCurrentTableSeqId = function () {
 		return this.stepsTable.getSeqId();
 	};
-	WebHelp.prototype.genKey = function () {
+	/**
+	 * Generates the sequencing key
+	 *
+	 * @param {WebHelp} WebHelpInstance
+	 * @param {String} WebHelpInstance.appName
+	 * @returns {string} The WebHelp app key
+	 * @private
+	 */
+	function _genKey(WebHelpInstance) {
 		//return "WebHelp." + this.appName + "." + this.userName;
 		/* Using preferences, so do not need the username in the key for now*/
-		return "WebHelp." + this.appName;
+		return "WebHelp." + WebHelpInstance.appName;
 	};
 	// This function should be tied to the user and the app
 	// Returns an array of sequence IDs of the visited sequences
@@ -601,7 +609,7 @@ WebHelp = (function () {
 				}
 			}
 		});
-		var key = this.genKey();
+		var key = _genKey(this);
 		var seqIds = userPrefs[key];
 		if (seqIds && seqIds.length > 0) {
 			return seqIds.split(",");
@@ -623,7 +631,7 @@ WebHelp = (function () {
 	// This method would mark the given sequence as seen
 	WebHelp.prototype.markThisSequenceAsSeen = function (seqId) {
 		var visitedSeqIds = this.getAllVisitedSequences();
-		var key = this.genKey();
+		var key = _genKey(this);
 		var updatePreferences = false;
 		if (visitedSeqIds.indexOf(seqId.toString()) < 0) {
 			visitedSeqIds.push(seqId);
