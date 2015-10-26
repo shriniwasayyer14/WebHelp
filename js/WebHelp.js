@@ -193,7 +193,7 @@ WebHelp = (function () {
 		});
 	};
 	WebHelp.prototype.showHelpCreationMode = function () {
-		var self = this;
+		var WebHelpInstance = this;
 		this.ui.webHelpMainContent = jQuery("#webHelpMainContent");
 		if (this.ui.webHelpMainContent.length === 0) {
 			var webHelpContent = jQuery(WebHelpTemplates.WebHelpCreator);
@@ -208,13 +208,13 @@ WebHelp = (function () {
 			.children(':not(#creationModeSidebarshowHideSpan)').hide();
 		this.ui.sidebarToggleButton = jQuery('#creationModeSidebarshowHideSpan');
 		this.ui.sidebarToggleButton.on('click', function () {
-			if (self.ui.webHelpMainContent.hasClass('hideSidebar')) {
-				self.ui.webHelpMainContent.children(':not(#creationModeSidebarshowHideSpan)').show('slow', function () {
-					self.ui.webHelpMainContent.removeClass('hideSidebar', 300);
+			if (WebHelpInstance.ui.webHelpMainContent.hasClass('hideSidebar')) {
+				WebHelpInstance.ui.webHelpMainContent.children(':not(#creationModeSidebarshowHideSpan)').show('slow', function () {
+					WebHelpInstance.ui.webHelpMainContent.removeClass('hideSidebar', 300);
 				});
 			} else {
-				self.ui.webHelpMainContent.children(':not(#creationModeSidebarshowHideSpan)').hide('slow', function () {
-					self.ui.webHelpMainContent.addClass('hideSidebar', 300);
+				WebHelpInstance.ui.webHelpMainContent.children(':not(#creationModeSidebarshowHideSpan)').hide('slow', function () {
+					WebHelpInstance.ui.webHelpMainContent.addClass('hideSidebar', 300);
 				});
 			}
 		});
@@ -231,20 +231,20 @@ WebHelp = (function () {
 		jQuery('.nav-tabs a[href=#addSequence]').trigger('click');
 		//attach event handlers to webHelpContent
 		jQuery("#sequencePreviewButton").on("click", function () {
-			_previewClickedSequence(self);
+			_previewClickedSequence(WebHelpInstance);
 		});
-		jQuery("#sequenceSaveButton").on("click", this.saveSequence.bind(self));
-		jQuery("#clearStepsButton").on("click", this.clearStepsInSequence.bind(self));
-		jQuery("#startDragDropButton").on("click", this.startSelectionOfElement.bind(self));
+		jQuery("#sequenceSaveButton").on("click", this.saveSequence.bind(WebHelpInstance));
+		jQuery("#clearStepsButton").on("click", this.clearStepsInSequence.bind(WebHelpInstance));
+		jQuery("#startDragDropButton").on("click", this.startSelectionOfElement.bind(WebHelpInstance));
 		jQuery("#startEmptyStepButton").on("click", function () {
-			_createStepForThisElement(self);
+			_createStepForThisElement(WebHelpInstance);
 		});
 		jQuery("#cancelDragDropButton").on("click", jQueryDragSelector.off);
 		jQuery("#noElementsSelectedButton").on("click", jQuery('#noElementsSelectedDiv').hide);
 		jQuery("#noStepsInPreviewButton").on("click", jQuery('#noStepsInPreviewDiv').hide);
-		jQuery("#saveAllHelpSequencesToFileButton").on("click", this.saveAllHelpSequencesToFile.bind(self));
+		jQuery("#saveAllHelpSequencesToFileButton").on("click", this.saveAllHelpSequencesToFile.bind(WebHelpInstance));
 		window.onbeforeunload = function (e) {
-			var scratchPadData = self.scratchPadTable.getData();
+			var scratchPadData = WebHelpInstance.scratchPadTable.getData();
 			if (scratchPadData.length > 0) {
 				var message = "You have unsaved changes in your scratchpad!";
 				var err = e || window.event;
@@ -256,8 +256,10 @@ WebHelp = (function () {
 				return message;
 			}
 		};
-		jQuery(this.stepsTable.element).on("click", ".remove-step", this.removeThisStep.bind(self));
-		_attachIcons(this);
+		jQuery(this.stepsTable.element).on("click", ".remove-step", function (event) {
+			_removeThisStep(WebHelpInstance, event);
+		});
+		_attachIcons(WebHelpInstance);
 		var helpIconElement = jQuery(this.helpIconPosition);
 		var currentTitleHTML = helpIconElement.html();
 		currentTitleHTML += "[Edit mode]";
@@ -501,18 +503,26 @@ WebHelp = (function () {
 			WebHelpInstance.stepsTable.addRow();
 		}
 		$stepsTable.find('.remove-step').unbind('click');
-		$stepsTable.find('.remove-step').on('click', function () {
-			WebHelpInstance.removeThisStep.bind(WebHelpInstance);
+		$stepsTable.find('.remove-step').on('click', function (event) {
+			_removeThisStep(WebHelpInstance, event);
 		});
 		_attachIcons(WebHelpInstance);
 	}
-	WebHelp.prototype.removeThisStep = function (event) {
-		this.stepsTable.removeRow(event);
-		if (!this.stepsTable.numRows()) {
-			this.stepsTable.addRow();
-			_attachIcons(this);
+
+	/**
+	 * Remove the clicked step
+	 * @param {WebHelp} WebHelpInstance The current instance
+	 * @param {event} event The click event
+	 * @private
+	 */
+	function _removeThisStep(WebHelpInstance, event) {
+		WebHelpInstance.stepsTable.removeRow(event);
+		if (!WebHelpInstance.stepsTable.numRows()) {
+			WebHelpInstance.stepsTable.addRow();
+			_attachIcons(WebHelpInstance);
 		}
-	};
+	}
+
 	/**
 	 * Preview the clicked sequence (from the table, usually)
 	 * @param {WebHelp} WebHelpInstance
