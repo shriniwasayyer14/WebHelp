@@ -759,7 +759,7 @@ WebHelp = (function () {
 			dataType: 'json',
 			async: false,
 			success: function (data) {
-				self.sequences = data;
+				WebHelpInstance.sequences = data;
 			},
 			error: function () {
 				throw new Error("Failed to load the sequences!");
