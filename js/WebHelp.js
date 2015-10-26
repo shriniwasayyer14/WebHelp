@@ -202,7 +202,7 @@ WebHelp = (function () {
 			}, 1800000);
 			if (webHelpInstance.showIntroOnLoad) {
 				var introSeqId = webHelpInstance.getSeqIdForSequence('Introduction');
-				if (introSeqId && !webHelpInstance.isThisSequenceSeen(introSeqId)) {
+				if (introSeqId && !webHelpInstance.isSequenceAlreadyViewed({seqId: introSeqId})) {
 					webHelpInstance.playSequence('Introduction');
 				}
 			}
@@ -422,7 +422,7 @@ WebHelp = (function () {
 					'',//remove
 					JSON.stringify(sequenceContent)//content
 				]);
-				if (webHelpInstance.isThisSequenceSeen(sequenceContent.seqId)) {
+				if (webHelpInstance.isSequenceAlreadyViewed({seqId: sequenceContent.seqId})) {
 					supplementalClasses.push('seen');
 				} else {
 					supplementalClasses.push('unseen');
@@ -764,8 +764,25 @@ WebHelp = (function () {
 		var seqId = sequence.seqId;
 		return seqId;
 	};
-	// Given a seqId, check if the sequence has been previously seen or not
-	WebHelp.prototype.isThisSequenceSeen = function (seqId) {
+	/**
+	 * Given a seqence ID or name, check if the sequence has been previously seen or not
+	 *
+	 * @api public
+	 * @param {Object} options The options object
+	 * @param {int=} options.seqId The sequence ID for the given sequence
+	 * @param {String=} options.seqName The sequence name for the given sequence
+	 * @returns {boolean} Whether the sequence has been previously viewed
+	 */
+	WebHelp.prototype.isSequenceAlreadyViewed = function (options) {
+		var seqId = options.seqId;
+		var seqName = options.seqName;
+		if (seqName && (!seqId)) {
+			seqId = parseInt(this.sequences[seqName].seqId);
+		}
+		if (!(seqName || seqId)) {
+			console.error('Called function with no identifiers for sequence');
+			return false;
+		}
 		var visitedSeqIds = this.getAllVisitedSequences();
 		return visitedSeqIds.indexOf(seqId.toString()) >= 0;
 	};
