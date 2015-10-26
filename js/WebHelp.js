@@ -115,10 +115,12 @@ WebHelp = (function () {
 	 */
 	function _bindPlayEditButtons(WebHelpInstance) {
 		//attach sequence specific handlers
-		WebHelpInstance.ui.webHelpMainContent.on('click', '.play-sequence', WebHelpInstance.playClickedSequence.bind(WebHelpInstance));
+		WebHelpInstance.ui.webHelpMainContent.on('click', '.play-sequence', function (event) {
+			_playClickedSequence(WebHelpInstance, event);
+		});
 		WebHelpInstance.ui.webHelpMainContent.on('click', '.edit-sequence', WebHelpInstance.editThisSequence.bind(WebHelpInstance));
 		WebHelpInstance.ui.webHelpMainContent.on('click', '.remove-sequence', WebHelpInstance.removeThisSequence.bind(WebHelpInstance));
-	};
+	}
 	WebHelp.prototype.showSequences = function () {
 		jQuery('#contentConsumptionModal').modal('show');
 		jQuery('.modal-backdrop').css({
@@ -383,9 +385,13 @@ WebHelp = (function () {
 	 */
 	function _attachClickActionsToLists(WebHelpInstance) {
 		if (WebHelpInstance.mode !== 'create') {
-			WebHelpInstance.ui.webHelpMainContent.find('div.iconClass-play').parents('li.webHelpSequenceList:not(.header)').attr('title', 'Play!').unbind('click').on('click', WebHelpInstance.playClickedSequence.bind(WebHelpInstance));
+			WebHelpInstance.ui.webHelpMainContent.find('div.iconClass-play').parents('li.webHelpSequenceList:not(.header)').attr('title', 'Play!').unbind('click').on('click', function (event) {
+				_playClickedSequence(WebHelpInstance, event);
+			});
 		} else {
-			WebHelpInstance.ui.webHelpMainContent.find('div.iconClass-play').attr('title', 'Play!').unbind('click').on('click', WebHelpInstance.playClickedSequence.bind(WebHelpInstance));
+			WebHelpInstance.ui.webHelpMainContent.find('div.iconClass-play').attr('title', 'Play!').unbind('click').on('click', function (event) {
+				_playClickedSequence(WebHelpInstance, event);
+			});
 		}
 		WebHelpInstance.ui.webHelpMainContent.find('div.iconClass-edit').attr('title', 'Edit').unbind('click').on('click', WebHelpInstance.editThisSequence.bind(WebHelpInstance));
 		WebHelpInstance.ui.webHelpMainContent.find('div.iconClass-remove').attr('title', 'Delete').unbind('click').on('click', WebHelpInstance.removeThisSequence.bind(WebHelpInstance));
@@ -709,7 +715,7 @@ WebHelp = (function () {
 			]);
 		});
 		if (this.mode === "consume") {
-			_initWhatsNewTable(aaData);
+			_initWhatsNewTable(this, aaData);
 		} else {
 			_initScratchPadTable(this, aaData);
 		}
@@ -851,10 +857,17 @@ WebHelp = (function () {
 		play.start();
 		_markThisSequenceAsSeen(this, seqId);
 	};
-	WebHelp.prototype.playClickedSequence = function (event) {
+	/**
+	 * Play the sequence that was clicked on
+	 * @param {WebHelp} WebHelpInstance
+	 * @param {Event} event
+	 * @private
+	 */
+	function _playClickedSequence(WebHelpInstance, event) {
 		var sequenceName = jQuery(event.target).parents('li').find('.webHelpSequenceItem-title').text();
-		this.playSequence(sequenceName);
-	};
+		WebHelpInstance.playSequence(sequenceName);
+	}
+
 	WebHelp.prototype.editThisSequence = function (event) {
 		var thisSequenceTitle = jQuery(event.target).parents('li').find('.webHelpSequenceItem-title').text();
 		var sequence = this.sequences[thisSequenceTitle];
