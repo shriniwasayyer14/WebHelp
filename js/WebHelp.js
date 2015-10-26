@@ -337,18 +337,17 @@ WebHelp = (function () {
 				supplementalClasses: supplementalClasses
 			});
 			this.attachIcons();
-			this.attachClickActionsToLists();
+			_attachClickActionsToLists(this);
 		}
 	};
-	WebHelp.prototype.attachClickActionsToLists = function () {
-		var self = this;
-		if (self.mode !== 'create') {
-			this.ui.webHelpMainContent.find('div.iconClass-play').parents('li.webHelpSequenceList:not(.header)').attr('title', 'Play!').unbind('click').on('click', self.playClickedSequence.bind(self));
+	function _attachClickActionsToLists(WebHelpInstance) {
+		if (WebHelpInstance.mode !== 'create') {
+			WebHelpInstance.ui.webHelpMainContent.find('div.iconClass-play').parents('li.webHelpSequenceList:not(.header)').attr('title', 'Play!').unbind('click').on('click', WebHelpInstance.playClickedSequence.bind(WebHelpInstance));
 		} else {
-			this.ui.webHelpMainContent.find('div.iconClass-play').attr('title', 'Play!').unbind('click').on('click', self.playClickedSequence.bind(self));
+			WebHelpInstance.ui.webHelpMainContent.find('div.iconClass-play').attr('title', 'Play!').unbind('click').on('click', WebHelpInstance.playClickedSequence.bind(WebHelpInstance));
 		}
-		this.ui.webHelpMainContent.find('div.iconClass-edit').attr('title', 'Edit').unbind('click').on('click', self.editThisSequence.bind(self));
-		this.ui.webHelpMainContent.find('div.iconClass-remove').attr('title', 'Delete').unbind('click').on('click', self.removeThisSequence.bind(self));
+		WebHelpInstance.ui.webHelpMainContent.find('div.iconClass-edit').attr('title', 'Edit').unbind('click').on('click', WebHelpInstance.editWebHelpInstanceSequence.bind(WebHelpInstance));
+		WebHelpInstance.ui.webHelpMainContent.find('div.iconClass-remove').attr('title', 'Delete').unbind('click').on('click', WebHelpInstance.removeWebHelpInstanceSequence.bind(WebHelpInstance));
 	};
 	WebHelp.prototype.startSelectionOfElement = function () {
 		var self = this;
@@ -668,7 +667,7 @@ WebHelp = (function () {
 			emptyListIndicator: 'All new help sequences viewed - Congratulations!'
 		});
 		this.attachIcons();
-		this.attachClickActionsToLists();
+		_attachClickActionsToLists(this);
 	};
 	WebHelp.prototype.initScratchPadTable = function (aaData) {
 		this.scratchPadTable = new TableList({
