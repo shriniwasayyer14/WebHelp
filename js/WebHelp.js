@@ -119,7 +119,9 @@ WebHelp = (function () {
 			_playClickedSequence(WebHelpInstance, event);
 		});
 		WebHelpInstance.ui.webHelpMainContent.on('click', '.edit-sequence', WebHelpInstance.editThisSequence.bind(WebHelpInstance));
-		WebHelpInstance.ui.webHelpMainContent.on('click', '.remove-sequence', WebHelpInstance.removeThisSequence.bind(WebHelpInstance));
+		WebHelpInstance.ui.webHelpMainContent.on('click', '.remove-sequence', function (event) {
+			_removeThisSequence.bind(WebHelpInstance, event);
+		});
 	}
 	WebHelp.prototype.showSequences = function () {
 		jQuery('#contentConsumptionModal').modal('show');
@@ -416,7 +418,9 @@ WebHelp = (function () {
 			});
 		}
 		WebHelpInstance.ui.webHelpMainContent.find('div.iconClass-edit').attr('title', 'Edit').unbind('click').on('click', WebHelpInstance.editThisSequence.bind(WebHelpInstance));
-		WebHelpInstance.ui.webHelpMainContent.find('div.iconClass-remove').attr('title', 'Delete').unbind('click').on('click', WebHelpInstance.removeThisSequence.bind(WebHelpInstance));
+		WebHelpInstance.ui.webHelpMainContent.find('div.iconClass-remove').attr('title', 'Delete').unbind('click').on('click', function (event) {
+			_removeThisSequence.bind(WebHelpInstance, event);
+		});
 	}
 
 	WebHelp.prototype.startSelectionOfElement = function () {
@@ -950,12 +954,20 @@ WebHelp = (function () {
 		jQuery('#sequenceTitleSetter').val(thisSequenceTitle);
 		jQuery('.nav-tabs a[href=#addSequence]').tab('show');
 	};
-	WebHelp.prototype.removeThisSequence = function (event) {
+	//TODO: Try and find a way to not use delete
+	/**
+	 * Removes (deletes) a given sequence
+	 * @param {WebHelp} WebHelpInstance
+	 * @param {event} event
+	 * @private
+	 */
+	function _removeThisSequence(WebHelpInstance, event) {
 		var sequenceName = jQuery(event.target).parents('li').find('.webHelpSequenceItem-title').text();
-		var storedSequences = this.sequences;
+		var storedSequences = WebHelpInstance.sequences;
 		delete storedSequences[sequenceName];
-		_populateCurrentSequences(this);
-		_refreshScratchpad(this);
-	};
+		_populateCurrentSequences(WebHelpInstance);
+		_refreshScratchpad(WebHelpInstance);
+	}
+
 	return WebHelp;
 })();
