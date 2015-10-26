@@ -123,11 +123,18 @@ WebHelp = (function () {
 			_removeThisSequence.bind(WebHelpInstance, event);
 		});
 	}
-	WebHelp.prototype.showSequences = function () {
-		jQuery('#contentConsumptionModal').modal('show');
-		jQuery('.modal-backdrop').css({
-			'zIndex': '100'
-		});
+
+	/**
+	 * Programmatically trigger the sequence list modal when in consumption mode
+	 * @api public
+	 */
+	WebHelp.prototype.showSequenceConsumptionModal = function () {
+		if (this.mode === 'consume') {
+			jQuery('#contentConsumptionModal').modal('show');
+			jQuery('.modal-backdrop').css({
+				'zIndex': '100'
+			});
+		}
 	};
 
 	/**
@@ -160,7 +167,7 @@ WebHelp = (function () {
 		}
 		WebHelpInstance.ui.webHelpButton.on('click', function (event) {
 			event.preventDefault();
-			WebHelpInstance.showSequences();
+			WebHelpInstance.showSequenceConsumptionModal();
 		});
 		WebHelpInstance.ui.webHelpButton.attr('title', 'App Help');
 	}
