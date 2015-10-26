@@ -668,7 +668,7 @@ WebHelp = (function () {
 	 * Method to mark the given sequence as seen
 	 *
 	 * @param {WebHelp} WebHelpInstance
-	 * @param {int|String} seqId
+	 * @param {int} seqId
 	 * @private
 	 */
 	function _markThisSequenceAsSeen(WebHelpInstance, seqId) {
