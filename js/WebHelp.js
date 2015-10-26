@@ -955,14 +955,14 @@ WebHelp = (function () {
 			}
 		}
 		play.setOptions(options);
-		var self = this;
-		self.ui.webHelpMainContent.hide();
+		var WebHelpInstance = this;
+		WebHelpInstance.ui.webHelpMainContent.hide();
 		//Hacky workaround to introjs pushing fixed position elements into weird places while scrolling to play
 		play.oncomplete(function () {
-			self.ui.webHelpMainContent.show();
+			WebHelpInstance.ui.webHelpMainContent.show();
 		});
 		play.onexit(function () {
-			self.ui.webHelpMainContent.show();
+			WebHelpInstance.ui.webHelpMainContent.show();
 		});
 		//Workaround for flexbox
 		/*
@@ -976,7 +976,7 @@ WebHelp = (function () {
 		 * This solution is somewhat non-performant, but currently works
 		 * TODO: find a more performant or pure CSS-based solution
 		 * */
-		if (self.usesFlexbox) {
+		if (WebHelpInstance.usesFlexbox) {
 			var $flexBoxItems = jQuery('body').children().filter(function () {
 				return (jQuery(this).css('display') === 'flex');
 			});
