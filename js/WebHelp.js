@@ -108,6 +108,9 @@ WebHelp = (function () {
 	};
 	WebHelp.prototype.showSequences = function () {
 		jQuery('#contentConsumptionModal').modal('show');
+		jQuery('.modal-backdrop').css({
+			'zIndex': '100'
+		});
 	};
 	WebHelp.prototype.addHelpIcon = function (navbarButtonElement, addTextToNavbar) {
 		var self = this;
