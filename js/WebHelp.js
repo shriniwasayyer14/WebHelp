@@ -242,7 +242,9 @@ WebHelp = (function () {
 		jQuery("#cancelDragDropButton").on("click", jQueryDragSelector.off);
 		jQuery("#noElementsSelectedButton").on("click", jQuery('#noElementsSelectedDiv').hide);
 		jQuery("#noStepsInPreviewButton").on("click", jQuery('#noStepsInPreviewDiv').hide);
-		jQuery("#saveAllHelpSequencesToFileButton").on("click", this.saveAllHelpSequencesToFile.bind(WebHelpInstance));
+		jQuery("#saveAllHelpSequencesToFileButton").on("click", function () {
+			_saveAllHelpSequencesToFile(WebHelpInstance);
+		});
 		window.onbeforeunload = function (e) {
 			var scratchPadData = WebHelpInstance.scratchPadTable.getData();
 			if (scratchPadData.length > 0) {
@@ -289,12 +291,19 @@ WebHelp = (function () {
 			}
 		}
 	}
-	WebHelp.prototype.saveAllHelpSequencesToFile = function () {
+
+	/**
+	 * Save the current help sequences toa  file (Chrome only!)
+	 * @param {WebHelp} WebHelpInstance The current instance
+	 * @param {Object} WebHelpInstance.sequences The sequences attribute (including created sequences)
+	 * @private
+	 */
+	function _saveAllHelpSequencesToFile(WebHelpInstance) {
 		//get required data
 		//Pretty print the JSON content
 		//https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify
 		//Syntax: JSON.stringify(value[, replacer[, space]])
-		var allSequences = this.sequences;
+		var allSequences = WebHelpInstance.sequences;
 		jQuery.map(allSequences, function (val) {
 			val.status = "O";
 		});
@@ -309,8 +318,9 @@ WebHelp = (function () {
 		//destroy the link
 		//TODO The line below to remove child breaks, check why
 		//link.parentNode.removeChild(link);
-		this.updateNewSequencesTable([]);
-	};
+		WebHelpInstance.updateNewSequencesTable([]);
+	}
+
 	/**
 	 * Refresh to figure out which sequences are new, and accordingly perform UI actions
 	 * @returns {promise}
