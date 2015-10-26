@@ -758,6 +758,7 @@ WebHelp = (function () {
 			return [];
 		}
 	};
+
 	/**
 	 * Get the sequence ID for a given sequence name
 	 * @param {String} sequenceName
@@ -767,6 +768,21 @@ WebHelp = (function () {
 		var sequence = this.sequences[sequenceName];
 		var seqId = sequence.seqId;
 		return seqId;
+	};
+	/**
+	 * Get the sequence name for a given sequence ID
+	 * @param {int} sequenceId The sequence ID
+	 * @returns {String} sequenceName
+	 */
+	WebHelp.prototype.getSequenceNameForSequenceId = function (sequenceId) {
+		var sequenceName = '';
+		jQuery.each(this.sequences, function (key, value) {
+			if (value.seqId === sequenceId) {
+				sequenceName = key;
+				return false;
+			}
+		});
+		return sequenceName;
 	};
 
 	/**
@@ -957,16 +973,19 @@ WebHelp = (function () {
 	/**
 	 * Play a sequence programmatically given its identifier (name or ID)
 	 * @public
-	 * @param {String|int} nameOrId The sequence name or ID for a given sequence
+	 * @param {String|int} nameOrId The sequence name or ID for a given sequence - Name preferred
+	 * @this WebHelp
 	 */
 	WebHelp.prototype.playSequence = function (nameOrId) {
-		var seqName, seqId;
+		var seqName, seqId, sequence;
 		if (isNaN(parseInt(nameOrId))) {
 			seqName = nameOrId;
 			seqId = this.getSequenceIdForSequenceName(seqName);
 		} else {
 			seqId = parseInt(nameOrId);
+			seqName = this.getSequenceNameForSequenceId[seqId];
 		}
+		sequence = this.sequences[seqName];
 		var play = introJs();
 		if (this.usesIframes) {
 			for (var i = sequence.data.length - 1; i >= 0; i--) {
