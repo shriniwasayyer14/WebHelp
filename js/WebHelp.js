@@ -118,7 +118,9 @@ WebHelp = (function () {
 		WebHelpInstance.ui.webHelpMainContent.on('click', '.play-sequence', function (event) {
 			_playClickedSequence(WebHelpInstance, event);
 		});
-		WebHelpInstance.ui.webHelpMainContent.on('click', '.edit-sequence', WebHelpInstance.editThisSequence.bind(WebHelpInstance));
+		WebHelpInstance.ui.webHelpMainContent.on('click', '.edit-sequence', function (event) {
+			_editThisSequence(WebHelpInstance, event);
+		});
 		WebHelpInstance.ui.webHelpMainContent.on('click', '.remove-sequence', function (event) {
 			_removeThisSequence.bind(WebHelpInstance, event);
 		});
@@ -455,7 +457,9 @@ WebHelp = (function () {
 				_playClickedSequence(WebHelpInstance, event);
 			});
 		}
-		WebHelpInstance.ui.webHelpMainContent.find('div.iconClass-edit').attr('title', 'Edit').unbind('click').on('click', WebHelpInstance.editThisSequence.bind(WebHelpInstance));
+		WebHelpInstance.ui.webHelpMainContent.find('div.iconClass-edit').attr('title', 'Edit').unbind('click').on('click', function (event) {
+			_editThisSequence(WebHelpInstance, event);
+		});
 		WebHelpInstance.ui.webHelpMainContent.find('div.iconClass-remove').attr('title', 'Delete').unbind('click').on('click', function (event) {
 			_removeThisSequence.bind(WebHelpInstance, event);
 		});
@@ -991,10 +995,11 @@ WebHelp = (function () {
 		play.start();
 		_markThisSequenceAsSeen(this, seqId);
 	};
+
 	/**
 	 * Play the sequence that was clicked on
 	 * @param {WebHelp} WebHelpInstance
-	 * @param {Event} event
+	 * @param {Event} event The click event
 	 * @private
 	 */
 	function _playClickedSequence(WebHelpInstance, event) {
@@ -1002,9 +1007,15 @@ WebHelp = (function () {
 		WebHelpInstance.playSequence(sequenceName);
 	}
 
-	WebHelp.prototype.editThisSequence = function (event) {
+	/**
+	 * Edit the sequence that was clicked on
+	 * @param {WebHelp} WebHelpInstance
+	 * @param {Event} event The click event
+	 * @private
+	 */
+	function _editThisSequence(WebHelpInstance, event) {
 		var thisSequenceTitle = jQuery(event.target).parents('li').find('.webHelpSequenceItem-title').text();
-		var sequence = this.sequences[thisSequenceTitle];
+		var sequence = WebHelpInstance.sequences[thisSequenceTitle];
 		var data = [];
 		var seqId = sequence.seqId;
 		jQuery.each(sequence.data, function (index, element) {
@@ -1028,16 +1039,16 @@ WebHelp = (function () {
 				text
 			]);
 		});
-		this.stepsTable.setData(data);
-		this.stepsTable.setStatus("E");
-		this.stepsTable.setSeqId(seqId);
-		this.stepsTable.useData = true;
-		this.stepsTable.renderList();
-		_attachIcons(this);
-		this.stepsTable.useData = false;
+		WebHelpInstance.stepsTable.setData(data);
+		WebHelpInstance.stepsTable.setStatus("E");
+		WebHelpInstance.stepsTable.setSeqId(seqId);
+		WebHelpInstance.stepsTable.useData = true;
+		WebHelpInstance.stepsTable.renderList();
+		_attachIcons(WebHelpInstance);
+		WebHelpInstance.stepsTable.useData = false;
 		jQuery('#sequenceTitleSetter').val(thisSequenceTitle);
 		jQuery('.nav-tabs a[href=#addSequence]').tab('show');
-	};
+	}
 	//TODO: Try and find a way to not use delete
 	/**
 	 * Removes (deletes) a given sequence
