@@ -20,6 +20,7 @@ WebHelp = (function () {
 	 *   workarounds)
 	 * @param {Boolean} [WebHelpOptions.usesFlexbox=false] Does your app use flexbox ? (Used for some additional
 	 *   workarounds)
+	 * @param {String} [WebHelpOptions.supportEmail = ''] The recepient email address used for support. (Defaults to empty string)
 	 * @constructor [WebHelp]
 	 * @class WebHelp
 	 * @this WebHelp
@@ -38,7 +39,8 @@ WebHelp = (function () {
 			sequencesBaseUrl: '/WebHelp/',
 			visitedBaseUrl: '/weblications/etc/getPrefs.epl',
 			usesFlexbox: false,
-			usesIframes: false
+			usesIframes: false,
+			supportEmail: ''
 		};
 		if (!WebHelpOptions) {
 			WebHelpOptions = defaultOptions;
@@ -228,6 +230,7 @@ WebHelp = (function () {
 				}
 			}
 		});
+		webHelpInstance.provideEmailSupport(webHelpInstance.supportEmail);
 	}
 
 	/**
@@ -1032,6 +1035,45 @@ WebHelp = (function () {
 		jQuery("#sequenceTitleSetter").val("").attr("placeholder", "Sequence Title");
 		webHelpInstance.stepsTable.setStatus("N");
 	}
+	/**
+	 * Shows the Send Email button if WebHelp options include Support Email value
+	 * @param {string} email - The recepient email address.
+	 * @this WebHelp
+	 * @memberOf WebHelp
+	 * @public
+	 */
+	WebHelp.prototype.provideEmailSupport = function(email){
+
+		this.ui.emailButton = jQuery("#webHelpEmailButton");
+		if(email){
+			this.ui.emailButton.show();
+			_sendMail(email,this.appName);
+		}
+		else{
+			//console.log("No mail recepients");
+			this.ui.emailButton.hide();
+		}
+	}
+
+	/**
+	 * This opens up the default Mail client of the user.
+	 * @param {string} email - The recepient email address.
+	 * @param {string} appName - Thhe current App Name, is used in the content of the email.
+	 * @private
+	 */
+
+	 function _sendMail(email,appName){
+
+		jQuery("#webHelpEmailButton").click(function(event){
+			email = email.replace(",",";");
+			var link = document.createElement('a');
+
+			var emailBody = 'Question: %0D%0AType your query here%0D%0A%0D%0A%0D%0ALink: '
+				+encodeURIComponent(window.location.href)+'%0D%0A%0D%0AApp Name:'+appName;
+			link.setAttribute('href','mailto:'+email +'&subject=Enquiry' + '&body='+emailBody);
+			link.click();
+		});
+	};
 
 	/**
 	 * Play a sequence programmatically given its identifier (name or ID)
