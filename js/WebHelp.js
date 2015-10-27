@@ -1,7 +1,15 @@
 /* globals jQuery, jQueryDragSelector, window, WebHelpTemplates, introJs, setTimeout, setInterval, TableList, console */
 var WebHelp;
+/**
+ * The overarching function that creates the singleton WebHelp
+ */
 WebHelp = (function () {
 	"use strict";
+	/**
+	 * Creates the WebHelp object with the specified settings
+	 * @param WebHelpOptions The configuration options for WebHelp
+	 * @constructor
+	 */
 	function WebHelp(WebHelpOptions) {
 		//setup defaults
 		var defaultOptions = {
@@ -737,6 +745,11 @@ WebHelp = (function () {
 	// This function should be tied to the user and the app
 	// Returns an array of sequence IDs of the visited sequences
 	/*TODO: Get rid of async false and convert to promise chain!!!!!!*/
+	/**
+	 * Get all visited sequences
+	 * @public
+	 * @returns {Array} list of visited sequence IDs
+	 */
 	WebHelp.prototype.getAllVisitedSequences = function () {
 		var userPrefs = {};
 		jQuery.ajax({
@@ -763,16 +776,17 @@ WebHelp = (function () {
 	 * Get the sequence ID for a given sequence name
 	 * @param {String} sequenceName
 	 * @returns {int} The sequence ID
+	 * @public
 	 */
 	WebHelp.prototype.getSequenceIdForSequenceName = function (sequenceName) {
 		var sequence = this.sequences[sequenceName];
-		var seqId = sequence.seqId;
-		return seqId;
+		return sequence.seqId;
 	};
 	/**
 	 * Get the sequence name for a given sequence ID
 	 * @param {int} sequenceId The sequence ID
 	 * @returns {String} sequenceName
+	 * @public
 	 */
 	WebHelp.prototype.getSequenceNameForSequenceId = function (sequenceId) {
 		var sequenceName = '';
@@ -1102,17 +1116,18 @@ WebHelp = (function () {
 		jQuery('.nav-tabs a[href=#addSequence]').tab('show');
 	}
 
-	//TODO: Try and find a way to not use delete
 	/**
-	 * Removes (deletes) a given sequence
+	 * Removes (undefines) a given sequence
 	 * @param {WebHelp} webHelpInstance
+	 * @param {Object} webHelpInstance.sequences The stored sequences
 	 * @param {event} event
 	 * @private
 	 */
 	function _removeThisSequence(webHelpInstance, event) {
 		var sequenceName = jQuery(event.target).parents('li').find('.webHelpSequenceItem-title').text();
 		var storedSequences = webHelpInstance.sequences;
-		delete storedSequences[sequenceName];
+		//use undefined instead of delete, the garbage collector will take care of it
+		storedSequences[sequenceName] = undefined;
 		_populateCurrentSequences(webHelpInstance);
 		_refreshScratchpad(webHelpInstance);
 	}
