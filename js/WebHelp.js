@@ -1,16 +1,38 @@
 /* globals jQuery, jQueryDragSelector, window, WebHelpTemplates, introJs, setTimeout, setInterval, TableList, console */
 /**
- *
+ * @constructor WebHelp
  * The singleton WebHelp variable that holds the app's instance of WebHelp
- *
+ * @param {Object} WebHelpOptions The configuration options for WebHelp
+ * @param {String} [WebHelpOptions.appName='DefaultApp'] The App name that you wish to use for your app
+ * @param {String} [WebHelpOptions.sequencesBaseUrl='/WebHelp/'] The URL you wish to pull your sequence file from
+ * @param {String} [WebHelpOptions.visitedBaseUrl='/weblications/etc/getPrefs.epl'] The URL you wish to pull your
+ *   visited sequences from
+ * @param {Boolean} [WebHelpOptions.usesFontAwesome=false] Does your app use Font Awesome ? (Defaults to bootstrap
+ *   glyphicons if not)
+ * @param {Boolean} [WebHelpOptions.usesIframes=false] Does your app use iframes ? (Used for some additional
+ *   workarounds)
+ * @param {Boolean} [WebHelpOptions.usesFlexbox=false] Does your app use flexbox ? (Used for some additional
+ *   workarounds)
+ * @return {WebHelp} The constructed WebHelp object
  */
 var WebHelp;
 WebHelp = (function () {
 	"use strict";
 	/**
 	 * Creates the WebHelp object with the specified settings
-	 * @param WebHelpOptions The configuration options for WebHelp
-	 * @constructor
+	 * @param {Object} WebHelpOptions The configuration options for WebHelp
+	 * @param {String} [WebHelpOptions.appName='DefaultApp'] The App name that you wish to use for your app
+	 * @param {String} [WebHelpOptions.sequencesBaseUrl='/WebHelp/'] The URL you wish to pull your sequence file from
+	 * @param {String} [WebHelpOptions.visitedBaseUrl='/weblications/etc/getPrefs.epl'] The URL you wish to pull your
+	 *   visited sequences from
+	 * @param {Boolean} [WebHelpOptions.usesFontAwesome=false] Does your app use Font Awesome ? (Defaults to bootstrap
+	 *   glyphicons if not)
+	 * @param {Boolean} [WebHelpOptions.usesIframes=false] Does your app use iframes ? (Used for some additional
+	 *   workarounds)
+	 * @param {Boolean} [WebHelpOptions.usesFlexbox=false] Does your app use flexbox ? (Used for some additional
+	 *   workarounds)
+	 * @constructor [WebHelp]
+	 * @class WebHelp
 	 */
 	function WebHelp(WebHelpOptions) {
 		//setup defaults
