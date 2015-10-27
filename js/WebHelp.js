@@ -20,10 +20,9 @@ WebHelp = (function () {
 	 *   workarounds)
 	 * @param {Boolean} [WebHelpOptions.usesFlexbox=false] Does your app use flexbox ? (Used for some additional
 	 *   workarounds)
-	 * @param {String} [WebHelpOptions.supportEmail = ''] The recepient email address used for support. (Defaults to empty string)
-	 * @constructor [WebHelp]
-	 * @class WebHelp
 	 * @this WebHelp
+	 * @constructor WebHelp
+	 * @memberOf WebHelp
 	 */
 	function WebHelp(WebHelpOptions) {
 		//setup defaults
