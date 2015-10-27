@@ -20,6 +20,7 @@ WebHelp = (function () {
 	 *   workarounds)
 	 * @param {Boolean} [WebHelpOptions.usesFlexbox=false] Does your app use flexbox ? (Used for some additional
 	 *   workarounds)
+	 * @param {String=} [WebHelpOptions.supportEmail=] The recepient email address used for support. (No email tab if not provided)
 	 * @this WebHelp
 	 * @constructor WebHelp
 	 * @memberOf WebHelp
@@ -39,7 +40,7 @@ WebHelp = (function () {
 			visitedBaseUrl: '/weblications/etc/getPrefs.epl',
 			usesFlexbox: false,
 			usesIframes: false,
-			supportEmail: ''
+			supportEmail: false
 		};
 		if (!WebHelpOptions) {
 			WebHelpOptions = defaultOptions;
