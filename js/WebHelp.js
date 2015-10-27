@@ -1,20 +1,9 @@
 /* globals jQuery, jQueryDragSelector, window, WebHelpTemplates, introJs, setTimeout, setInterval, TableList, console */
 /**
- * @constructor WebHelp
- * The singleton WebHelp variable that holds the app's instance of WebHelp
- * @param {Object} WebHelpOptions The configuration options for WebHelp
- * @param {String} [WebHelpOptions.appName='DefaultApp'] The App name that you wish to use for your app
- * @param {String} [WebHelpOptions.sequencesBaseUrl='/WebHelp/'] The URL you wish to pull your sequence file from
- * @param {String} [WebHelpOptions.visitedBaseUrl='/weblications/etc/getPrefs.epl'] The URL you wish to pull your
- *   visited sequences from
- * @param {Boolean} [WebHelpOptions.usesFontAwesome=false] Does your app use Font Awesome ? (Defaults to bootstrap
- *   glyphicons if not)
- * @param {Boolean} [WebHelpOptions.usesIframes=false] Does your app use iframes ? (Used for some additional
- *   workarounds)
- * @param {Boolean} [WebHelpOptions.usesFlexbox=false] Does your app use flexbox ? (Used for some additional
- *   workarounds)
- * @return {WebHelp} The constructed WebHelp object
+ * @namespace WebHelp
+ *
  */
+//TODO: Document attributes here using http://usejsdoc.org/tags-property.html
 var WebHelp;
 WebHelp = (function () {
 	"use strict";
@@ -33,6 +22,7 @@ WebHelp = (function () {
 	 *   workarounds)
 	 * @constructor [WebHelp]
 	 * @class WebHelp
+	 * @this WebHelp
 	 */
 	function WebHelp(WebHelpOptions) {
 		//setup defaults
@@ -159,6 +149,8 @@ WebHelp = (function () {
 	/**
 	 * Programmatically trigger the sequence list modal when in consumption mode
 	 * @public
+	 *
+	 * @memberOf WebHelp
 	 */
 	WebHelp.prototype.showSequenceConsumptionModal = function () {
 		if (this.mode === 'consume') {
@@ -814,6 +806,8 @@ WebHelp = (function () {
 	/**
 	 * Get a list of all visited sequences by sequence ID
 	 * @public
+	 *
+	 * @memberOf WebHelp
 	 * @returns {Array} A deep clone of the viewed sequence ID list
 	 */
 	WebHelp.prototype.getVisitedSequences = function () {
@@ -822,9 +816,11 @@ WebHelp = (function () {
 	};
 	/**
 	 * Get the sequence ID for a given sequence name
-	 * @param {String} sequenceName
-	 * @returns {int} The sequence ID
+	 * @param {String} sequenceName The name of the sequence
+	 * @returns {int} The sequence ID The ID of the sequence
+	 * @memberOf WebHelp
 	 * @public
+	 *
 	 */
 	WebHelp.prototype.getSequenceIdForSequenceName = function (sequenceName) {
 		var sequence = this.sequences[sequenceName];
@@ -833,8 +829,10 @@ WebHelp = (function () {
 	/**
 	 * Get the sequence name for a given sequence ID
 	 * @param {int} sequenceId The sequence ID
-	 * @returns {String} sequenceName
+	 * @returns {String} sequenceName The sequence name
+	 * @memberOf WebHelp
 	 * @public
+	 *
 	 */
 	WebHelp.prototype.getSequenceNameForSequenceId = function (sequenceId) {
 		var sequenceName = '';
@@ -850,10 +848,12 @@ WebHelp = (function () {
 	 * Given a seqence ID or name, check if the sequence has been previously seen or not
 	 *
 	 * @public
+	 *
 	 * @param {Object} options The options object
 	 * @param {int=} options.seqId The sequence ID for the given sequence
 	 * @param {String=} options.seqName The sequence name for the given sequence
 	 * @returns {Boolean} Whether the sequence has been previously viewed
+	 * @memberOf WebHelp
 	 */
 	WebHelp.prototype.isSequenceAlreadyViewed = function (options) {
 		var seqId = options.seqId;
@@ -1036,8 +1036,10 @@ WebHelp = (function () {
 	/**
 	 * Play a sequence programmatically given its identifier (name or ID)
 	 * @public
+	 *
 	 * @param {String|int} nameOrId The sequence name or ID for a given sequence - Name preferred
 	 * @this WebHelp
+	 * @memberOf WebHelp
 	 */
 	WebHelp.prototype.playSequence = function (nameOrId) {
 		var seqName, seqId, sequence;
