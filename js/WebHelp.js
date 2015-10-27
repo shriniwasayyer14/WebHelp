@@ -20,9 +20,9 @@ WebHelp = (function () {
 	 *   workarounds)
 	 * @param {Boolean} [WebHelpOptions.usesFlexbox=false] Does your app use flexbox ? (Used for some additional
 	 *   workarounds)
-	 * @constructor [WebHelp]
-	 * @class WebHelp
 	 * @this WebHelp
+	 * @constructor WebHelp
+	 * @memberOf WebHelp
 	 */
 	function WebHelp(WebHelpOptions) {
 		//setup defaults
