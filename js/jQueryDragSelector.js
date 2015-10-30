@@ -202,3 +202,4 @@ var jQueryDragSelector = {
 		return jQuery('.dragSelectedElement');
 	}
 };
+exports.jQueryDragSelector = jQueryDragSelector;

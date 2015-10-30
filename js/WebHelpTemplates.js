@@ -1,3 +1,4 @@
+
 var WebHelpTemplates = {};
 
 WebHelpTemplates["WebHelpConsumption"] = "<div id=\"webHelpMainContent\">\n" +
@@ -28,6 +29,7 @@ WebHelpTemplates["WebHelpContent"] = "<div id=\"contentConsumptionModal\" class=
    "			</div>\n" +
    "			<div class=\"modal-body\"></div>\n" +
    "			<div class=\"modal-footer\">\n" +
+   "				<button id = \"webHelpEmailButton\" class=\"btn btn-default\">Send Email</button>\n" +
    "				<button data-dismiss=\"modal\" class=\"btn btn-warning\">Close</button>\n" +
    "			</div>\n" +
    "		</div>\n" +
@@ -181,3 +183,5 @@ WebHelpTemplates["WebHelpSidebarToggle"] = "<span id=\"creationModeSidebarshowHi
 WebHelpTemplates["WebHelpTableListSearch"] = "<div class=\"webHelpTableListSearch\">\n" +
    "    <label>Search title and content: <input type=\"text\" placeholder=\"Type to search\"></label>\n" +
    "</div>";
+document.write(WebHelpTemplates);
+exports.WebHelpTemplates = WebHelpTemplates;

@@ -11,6 +11,17 @@ module.exports = function (grunt) {
 		// Metadata.
 		pkg: grunt.file.readJSON('package.json'),
 		separator: ';\n',
+		//webpack: {
+		//	WebHelp: {
+		//		entry: {
+		//			main: ".js/WebHelp.js",
+		//		},
+		//		output: {
+		//			path: __dirname+'/dist',
+		//			filename: "bundle.js",
+		//		},
+		//	},
+		//},
 		concat: {
 			options: {
 				stripBanners: {
@@ -31,6 +42,7 @@ module.exports = function (grunt) {
 					'bower_components/jquery-ui/ui/sortable.js',*/
 					'bower_components/jquery-get-path/dist/js/jQueryGetPath.js',
 					'js/vendor/*.js',
+					//'dist/bundle.js'
 					'js/*.js'
 				],
 				dest: 'dist/js/<%= pkg.name %>.js'
@@ -45,6 +57,7 @@ module.exports = function (grunt) {
 					'bower_components/jquery-ui/ui/sortable.js',
 					'bower_components/jquery-get-path/dist/js/jQueryGetPath.js',
 					'js/vendor/*.js',
+					//'dist/bundle.js'
 					'js/*.js'
 				],
 				dest: 'dist/js/<%= pkg.name %>WithExtras.js'
@@ -263,7 +276,8 @@ module.exports = function (grunt) {
 	});
 
 	// Default task.
-	grunt.registerTask('default', ['htmlConvert', 'stylus:compile', 'concat', 'replace', 'jshint', 'uglify', 'cssmin', 'lineending']);
+	grunt.loadNpmTasks('grunt-webpack');
+	grunt.registerTask('default', ['htmlConvert', 'stylus:compile', 'concat', 'replace', 'jshint', 'uglify', 'cssmin', 'lineending','webpack']);
 	grunt.registerTask('serve', ['connect', 'browserSync', 'watch']);
 
 };

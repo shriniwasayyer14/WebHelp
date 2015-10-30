@@ -1,4 +1,7 @@
-/* globals jQuery, WebHelpTemplates */
+var WebHelpTemplates = require("./WebHelpTemplates").WebHelpTemplates;
+window.jQuery = require("jquery");
+require("jquery-get-path");
+require("jquery-ui");
 /**
  * @namespace TableList
  *
@@ -188,3 +191,4 @@ TableList = (function () {
 	return TableList;
 })();
 
+exports.TableList = TableList;

@@ -9,6 +9,10 @@
   "author": {
     "name": "BLK"
   },
+  "main": "js/WebHelp.js",
+  "scripts":{
+    "dev": "webpack-dev-server --devtool eval --progress --colors --content-base dist"
+  },
   "engines": {
     "node": ">= 0.10.0"
   },
@@ -34,6 +38,8 @@
     "load-grunt-tasks": "^2.0.0",
     "minami": "^1.1.1",
     "stylus": "^0.50.0",
-    "time-grunt": "^1.0.0"
+    "time-grunt": "^1.0.0",
+    "webpack": "*",
+    "grunt-webpack":"*"
   }
 }
