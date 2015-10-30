@@ -3,8 +3,7 @@ require("bootstrap");
 require("intro.js");
 require("jquery-get-path");
 require("jquery-ui");
-var consumption = require("./consumption.js");
-var utility = require("./utility.js");
+
 /**
  * @namespace WebHelp
  *
@@ -33,6 +32,8 @@ WebHelp = (function () {
 	 * @memberOf WebHelp
 	 */
 	function WebHelp(WebHelpOptions) {
+		var consumption = require("./consumption.js");
+		var utility = require("./utility.js");
 		consumption.firstfunc();
 		document.write("HERE");
 
@@ -200,7 +201,7 @@ WebHelp = (function () {
 	 * @public
 	 */
 	WebHelp.prototype.provideEmailSupport = function(email){
-
+		var consumption = require("./consumption.js");
 		this.ui.emailButton = jQuery("#webHelpEmailButton");
 		if(email){
 			this.ui.emailButton.show();
@@ -222,6 +223,7 @@ WebHelp = (function () {
 	 * @memberOf WebHelp
 	 */
 	WebHelp.prototype.playSequence = function (nameOrId) {
+		var consumption = require("./consumption.js");
 		var seqName, seqId, sequence;
 		if (isNaN(parseInt(nameOrId))) {
 			seqName = nameOrId;

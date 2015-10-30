@@ -1,4 +1,4 @@
-var WebHelpTemplates = require("./WebHelpTemplates").WebHelpTemplates;
+
 window.jQuery = require("jquery");
 require("jquery-get-path");
 require("jquery-ui");
@@ -56,6 +56,7 @@ TableList = (function () {
 	}
 
 	TableList.prototype.renderList = function () {
+		var WebHelpTemplates = require("./WebHelpTemplates").WebHelpTemplates;
 		var $listTemplate = jQuery(WebHelpTemplates[this.listTemplate]);
 		var $searchListTemplate = jQuery(WebHelpTemplates[this.searchListTemplate]);
 		//If we have the list already, remove the data and re-render
@@ -101,6 +102,7 @@ TableList = (function () {
 		}
 	};
 	TableList.prototype.addRow = function (rowData) {
+		var WebHelpTemplates = require("./WebHelpTemplates").WebHelpTemplates;
 		var $listTemplate = jQuery(WebHelpTemplates[this.listTemplate]);
 		var $thisListItemTemplate = jQuery(WebHelpTemplates[this.listItemTemplate]);
 		if (rowData) {
@@ -142,6 +144,7 @@ TableList = (function () {
 		return returnArray;
 	};
 	TableList.prototype._searchFunction = function () {
+		var WebHelpTemplates = require("./WebHelpTemplates").WebHelpTemplates;
 		var $listItems = jQuery(this.element).find('.' + jQuery(WebHelpTemplates[this.listTemplate]).attr('class')).find('li:not(.header)');
 		var $searchBox = jQuery(this.element).find('.' + jQuery(WebHelpTemplates[this.searchListTemplate]).attr('class')).find('input');
 		var val = $searchBox.val().trim();
@@ -167,6 +170,7 @@ TableList = (function () {
 		return this.seqId;
 	};
 	TableList.prototype._makeSortable = function () {
+		var WebHelpTemplates = require("./WebHelpTemplates").WebHelpTemplates;
 		var $thisList = jQuery(this.element).find('.' + jQuery(WebHelpTemplates[this.listTemplate]).attr('class')); //Finds
 	                                                                                                              // the
 	                                                                                                              // list

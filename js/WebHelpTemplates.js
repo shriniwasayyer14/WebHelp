@@ -1,4 +1,4 @@
-
+require("../css/WebHelp.css");
 var WebHelpTemplates = {};
 
 WebHelpTemplates["WebHelpConsumption"] = "<div id=\"webHelpMainContent\">\n" +

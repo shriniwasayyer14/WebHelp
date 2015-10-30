@@ -4,11 +4,6 @@ require("bootstrap");
 require("intro.js");
 require("jquery-get-path");
 require("jquery-ui");
-var TableList = require("./WebHelpTableListBuilder.js").TableList;
-var jQueryDragSelector = require("./jQueryDragSelector.js").jQueryDragSelector;
-var creation = require("./creation.js");
-var consumption = require("./consumption.js");
-var WebHelpTemplates = require("./WebHelpTemplates").WebHelpTemplates;
 module.exports = {
     /**
      * Get the parameters used in the URL query string
@@ -44,6 +39,8 @@ module.exports = {
      * @private
      */
     _bindPlayEditButtons: function(webHelpInstance) {
+        var creation = require("./creation.js");
+        var consumption = require("./consumption.js");
     //attach sequence specific handlers
     webHelpInstance.ui.webHelpMainContent.on('click', '.play-sequence', function (event) {
         consumption._playClickedSequence(webHelpInstance, event);
@@ -64,6 +61,8 @@ module.exports = {
      * @private
      */
     _attachClickActionsToLists: function(webHelpInstance) {
+        var creation = require("./creation.js");
+        var consumption = require("./consumption.js");
     if (webHelpInstance.mode !== 'create') {
         webHelpInstance.ui.webHelpMainContent.find('div.iconClass-play').parents('li.webHelpSequenceList:not(.header)').attr('title', 'Play!').unbind('click').on('click', function (event) {
             consumption._playClickedSequence(webHelpInstance, event);
@@ -102,6 +101,8 @@ module.exports = {
      * @private
      */
     _showHelpConsumptionMode: function(webHelpInstance) {
+        var consumption = require("./consumption.js");
+        var WebHelpTemplates = require("./WebHelpTemplates").WebHelpTemplates;
     consumption._addHelpIcon(webHelpInstance, webHelpInstance.helpIconPosition);
     webHelpInstance.ui.webHelpMainContent = jQuery("#webHelpMainContent");
     if (webHelpInstance.ui.webHelpMainContent.length <= 0) {
@@ -137,6 +138,11 @@ module.exports = {
      * @private
      */
     _showHelpCreationMode: function(webHelpInstance) {
+        var TableList = require("./WebHelpTableListBuilder.js").TableList;
+        var jQueryDragSelector = require("./jQueryDragSelector.js").jQueryDragSelector;
+        var creation = require("./creation.js");
+        var consumption = require("./consumption.js");
+        var WebHelpTemplates = require("./WebHelpTemplates").WebHelpTemplates;
     webHelpInstance.ui.webHelpMainContent = jQuery("#webHelpMainContent");
     if (webHelpInstance.ui.webHelpMainContent.length === 0) {
         var webHelpContent = jQuery(WebHelpTemplates.WebHelpCreator);
@@ -233,6 +239,8 @@ module.exports = {
      * @private
      */
     _updateNewSequencesTable: function(webHelpInstance, newSequences) {
+        var creation = require("./creation.js");
+        var consumption = require("./consumption.js");
     var aaData = [];
     jQuery.each(newSequences, function (index, element) {
         aaData.push([
@@ -287,6 +295,7 @@ module.exports = {
      * @private
      */
     _refreshWhatsNew: function(webHelpInstance) {
+        var consumption = require("./consumption.js");
     var dfd = new jQuery.Deferred();
     var sequences = webHelpInstance.sequences; //new function
     consumption._refreshAllSequences(webHelpInstance)
@@ -334,6 +343,7 @@ module.exports = {
      * @private
      */
     _populateCurrentSequences: function(webHelpInstance) {
+        var TableList = require("./WebHelpTableListBuilder.js").TableList;
     var retrievedSequences = webHelpInstance.sequences;
     jQuery.map(retrievedSequences, function (val) {
         if (val.status === "E") {

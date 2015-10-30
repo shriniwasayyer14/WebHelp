@@ -4,10 +4,7 @@ require("bootstrap");
 require("intro.js");
 require("jquery-get-path");
 require("jquery-ui");
-var TableList = require("./WebHelpTableListBuilder.js").TableList;
-var jQueryDragSelector = require("./jQueryDragSelector.js").jQueryDragSelector;
-var utility = require("./utility.js");
-var WebHelpTemplates = require("./WebHelpTemplates").WebHelpTemplates;
+
 module.exports = {
     /**
      * Trigger the selection event (start dragging to select a DOM element)
@@ -18,6 +15,9 @@ module.exports = {
      * @private
      */
     _startSelectionOfElement: function(webHelpInstance) {
+        var jQueryDragSelector = require("./jQueryDragSelector.js").jQueryDragSelector;
+        var utility = require("./utility.js");
+        var WebHelpTemplates = require("./WebHelpTemplates").WebHelpTemplates;
     /* Close the sidemenu if it is open*/
     webHelpInstance.ui.sidebarToggleButton.trigger('click');
     jQueryDragSelector.setPaneState(true);
@@ -106,6 +106,7 @@ module.exports = {
      * @private
      */
     _removeThisStep: function(webHelpInstance, event) {
+        var utility = require("./utility.js");
     webHelpInstance.stepsTable.removeRow(event);
     if (!webHelpInstance.stepsTable.numRows()) {
         webHelpInstance.stepsTable.addRow();
@@ -121,6 +122,7 @@ module.exports = {
      * @private
      */
     _previewClickedSequence: function(webHelpInstance) {
+        var utility = require("./utility.js");
     var previewSteps = utility._getCurrentTablePreviewSteps(webHelpInstance);
     if (previewSteps) {
         var introJsObj = introJs();
@@ -158,6 +160,7 @@ module.exports = {
      * @private
      */
     _refreshScratchpad: function(webHelpInstance) {
+        var utility = require("./utility.js");
     var unsavedSequences = {};
     jQuery.map(webHelpInstance.sequences, function (val, i) {
         var status = val.status;
@@ -175,6 +178,7 @@ module.exports = {
      * @private
      */
     _initScratchPadTable: function(webHelpInstance, aaData) {
+        var TableList = require("./WebHelpTableListBuilder.js").TableList;
     webHelpInstance.scratchPadTable = new TableList({
         element: '#scratchpadContent',
         data: aaData || [],
@@ -189,6 +193,7 @@ module.exports = {
      * @private
      */
     _saveSequence: function(webHelpInstance) {
+        var utility = require("./utility.js");
     var saveStatus = 'Sequence saved successfully!';
     try {
         var sequenceTitle = jQuery("#sequenceTitleSetter").val().trim();
@@ -213,7 +218,7 @@ module.exports = {
         };
         // Populate scratchpad
         this._refreshScratchpad(webHelpInstance);
-        this._populateCurrentSequences(webHelpInstance);
+        utility._populateCurrentSequences(webHelpInstance);
     } catch (error) {
         saveStatus = 'Error saving the sequence!';
     } finally {
@@ -232,6 +237,7 @@ module.exports = {
      * @private
      */
     _clearStepsInSequence: function(webHelpInstance) {
+        var utility = require("./utility.js");
     //Destroy and reinitialize the table to get the edited data
     webHelpInstance.stepsTable.renderList();
     utility._attachIcons(webHelpInstance);
@@ -246,6 +252,7 @@ module.exports = {
      * @private
      */
     _editThisSequence: function(webHelpInstance, event) {
+        var utility = require("./utility.js");
     var thisSequenceTitle = jQuery(event.target).parents('li').find('.webHelpSequenceItem-title').text();
     var sequence = webHelpInstance.sequences[thisSequenceTitle];
     var data = [];
@@ -289,6 +296,7 @@ module.exports = {
      * @private
      */
     _removeThisSequence: function(webHelpInstance, event) {
+        var utility = require("./utility.js");
     var sequenceName = jQuery(event.target).parents('li').find('.webHelpSequenceItem-title').text();
     var storedSequences = webHelpInstance.sequences;
     //use undefined instead of delete, the garbage collector will take care of it

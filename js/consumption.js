@@ -3,8 +3,8 @@ require("bootstrap");
 require("intro.js");
 require("jquery-get-path");
 require("jquery-ui");
-var TableList = require("./WebHelpTableListBuilder.js").TableList;
-var utility = require("./utility.js");
+
+
 /* globals window, console */
 module.exports = {
 
@@ -58,6 +58,7 @@ module.exports = {
      * @private
      */
     _markThisSequenceAsSeen: function(webHelpInstance, seqId) {
+        var utility = require("./utility.js");
         this._getAllVisitedSequencesViaAjax(webHelpInstance).then(function () {
             var key = utility._genKey(webHelpInstance);
             var updatePreferences = false;
@@ -109,6 +110,8 @@ module.exports = {
      * @private
      */
     _initWhatsNewTable: function(webHelpInstance, aaData) {
+        var TableList = require("./WebHelpTableListBuilder.js").TableList;
+        var utility = require("./utility.js");
         webHelpInstance.whatsNewTable = new TableList({
             element: '#whatsNewContent',
             data: aaData || [],
@@ -128,6 +131,7 @@ module.exports = {
      * @returns {promise} Promise when AJAX call returns
      */
     _getAllVisitedSequencesViaAjax: function(webHelpInstance) {
+        var utility = require("./utility.js");
         var userPreferences = {};
         var sequenceIds = [];
         var dfd = new jQuery.Deferred();
@@ -169,6 +173,7 @@ module.exports = {
      * @private
      */
     _setVisitedSequencesInUserPrefs: function(webHelpInstance, key, val) {
+        var utility = require("./utility.js");
         val = val.join(",");
         jQuery.ajax({
             type: "GET",
