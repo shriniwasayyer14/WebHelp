@@ -10,7 +10,7 @@
     "name": "BLK"
   },
   "main": "js/WebHelp.js",
-  "scripts":{
+  "scripts": {
     "dev": "webpack-dev-server --devtool eval --progress --colors --content-base dist"
   },
   "engines": {
@@ -34,12 +34,13 @@
     "grunt-html-convert": "0.0.2",
     "grunt-lineending": "^0.2.4",
     "grunt-text-replace": "^0.4.0",
+    "grunt-webpack": "*",
     "jshint-stylish": "^1.0.0",
     "load-grunt-tasks": "^2.0.0",
     "minami": "^1.1.1",
     "stylus": "^0.50.0",
+    "stylus-loader": "~1.4.0",
     "time-grunt": "^1.0.0",
-    "webpack": "*",
-    "grunt-webpack":"*"
+    "webpack": "*"
   }
 }

@@ -12,7 +12,7 @@ module.exports = {
     module:  {
         loaders: [
             {test: /\.css$/, loader: "style!css"},
-            {test: /\.styl$/, loader: "style!css"},
+            {test: /\.styl$/, loader: "style!css!stylus-loader"},
             {test: /\.less$/, loader: "style!css!less"},
             {test: /\.(woff|svg|ttf|eot)([\?]?.*)$/, loader: "file-loader?name=[name].[ext]"}
         ]

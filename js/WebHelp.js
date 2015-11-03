@@ -296,4 +296,4 @@ WebHelp = (function () {
 
 	return WebHelp;
 })();
-exports.WebHelp = WebHelp;
+module.exports = WebHelp;
