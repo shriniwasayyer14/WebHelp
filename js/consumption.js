@@ -7,14 +7,6 @@ require("jquery-ui");
 
 /* globals window, console */
 module.exports = {
-
-    firstfunc: function(){
-        document.write("Lets try to print this");
-        this.secondfunc();
-    },
-    secondfunc: function(){
-        document.write("It does not work without using this");
-    },
     /**
      * Add the help icon to the specified page element
      *

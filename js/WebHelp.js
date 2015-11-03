@@ -32,10 +32,8 @@ WebHelp = (function () {
 	 * @memberOf WebHelp
 	 */
 	function WebHelp(WebHelpOptions) {
-		var consumption = require("./consumption.js");
+
 		var utility = require("./utility.js");
-		consumption.firstfunc();
-		document.write("HERE");
 
 		//setup defaults
 		var defaultOptions = {
