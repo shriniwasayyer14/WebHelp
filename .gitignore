@@ -54,3 +54,6 @@ css/WebHelp.css
 .idea/libraries/WebHelp_node_modules.xml
 *.xml
 .idea/WebHelp.iml
+.idea/libraries/WebHelp_node_modules.xml
+.idea/misc.xml
+.idea/encodings.xml
