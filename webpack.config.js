@@ -4,8 +4,8 @@ var path = require("path");
 module.exports = {
     entry:   "./js/WebHelp.js",
     output:  {
-        path:     __dirname,
-        filename: "bundle.js",
+        path:     __dirname + '/dist/js',
+        filename: "AladdinHelp.js",
         libraryTarget: "var",
         library: "WebHelp"
     },

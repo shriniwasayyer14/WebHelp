@@ -3,13 +3,11 @@ require("bootstrap");
 require("intro.js");
 require("jquery-get-path");
 require("jquery-ui");
-
 /**
  * @namespace WebHelp
  *
  */
 //TODO: Document attributes here using http://usejsdoc.org/tags-property.html
-
 var WebHelp;
 WebHelp = (function () {
 	"use strict";
@@ -26,15 +24,16 @@ WebHelp = (function () {
 	 *   workarounds)
 	 * @param {Boolean} [WebHelpOptions.usesFlexbox=false] Does your app use flexbox ? (Used for some additional
 	 *   workarounds)
-	 * @param {String=} [WebHelpOptions.supportEmail=] The recepient email address used for support. (No email tab if not provided)
+	 * @param {String=} [WebHelpOptions.supportEmail=] The recepient email address used for support. (No email tab if not
+	 *   provided)
+	 * @param {String=} [WebHelpOptions.helpIconPosition='.ai-header .ai-header-title'] The DOM element selector that the
+	 *   help icon will be placed next to
 	 * @this WebHelp
 	 * @constructor WebHelp
 	 * @memberOf WebHelp
 	 */
 	function WebHelp(WebHelpOptions) {
-
 		var utility = require("./utility.js");
-
 		//setup defaults
 		var defaultOptions = {
 			appName: 'DefaultApp',
@@ -124,7 +123,6 @@ WebHelp = (function () {
 			});
 		}
 	};
-
 	/**
 	 * Get a list of all visited sequences by sequence ID
 	 * @public
@@ -190,7 +188,6 @@ WebHelp = (function () {
 		var visitedSeqIds = this.visitedSequenceIdList;
 		return visitedSeqIds.indexOf(seqId.toString()) >= 0;
 	};
-
 	/**
 	 * Shows the Send Email button if WebHelp options include Support Email value
 	 * @param {string} email - The recepient email address.
@@ -198,20 +195,18 @@ WebHelp = (function () {
 	 * @memberOf WebHelp
 	 * @public
 	 */
-	WebHelp.prototype.provideEmailSupport = function(email){
+	WebHelp.prototype.provideEmailSupport = function (email) {
 		var consumption = require("./consumption.js");
 		this.ui.emailButton = jQuery("#webHelpEmailButton");
-		if(email){
+		if (email) {
 			this.ui.emailButton.show();
-			consumption._sendMail(email,this.appName);
+			consumption._sendMail(email, this.appName);
 		}
-		else{
+		else {
 			//console.log("No mail recepients");
 			this.ui.emailButton.hide();
 		}
 	}
-
-
 	/**
 	 * Play a sequence programmatically given its identifier (name or ID)
 	 * @public
@@ -291,7 +286,6 @@ WebHelp = (function () {
 		play.start();
 		consumption._markThisSequenceAsSeen(this, seqId);
 	};
-
 	return WebHelp;
 })();
 module.exports = WebHelp;
