@@ -28,11 +28,11 @@
     "package.json"
   ],
   "dependencies": {
-    "intro.js": "https://github.com/arjshiv/intro.js.git#master"
+    "intro.js": "https://github.com/arjshiv/intro.js.git#master",
+    "bootstrap": "~3.3.4",
+    "jquery": "~1.11.1"
   },
   "devDependencies": {
-    "bootstrap": "~3.3.4",
-    "jquery": "~1.11.1",
     "jquery-ui": "~1.11.4",
     "jquery-get-path": "*"
   },
