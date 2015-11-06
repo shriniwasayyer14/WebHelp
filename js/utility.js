@@ -103,12 +103,13 @@ module.exports = {
 	_showHelpConsumptionMode: function (webHelpInstance) {
 		var consumption = require("./consumption.js");
 		var WebHelpTemplates = require("./WebHelpTemplates").WebHelpTemplates;
+		var self = this;
 		consumption._addHelpIcon(webHelpInstance, webHelpInstance.helpIconPosition);
 		webHelpInstance.ui.webHelpMainContent = jQuery("#webHelpMainContent");
 		if (webHelpInstance.ui.webHelpMainContent.length <= 0) {
 			var modalContent = jQuery(WebHelpTemplates.WebHelpContent);
 			var webHelpContent = jQuery(WebHelpTemplates.WebHelpConsumption);
-			this._attachIcons(webHelpInstance);
+			self._attachIcons(webHelpInstance);
 			var $body = jQuery("body");
 			$body.append(modalContent);
 			$body.append(webHelpContent);
@@ -117,10 +118,10 @@ module.exports = {
 		webHelpInstance.ui.webHelpMainContent.appendTo("#contentConsumptionModal .modal-body");
 		jQuery('.nav-tabs a[href=#addSequence]').hide();
 		jQuery('#globalWebHelpCreatorActionsWell').hide();
-		this._refreshWhatsNew(webHelpInstance).then(function () {
+		self._refreshWhatsNew(webHelpInstance).then(function () {
 			_populateCurrentSequences(webHelpInstance);
 			webHelpInstance.watchWhatsNew = setInterval(function () {
-				this._refreshWhatsNew(webHelpInstance);
+				self._refreshWhatsNew(webHelpInstance);
 			}, 1800000);
 			if (webHelpInstance.showIntroOnLoad) {
 				var introSeqId = webHelpInstance.getSequenceIdForSequenceName('Introduction');
@@ -143,6 +144,7 @@ module.exports = {
 		var creation = require("./creation.js");
 		var consumption = require("./consumption.js");
 		var WebHelpTemplates = require("./WebHelpTemplates").WebHelpTemplates;
+		var self = this;
 		webHelpInstance.ui.webHelpMainContent = jQuery("#webHelpMainContent");
 		if (webHelpInstance.ui.webHelpMainContent.length === 0) {
 			var webHelpContent = jQuery(WebHelpTemplates.WebHelpCreator);
@@ -198,7 +200,7 @@ module.exports = {
 		jQuery("#noElementsSelectedButton").on("click", jQuery('#noElementsSelectedDiv').hide);
 		jQuery("#noStepsInPreviewButton").on("click", jQuery('#noStepsInPreviewDiv').hide);
 		jQuery("#saveAllHelpSequencesToFileButton").on("click", function () {
-			this._saveAllHelpSequencesToFile(webHelpInstance);
+			self._saveAllHelpSequencesToFile(webHelpInstance);
 		});
 		window.onbeforeunload = function (e) {
 			var scratchPadData = webHelpInstance.scratchPadTable.getData();
@@ -216,7 +218,7 @@ module.exports = {
 		jQuery(webHelpInstance.stepsTable.element).on("click", ".remove-step", function (event) {
 			creation._removeThisStep(webHelpInstance, event);
 		});
-		this._attachIcons(webHelpInstance);
+		self._attachIcons(webHelpInstance);
 		var helpIconElement = jQuery(webHelpInstance.helpIconPosition);
 		var currentTitleHTML = helpIconElement.html();
 		currentTitleHTML += "[Edit mode]";
@@ -228,7 +230,7 @@ module.exports = {
 		}
 		jQuery(elem).html(currentTitleHTML);
 		consumption._refreshAllSequences(webHelpInstance).then(function () {
-			this._populateCurrentSequences(webHelpInstance);
+			self._populateCurrentSequences(webHelpInstance);
 		});
 	},
 	/**
@@ -283,7 +285,7 @@ module.exports = {
 		//destroy the link
 		//TODO The line below to remove child breaks, check why
 		//link.parentNode.removeChild(link);
-		this._updateNewSequencesTable(webHelpInstance, []);
+		webHelpInstance._updateNewSequencesTable(webHelpInstance, []);
 	},
 	/**
 	 * Refresh new sequence count and data
@@ -297,6 +299,7 @@ module.exports = {
 		var consumption = require("./consumption.js");
 		var dfd = new jQuery.Deferred();
 		var sequences = webHelpInstance.sequences; //new function
+		var self = this;
 		consumption._refreshAllSequences(webHelpInstance)
 			.then(function () {
 				return consumption._getAllVisitedSequencesViaAjax(webHelpInstance);
@@ -316,9 +319,9 @@ module.exports = {
 						}
 					}
 				}
-				this._updateNewSequencesTable(webHelpInstance, newSequences); // new function
+				self._updateNewSequencesTable(webHelpInstance, newSequences); // new function
 				if (newSequences.length >= 1) {
-					this._populateCurrentSequences(webHelpInstance);
+					self._populateCurrentSequences(webHelpInstance);
 				}
 				//update badge icon
 				var numOfNewSequences = newSequences.length;
@@ -343,6 +346,7 @@ module.exports = {
 	 */
 	_populateCurrentSequences: function (webHelpInstance) {
 		var TableList = require("./WebHelpTableListBuilder.js").TableList;
+		var self = this;
 		if (!webHelpInstance.hasOwnProperty('visitedSequenceIdList')) {
 			webHelpInstance.visitedSequenceIdList = [];
 		}
@@ -379,8 +383,8 @@ module.exports = {
 				listItemTemplate: 'WebHelpSequenceListItem',
 				supplementalClasses: supplementalClasses
 			});
-			this._attachIcons(webHelpInstance);
-			this._attachClickActionsToLists(webHelpInstance);
+			self._attachIcons(webHelpInstance);
+			self._attachClickActionsToLists(webHelpInstance);
 		}
 	},
 	/**
