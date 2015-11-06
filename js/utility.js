@@ -119,7 +119,7 @@ module.exports = {
 		jQuery('.nav-tabs a[href=#addSequence]').hide();
 		jQuery('#globalWebHelpCreatorActionsWell').hide();
 		self._refreshWhatsNew(webHelpInstance).then(function () {
-			_populateCurrentSequences(webHelpInstance);
+			self._populateCurrentSequences(webHelpInstance);
 			webHelpInstance.watchWhatsNew = setInterval(function () {
 				self._refreshWhatsNew(webHelpInstance);
 			}, 1800000);
