@@ -1,5 +1,7 @@
 /*global module:false*/
 'use strict';
+var webpack = require('webpack');
+var BowerWebpackPlugin = require('bower-webpack-plugin');
 module.exports = function (grunt) {
 	// Load all grunt tasks
 	require('load-grunt-tasks')(grunt);
@@ -11,17 +13,34 @@ module.exports = function (grunt) {
 		// Metadata.
 		pkg: grunt.file.readJSON('package.json'),
 		separator: ';\n',
-		//webpack: {
-		//	WebHelp: {
-		//		entry: {
-		//			main: ".js/WebHelp.js",
-		//		},
-		//		output: {
-		//			path: __dirname+'/dist',
-		//			filename: "bundle.js",
-		//		},
-		//	},
-		//},
+		webpack: {
+			WebHelp: {
+				entry:   './js/WebHelp.js',
+				output:  {
+					path:     __dirname + '/dist/js',
+					filename: 'AladdinHelp.js',
+					libraryTarget: 'var',
+					library: 'WebHelp'
+				},
+				module:  {
+					loaders: [
+						{test: /\.css$/, loader: 'style!css'},
+						{test: /\.styl$/, loader: 'style!css!stylus-loader'},
+						{test: /\.less$/, loader: 'style!css!less'},
+						{test: /\.(woff|svg|ttf|eot)([\?]?.*)$/, loader: 'file-loader?name=[name].[ext]'}
+					]
+				},
+				plugins: [
+					new BowerWebpackPlugin({
+						//excludes: /.*\.less/
+					}),
+					new webpack.ProvidePlugin({
+						$:      'jquery',
+						jQuery: 'jquery'
+					})
+				]
+			}
+		},
 		concat: {
 			options: {
 				stripBanners: {
@@ -287,7 +306,7 @@ module.exports = function (grunt) {
 
 	// Default task.
 	grunt.loadNpmTasks('grunt-webpack');
-	grunt.registerTask('default', ['htmlConvert', 'stylus:compile', 'concat', 'replace', 'jshint', 'uglify', 'cssmin', 'lineending','footer']);
+	grunt.registerTask('default', ['htmlConvert', 'stylus:compile', 'concat', 'replace', 'jshint', 'uglify', 'cssmin', 'lineending','footer', 'webpack']);
 	grunt.registerTask('serve', ['connect', 'browserSync', 'watch']);
 
 };
