@@ -102,7 +102,7 @@ module.exports = {
 	 */
 	_showHelpConsumptionMode: function (webHelpInstance) {
 		var consumption = require("./consumption.js");
-		var WebHelpTemplates = require("./WebHelpTemplates").WebHelpTemplates;
+		var WebHelpTemplates = require("./WebHelpTemplates.js").WebHelpTemplates;
 		var self = this;
 		consumption._addHelpIcon(webHelpInstance, webHelpInstance.helpIconPosition);
 		webHelpInstance.ui.webHelpMainContent = jQuery("#webHelpMainContent");
