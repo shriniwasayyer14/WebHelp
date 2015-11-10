@@ -1,9 +1,9 @@
+/* globals window, console, require, module */
 window.jQuery = require("jquery");
 require("bootstrap");
 require("intro.js");
 require("jquery-get-path");
 require("jquery-ui");
-/* globals window, console */
 module.exports = {
 	/**
 	 * Add the help icon to the specified page element

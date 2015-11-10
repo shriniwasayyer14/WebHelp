@@ -174,7 +174,7 @@ module.exports = function (grunt) {
 		watch: {
 			WebHelpTemplates: {
 				files: 'templates/*',
-				tasks: ['htmlConvert:WebHelpTemplates']
+				tasks: ['htmlConvert:WebHelpTemplates', 'footer:WebHelpTemplates']
 			},
 			gruntfile: {
 				files: '<%= jshint.gruntfile.src %>',
@@ -248,6 +248,16 @@ module.exports = function (grunt) {
 				dest: 'js/WebHelpTemplates.js'
 			}
 		},
+		footer: {
+			WebHelpTemplates: {
+				options: {
+					text: 'exports.WebHelpTemplates = WebHelpTemplates;'
+				},
+				files: {
+					'js/WebHelpTemplates.js': 'js/WebHelpTemplates.js'
+				}
+			}
+		},
 		connect: {
 			server: {
 				options: {
@@ -277,7 +287,7 @@ module.exports = function (grunt) {
 
 	// Default task.
 	grunt.loadNpmTasks('grunt-webpack');
-	grunt.registerTask('default', ['htmlConvert', 'stylus:compile', 'concat', 'replace', 'jshint', 'uglify', 'cssmin', 'lineending','webpack']);
+	grunt.registerTask('default', ['htmlConvert', 'stylus:compile', 'concat', 'replace', 'jshint', 'uglify', 'cssmin', 'lineending','footer']);
 	grunt.registerTask('serve', ['connect', 'browserSync', 'watch']);
 
 };

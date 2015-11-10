@@ -1,3 +1,4 @@
+/*globals require, console, introJs, module*/
 window.jQuery = require("jquery");
 require("bootstrap");
 require("intro.js");

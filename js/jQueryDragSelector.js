@@ -1,4 +1,4 @@
-/* globals jQuery, document */
+/* globals jQuery, document, require, exports */
 /* exported jQueryDragSelector */
 var jQueryDragSelector = {
 	on: function (options, callback) {

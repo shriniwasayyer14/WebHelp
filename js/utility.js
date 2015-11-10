@@ -1,4 +1,4 @@
-/* globals window, setInterval*/
+/* globals window, setInterval, require, module*/
 window.jQuery = require("jquery");
 require("bootstrap");
 require("intro.js");
