@@ -206,7 +206,7 @@ WebHelp = (function () {
 			//console.log("No mail recepients");
 			this.ui.emailButton.hide();
 		}
-	}
+	};
 	/**
 	 * Play a sequence programmatically given its identifier (name or ID)
 	 * @public
