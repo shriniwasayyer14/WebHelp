@@ -1,4 +1,3 @@
-require("../css/WebHelp.styl");
 var WebHelpTemplates = {};
 
 WebHelpTemplates["WebHelpConsumption"] = "<div id=\"webHelpMainContent\">\n" +
@@ -183,5 +182,3 @@ WebHelpTemplates["WebHelpSidebarToggle"] = "<span id=\"creationModeSidebarshowHi
 WebHelpTemplates["WebHelpTableListSearch"] = "<div class=\"webHelpTableListSearch\">\n" +
    "    <label>Search title and content: <input type=\"text\" placeholder=\"Type to search\"></label>\n" +
    "</div>";
-document.write(WebHelpTemplates);
-exports.WebHelpTemplates = WebHelpTemplates;

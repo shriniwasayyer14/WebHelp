@@ -252,10 +252,15 @@
   max-width: 35%;
   position: fixed;
   top: 0;
+  bottom: 0;
   z-index: 999;
   right: 0;
   height: 100%;
   box-shadow: 10px 10px 10px 10px #000;
+}
+#webHelpMainContent.creationModeSidebar .tableList {
+  max-height: 300px !important;
+  overflow-y: auto;
 }
 #creationModeSidebarshowHideSpan {
   left: -95px;
