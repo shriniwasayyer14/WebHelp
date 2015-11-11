@@ -85,7 +85,8 @@
   max-width: 5%;
 }
 #webHelpMainContent ul.webHelpSequenceCreationList > li.webHelpSequenceStepListItem > div.webHelpSequenceListItem-selectionType,
-#webHelpMainContent ul.webHelpSequenceCreationList > li.webHelpSequenceStepListItem > div.webHelpSequenceListItem-selectionValue {
+#webHelpMainContent ul.webHelpSequenceCreationList > li.webHelpSequenceStepListItem > div.webHelpSequenceListItem-selectionValue,
+#webHelpMainContent ul.webHelpSequenceCreationList > li.webHelpSequenceStepListItem div.webHelpSequenceListItem-selectionFrame {
   display: none;
 }
 #webHelpMainContent ul.webHelpSequenceCreationList > li.webHelpSequenceStepListItem > div[contenteditable="true"] {
