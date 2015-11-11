@@ -64,6 +64,7 @@ module.exports = {
 	 * @private
 	 */
 	_createStepForThisElement: function (webHelpInstance, arrayOfElems, selectionDetails) {
+		var utility = require("./utility.js");
 		var $stepsTable = jQuery("#stepsTable");
 		var elemText = '';
 		var elemType = '';
