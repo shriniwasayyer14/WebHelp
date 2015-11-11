@@ -1,6 +1,6 @@
 /*globals require, console, introJs, module*/
-window.jQuery = require("jquery");
-window.introJs = require("intro.js");
+window.jQuery = window.jQuery ? window.jQuery : require("jquery");
+window.introJs = window.introJs ? window.introJs: require("intro.js");
 require("bootstrap");
 require("jquery-get-path");
 require("jquery-ui");
