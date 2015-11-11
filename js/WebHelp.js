@@ -6,15 +6,14 @@
 var WebHelp;
 WebHelp = (function () {
 	"use strict";
+	/*Terrible workaround - intro.js returns an object with introJs inside it when required, so this provides a workaround*/
+	var introJs = introJsParent.introJs;
 
 	/*Require modules that don't return functions but instead modify existing functions*/
 	require("jquery-ui");
 	require("bootstrap");
 	require("jquery-get-path");
 	require("./vendor/jquery.event.drag-2.2.js");
-
-	/*Terrible workaround - intro.js returns an object with introJs inside it when required, so this provides a workaround*/
-	var introJs = introJsParent.introJs;
 
 	/**
 	 * Creates the WebHelp object with the specified settings

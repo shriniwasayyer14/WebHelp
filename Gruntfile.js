@@ -307,7 +307,7 @@ module.exports = function (grunt) {
 
 	// Default task.
 	grunt.loadNpmTasks('grunt-webpack');
-	grunt.registerTask('default', ['htmlConvert', 'stylus:compile', 'concat', 'replace', 'jshint', 'uglify', 'cssmin', 'lineending','footer', 'webpack']);
+	grunt.registerTask('default', ['htmlConvert', 'stylus:compile', 'concat', 'replace', 'jshint', 'footer', 'webpack', 'uglify', 'cssmin', 'lineending']);
 	grunt.registerTask('serve', ['connect', 'browserSync', 'watch']);
 
 };

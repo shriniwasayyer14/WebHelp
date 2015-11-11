@@ -1,4 +1,6 @@
-/* globals setTimeout, require, module, introJs*/
+/* globals setTimeout, require, module, introJsParent*/
+/*Terrible workaround - intro.js returns an object with introJs inside it when required, so this provides a workaround*/
+var introJs = introJsParent.introJs;
 module.exports = {
 	/**
 	 * Trigger the selection event (start dragging to select a DOM element)
