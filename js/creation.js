@@ -1,5 +1,4 @@
-/* globals setTimeout, require, module, introJsParent*/
-/*Terrible workaround - intro.js returns an object with introJs inside it when required, so this provides a workaround*/
+/* globals setTimeout, require, module*/
 var introJs = require("intro.js").introJs;
 module.exports = {
 	/**

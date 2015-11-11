@@ -1,4 +1,4 @@
-/*globals require, console, introJsParent, module*/
+/*globals require, console, module*/
 /**
  * @namespace WebHelp
  *
