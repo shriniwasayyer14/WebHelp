@@ -9,6 +9,7 @@ module.exports = {
 	 * @private
 	 */
 	_startSelectionOfElement: function (webHelpInstance) {
+		var self = this;
 		var jQueryDragSelector = require("./jQueryDragSelector.js").jQueryDragSelector;
 		var WebHelpTemplates = require("./WebHelpTemplates").WebHelpTemplates;
 		/* Close the sidemenu if it is open*/
@@ -33,7 +34,7 @@ module.exports = {
 				jQuery(".drag-select-yes").on("click", function () {
 					jQueryDragSelector.confirmSelection(true, element, function (arrayOfObjects) {
 						if (arrayOfObjects) {
-							this._createStepForThisElement(webHelpInstance, arrayOfObjects, selectionDetails);
+							self._createStepForThisElement(webHelpInstance, arrayOfObjects, selectionDetails);
 						}
 					});
 					webHelpInstance.ui.sidebarToggleButton.trigger('click');
