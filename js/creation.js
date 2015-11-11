@@ -1,4 +1,4 @@
-/* globals setTimeout, require, module, introJs, utility*/
+/* globals setTimeout, require, module, introJs*/
 module.exports = {
 	/**
 	 * Trigger the selection event (start dragging to select a DOM element)
