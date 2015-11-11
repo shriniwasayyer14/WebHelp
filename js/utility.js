@@ -265,6 +265,7 @@ module.exports = {
 		//Pretty print the JSON content
 		//https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify
 		//Syntax: JSON.stringify(value[, replacer[, space]])
+		var self = this;
 		var allSequences = webHelpInstance.sequences;
 		jQuery.map(allSequences, function (val) {
 			val.status = "O";
@@ -280,7 +281,7 @@ module.exports = {
 		//destroy the link
 		//TODO The line below to remove child breaks, check why
 		//link.parentNode.removeChild(link);
-		webHelpInstance._updateNewSequencesTable(webHelpInstance, []);
+		self._updateNewSequencesTable(webHelpInstance, []);
 	},
 	/**
 	 * Refresh new sequence count and data
