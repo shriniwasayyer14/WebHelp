@@ -1,7 +1,12 @@
 /*globals require, exports*/
-window.jQuery = require("jquery");
+if (window.jQuery === undefined) {
+	window.jQuery = require("jquery");
+}
+// Check if bootstrap is loaded
+if (!(window.$ && typeof window.$().modal === 'function')) {
+	require("bootstrap");
+}
 require("jquery-get-path");
-require("jquery-ui");
 /**
  * @namespace TableList
  *

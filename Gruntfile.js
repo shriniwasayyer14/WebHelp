@@ -1,6 +1,6 @@
 /*global module:false*/
 'use strict';
-var webpack = require('webpack');
+//var webpack = require('webpack');
 var BowerWebpackPlugin = require('bower-webpack-plugin');
 module.exports = function (grunt) {
 	// Load all grunt tasks
@@ -33,11 +33,11 @@ module.exports = function (grunt) {
 				plugins: [
 					new BowerWebpackPlugin({
 						//excludes: /.*\.less/
-					}),
-					new webpack.ProvidePlugin({
+					})/*,
+					new webpack.ProvidePlugin({ //this creates jQuery inside the closure!
 						$:      'jquery',
 						jQuery: 'jquery'
-					})
+					})*/
 				]
 			}
 		},

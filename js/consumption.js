@@ -1,9 +1,18 @@
 /* globals window, console, require, module */
-window.jQuery = require("jquery");
-require("bootstrap");
-require("intro.js");
+if (window.jQuery === undefined) {
+	window.jQuery = require("jquery");
+}
+if (window.introJs === undefined) {
+	window.introJs = require("intro.js");
+}
+if (window.jQuery.ui === undefined) {
+	window.jQuery.ui = require("jquery-ui");
+}
+// Check if bootstrap is loaded
+if (!(window.$ && typeof window.$().modal === 'function')) {
+	require("bootstrap");
+}
 require("jquery-get-path");
-require("jquery-ui");
 module.exports = {
 	/**
 	 * Add the help icon to the specified page element
