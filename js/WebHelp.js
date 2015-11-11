@@ -9,7 +9,7 @@ if (window.jQuery.ui === undefined) {
 	window.jQuery.ui = require("jquery-ui");
 }
 // Check if bootstrap is loaded
-if (!(typeof $().modal == 'function')) {
+if (!(window.$ && typeof window.$().modal === 'function')) {
 	require("bootstrap");
 }
 require("jquery-get-path");
