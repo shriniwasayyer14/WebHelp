@@ -1,18 +1,4 @@
 /* globals setTimeout, require, module, introJs, utility*/
-if (window.jQuery === undefined) {
-	window.jQuery = require("jquery");
-}
-if (window.introJs === undefined) {
-	window.introJs = require("intro.js");
-}
-if (window.jQuery.ui === undefined) {
-	window.jQuery.ui = require("jquery-ui");
-}
-// Check if bootstrap is loaded
-if (!(window.$ && typeof window.$().modal === 'function')) {
-	require("bootstrap");
-}
-require("jquery-get-path");
 module.exports = {
 	/**
 	 * Trigger the selection event (start dragging to select a DOM element)

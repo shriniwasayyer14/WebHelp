@@ -1,26 +1,20 @@
-/*globals require, console, introJs, module*/
-if (window.jQuery === undefined) {
-	window.jQuery = require("jquery");
-}
-if (window.introJs === undefined) {
-	window.introJs = require("intro.js");
-}
-if (window.jQuery.ui === undefined) {
-	window.jQuery.ui = require("jquery-ui");
-}
-// Check if bootstrap is loaded
-if (!(window.$ && typeof window.$().modal === 'function')) {
-	require("bootstrap");
-}
-require("jquery-get-path");
+/*globals require, console, introJsParent, module*/
 /**
  * @namespace WebHelp
  *
  */
-//TODO: Document attributes here using http://usejsdoc.org/tags-property.html
 var WebHelp;
 WebHelp = (function () {
 	"use strict";
+
+	/*Require modules that don't return functions but instead modify existing functions*/
+	require("jquery-ui");
+	require("bootstrap");
+	require("jquery-get-path");
+
+	/*Terrible workaround - intro.js returns an object with introJs inside it when required, so this provides a workaround*/
+	var introJs = introJsParent.introJs;
+
 	/**
 	 * Creates the WebHelp object with the specified settings
 	 * @param {Object} WebHelpOptions The configuration options for WebHelp
