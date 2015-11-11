@@ -1,9 +1,18 @@
 /*globals require, console, introJs, module*/
-window.jQuery = window.jQuery ? window.jQuery : require("jquery");
-window.introJs = window.introJs ? window.introJs: require("intro.js");
-require("bootstrap");
+if (window.jQuery === undefined) {
+	window.jQuery = require("jquery");
+}
+if (window.introJs === undefined) {
+	window.introJs = require("intro.js");
+}
+if (window.jQuery.ui === undefined) {
+	window.jQuery.ui = require("jquery-ui");
+}
+// Check if bootstrap is loaded
+if (!(typeof $().modal == 'function')) {
+	require("bootstrap");
+}
 require("jquery-get-path");
-require("jquery-ui");
 /**
  * @namespace WebHelp
  *
