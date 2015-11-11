@@ -18,18 +18,18 @@ WebHelpTemplates["WebHelpConsumption"] = "<div id=\"webHelpMainContent\">\n" +
    "    </div>\n" +
    "</div>";
 
-WebHelpTemplates["WebHelpContent"] = "<div id=\"contentConsumptionModal\" class=\"modal\">\n" +
+WebHelpTemplates["WebHelpContent"] = "<div id=\"contentConsumptionModal\" class=\"modal\" onclick=\"  if (event.target !== this) return; WebHelp.onClose();\" >\n" +
    "	<div class=\"modal-dialog\">\n" +
    "		<div class=\"modal-content\">\n" +
    "			<div class=\"modal-header ai-modal-title\">\n" +
-   "				<button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span>\n" +
+   "				<button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\" onclick=\"WebHelp.onClose();\" ><span aria-hidden=\"true\">&times;</span>\n" +
    "				</button>\n" +
    "				What would you like to learn?\n" +
    "			</div>\n" +
    "			<div class=\"modal-body\"></div>\n" +
    "			<div class=\"modal-footer\">\n" +
    "				<button id = \"webHelpEmailButton\" class=\"btn btn-default\">Send Email</button>\n" +
-   "				<button data-dismiss=\"modal\" class=\"btn btn-warning\">Close</button>\n" +
+   "				<button data-dismiss=\"modal\"  onclick=\"WebHelp.onClose();\" class=\"btn btn-warning\">Close</button>\n" +
    "			</div>\n" +
    "		</div>\n" +
    "	</div>\n" +
