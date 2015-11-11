@@ -6,8 +6,7 @@
 var WebHelp;
 WebHelp = (function () {
 	"use strict";
-	/*Terrible workaround - intro.js returns an object with introJs inside it when required, so this provides a workaround*/
-	var introJs = introJsParent.introJs;
+	var introJs = require("intro.js").introJs;
 
 	/*Require modules that don't return functions but instead modify existing functions*/
 	require("jquery-ui");
