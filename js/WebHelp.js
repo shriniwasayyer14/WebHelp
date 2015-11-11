@@ -40,6 +40,8 @@ WebHelp = (function () {
 			mode: 'consume',
 			helpIconPosition: '.ai-header .ai-header-title',
 			showIntroOnLoad: false,
+			showDesktopTooltip: false,
+			showHelpContentsOnLoad: false,
 			usesFontAwesome: false,
 			parameters: utility._getWindowParameters(),
 			ui: {},
@@ -47,6 +49,7 @@ WebHelp = (function () {
 			sequencesBaseUrl: '/WebHelp/',
 			visitedBaseUrl: '/weblications/etc/getPrefs.epl',
 			usesFlexbox: false,
+			onClose: null,
 			usesIframes: false,
 			supportEmail: false
 		};

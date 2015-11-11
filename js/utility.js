@@ -123,7 +123,12 @@ module.exports = {
 			webHelpInstance.watchWhatsNew = setInterval(function () {
 				self._refreshWhatsNew(webHelpInstance);
 			}, 1800000);
-			if (webHelpInstance.showIntroOnLoad) {
+
+		//This is used in Aladdin Desktop Help 
+		//to show the list of sequences available to view.
+		if (webHelpInstance.showHelpContentsOnLoad){
+			webHelpInstance.showSequences();
+		} else if (webHelpInstance.showIntroOnLoad) {
 				var introSeqId = webHelpInstance.getSequenceIdForSequenceName('Introduction');
 				if (introSeqId && !webHelpInstance.isSequenceAlreadyViewed({seqId: introSeqId})) {
 					webHelpInstance.playSequence('Introduction');
