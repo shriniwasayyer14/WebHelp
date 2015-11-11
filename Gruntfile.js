@@ -36,8 +36,7 @@ module.exports = function (grunt) {
 					}),
 					new webpack.ProvidePlugin({ //this creates globals inside the closure - only for requirements that return functions
 						$:      'jquery',
-						jQuery: 'jquery',
-						introJsParent: 'intro.js'
+						jQuery: 'jquery'
 					})
 				]
 			}
@@ -162,7 +161,8 @@ module.exports = function (grunt) {
 				},
 				files: {
 					'css/WebHelp.css': 'css/WebHelp.styl' // 1:1 compile
-						//'path/to/another.css': ['path/to/sources/*.styl', 'path/to/more/*.styl'] // compile and concat into single file
+						//'path/to/another.css': ['path/to/sources/*.styl', 'path/to/more/*.styl'] // compile and concat into
+						// single file
 				}
 			}
 		},
