@@ -1,5 +1,6 @@
 /* globals jQuery, document, require, exports */
 /* exported jQueryDragSelector */
+var selectableItems = 'div, label, input, textarea, button, a, ul, li, tr, td, span';
 var jQueryDragSelector = {
 	on: function (options, callback) {
 		"use strict";
@@ -48,7 +49,7 @@ var jQueryDragSelector = {
 								'$body': jQuery(iFrameElement).contents().find('html').find('body'),
 								'$frame': iFrameElement
 							};
-							$selectedElements = self.rectangleSelect('div, input, textarea, button, a, ul, li, tr, td, span', selectionBoundingRect, overrideElementObject);
+							$selectedElements = self.rectangleSelect(selectableItems, selectionBoundingRect, overrideElementObject);
 							if ($selectedElements.length) {
 								skipLoop = true;
 								selectedIframeAttributes = overrideElementObject;
@@ -157,7 +158,7 @@ var jQueryDragSelector = {
 		"use strict";
 		if (this.isOn) {
 			jQuery(document).unbind("draginit").unbind("dragstart").unbind("drag").unbind("dragend");
-			jQuery('div, input, textarea, button, a, ul, li, tr, td, span').unbind("drop");
+			jQuery(selectableItems).unbind("drop");
 			this.isOn = false;
 		}
 	},
