@@ -37,7 +37,7 @@ var jQueryDragSelector = {
 						left: (dd.offsetX < 0) ? dd.startX + dd.offsetX : dd.startX,
 						right: (dd.offsetX < 0) ? dd.startX : dd.startX + dd.offsetX
 					};
-					var $selectedElements = self.rectangleSelect('body, div, input, textarea, button, a, ul, li, tr, td, span', selectionBoundingRect);
+					var $selectedElements = self.rectangleSelect(selectableItems, selectionBoundingRect);
 					var selectedIframeAttributes = false;
 					if (!$selectedElements.length && options.usesIframes) {
 						var skipLoop = false;
