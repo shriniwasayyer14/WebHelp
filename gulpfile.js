@@ -11,6 +11,8 @@ var fileToJson = require('gulp-file-contents-to-json');
 var header = require('gulp-header');
 var gutil = require('gulp-util');
 var stylish = require('jshint-stylish');
+var cssmin = require('gulp-cssmin');
+var uglify = require('gulp-uglify');
 
 gulp.task('html2js', function(){
     return gulp.src('templates/*.html')
@@ -109,6 +111,37 @@ gulp.task('concatCSS', ['stylus'], function(){
        .pipe(gulp.dest('dist/css'));
 });
 
+gulp.task('cssmin', function(){
+   return gulp.src('dist/css/AladdinHelp.css')
+    .pipe(cssmin())
+       .pipe(rename(function(file){
+           file.extname = '.min.css';
+       }))
+    .pipe(gulp.dest('dist/css'));
+});
+
+gulp.task('jsmin', function(){
+   return gulp.src('dist/js/AladdinHelp.js')
+    .pipe(uglify({
+           mangle: {
+               except: ['jQuery']
+           },
+           compress: {
+               sequences: true,
+               dead_code: true,
+               conditionals: true,
+               booleans: true,
+               unused: true,
+               if_return: true,
+               join_vars: true,
+               drop_console: true
+           }
+       }))
+    .pipe(rename(function(file){
+           file.extname = '.min.js';
+       }))
+    .pipe(gulp.dest('dist/js'));
+});
 gulp.task('concat', ['concatJS','concatCSS']);
 
-gulp.task('default', ['html2js','concatCSS','stylus','jshint','webpack']);
+gulp.task('default', ['html2js','concatCSS','stylus','jshint','cssmin','uglify','webpack']);
