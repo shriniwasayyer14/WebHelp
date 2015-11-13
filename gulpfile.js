@@ -1,3 +1,4 @@
+'use strict';
 var gulp = require('gulp');
 var BowerWebpackPlugin = require('bower-webpack-plugin');
 var footer = require('gulp-footer');
@@ -17,8 +18,10 @@ gulp.task('html2js', function(){
            moduleName.extname = '';
          }))
         .pipe(fileToJson('WebHelpTemplates.js'))
-        .pipe(header('var WebHelpTemplates ='))
-        .pipe(footer(';exports.WebHelpTemplates = WebHelpTemplates;'))
+        .pipe(header('/*globals exports*/\n' +
+            'var WebHelpTemplates ='))
+        .pipe(footer(';\n' +
+            'exports.WebHelpTemplates = WebHelpTemplates;'))
         .pipe(gulp.dest('js'));
 });
 
@@ -62,10 +65,10 @@ gulp.task('webpack', function(){
                 })
             ]
         }, function(err, stats) {
-        if(err) throw new gutil.PluginError("webpack", err);
-        gutil.log("[webpack]", stats.toString({
-            // output options
-        }));
+        if(err) { throw new gutil.PluginError('webpack', err);}
+            gutil.log('[webpack]', stats.toString({
+                // output options
+            }));
     });
 });
 
@@ -75,9 +78,7 @@ gulp.task('jshint', function(){
         '!js/vendor/*.js',
         'test/**/*.js'
     ])
-        .pipe(jshint({
-
-        }))
+        .pipe(jshint())
         .pipe(jshint.reporter(stylish));
 });
 
@@ -105,7 +106,7 @@ gulp.task('concatCSS', ['stylus'], function(){
        'css/WebHelp.css'
    ])
        .pipe(concat('AladdinHelp.css'))
-       .pipe(gulp.dest('dist/css'))
+       .pipe(gulp.dest('dist/css'));
 });
 
 gulp.task('concat', ['concatJS','concatCSS']);
