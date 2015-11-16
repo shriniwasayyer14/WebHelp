@@ -111,7 +111,7 @@ gulp.task('concatCSS', ['stylus'], function(){
        .pipe(gulp.dest('dist/css'));
 });
 
-gulp.task('cssmin', function(){
+gulp.task('cssmin', ['concatCSS'], function(){
    return gulp.src('dist/css/AladdinHelp.css')
     .pipe(cssmin())
        .pipe(rename(function(file){
@@ -120,7 +120,7 @@ gulp.task('cssmin', function(){
     .pipe(gulp.dest('dist/css'));
 });
 
-gulp.task('jsmin', function(){
+gulp.task('uglify', ['webpack'], function(){
    return gulp.src('dist/js/AladdinHelp.js')
     .pipe(uglify({
            mangle: {
