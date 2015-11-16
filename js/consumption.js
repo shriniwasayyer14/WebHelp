@@ -1,9 +1,4 @@
-window.jQuery = require("jquery");
-require("bootstrap");
-require("intro.js");
-require("jquery-get-path");
-require("jquery-ui");
-/* globals window, console */
+/* globals window, console, require, module */
 module.exports = {
 	/**
 	 * Add the help icon to the specified page element
@@ -49,6 +44,7 @@ module.exports = {
 	 */
 	_markThisSequenceAsSeen: function (webHelpInstance, seqId) {
 		var utility = require("./utility.js");
+		var self = this;
 		this._getAllVisitedSequencesViaAjax(webHelpInstance).then(function () {
 			var key = utility._genKey(webHelpInstance);
 			var updatePreferences = false;
@@ -57,7 +53,7 @@ module.exports = {
 				updatePreferences = true;
 			}
 			if (updatePreferences) {
-				this._setVisitedSequencesInUserPrefs(webHelpInstance, key, webHelpInstance.visitedSequenceIdList);
+				self._setVisitedSequencesInUserPrefs(webHelpInstance, key, webHelpInstance.visitedSequenceIdList);
 				utility._refreshWhatsNew(webHelpInstance);
 			}
 		});

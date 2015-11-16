@@ -1,7 +1,4 @@
-
-window.jQuery = require("jquery");
-require("jquery-get-path");
-require("jquery-ui");
+/*globals require, exports*/
 /**
  * @namespace TableList
  *

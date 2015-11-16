@@ -1,9 +1,4 @@
-/* globals window, setInterval*/
-window.jQuery = require("jquery");
-require("bootstrap");
-require("intro.js");
-require("jquery-get-path");
-require("jquery-ui");
+/* globals window, setInterval, require, module*/
 module.exports = {
 	/**
 	 * Get the parameters used in the URL query string
@@ -102,7 +97,7 @@ module.exports = {
 	 */
 	_showHelpConsumptionMode: function (webHelpInstance) {
 		var consumption = require("./consumption.js");
-		var WebHelpTemplates = require("./WebHelpTemplates").WebHelpTemplates;
+		var WebHelpTemplates = require("./WebHelpTemplates.js").WebHelpTemplates;
 		var self = this;
 		consumption._addHelpIcon(webHelpInstance, webHelpInstance.helpIconPosition);
 		webHelpInstance.ui.webHelpMainContent = jQuery("#webHelpMainContent");
@@ -275,6 +270,7 @@ module.exports = {
 		//Pretty print the JSON content
 		//https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify
 		//Syntax: JSON.stringify(value[, replacer[, space]])
+		var self = this;
 		var allSequences = webHelpInstance.sequences;
 		jQuery.map(allSequences, function (val) {
 			val.status = "O";
@@ -290,7 +286,7 @@ module.exports = {
 		//destroy the link
 		//TODO The line below to remove child breaks, check why
 		//link.parentNode.removeChild(link);
-		webHelpInstance._updateNewSequencesTable(webHelpInstance, []);
+		self._updateNewSequencesTable(webHelpInstance, []);
 	},
 	/**
 	 * Refresh new sequence count and data

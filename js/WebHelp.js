@@ -1,21 +1,25 @@
-window.jQuery = require("jquery");
-require("bootstrap");
-require("intro.js");
-require("jquery-get-path");
-require("jquery-ui");
+/*globals require, console, module*/
 /**
  * @namespace WebHelp
  *
  */
-//TODO: Document attributes here using http://usejsdoc.org/tags-property.html
 var WebHelp;
 WebHelp = (function () {
 	"use strict";
+	var introJs = require("intro.js").introJs;
+
+	/*Require modules that don't return functions but instead modify existing functions*/
+	require("jquery-ui");
+	require("bootstrap");
+	require("jquery-get-path");
+	require("./vendor/jquery.event.drag-2.2.js");
+
 	/**
 	 * Creates the WebHelp object with the specified settings
 	 * @param {Object} WebHelpOptions The configuration options for WebHelp
 	 * @param {String} [WebHelpOptions.appName='DefaultApp'] The App name that you wish to use for your app
 	 * @param {String} [WebHelpOptions.sequencesBaseUrl='/WebHelp/'] The URL you wish to pull your sequence file from
+	 * @param {Boolean} [WebHelpOptions.isExecutedInCef=false] Is this being executed in the Chromium Embedded Framework ?
 	 * @param {String} [WebHelpOptions.visitedBaseUrl='/weblications/etc/getPrefs.epl'] The URL you wish to pull your
 	 *   visited sequences from
 	 * @param {Boolean} [WebHelpOptions.usesFontAwesome=false] Does your app use Font Awesome ? (Defaults to bootstrap
@@ -51,7 +55,11 @@ WebHelp = (function () {
 			usesFlexbox: false,
 			onClose: null,
 			usesIframes: false,
-			supportEmail: false
+			supportEmail: false,
+			onSequenceClose: function() {
+				return; //dummy function to be overridden
+			},
+			isExecutedInCef: false
 		};
 		if (!WebHelpOptions) {
 			WebHelpOptions = defaultOptions;
@@ -257,6 +265,7 @@ WebHelp = (function () {
 		});
 		play.onexit(function () {
 			webHelpInstance.ui.webHelpMainContent.show();
+			webHelpInstance.onSequenceClose();
 		});
 		//Workaround for flexbox
 		/*
@@ -287,8 +296,25 @@ WebHelp = (function () {
 			jQuery('#contentConsumptionModal').modal('hide');
 		}
 		play.start();
+		if (webHelpInstance.isExecutedInCef) {
+			/*Execute code required by CEF to recognize elements*/
+			if(WebHelp.showDesktopTooltip){
+				jQuery('.introjs-tooltipbuttons').addClass('introjs-desktoptooltipbuttons').removeClass('introjs-tooltipbuttons');
+			}
+		}
 		consumption._markThisSequenceAsSeen(this, seqId);
 	};
+
+	/**
+	 * Callback when a sequence is closed - executes the onSequenceClose option
+	 * @public
+	 * @this WebHelp
+	 * @memberOf WebHelp
+	 */
+	WebHelp.prototype.onSequenceClose = function() {
+		this.onSequenceClose();
+	};
+
 	return WebHelp;
 })();
 module.exports = WebHelp;

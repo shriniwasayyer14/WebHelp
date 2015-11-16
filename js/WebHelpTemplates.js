@@ -182,3 +182,5 @@ WebHelpTemplates["WebHelpSidebarToggle"] = "<span id=\"creationModeSidebarshowHi
 WebHelpTemplates["WebHelpTableListSearch"] = "<div class=\"webHelpTableListSearch\">\n" +
    "    <label>Search title and content: <input type=\"text\" placeholder=\"Type to search\"></label>\n" +
    "</div>";
+
+exports.WebHelpTemplates = WebHelpTemplates;

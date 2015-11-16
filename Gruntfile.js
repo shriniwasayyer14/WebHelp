@@ -1,5 +1,7 @@
 /*global module:false*/
 'use strict';
+var webpack = require('webpack');
+var BowerWebpackPlugin = require('bower-webpack-plugin');
 module.exports = function (grunt) {
 	// Load all grunt tasks
 	require('load-grunt-tasks')(grunt);
@@ -11,17 +13,34 @@ module.exports = function (grunt) {
 		// Metadata.
 		pkg: grunt.file.readJSON('package.json'),
 		separator: ';\n',
-		//webpack: {
-		//	WebHelp: {
-		//		entry: {
-		//			main: ".js/WebHelp.js",
-		//		},
-		//		output: {
-		//			path: __dirname+'/dist',
-		//			filename: "bundle.js",
-		//		},
-		//	},
-		//},
+		webpack: {
+			WebHelp: {
+				entry:   './js/WebHelp.js',
+				output:  {
+					path:     __dirname + '/dist/js',
+					filename: 'AladdinHelp.js',
+					libraryTarget: 'var',
+					library: 'WebHelp'
+				},
+				module:  {
+					loaders: [
+						{test: /\.css$/, loader: 'style!css'},
+						{test: /\.styl$/, loader: 'style!css!stylus-loader'},
+						{test: /\.less$/, loader: 'style!css!less'},
+						{test: /\.(woff|svg|ttf|eot)([\?]?.*)$/, loader: 'file-loader?name=[name].[ext]'}
+					]
+				},
+				plugins: [
+					new BowerWebpackPlugin({
+						//excludes: /.*\.less/
+					}),
+					new webpack.ProvidePlugin({ //this creates globals inside the closure - only for requirements that return functions
+						$:      'jquery',
+						jQuery: 'jquery'
+					})
+				]
+			}
+		},
 		concat: {
 			options: {
 				stripBanners: {
@@ -142,7 +161,8 @@ module.exports = function (grunt) {
 				},
 				files: {
 					'css/WebHelp.css': 'css/WebHelp.styl' // 1:1 compile
-						//'path/to/another.css': ['path/to/sources/*.styl', 'path/to/more/*.styl'] // compile and concat into single file
+						//'path/to/another.css': ['path/to/sources/*.styl', 'path/to/more/*.styl'] // compile and concat into
+						// single file
 				}
 			}
 		},
@@ -174,7 +194,7 @@ module.exports = function (grunt) {
 		watch: {
 			WebHelpTemplates: {
 				files: 'templates/*',
-				tasks: ['htmlConvert:WebHelpTemplates']
+				tasks: ['htmlConvert:WebHelpTemplates', 'footer:WebHelpTemplates']
 			},
 			gruntfile: {
 				files: '<%= jshint.gruntfile.src %>',
@@ -248,6 +268,16 @@ module.exports = function (grunt) {
 				dest: 'js/WebHelpTemplates.js'
 			}
 		},
+		footer: {
+			WebHelpTemplates: {
+				options: {
+					text: 'exports.WebHelpTemplates = WebHelpTemplates;'
+				},
+				files: {
+					'js/WebHelpTemplates.js': 'js/WebHelpTemplates.js'
+				}
+			}
+		},
 		connect: {
 			server: {
 				options: {
@@ -277,7 +307,7 @@ module.exports = function (grunt) {
 
 	// Default task.
 	grunt.loadNpmTasks('grunt-webpack');
-	grunt.registerTask('default', ['htmlConvert', 'stylus:compile', 'concat', 'replace', 'jshint', 'uglify', 'cssmin', 'lineending','webpack']);
+	grunt.registerTask('default', ['htmlConvert', 'stylus:compile', 'concat', 'replace', 'jshint', 'footer', 'webpack', 'uglify', 'cssmin', 'lineending']);
 	grunt.registerTask('serve', ['connect', 'browserSync', 'watch']);
 
 };
