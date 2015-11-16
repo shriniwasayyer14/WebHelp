@@ -127,7 +127,7 @@ module.exports = {
 		//This is used in Aladdin Desktop Help 
 		//to show the list of sequences available to view.
 		if (webHelpInstance.showHelpContentsOnLoad){
-			webHelpInstance.showSequences();
+			webHelpInstance.showSequenceConsumptionModal();
 		} else if (webHelpInstance.showIntroOnLoad) {
 				var introSeqId = webHelpInstance.getSequenceIdForSequenceName('Introduction');
 				if (introSeqId && !webHelpInstance.isSequenceAlreadyViewed({seqId: introSeqId})) {
