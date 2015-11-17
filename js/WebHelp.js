@@ -19,6 +19,8 @@ WebHelp = (function () {
 	 * @param {Object} WebHelpOptions The configuration options for WebHelp
 	 * @param {String} [WebHelpOptions.appName='DefaultApp'] The App name that you wish to use for your app
 	 * @param {String} [WebHelpOptions.sequencesBaseUrl='/WebHelp/'] The URL you wish to pull your sequence file from
+	 * @param {function} [WebHelpOptions.onSequenceClose= function() {return; //dummy function to be overridden}] 
+	 * WebHelp.js performs some function to indicate to cef.
 	 * @param {Boolean} [WebHelpOptions.isExecutedInCef=false] Is this being executed in the Chromium Embedded Framework ?
 	 * @param {String} [WebHelpOptions.visitedBaseUrl='/weblications/etc/getPrefs.epl'] The URL you wish to pull your
 	 *   visited sequences from
