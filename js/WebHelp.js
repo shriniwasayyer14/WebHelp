@@ -53,7 +53,6 @@ WebHelp = (function () {
 			sequencesBaseUrl: '/WebHelp/',
 			visitedBaseUrl: '/weblications/etc/getPrefs.epl',
 			usesFlexbox: false,
-			onClose: null,
 			usesIframes: false,
 			supportEmail: false,
 			onSequenceClose: function() {

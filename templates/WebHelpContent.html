@@ -1,15 +1,15 @@
-<div id="contentConsumptionModal" class="modal" onClick="if(event.target!== this) return; WebHelp.onClose();">
+<div id="contentConsumptionModal" class="modal" onClick="if(event.target!== this) return; WebHelp.onSequenceClose();">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header ai-modal-title">
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="WebHelp.onClose();"><span aria-hidden="true">&times;</span>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="WebHelp.onSequenceClose();"><span aria-hidden="true">&times;</span>
 				</button>
 				What would you like to learn?
 			</div>
 			<div class="modal-body"></div>
 			<div class="modal-footer">
 				<button id = "webHelpEmailButton" class="btn btn-default">Send Email</button>
-				<button data-dismiss="modal" class="btn btn-warning" onclick="WebHelp.onClose();">Close</button>
+				<button data-dismiss="modal" class="btn btn-warning" onclick="WebHelp.onSequenceClose();">Close</button>
 			</div>
 		</div>
 	</div>
