@@ -33,7 +33,7 @@ gulp.task('stylus', function(){
         .pipe(gulp.dest('css'));
 });
 
-gulp.task('webpack', function(){
+gulp.task('webpack', ['html2js'], function(){
     webpack({
             entry:   './js/WebHelp.js',
             output:  {
@@ -44,19 +44,20 @@ gulp.task('webpack', function(){
             },
 
             module:  {
-                loaders: [
-                    {test: /\.css$/, loader: 'style!css'},
-                    {test: /\.styl$/, loader: 'style!css!stylus-loader'},
-                    {test: /\.less$/, loader: 'style!css!less'},
-                    {test: /\.(woff|svg|ttf|eot)([\?]?.*)$/, loader: 'file-loader?name=[name].[ext]'}
-                ]
+                //loaders: [
+                //    {test: /\.css$/, loader: 'style!css'},
+                //    {test: /\.styl$/, loader: 'style!css!stylus-loader'},
+                //    {test: /\.less$/, loader: 'style!css!less'},
+                //    {test: /\.(woff|svg|ttf|eot)([\?]?.*)$/, loader: 'file-loader?name=[name].[ext]'}
+                //]
+
             },
             plugins: [
                 new BowerWebpackPlugin({
                     modulesDirectories: ['bower_components'],
                     manifestFiles: 'bower.json',
                     includes: /.*/,
-                    excludes: [],
+                    excludes: [/.*\.less/, /.*\.css/],
                     searchResolveModulesDirectories: true
                     //excludes: /.*\.less/
                 }),
@@ -85,17 +86,17 @@ gulp.task('jshint', function(){
 });
 
 gulp.task('concatJS', function(){
-    return gulp.src([
-        'bower_components/intro.js/intro.js',
-        'bower_components/jquery-ui/ui/core.js',
-        'bower_components/jquery-ui/ui/widget.js',
-        'bower_components/jquery-ui/ui/mouse.js',
-        'bower_components/jquery-ui/ui/position.js',
-        'bower_components/jquery-ui/ui/sortable.js',
-        'bower_components/jquery-get-path/dist/js/jQueryGetPath.js',
-        'js/vendor/*.js',
-        //'dist/bundle.js'
-        'js/*.js'
+            return gulp.src([
+                'bower_components/intro.js/intro.js',
+                'bower_components/jquery-ui/ui/core.js',
+                'bower_components/jquery-ui/ui/widget.js',
+                'bower_components/jquery-ui/ui/mouse.js',
+                'bower_components/jquery-ui/ui/position.js',
+                'bower_components/jquery-ui/ui/sortable.js',
+                'bower_components/jquery-get-path/dist/js/jQueryGetPath.js',
+                'js/vendor/*.js',
+                //'dist/bundle.js'
+                'js/*.js'
     ])
         .pipe(concat('AladdinHelp.js'))
         .pipe(gulp.dest('dist/js'));
@@ -144,4 +145,4 @@ gulp.task('uglify', ['webpack'], function(){
 });
 gulp.task('concat', ['concatJS','concatCSS']);
 
-gulp.task('default', ['html2js','concatCSS','stylus','jshint','cssmin','uglify','webpack']);
+gulp.task('default', ['html2js','stylus','concatCSS','jshint','cssmin','uglify','webpack']);
