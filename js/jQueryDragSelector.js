@@ -1,10 +1,9 @@
-/* globals jQuery, document, require, exports */
+/* globals jQuery, document, exports */
 /* exported jQueryDragSelector */
 var selectableItems = 'div, label, input, textarea, button, a, ul, li, tr, td, span';
 var jQueryDragSelector = {
 	on: function (options, callback) {
 		"use strict";
-		require("../css/jQueryDragSelector.css");
 		var self = this;
 		if (!this.isOn) {
 			/*
@@ -97,7 +96,6 @@ var jQueryDragSelector = {
 	},
 	confirmSelection: function (confirmBoolean, $element, callback) {
 		"use strict";
-		require("../css/jQueryDragSelector.css");
 		jQuery($element[0]).popover('destroy');
 		var arrayOfObjects = [];
 		/* Open the side-menu if it is closed*/
@@ -164,7 +162,6 @@ var jQueryDragSelector = {
 	},
 	rectangleSelect: function (selector, selectionBoundingRect, iframeAttr) {
 		"use strict";
-		require("../css/jQueryDragSelector.css");
 		jQueryDragSelector.setPaneState(false);
 		var $elementArray = jQuery(selector);
 		var secondaryOffsetRectangle = {
