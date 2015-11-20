@@ -1,3 +1,4 @@
+@import "../bower_components/intro.js/minified/introjs.min.css";
 #webHelpMainContent {
   font-family: Roboto, Tahoma, Arial, sans-serif;
   background-color: #fff;

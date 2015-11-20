@@ -10,7 +10,7 @@ WebHelp = (function () {
 
 	/*Require modules that don't return functions but instead modify existing functions*/
 	require("jquery-ui");
-	require("bootstrap-webpack!./bootstrap.config.js");
+	require("bootstrap-webpack!./../bootstrap.config.js");
 	require("jquery-get-path");
 	require("./vendor/jquery.event.drag-2.2.js");
 
