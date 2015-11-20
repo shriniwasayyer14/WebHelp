@@ -461,6 +461,26 @@ a.introjs-button.introjs-disabled:hover {
     display: none;
   }
 }
+.introjs-desktoptooltipbuttons {
+  text-align: left;
+  white-space: nowrap;
+  width: 100%;
+  border-top: 1px solid #fff;
+  margin-top: 25px;
+}
+.introjs-desktoptooltipbuttons::after {
+  content: '';
+  display: block;
+  text-align: center;
+  font-size: 10px;
+  font-style: italic;
+  clear: both;
+}
+@media only screen and (max-device-width: 1024px) {
+  .introjs-desktoptooltipbuttons::after {
+    display: none;
+  }
+}
 .introjs-helperNumberLayer {
   border: 0;
   padding: 6px;
