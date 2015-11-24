@@ -299,7 +299,7 @@ WebHelp = (function () {
 		play.start();
 		if (webHelpInstance.isExecutedInCef) {
 			/*Execute code required by CEF to recognize elements*/
-			if(WebHelp.showDesktopTooltip){
+			if(webHelpInstance.showDesktopTooltip){
 				jQuery('.introjs-tooltipbuttons').addClass('introjs-desktoptooltipbuttons').removeClass('introjs-tooltipbuttons');
 			}
 		}
