@@ -263,6 +263,7 @@ WebHelp = (function () {
 		//Hacky workaround to introjs pushing fixed position elements into weird places while scrolling to play
 		play.oncomplete(function () {
 			webHelpInstance.ui.webHelpMainContent.show();
+			webHelpInstance.onSequenceClose();
 		});
 		play.onexit(function () {
 			webHelpInstance.ui.webHelpMainContent.show();
