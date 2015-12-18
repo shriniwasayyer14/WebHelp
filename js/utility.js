@@ -303,7 +303,7 @@ module.exports = {
 		var self = this;
 		consumption._refreshAllSequences(webHelpInstance)
 			.then(function () {
-				return consumption._getAllVisitedSequencesViaAjax(webHelpInstance);
+				return consumption.getAllVisitedSequences(webHelpInstance);
 			})
 			.then(function () {
 				var seenSequences = webHelpInstance.visitedSequenceIdList;
