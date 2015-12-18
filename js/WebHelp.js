@@ -72,7 +72,6 @@ WebHelp = (function () {
 			this[option] = WebHelpOptions.hasOwnProperty(option) ? WebHelpOptions[option] : defaultOptions[option];
 		}
 		this.webHelpName = 'WebHelp.' + this.appName;
-		this.visitedSequenceIdList = [];
 		//setup icon classes
 		if (this.usesFontAwesome === true) {
 			this.iconClass = {
