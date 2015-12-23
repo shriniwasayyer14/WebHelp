@@ -76,11 +76,6 @@ WebHelp = (function () {
 					},
 					error: function () {
 						console.error('Could not poll for visited sequences');
-					},
-					complete: function () {
-						//resolve regardless of what happens
-						//the downstream methods will just have to use an empty array
-						dfd.resolve(webHelpInstance.visitedSequenceIdList);
 					}
 				});
 			},
