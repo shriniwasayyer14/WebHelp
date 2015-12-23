@@ -1,8 +1,23 @@
+/.idea
 # Windows image file caches
 Thumbs.db
 ehthumbs.db
 
 # Folder config file
+/.idea/WebHelp.iml
+/.idea/libraries
+/.idea/modules.xml
+/.idea/scopes
+/.idea/uiDesigner.xml
+/.idea/jsLibraryMappings.xml
+/.idea/.name
+/.idea/compiler.xml
+/.idea/copyright
+/.idea/misc.xml
+/.idea/atlassian-ide-plugin.xml
+/.idea/vcs.xml
+/.idea/workspace.xml
+/.idea/encodings.xml
 Desktop.ini
 
 # Recycle Bin used on file shares
