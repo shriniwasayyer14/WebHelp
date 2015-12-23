@@ -57,6 +57,43 @@ WebHelp = (function () {
 			usesFlexbox: false,
 			usesIframes: false,
 			supportEmail: false,
+			getVisitedCallback: function getVisitedCallback(sequences, webHelpInstance){
+				var userPreferences = {};
+				return jQuery.ajax({
+					url: webHelpInstance.visitedBaseUrl,
+					success: function (data) {
+						data = data.split(/\r?\n/);
+						for (var i = 0; i < data.length; i++) {
+							var keyVal = data[i].split("\t");
+							userPreferences[keyVal[0]] = keyVal[1];
+						}
+						var key = utility._genKey(webHelpInstance);
+						var seqIds = userPreferences[key];
+						if (seqIds && seqIds.length > 0) {
+							seqIds = seqIds.split(",");
+						}
+						webHelpInstance.visitedSequenceIdList = seqIds;
+					},
+					error: function () {
+						console.error('Could not poll for visited sequences');
+					},
+					complete: function () {
+						//resolve regardless of what happens
+						//the downstream methods will just have to use an empty array
+						dfd.resolve(webHelpInstance.visitedSequenceIdList);
+					}
+				});
+			},
+			setVisitedCallback: function(key, val, webHelpInstance){
+				val = val.join(",");
+				jQuery.ajax({
+					type: "GET",
+					url: "/weblications/etc/setPrefs.epl?" + key + "=" + val,
+					success: function () {
+						utility._refreshWhatsNew(webHelpInstance);
+					}
+				});
+			},
 			onSequenceClose: function() {
 				return; //dummy function to be overridden
 			},
