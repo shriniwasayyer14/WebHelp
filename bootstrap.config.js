@@ -2,7 +2,9 @@ module.exports = {
 	scripts: {
 		// add every bootstrap script you need
 		'modal': true,
-		'tab': true
+		'tab': true,
+		'tooltip': true,
+		'popover': true
 	},
 	styles: {
 		"mixins": false,
