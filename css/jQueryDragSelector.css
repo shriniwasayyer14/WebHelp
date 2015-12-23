@@ -34,6 +34,8 @@
     zoom: 1;
     filter: alpha(opacity=75);
     opacity: 0.75;
+    border: 3px solid #0083C1!important;
+    box-shadow: 0px 0px 50px 0px #0083C1 !important;
     -webkit-transition: opacity .5s ease-in-out;
     -moz-transition: opacity .5s ease-in-out;
     -ms-transition: opacity .5s ease-in-out;
