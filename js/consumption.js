@@ -44,18 +44,25 @@ module.exports = {
 	 */
 	_markThisSequenceAsSeen: function (webHelpInstance, seqId) {
 		var utility = require("./utility.js");
-		var self = this;
-		this._getAllVisitedSequencesViaAjax(webHelpInstance).then(function () {
+		return webHelpInstance.getAllVisitedSequences(webHelpInstance).then(function () {
 			var key = utility._genKey(webHelpInstance);
 			var updatePreferences = false;
 			if (webHelpInstance.visitedSequenceIdList.indexOf(seqId.toString()) < 0) {
 				webHelpInstance.visitedSequenceIdList.push(seqId);
 				updatePreferences = true;
 			}
+
+			var dfd = new jQuery.Deferred();
 			if (updatePreferences) {
-				self._setVisitedSequencesInUserPrefs(webHelpInstance, key, webHelpInstance.visitedSequenceIdList);
-				utility._refreshWhatsNew(webHelpInstance);
+				webHelpInstance._setVisitedSequences(webHelpInstance, key, webHelpInstance.visitedSequenceIdList).then(function () {
+					return utility._refreshWhatsNew(webHelpInstance).then(function () {
+						dfd.resolve();
+					});
+				});
+			} else {
+				dfd.resolve();
 			}
+			return dfd.promise();
 		});
 	},
 	/**
@@ -116,38 +123,18 @@ module.exports = {
 	 *   list is set to
 	 * @returns {promise} Promise when AJAX call returns
 	 */
-	_getAllVisitedSequencesViaAjax: function (webHelpInstance) {
+	getAllVisitedSequences: function (webHelpInstance) {
 		var utility = require("./utility.js");
-		var userPreferences = {};
-		var sequenceIds = [];
-		var dfd = new jQuery.Deferred();
 		if (!webHelpInstance.hasOwnProperty('visitedSequenceIdList')) {
+			var sequenceIds = [];
 			webHelpInstance.visitedSequenceIdList = sequenceIds;
 		}
-		jQuery.ajax({
-			url: webHelpInstance.visitedBaseUrl,
-			success: function (data) {
-				data = data.split(/\r?\n/);
-				for (var i = 0; i < data.length; i++) {
-					var keyVal = data[i].split("\t");
-					userPreferences[keyVal[0]] = keyVal[1];
-				}
-				var key = utility._genKey(webHelpInstance);
-				var seqIds = userPreferences[key];
-				if (seqIds && seqIds.length > 0) {
-					seqIds = seqIds.split(",");
-					webHelpInstance.visitedSequenceIdList = seqIds;
-				}
-			},
-			error: function () {
-				console.error('Could not poll for visited sequences');
-			},
-			complete: function () {
-				//resolve regardless of what happens
-				//the downstream methods will just have to use an empty array
-				dfd.resolve();
-			}
-		});
+		var dfd = new jQuery.Deferred();
+		if (webHelpInstance.getVisitedCallback) {
+			webHelpInstance.getVisitedCallback(webHelpInstance.visitedSequenceIdList, webHelpInstance).then(dfd.resolve)
+		} else {
+			dfd.resolve();
+		}
 		return dfd.promise();
 	},
 	/**
@@ -158,16 +145,16 @@ module.exports = {
 	 * @param {Array} val The set of values for the given app key
 	 * @private
 	 */
-	_setVisitedSequencesInUserPrefs: function (webHelpInstance, key, val) {
+	_setVisitedSequences: function (webHelpInstance, key, val) {
 		var utility = require("./utility.js");
-		val = val.join(",");
-		jQuery.ajax({
-			type: "GET",
-			url: "/weblications/etc/setPrefs.epl?" + key + "=" + val,
-			success: function () {
-				utility._refreshWhatsNew(webHelpInstance);
-			}
-		});
+		var dfd = new jQuery.Deferred();
+		webHelpInstance.visitedSequenceIdList = val;
+		if (webHelpInstance.setVisitedCallback) {
+			webHelpInstance.setVisitedCallback(key, val, webHelpInstance).then(dfd.resolve);
+		} else {
+			dfd.resolve(webHelpInstance.visitedSequenceIdList);
+		}
+		return dfd.promise();
 	},
 	/**
 	 * This opens up the default Mail client of the user.
