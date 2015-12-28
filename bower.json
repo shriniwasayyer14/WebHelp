@@ -34,7 +34,8 @@
   },
   "devDependencies": {
     "jquery-ui": "~1.11.4",
-    "jquery-get-path": "*"
+    "jquery-get-path": "*",
+    "quill": "~0.20.1"
   },
   "resolutions": {
     "jquery": "~1.11.1"

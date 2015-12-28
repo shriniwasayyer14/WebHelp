@@ -3,6 +3,7 @@
  * @namespace TableList
  *
  */
+var Quill = require('quill');
 var TableList;
 TableList = (function () {
 	"use strict";
@@ -115,6 +116,21 @@ TableList = (function () {
 		jQuery(this.element)
 			.children('.' + $listTemplate.attr('class'))
 			.append($thisListItemTemplate);
+
+		/*var editableElements = jQuery(this.element)
+			.children('.' + $listTemplate.attr('class'))
+			.children('.' + $thisListItemTemplate.attr('class'))
+			.find('.webHelp-editable');
+
+		var tableInstance = this;
+
+		jQuery(editableElements).unbind('click');
+		jQuery(editableElements).on('click', function(event) {
+			if (tableInstance.currentQuill && jQuery(event.delegateTarget).find(tableInstance.currentQuill.container).length) {
+				return;
+			}
+			makeEditable(event.delegateTarget, tableInstance);
+		});*/
 	};
 	TableList.prototype.removeRow = function (clickEvent) {
 		jQuery(clickEvent.target).parents('li.webHelpSequenceStepListItem').remove();
@@ -187,6 +203,25 @@ TableList = (function () {
 			}
 		}
 		return true;
+	}
+
+	function makeEditable(parentRowElement, tableInstance) {
+		if (tableInstance.currentQuill) {
+			tableInstance.currentQuill.destroy();
+			tableInstance.currentQuill = false;
+		}
+		var toolbarElement = jQuery(parentRowElement).find('.quill-toolbar').get(0);
+		var contentElement = jQuery(parentRowElement).find('.quill-content').get(0);
+		tableInstance.currentQuill = new Quill(contentElement, {
+			modules: {
+				'toolbar': {
+					'container': toolbarElement,
+					'link-tooltip': true,
+					'image-tooltip': true
+				}
+			},
+			theme: 'snow'
+		});
 	}
 
 	return TableList;
