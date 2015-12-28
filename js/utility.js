@@ -119,7 +119,7 @@ module.exports = {
 				self._refreshWhatsNew(webHelpInstance);
 			}, 1800000);
 
-		//This is used in Aladdin Desktop Help 
+		//This is used in Aladdin Desktop Help
 		//to show the list of sequences available to view.
 		if (webHelpInstance.showHelpContentsOnLoad){
 			webHelpInstance.showSequenceConsumptionModal();
@@ -303,7 +303,7 @@ module.exports = {
 		var self = this;
 		consumption._refreshAllSequences(webHelpInstance)
 			.then(function () {
-				return consumption.getAllVisitedSequences(webHelpInstance);
+				return consumption._getAllVisitedSequences(webHelpInstance);
 			})
 			.then(function () {
 				var seenSequences = webHelpInstance.visitedSequenceIdList;
@@ -455,13 +455,5 @@ module.exports = {
 	 */
 	_getCurrentTableSeqId: function (webHelpInstance) {
 		return webHelpInstance.stepsTable.getSeqId();
-	},
-	/**
-	 * Generates the sequencing key
-	 * @returns {String} The WebHelps app key
-	 * @private
-	 */
-	_genKey: function (webHelpInstance) {
-		return "WebHelp." + webHelpInstance.appName;
 	}
 };

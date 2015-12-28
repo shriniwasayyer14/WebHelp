@@ -45,8 +45,8 @@ module.exports = {
 	_markThisSequenceAsSeen: function (webHelpInstance, seqId) {
 		var utility = require("./utility.js");
 		var consumption = this;
-		return consumption.getAllVisitedSequences(webHelpInstance).then(function () {
-			var key = utility._genKey(webHelpInstance);
+		return consumption._getAllVisitedSequences(webHelpInstance).then(function () {
+			var key = webHelpInstance.genKey();
 			var updatePreferences = false;
 			if (webHelpInstance.visitedSequenceIdList.indexOf(seqId.toString()) < 0) {
 				webHelpInstance.visitedSequenceIdList.push(seqId);
@@ -55,7 +55,7 @@ module.exports = {
 
 			var dfd = new jQuery.Deferred();
 			if (updatePreferences) {
-				webHelpInstance._setVisitedSequences(webHelpInstance, key, webHelpInstance.visitedSequenceIdList).then(function () {
+				consumption._setVisitedSequences(webHelpInstance, key, webHelpInstance.visitedSequenceIdList).then(function () {
 					return utility._refreshWhatsNew(webHelpInstance).then(function () {
 						dfd.resolve();
 					});
@@ -124,7 +124,7 @@ module.exports = {
 	 *   list is set to
 	 * @returns {promise} Promise when AJAX call returns
 	 */
-	getAllVisitedSequences: function (webHelpInstance) {
+	_getAllVisitedSequences: function (webHelpInstance) {
 		if (!webHelpInstance.hasOwnProperty('visitedSequenceIdList')) {
 			var sequenceIds = [];
 			webHelpInstance.visitedSequenceIdList = sequenceIds;
@@ -149,7 +149,7 @@ module.exports = {
 		var dfd = new jQuery.Deferred();
 		webHelpInstance.visitedSequenceIdList = val;
 		if (webHelpInstance.setVisitedCallback) {
-			webHelpInstance.setVisitedCallback(key, val, webHelpInstance).then(dfd.resolve);
+			return webHelpInstance.setVisitedCallback(key, val, webHelpInstance).then(dfd.resolve);
 		} else {
 			dfd.resolve(webHelpInstance.visitedSequenceIdList);
 		}

@@ -67,7 +67,7 @@ WebHelp = (function () {
 							var keyVal = data[i].split("\t");
 							userPreferences[keyVal[0]] = keyVal[1];
 						}
-						var key = utility._genKey(webHelpInstance);
+						var key = webHelpInstance.genKey();
 						var seqIds = userPreferences[key];
 						if (seqIds && seqIds.length > 0) {
 							seqIds = seqIds.split(",");
@@ -347,6 +347,17 @@ WebHelp = (function () {
 	 */
 	WebHelp.prototype.onSequenceClose = function() {
 		this.onSequenceClose();
+	};
+
+	/**
+	 * Generates the sequencing key
+	 * @returns {String} The WebHelp app key
+	 * @public
+	 * @this WebHelp
+	 * @memberOf WebHelp
+	 */
+	WebHelp.prototype.genKey = function genKey() {
+		return "WebHelp." + this.appName;
 	};
 
 	return WebHelp;
