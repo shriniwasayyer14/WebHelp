@@ -1,4 +1,4 @@
-/* globals window, console, require, module */
+/* globals window, require, module */
 module.exports = {
 	/**
 	 * Add the help icon to the specified page element
@@ -64,36 +64,6 @@ module.exports = {
 				dfd.resolve();
 			}
 			return dfd.promise();
-		});
-	},
-	/**
-	 * Refresh and get all sequences from the given filename via RESTful call
-	 *
-	 * @param {WebHelp} webHelpInstance
-	 * @param {String} webHelpInstance.sequencesBaseUrl The base of the URL to call for the sequence file from
-	 * @param {String=} filename
-	 * @returns {promise} When the AJAX call is complete
-	 * @private
-	 */
-	_refreshAllSequences: function (webHelpInstance, filename) {
-		webHelpInstance.sequences = {};
-		if (!filename) {
-			filename = webHelpInstance.sequencesBaseUrl + webHelpInstance.webHelpName + '.json';
-		}
-		return jQuery.ajax({
-			url: filename,
-			xhrFields: {
-				withCredentials: true
-			},
-			cache: false,
-			type: 'GET',
-			dataType: 'json',
-			success: function (data) {
-				webHelpInstance.sequences = data;
-			},
-			error: function () {
-				console.error("Failed to load the sequences!");
-			}
 		});
 	},
 	/**

@@ -13,7 +13,7 @@ WebHelp = (function () {
 	require("bootstrap-webpack!./../bootstrap.config.js");
 	require("jquery-get-path");
 	require("./vendor/jquery.event.drag-2.2.js");
-
+	//TODO: document callback functions here
 	/**
 	 * Creates the WebHelp object with the specified settings
 	 * @param {Object} WebHelpOptions The configuration options for WebHelp
@@ -40,6 +40,12 @@ WebHelp = (function () {
 	 */
 	function WebHelp(WebHelpOptions) {
 		var utility = require("./utility.js");
+		var apiCallbacks = require("./blk.default.apiCallbacks.js");
+
+		// APB require("./blk.webtools.webhelpCallBacks.js");
+		// BLK Backwards Compatible require("./blk.webtools.webhelpCallBacks.js");
+		// Github Public require("./blk.webtools.webhelpCallBacks.js");
+
 		//setup defaults
 		var defaultOptions = {
 			appName: 'DefaultApp',
@@ -57,39 +63,10 @@ WebHelp = (function () {
 			usesFlexbox: false,
 			usesIframes: false,
 			supportEmail: false,
-			getVisitedCallback: function getVisitedCallback(sequences, webHelpInstance){
-				var userPreferences = {};
-				return jQuery.ajax({
-					url: webHelpInstance.visitedBaseUrl,
-					success: function (data) {
-						data = data.split(/\r?\n/);
-						for (var i = 0; i < data.length; i++) {
-							var keyVal = data[i].split("\t");
-							userPreferences[keyVal[0]] = keyVal[1];
-						}
-						var key = webHelpInstance.genKey();
-						var seqIds = userPreferences[key];
-						if (seqIds && seqIds.length > 0) {
-							seqIds = seqIds.split(",");
-						}
-						webHelpInstance.visitedSequenceIdList = seqIds;
-					},
-					error: function () {
-						console.error('Could not poll for visited sequences');
-					}
-				});
-			},
-			setVisitedCallback: function(key, val, webHelpInstance){
-				val = val.join(",");
-				jQuery.ajax({
-					type: "GET",
-					url: "/weblications/etc/setPrefs.epl?" + key + "=" + val,
-					success: function () {
-						utility._refreshWhatsNew(webHelpInstance);
-					}
-				});
-			},
-			onSequenceClose: function() {
+			getSequencesCallback: apiCallbacks.getSequencesCallback,
+			getVisitedCallback: apiCallbacks.getVisitedCallback,
+			setVisitedCallback: apiCallbacks.setVisitedCallback,
+			onSequenceClose: function () {
 				return; //dummy function to be overridden
 			},
 			isExecutedInCef: false
@@ -156,7 +133,7 @@ WebHelp = (function () {
 	/**
 	 * Programmatically trigger the sequence list modal when in consumption mode
 	 * @public
-	 *
+	 * @this WebHelp
 	 * @memberOf WebHelp
 	 */
 	WebHelp.prototype.showSequenceConsumptionModal = function () {
@@ -332,7 +309,7 @@ WebHelp = (function () {
 		play.start();
 		if (webHelpInstance.isExecutedInCef) {
 			/*Execute code required by CEF to recognize elements*/
-			if(webHelpInstance.showDesktopTooltip){
+			if (webHelpInstance.showDesktopTooltip) {
 				jQuery('.introjs-tooltipbuttons').addClass('introjs-desktoptooltipbuttons').removeClass('introjs-tooltipbuttons');
 			}
 		}
@@ -345,7 +322,7 @@ WebHelp = (function () {
 	 * @this WebHelp
 	 * @memberOf WebHelp
 	 */
-	WebHelp.prototype.onSequenceClose = function() {
+	WebHelp.prototype.onSequenceClose = function () {
 		this.onSequenceClose();
 	};
 

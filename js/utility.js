@@ -142,7 +142,6 @@ module.exports = {
 		var TableList = require("./WebHelpTableListBuilder.js").TableList;
 		var jQueryDragSelector = require("./jQueryDragSelector.js").jQueryDragSelector;
 		var creation = require("./creation.js");
-		var consumption = require("./consumption.js");
 		var WebHelpTemplates = require("./WebHelpTemplates").WebHelpTemplates;
 		var self = this;
 		webHelpInstance.ui.webHelpMainContent = jQuery("#webHelpMainContent");
@@ -229,7 +228,7 @@ module.exports = {
 			elem = helpIconElement;
 		}
 		jQuery(elem).html(currentTitleHTML);
-		consumption._refreshAllSequences(webHelpInstance).then(function () {
+		webHelpInstance.getSequencesCallback(webHelpInstance).then(function () {
 			self._populateCurrentSequences(webHelpInstance);
 		});
 	},
@@ -301,7 +300,7 @@ module.exports = {
 		var dfd = new jQuery.Deferred();
 		var sequences = webHelpInstance.sequences; //new function
 		var self = this;
-		consumption._refreshAllSequences(webHelpInstance)
+		webHelpInstance.getSequencesCallback(webHelpInstance)
 			.then(function () {
 				return consumption._getAllVisitedSequences(webHelpInstance);
 			})

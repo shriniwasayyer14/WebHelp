@@ -3,7 +3,7 @@
  * @namespace TableList
  *
  */
-var Quill = require('quill');
+//require('bootstrap-wysiwyg');
 var TableList;
 TableList = (function () {
 	"use strict";
@@ -205,7 +205,7 @@ TableList = (function () {
 		return true;
 	}
 
-	function makeEditable(parentRowElement, tableInstance) {
+	/*function makeEditable(parentRowElement, tableInstance) {
 		if (tableInstance.currentQuill) {
 			tableInstance.currentQuill.destroy();
 			tableInstance.currentQuill = false;
@@ -222,7 +222,7 @@ TableList = (function () {
 			},
 			theme: 'snow'
 		});
-	}
+	}*/
 
 	return TableList;
 })();
