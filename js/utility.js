@@ -311,13 +311,13 @@ module.exports = {
 	_refreshWhatsNew: function (webHelpInstance) {
 		var consumption = require("./consumption.js");
 		var dfd = new jQuery.Deferred();
-		var sequences = webHelpInstance.sequences; //new function
 		var utility = this;
 		webHelpInstance.getSequencesCallback(webHelpInstance)
 			.then(function () {
 				return consumption._getAllVisitedSequences(webHelpInstance);
 			})
 			.then(function () {
+				var sequences = webHelpInstance.sequences;
 				var seenSequences = webHelpInstance.visitedSequenceIdList;
 				var newSequences = [];
 				for (var seqName in sequences) {
