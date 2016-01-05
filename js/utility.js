@@ -89,6 +89,10 @@ module.exports = {
 			}
 		}
 	},
+	_bindCloseButton: function (webHelpInstance) {
+		webHelpInstance.ui.webHelpConsumptionModalClose = webHelpInstance.ui.webHelpConsumptionModalClose || jQuery('#webHelpConsumptionModalClose');
+		webHelpInstance.ui.webHelpConsumptionModalClose.on('click',	webHelpInstance.onSequenceClose);
+	},
 	/**
 	 * Perform the necessary actions to show the consumption mode
 	 * @param {WebHelp} webHelpInstance The current instance of WebHelp
@@ -98,13 +102,13 @@ module.exports = {
 	_showHelpConsumptionMode: function (webHelpInstance) {
 		var consumption = require("./consumption.js");
 		var WebHelpTemplates = require("./WebHelpTemplates.js").WebHelpTemplates;
-		var self = this;
+		var utility = this;
 		consumption._addHelpIcon(webHelpInstance, webHelpInstance.helpIconPosition);
 		webHelpInstance.ui.webHelpMainContent = jQuery("#webHelpMainContent");
 		if (webHelpInstance.ui.webHelpMainContent.length <= 0) {
 			var modalContent = jQuery(WebHelpTemplates.WebHelpContent);
 			var webHelpContent = jQuery(WebHelpTemplates.WebHelpConsumption);
-			self._attachIcons(webHelpInstance);
+			utility._attachIcons(webHelpInstance);
 			var $body = jQuery("body");
 			$body.append(modalContent);
 			$body.append(webHelpContent);
@@ -113,10 +117,10 @@ module.exports = {
 		webHelpInstance.ui.webHelpMainContent.appendTo("#contentConsumptionModal .modal-body");
 		jQuery('.nav-tabs a[href=#addSequence]').hide();
 		jQuery('#globalWebHelpCreatorActionsWell').hide();
-		self._refreshWhatsNew(webHelpInstance).then(function () {
-			self._populateCurrentSequences(webHelpInstance);
+		utility._refreshWhatsNew(webHelpInstance).then(function () {
+			utility._populateCurrentSequences(webHelpInstance);
 			webHelpInstance.watchWhatsNew = setInterval(function () {
-				self._refreshWhatsNew(webHelpInstance);
+				utility._refreshWhatsNew(webHelpInstance);
 			}, 1800000);
 
 		//This is used in Aladdin Desktop Help
@@ -131,6 +135,8 @@ module.exports = {
 			}
 		});
 		webHelpInstance.provideEmailSupport(webHelpInstance.supportEmail);
+		//set up close action binding
+		utility._bindCloseButton(webHelpInstance);
 	},
 	/**
 	 * Perform the necessary actions to show the consumption mode
@@ -143,7 +149,7 @@ module.exports = {
 		var jQueryDragSelector = require("./jQueryDragSelector.js").jQueryDragSelector;
 		var creation = require("./creation.js");
 		var WebHelpTemplates = require("./WebHelpTemplates").WebHelpTemplates;
-		var self = this;
+		var utility = this;
 		webHelpInstance.ui.webHelpMainContent = jQuery("#webHelpMainContent");
 		if (webHelpInstance.ui.webHelpMainContent.length === 0) {
 			var webHelpContent = jQuery(WebHelpTemplates.WebHelpCreator);
@@ -199,7 +205,7 @@ module.exports = {
 		jQuery("#noElementsSelectedButton").on("click", jQuery('#noElementsSelectedDiv').hide);
 		jQuery("#noStepsInPreviewButton").on("click", jQuery('#noStepsInPreviewDiv').hide);
 		jQuery("#saveAllHelpSequencesToFileButton").on("click", function () {
-			self._saveAllHelpSequencesToFile(webHelpInstance);
+			utility._saveAllHelpSequencesToFile(webHelpInstance);
 		});
 		window.onbeforeunload = function (e) {
 			var scratchPadData = webHelpInstance.scratchPadTable.getData();
@@ -217,7 +223,7 @@ module.exports = {
 		jQuery(webHelpInstance.stepsTable.element).on("click", ".remove-step", function (event) {
 			creation._removeThisStep(webHelpInstance, event);
 		});
-		self._attachIcons(webHelpInstance);
+		utility._attachIcons(webHelpInstance);
 		var helpIconElement = jQuery(webHelpInstance.helpIconPosition);
 		var currentTitleHTML = helpIconElement.html();
 		currentTitleHTML += "[Edit mode]";
@@ -229,7 +235,7 @@ module.exports = {
 		}
 		jQuery(elem).html(currentTitleHTML);
 		webHelpInstance.getSequencesCallback(webHelpInstance).then(function () {
-			self._populateCurrentSequences(webHelpInstance);
+			utility._populateCurrentSequences(webHelpInstance);
 		});
 	},
 	/**
@@ -269,7 +275,7 @@ module.exports = {
 		//Pretty print the JSON content
 		//https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify
 		//Syntax: JSON.stringify(value[, replacer[, space]])
-		var self = this;
+		var utility = this;
 		var allSequences = webHelpInstance.sequences;
 		jQuery.map(allSequences, function (val) {
 			val.status = "O";
@@ -285,7 +291,7 @@ module.exports = {
 		//destroy the link
 		//TODO The line below to remove child breaks, check why
 		//link.parentNode.removeChild(link);
-		self._updateNewSequencesTable(webHelpInstance, []);
+		utility._updateNewSequencesTable(webHelpInstance, []);
 	},
 	/**
 	 * Refresh new sequence count and data
@@ -299,7 +305,7 @@ module.exports = {
 		var consumption = require("./consumption.js");
 		var dfd = new jQuery.Deferred();
 		var sequences = webHelpInstance.sequences; //new function
-		var self = this;
+		var utility = this;
 		webHelpInstance.getSequencesCallback(webHelpInstance)
 			.then(function () {
 				return consumption._getAllVisitedSequences(webHelpInstance);
@@ -319,9 +325,9 @@ module.exports = {
 						}
 					}
 				}
-				self._updateNewSequencesTable(webHelpInstance, newSequences); // new function
+				utility._updateNewSequencesTable(webHelpInstance, newSequences); // new function
 				if (newSequences.length >= 1) {
-					self._populateCurrentSequences(webHelpInstance);
+					utility._populateCurrentSequences(webHelpInstance);
 				}
 				//update badge icon
 				var numOfNewSequences = newSequences.length;
@@ -346,7 +352,7 @@ module.exports = {
 	 */
 	_populateCurrentSequences: function (webHelpInstance) {
 		var TableList = require("./WebHelpTableListBuilder.js").TableList;
-		var self = this;
+		var utility = this;
 		if (!webHelpInstance.hasOwnProperty('visitedSequenceIdList')) {
 			webHelpInstance.visitedSequenceIdList = [];
 		}
@@ -383,8 +389,8 @@ module.exports = {
 				listItemTemplate: 'WebHelpSequenceListItem',
 				supplementalClasses: supplementalClasses
 			});
-			self._attachIcons(webHelpInstance);
-			self._attachClickActionsToLists(webHelpInstance);
+			utility._attachIcons(webHelpInstance);
+			utility._attachClickActionsToLists(webHelpInstance);
 		}
 	},
 	/**
