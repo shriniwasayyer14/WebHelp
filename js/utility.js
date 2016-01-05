@@ -89,8 +89,15 @@ module.exports = {
 			}
 		}
 	},
-	_bindCloseButton: function (webHelpInstance) {
+	_bindModalCloseAndButton: function (webHelpInstance) {
+		webHelpInstance.ui.contentConsumptionModal = webHelpInstance.ui.contentConsumptionModal || jQuery('#contentConsumptionModal');
 		webHelpInstance.ui.webHelpConsumptionModalClose = webHelpInstance.ui.webHelpConsumptionModalClose || jQuery('#webHelpConsumptionModalClose');
+
+		webHelpInstance.ui.contentConsumptionModal.on('click', function(event) {
+			if (event.target !== this) {
+				return webHelpInstance.onSequenceClose();
+			}
+		});
 		webHelpInstance.ui.webHelpConsumptionModalClose.on('click',	webHelpInstance.onSequenceClose);
 	},
 	/**
@@ -136,7 +143,7 @@ module.exports = {
 		});
 		webHelpInstance.provideEmailSupport(webHelpInstance.supportEmail);
 		//set up close action binding
-		utility._bindCloseButton(webHelpInstance);
+		utility._bindModalCloseAndButton(webHelpInstance);
 	},
 	/**
 	 * Perform the necessary actions to show the consumption mode
