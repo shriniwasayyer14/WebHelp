@@ -492,7 +492,7 @@ module.exports = {
 	 */
 	_setDefaultProperties: function (webHelpInstance) {
 		webHelpInstance.webHelpName = 'WebHelp.' + webHelpInstance.appName;
-		webHelpInstance.visitedSequences = [];
+		webHelpInstance.visitedSequenceIdList = [];
 		return webHelpInstance;
 	},
 	/**
