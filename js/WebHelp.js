@@ -39,6 +39,8 @@ WebHelp = (function () {
 	 * @memberOf WebHelp
 	 */
 	function WebHelp(WebHelpOptions) {
+		var webHelpInstance = this;
+
 		var utility = require("./utility.js");
 		var apiCallbacks = require("./blk.default.apiCallbacks.js");
 
@@ -78,56 +80,23 @@ WebHelp = (function () {
 			if (!defaultOptions.hasOwnProperty(option)) {
 				continue;
 			}
-			this[option] = WebHelpOptions.hasOwnProperty(option) ? WebHelpOptions[option] : defaultOptions[option];
+			webHelpInstance[option] = WebHelpOptions.hasOwnProperty(option) ? WebHelpOptions[option] : defaultOptions[option];
 		}
-		this.webHelpName = 'WebHelp.' + this.appName;
+		//set default parameters so that we can use them even if callbacks are not set
+		webHelpInstance = utility._setDefaultProperties(webHelpInstance);
 		//setup icon classes
-		if (this.usesFontAwesome === true) {
-			this.iconClass = {
-				"remove": "fa fa-times",
-				"play": "fa fa-play-circle-o",
-				"save": "fa fa-floppy-o",
-				"clear": "fa fa-refresh",
-				"new": "fa fa-plus",
-				"add": "fa fa-plus",
-				"info": "fa fa-info-circle",
-				"edit": "fa fa-edit",
-				"upload": "fa fa-upload",
-				"next": "fa fa-step-forward",
-				"prev": "fa fa-step-backward",
-				"done": "fa fa-times"
-			};
-		} else { //default to bootstrap
-			this.iconClass = {
-				"remove": "glyphicon glyphicon-remove",
-				"play": "glyphicon glyphicon-play-circle",
-				"new": "glyphicon glyphicon-plus",
-				"save": "glyphicon glyphicon-floppy-disk",
-				"clear": "glyphicon glyphicon-refresh",
-				"add": "glyphicon glyphicon-plus",
-				"info": "glyphicon glyphicon-info-sign",
-				"edit": "glyphicon glyphicon-edit",
-				"upload": "glyphicon glyphicon-upload",
-				"next": "glyphicon glyphicon-step-forward",
-				"prev": "glyphicon glyphicon-step-backward",
-				"done": "glyphicon glyphicon-remove"
-			};
-		}
-		this.defaultIntroJsOptions = {
-			nextLabel: 'Next <span class=\"' + this.iconClass.next + '\"></span>',
-			prevLabel: '<span class=\"' + this.iconClass.prev + '\"></span> Previous',
-			skipLabel: '<span class=\"' + this.iconClass.done + '\"></span>',
-			doneLabel: '<span class=\"' + this.iconClass.done + '\"></span>'
-		};
+		webHelpInstance = utility._setupIconClasses(webHelpInstance);
+		//set introjs options
+		webHelpInstance = utility._setIntroJsOptions(webHelpInstance);
 		//build the gui
-		if (this.parameters.create !== undefined) {
-			this.mode = "create";
-			utility._showHelpCreationMode(this);
+		if (webHelpInstance.parameters.create !== undefined) {
+			webHelpInstance.mode = "create";
+			utility._showHelpCreationMode(webHelpInstance);
 		} else {
-			this.mode = "consume";
-			utility._showHelpConsumptionMode(this);
+			webHelpInstance.mode = "consume";
+			utility._showHelpConsumptionMode(webHelpInstance);
 		}
-		utility._bindPlayEditButtons(this);
+		utility._bindPlayEditButtons(webHelpInstance);
 	}
 
 	/**

@@ -93,12 +93,13 @@ module.exports = {
 		webHelpInstance.ui.contentConsumptionModal = webHelpInstance.ui.contentConsumptionModal || jQuery('#contentConsumptionModal');
 		webHelpInstance.ui.webHelpConsumptionModalClose = webHelpInstance.ui.webHelpConsumptionModalClose || jQuery('#webHelpConsumptionModalClose');
 
-		webHelpInstance.ui.contentConsumptionModal.on('click', function(event) {
+		webHelpInstance.ui.contentConsumptionModal.on('click', function (event) {
 			if (event.target !== this) {
 				return webHelpInstance.onSequenceClose();
 			}
 		});
-		webHelpInstance.ui.webHelpConsumptionModalClose.on('click',	webHelpInstance.onSequenceClose);
+		webHelpInstance.ui.webHelpConsumptionModalClose.on('click', webHelpInstance.onSequenceClose);
+		jQuery(webHelpInstance.ui.contentConsumptionModal.find('button.close')).on('click', webHelpInstance.onSequenceClose);
 	},
 	/**
 	 * Perform the necessary actions to show the consumption mode
@@ -130,11 +131,11 @@ module.exports = {
 				utility._refreshWhatsNew(webHelpInstance);
 			}, 1800000);
 
-		//This is used in Aladdin Desktop Help
-		//to show the list of sequences available to view.
-		if (webHelpInstance.showHelpContentsOnLoad){
-			webHelpInstance.showSequenceConsumptionModal();
-		} else if (webHelpInstance.showIntroOnLoad) {
+			//This is used in Aladdin Desktop Help
+			//to show the list of sequences available to view.
+			if (webHelpInstance.showHelpContentsOnLoad) {
+				webHelpInstance.showSequenceConsumptionModal();
+			} else if (webHelpInstance.showIntroOnLoad) {
 				var introSeqId = webHelpInstance.getSequenceIdForSequenceName('Introduction');
 				if (introSeqId && !webHelpInstance.isSequenceAlreadyViewed({seqId: introSeqId})) {
 					webHelpInstance.playSequence('Introduction');
@@ -467,5 +468,72 @@ module.exports = {
 	 */
 	_getCurrentTableSeqId: function (webHelpInstance) {
 		return webHelpInstance.stepsTable.getSeqId();
+	},
+	/**
+	 * Utility function to set introJs options
+	 * @param {WebHelp} webHelpInstance The current instance of WebHelp
+	 * @returns {WebHelp} The instance of WebHelp with the IntroJs options specified
+	 * @private
+	 */
+	_setIntroJsOptions: function (webHelpInstance) {
+		webHelpInstance.defaultIntroJsOptions = {
+			nextLabel: 'Next <span class=\"' + webHelpInstance.iconClass.next + '\"></span>',
+			prevLabel: '<span class=\"' + webHelpInstance.iconClass.prev + '\"></span> Previous',
+			skipLabel: '<span class=\"' + webHelpInstance.iconClass.done + '\"></span>',
+			doneLabel: '<span class=\"' + webHelpInstance.iconClass.done + '\"></span>'
+		};
+		return webHelpInstance;
+	}, /**
+	 * Utility function to set default properties
+	 * @param {WebHelp} webHelpInstance The current instance of WebHelp
+	 * @param {String} webHelpInstance.appName The Application name specified in the instance of WebHelp
+	 * @returns {WebHelp} The instance of WebHelp with the default parameters specified
+	 * @private
+	 */
+	_setDefaultProperties: function (webHelpInstance) {
+		webHelpInstance.webHelpName = 'WebHelp.' + webHelpInstance.appName;
+		webHelpInstance.visitedSequences = [];
+		return webHelpInstance;
+	},
+	/**
+	 * Utility function to set icon classes
+	 * @param {WebHelp} webHelpInstance The current instance of WebHelp
+	 * @param {Boolean} webHelpInstance.usesFontAwesome Do we use font awesome ? If not, use bootstrap
+	 * @returns {WebHelp} The instance of WebHelp with the icon classes specified
+	 * @private
+	 */
+	_setupIconClasses: function (webHelpInstance) {
+		if (webHelpInstance.usesFontAwesome) {
+			webHelpInstance.iconClass = {
+				"remove": "fa fa-times",
+				"play": "fa fa-play-circle-o",
+				"save": "fa fa-floppy-o",
+				"clear": "fa fa-refresh",
+				"new": "fa fa-plus",
+				"add": "fa fa-plus",
+				"info": "fa fa-info-circle",
+				"edit": "fa fa-edit",
+				"upload": "fa fa-upload",
+				"next": "fa fa-step-forward",
+				"prev": "fa fa-step-backward",
+				"done": "fa fa-times"
+			};
+		} else { //default to bootstrap
+			webHelpInstance.iconClass = {
+				"remove": "glyphicon glyphicon-remove",
+				"play": "glyphicon glyphicon-play-circle",
+				"new": "glyphicon glyphicon-plus",
+				"save": "glyphicon glyphicon-floppy-disk",
+				"clear": "glyphicon glyphicon-refresh",
+				"add": "glyphicon glyphicon-plus",
+				"info": "glyphicon glyphicon-info-sign",
+				"edit": "glyphicon glyphicon-edit",
+				"upload": "glyphicon glyphicon-upload",
+				"next": "glyphicon glyphicon-step-forward",
+				"prev": "glyphicon glyphicon-step-backward",
+				"done": "glyphicon glyphicon-remove"
+			};
+			return webHelpInstance;
+		}
 	}
 };
