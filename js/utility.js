@@ -533,7 +533,7 @@ module.exports = {
 				"prev": "glyphicon glyphicon-step-backward",
 				"done": "glyphicon glyphicon-remove"
 			};
-			return webHelpInstance;
 		}
+		return webHelpInstance;
 	}
 };
