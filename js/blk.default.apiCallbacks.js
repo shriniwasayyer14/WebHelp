@@ -51,7 +51,7 @@ function getVisitedCallback(sequences, webHelpInstance) {
 			if (seqIds && seqIds.length > 0) {
 				seqIds = seqIds.split(",");
 			}
-			webHelpInstance.visitedSequenceIdList = seqIds;
+			webHelpInstance.visitedSequenceIdList = seqIds || [];
 		},
 		error: function () {
 			console.error('Could not poll for visited sequences');

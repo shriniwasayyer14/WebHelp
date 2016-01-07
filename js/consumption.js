@@ -117,7 +117,7 @@ module.exports = {
 	 */
 	_setVisitedSequences: function (webHelpInstance, key, val) {
 		var dfd = new jQuery.Deferred();
-		webHelpInstance.visitedSequenceIdList = val;
+		webHelpInstance.visitedSequenceIdList = val || [];
 		if (webHelpInstance.setVisitedCallback) {
 			return webHelpInstance.setVisitedCallback(key, val, webHelpInstance).then(dfd.resolve);
 		} else {
