@@ -17,7 +17,7 @@ var mergeStream = require('merge-stream');
 var _ = require('lodash');
 
 /*HTML Templates in ./templates are converted to an HTML object*/
-gulp.task('html2js',function () {
+gulp.task('html2js', function () {
 	return gulp.src('templates/*.html')
 		.pipe(rename(function (moduleName) {
 			moduleName.extname = '';
@@ -45,66 +45,83 @@ gulp.task('stylus', function () {
 
 /*Webpack build*/
 gulp.task('webpack', ['html2js'], function () {
-	var unminifiedConfig = {
-		entry: './js/WebHelp.js',
-		output: {
-			path: __dirname + '/dist/js',
-			filename: 'AladdinHelp.js',
-			libraryTarget: 'var',
-			library: 'WebHelp'
-		}
-	};
-	var minifiedConfig = _.cloneDeep(unminifiedConfig);
-	minifiedConfig.output.filename = 'AladdinHelp.min.js';
-	function getPlugins(minify) {
-		var plugins = [
-			new BowerWebpackPlugin({
-				modulesDirectories: ['bower_components'],
-				manifestFiles: 'bower.json',
-				includes: /.*/,
-				excludes: [/.*\.less/, /.*\.css/, /.*\.ttf/, /.*\.woff*/],
-				searchResolveModulesDirectories: true
-				//excludes: /.*\.less/
-			}),
-			new webpack.ProvidePlugin({ //this creates globals inside the closure - only for requirements that return functions
-				$: 'jquery',
-				jQuery: 'jquery'
-			})
-		];
-		if (minify) {
-			plugins.push(new webpack.optimize.UglifyJsPlugin({
-				compress: {
-					sequences: true,
-					dead_code: true,
-					conditionals: true,
-					booleans: true,
-					unused: true,
-					if_return: true,
-					join_vars: true,
-					drop_console: true
-				}
-			}));
-		}
-		return plugins;
-	}
+	var configs = getConfigs();
 
-	//configure plugins
-	unminifiedConfig.plugins = getPlugins();
-	minifiedConfig.plugins = getPlugins(true);
 	/*Execute webpack*/
-	var unminifiedBuild = gulp.src(unminifiedConfig.entry).pipe(webpackStream(unminifiedConfig)).pipe(gulp.dest('dist/'));
-	var minifiedBuild = gulp.src(minifiedConfig.entry).pipe(webpackStream(minifiedConfig)).pipe(gulp.dest('dist/'));
+	var unminifiedBuild = gulp
+												.src(configs.unminifiedConfig.entry)
+												.pipe(webpackStream(configs.unminifiedConfig))
+												.pipe(gulp.dest('dist/'));
+
+	var minifiedBuild = gulp
+											.src(configs.minifiedConfig.entry)
+											.pipe(webpackStream(configs.minifiedConfig))
+											.pipe(gulp.dest('dist/'));
 
 	return mergeStream(unminifiedBuild, minifiedBuild);
+
+	//internal function to get the right configs for webpack
+	function getConfigs() {
+		var unminifiedConfig = {
+			entry: './js/WebHelp.js',
+			output: {
+				path: __dirname + '/dist/js',
+				filename: 'AladdinHelp.js',
+				libraryTarget: 'var',
+				library: 'WebHelp'
+			}
+		};
+		var minifiedConfig = _.cloneDeep(unminifiedConfig);
+		minifiedConfig.output.filename = 'AladdinHelp.min.js';
+		function getPlugins(minify) {
+			var plugins = [
+				new BowerWebpackPlugin({
+					modulesDirectories: ['bower_components'],
+					manifestFiles: 'bower.json',
+					includes: /.*/,
+					excludes: [/.*\.less/, /.*\.css/, /.*\.ttf/, /.*\.woff*/],
+					searchResolveModulesDirectories: true
+					//excludes: /.*\.less/
+				}),
+				new webpack.ProvidePlugin({ //this creates globals inside the closure - only for requirements that return functions
+					$: 'jquery',
+					jQuery: 'jquery'
+				})
+			];
+			if (minify) {
+				plugins.push(new webpack.optimize.UglifyJsPlugin({
+					compress: {
+						sequences: true,
+						dead_code: true,
+						conditionals: true,
+						booleans: true,
+						unused: true,
+						if_return: true,
+						join_vars: true,
+						drop_console: true
+					}
+				}));
+			}
+			return plugins;
+		}
+		//configure plugins
+		unminifiedConfig.plugins = getPlugins();
+		minifiedConfig.plugins = getPlugins(true);
+
+		return {
+			minifiedConfig: minifiedConfig,
+			unminifiedConfig: unminifiedConfig
+		}
+	}
 });
 
 /*Code style checking*/
 gulp.task('jshint', function () {
 	return gulp.src(['gulpfile.js',
-		'js/**/*.js',
-		'!js/vendor/*.js',
-		'test/**/*.js'
-	])
+			'js/**/*.js',
+			'!js/vendor/*.js',
+			'test/**/*.js'
+		])
 		.pipe(jshint())
 		.pipe(jshint.reporter(stylish));
 });
