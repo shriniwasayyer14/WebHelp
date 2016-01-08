@@ -45,22 +45,6 @@ gulp.task('stylus', function () {
 
 /*Webpack build*/
 gulp.task('webpack', ['html2js'], function () {
-	var configs = getConfigs();
-
-	/*Execute webpack tasks*/
-	var unminifiedBuild = gulp
-												.src(configs.unminifiedConfig.entry)
-												.pipe(webpackStream(configs.unminifiedConfig))
-												.pipe(gulp.dest('dist/'));
-
-	var minifiedBuild = gulp
-											.src(configs.minifiedConfig.entry)
-											.pipe(webpackStream(configs.minifiedConfig))
-											.pipe(gulp.dest('dist/'));
-
-	/*Merge both webpack task streams so that we only return from this function when they're complete*/
-	return mergeStream(unminifiedBuild, minifiedBuild);
-
 	//internal function to get the right configs for webpack
 	function getConfigs() {
 		var unminifiedConfig = {
@@ -112,8 +96,24 @@ gulp.task('webpack', ['html2js'], function () {
 		return {
 			minifiedConfig: minifiedConfig,
 			unminifiedConfig: unminifiedConfig
-		}
+		};
 	}
+
+	var configs = getConfigs();
+
+	/*Execute webpack tasks*/
+	var unminifiedBuild = gulp
+												.src(configs.unminifiedConfig.entry)
+												.pipe(webpackStream(configs.unminifiedConfig))
+												.pipe(gulp.dest('dist/'));
+
+	var minifiedBuild = gulp
+											.src(configs.minifiedConfig.entry)
+											.pipe(webpackStream(configs.minifiedConfig))
+											.pipe(gulp.dest('dist/'));
+
+	/*Merge both webpack task streams so that we only return from this function when they're complete*/
+	return mergeStream(unminifiedBuild, minifiedBuild);
 });
 
 /*Code style checking*/
