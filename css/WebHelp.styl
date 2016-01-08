@@ -472,6 +472,10 @@ a.introjs-button {
   -ms-transform: none !important;
   -o-transform: none !important;
   transform: none !important;
+  &:not(.modal) {
+    z-index: auto !important;
+    position: relative !important;
+  }
 }
 
 a.introjs-button.introjs-skipbutton {
