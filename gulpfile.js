@@ -9,7 +9,6 @@ var stylus = require('gulp-stylus');
 var rename = require('gulp-rename');
 var fileToJson = require('gulp-file-contents-to-json');
 var header = require('gulp-header');
-var gutil = require('gulp-util');
 var stylish = require('jshint-stylish');
 var cssmin = require('gulp-cssmin');
 var replace = require('gulp-replace');
