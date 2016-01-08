@@ -4,6 +4,7 @@ var BowerWebpackPlugin = require('bower-webpack-plugin');
 var footer = require('gulp-footer');
 var jshint = require('gulp-jshint');
 var webpack = require('webpack');
+var webpackStream = require('webpack-stream');
 var stylus = require('gulp-stylus');
 var rename = require('gulp-rename');
 var fileToJson = require('gulp-file-contents-to-json');
@@ -12,6 +13,7 @@ var gutil = require('gulp-util');
 var stylish = require('jshint-stylish');
 var cssmin = require('gulp-cssmin');
 var replace = require('gulp-replace');
+var mergeStream = require('merge-stream');
 //var debug = require('gulp-debug');
 var _ = require('lodash');
 
@@ -91,22 +93,10 @@ gulp.task('webpack', ['html2js'], function () {
 	unminifiedConfig.plugins = getPlugins();
 	minifiedConfig.plugins = getPlugins(true);
 	/*Execute webpack*/
-	webpack(unminifiedConfig, function (err, stats) {
-		if (err) {
-			throw new gutil.PluginError('webpack', err);
-		}
-		gutil.log('[webpack]', stats.toString({
-			// output options
-		}));
-	});
-	webpack(minifiedConfig, function (err, stats) {
-		if (err) {
-			throw new gutil.PluginError('webpack', err);
-		}
-		gutil.log('[webpack]', stats.toString({
-			// output options
-		}));
-	});
+	var unminifiedBuild = gulp.src(unminifiedConfig.entry).pipe(webpackStream(unminifiedConfig)).pipe(gulp.dest('dist/'));
+	var minifiedBuild = gulp.src(minifiedConfig.entry).pipe(webpackStream(minifiedConfig)).pipe(gulp.dest('dist/'));
+
+	return mergeStream(unminifiedBuild, minifiedBuild);
 });
 
 /*Code style checking*/
@@ -129,3 +119,7 @@ gulp.task('replace', ['webpack'], function () {
 
 /*Default build task*/
 gulp.task('default', ['html2js', 'stylus', 'jshint', 'webpack', 'replace']);
+
+
+
+
