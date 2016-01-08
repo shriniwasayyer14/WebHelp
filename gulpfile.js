@@ -47,7 +47,7 @@ gulp.task('stylus', function () {
 gulp.task('webpack', ['html2js'], function () {
 	var configs = getConfigs();
 
-	/*Execute webpack*/
+	/*Execute webpack tasks*/
 	var unminifiedBuild = gulp
 												.src(configs.unminifiedConfig.entry)
 												.pipe(webpackStream(configs.unminifiedConfig))
@@ -58,6 +58,7 @@ gulp.task('webpack', ['html2js'], function () {
 											.pipe(webpackStream(configs.minifiedConfig))
 											.pipe(gulp.dest('dist/'));
 
+	/*Merge both webpack task streams so that we only return from this function when they're complete*/
 	return mergeStream(unminifiedBuild, minifiedBuild);
 
 	//internal function to get the right configs for webpack
