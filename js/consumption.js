@@ -28,6 +28,13 @@ module.exports = {
 		} else {
 			jQuery(navbarButtonElement).after(webHelpInstance.ui.webHelpButton);
 		}
+		$(document).keydown(function(event){
+			event.preventDefault();
+			if((event.ctrlKey || event.metaKey) && event.shiftKey && event.keyCode === 191 ){
+				webHelpInstance.showSequenceConsumptionModal();
+			}
+
+		});
 		webHelpInstance.ui.webHelpButton.on('click', function (event) {
 			event.preventDefault();
 			webHelpInstance.showSequenceConsumptionModal();
