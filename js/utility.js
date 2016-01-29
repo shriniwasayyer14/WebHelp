@@ -384,15 +384,17 @@ module.exports = {
 					'',//remove
 					JSON.stringify(sequenceContent)//content
 				]);
-				if (webHelpInstance.isSequenceAlreadyViewed({seqId: sequenceContent.seqId})) {
-					supplementalClasses.push('seen');
-				} else {
-					supplementalClasses.push('unseen');
-				}
 			});
 			sequenceData = sequenceData.sort(function(a, b) {
 				return retrievedSequences[b[1]].seqId - retrievedSequences[a[1]].seqId;
 			});
+			for (var i = 0; i < sequenceData.length; i++) {
+				if (webHelpInstance.isSequenceAlreadyViewed({seqId: retrievedSequences[sequenceData[i][1]].seqId})) {
+					supplementalClasses.push('seen');
+				} else {
+					supplementalClasses.push('unseen');
+				}
+			}
 			webHelpInstance.availableSequencesTable = new TableList({
 				element: '#availableSequencesContent',
 				data: sequenceData,
