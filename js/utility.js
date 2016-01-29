@@ -390,6 +390,9 @@ module.exports = {
 					supplementalClasses.push('unseen');
 				}
 			});
+			sequenceData = sequenceData.sort(function(a, b) {
+				return retrievedSequences[b[1]].seqId - retrievedSequences[a[1]].seqId;
+			});
 			webHelpInstance.availableSequencesTable = new TableList({
 				element: '#availableSequencesContent',
 				data: sequenceData,
