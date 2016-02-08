@@ -1,0 +1,14 @@
+{
+  "Issue1":{
+        "msg":"Message1",
+        "hashtag":"Hashtag1",
+        "method": "Chat",
+        "suggestion": "blah blah blah blah"
+  },
+  "Issue2":{
+        "msg":"Message2",
+        "hashtag":"Hashtag2",
+        "method":"Chat",
+        "suggestion": "not blah okay?"
+  }
+}

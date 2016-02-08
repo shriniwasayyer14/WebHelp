@@ -127,58 +127,56 @@ module.exports = {
 			$body.append(webHelpContact);
 			jQuery('#webHelpissueSelected').hide();
 			jQuery('#webHelpnotHelpful').hide();
-			for(i = 0; i< issue_keys.length; i++){
-				$("#webHelpissueTag").append('<li>'+issue_keys[i]+'</li>');
+			for(var i = 0; i< issue_keys.length; i++){
+				jQuery("#webHelpissueTag").append('<li>'+issue_keys[i]+'</li>');
 			}
-			$(document).ready(function(){
-				$("#webHelpissueTag").on("click","li",function(e){
+			jQuery(document).ready(function(){
+				jQuery("#webHelpissueTag").on("click","li",function(){
 					jQuery('#webHelpissueSelected').hide();
 					jQuery('#webHelpnotHelpful').hide();
-					$("#webHelpissueButton").text($(this).text());
-					var issueSolution = issues[$("#webHelpissueButton").text()].suggestion;
-					$("#webHelpsuggestedSolutions").text(issueSolution);
-					$('.btn-success').remove();
+					jQuery("#webHelpissueButton").text(jQuery(this).text());
+					var issueSolution = issues[jQuery("#webHelpissueButton").text()].suggestion;
+					jQuery("#webHelpsuggestedSolutions").text(issueSolution);
+					jQuery('.btn-success').remove();
 					jQuery('#webHelpissueSelected').show();
 				});
 
-				$("#webHelpissueSelected").on("click","#webHelpthumbsUp",function(e){
-						alert('close modal');
+				jQuery("#webHelpissueSelected").on("click","#webHelpthumbsUp",function(){
+					jQuery('#webHelpissueSelected').hide();
+					jQuery("#webHelpConsumptionModalClose").click();
 				});
 
-				$("#webHelpissueSelected").on("click","#webHelpthumbsDown",function(e){
+				jQuery("#webHelpissueSelected").on("click","#webHelpthumbsDown",function(){
 					jQuery('#webHelpissueSelected').hide();
-					$("#webHelpmessageArea").val(issues[$("#webHelpissueButton").text()].msg);
-					$("#webHelpappNameTag").text("#"+webHelpInstance.appName);
-					$("#webHelpissueNameTag").text("#"+$("#webHelpissueButton").text());
-					var tags = issues[$("#webHelpissueButton").text()].hashtag.split(",");
-					for(i = 0; i<tags.length;i++){
-						$("#webHelpsuggestedTag").append('<span style="cursor:pointer;color:blue;">#'+tags[i]+'</span>&nbsp;');
+					jQuery("#webHelpmessageArea").val(issues[jQuery("#webHelpissueButton").text()].msg);
+					jQuery("#webHelpappNameTag").text("#"+webHelpInstance.appName);
+					jQuery("#webHelpissueNameTag").text("#"+jQuery("#webHelpissueButton").text());
+					var tags = issues[jQuery("#webHelpissueButton").text()].hashtag.split(",");
+					for(var i = 0; i<tags.length;i++){
+						jQuery("#webHelpsuggestedTag").append('<span style="cursor:pointer;color:blue;">#'+tags[i]+'</span>&nbsp;');
 					}
-					$("#webHelprecommendedMethod").text((issues[$("#webHelpissueButton").text()].method).toUpperCase());
+					jQuery("#webHelprecommendedMethod").text((issues[jQuery("#webHelpissueButton").text()].method).toUpperCase());
 					jQuery('#webHelpnotHelpful').show();
 				});
 
-				$("#webHelpsuggestedTag").on("click","span",function(e){
-					$("#webHelpprepopulatedTags").append('<div style="margin-right: 4px;" class="btn btn-sm btn-success" data-placement="bottom">'+$(this).text()
-						+'<button type="button" class="close" onclick="$(this).parent().remove()" aria-hidden="true">×</button></div>');
-					$(this).hide();
+				jQuery("#webHelpsuggestedTag").on("click","span",function(){
+					jQuery("#webHelpprepopulatedTags").append('<div style="margin-right: 4px;" class="btn btn-sm btn-success" data-placement="bottom">'+jQuery(this).text()+'<button type="button" class="close" onclick="jQuery(this).parent().remove()" aria-hidden="true">×</button></div>');
+					jQuery(this).hide();
 				});
 
-				$("#webHelptagentrybtn").click(function(e){
-					if($("#webHelphashtagEntry").val().trim() != ""){
-						$("#webHelpprepopulatedTags").append('<div style="margin-right: 4px;" class="btn btn-sm btn-success" data-placement="bottom">#'+$("#webHelphashtagEntry").val()
-							+'<button type="button" class="close" onclick="$(this).parent().remove()" aria-hidden="true">×</button></div>');
+				jQuery("#webHelptagentrybtn").click(function(){
+					if(jQuery("#webHelphashtagEntry").val().trim() !== ""){
+						jQuery("#webHelpprepopulatedTags").append('<div style="margin-right: 4px;" class="btn btn-sm btn-success" data-placement="bottom">#'+jQuery("#webHelphashtagEntry").val()+'<button type="button" class="close" onclick="jQuery(this).parent().remove()" aria-hidden="true">×</button></div>');
 					}
 				});
 
-				$(document).keydown(function(event){
+				jQuery(document).keydown(function(event){
 					//event.preventDefault();
 					if(event.keyCode === 13 ){
 						event.preventDefault();
-						if($("#webHelphashtagEntry").val().trim() != ""){
-							$("#webHelpprepopulatedTags").append('<div style="margin-right: 4px;" class="btn btn-sm btn-success" data-placement="bottom">#'+$("#webHelphashtagEntry").val()
-								+'<button type="button" class="close" onclick="$(this).parent().remove()" aria-hidden="true">×</button></div>');
-							$("#webHelphashtagEntry").val("");
+						if(jQuery("#webHelphashtagEntry").val().trim() !== ""){
+							jQuery("#webHelpprepopulatedTags").append('<div style="margin-right: 4px;" class="btn btn-sm btn-success" data-placement="bottom">#'+jQuery("#webHelphashtagEntry").val()+'<button type="button" class="close" onclick="jQuery(this).parent().remove()" aria-hidden="true">×</button></div>');
+							jQuery("#webHelphashtagEntry").val("");
 						}
 					}
 
@@ -186,16 +184,15 @@ module.exports = {
 
 				jQuery("#webHelpContactEmail").click(function () {
 					if(webHelpInstance.supportEmail){
-						email = webHelpInstance.supportEmail;
+						var email = webHelpInstance.supportEmail;
 						email = email.replace(",", ";");
-						appName = webHelpInstance.appName;
-						issue = $("#webHelpissueButton").text();
+						var appName = webHelpInstance.appName;
+						var issue = jQuery("#webHelpissueButton").text();
 						var textMessage = document.getElementById("webHelpmessageArea").value;
 						var subject = jQuery("#webHelpprepopulatedTags").children().text();
-
+						subject = subject.replace(/×/g,"");
 						var link = document.createElement('a');
-						var emailBody = 'Question: %0D%0A'+textMessage+'%0D%0A%0D%0AIssue: '+issue+'%0D%0A%0D%0A%0D%0ALink: ' + encodeURIComponent(window.location.href) + '%0D%0A%0D%0AApp Name:'
-							+ appName;
+						var emailBody = 'Question: %0D%0A'+textMessage+'%0D%0A%0D%0AIssue: '+issue+'%0D%0A%0D%0A%0D%0ALink: ' + encodeURIComponent(window.location.href) + '%0D%0A%0D%0AApp Name:'+ appName;
 						link.setAttribute('href', 'mailto:' + email + '&subject='+subject+ '&body=' + emailBody);
 						link.click();
 					}

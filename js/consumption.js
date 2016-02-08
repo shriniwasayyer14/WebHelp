@@ -28,7 +28,7 @@ module.exports = {
 		} else {
 			jQuery(navbarButtonElement).after(webHelpInstance.ui.webHelpButton);
 		}
-		$(document).keydown(function(event){
+		jQuery(document).keydown(function(event){
 			//event.preventDefault();
 			if((event.ctrlKey || event.metaKey) && event.shiftKey && event.keyCode === 191 ){
 				event.preventDefault();

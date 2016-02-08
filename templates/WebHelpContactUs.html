@@ -45,7 +45,7 @@
     <div id="webHelpnotHelpful">
         <div id="issueMessage">
             <strong>Write a message</strong><br>
-            <textarea id="webHelpmessageArea" style="width: 100%" placeholder="Enter a message" rows="6"></textarea><br>
+            <textarea class="form-control" id="webHelpmessageArea" style="width: 100%" placeholder="Enter a message" rows="6"></textarea><br>
             <button id="webHelpattachFile" type="button" class="btn btn-default">
                 <span class="glyphicon glyphicon-paperclip" aria-hidden="true"></span>Attach a file</button>
         </div>
@@ -53,12 +53,12 @@
             <strong>Tag your message to route to an expert</strong><br>
             <div class="input-group">
                 <span class="input-group-addon">#</span>
-                <input type="text" class="form-control" id="webHelphashtagEntry"/>
-<span class="input-group-btn">
-<button class="btn btn-default" id="webHelptagentrybtn" type="button">
-    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-</button>
-</span>
+                <input type="text" style="height: 39px;border-radius: 0px; border-color: gainsboro" class="form-control" id="webHelphashtagEntry"/>
+                <span class="input-group-btn">
+                    <button class="btn btn-default" id="webHelptagentrybtn" type="button" style="height: 39px;margin: 0px;">
+                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                    </button>
+                </span>
             </div>
             <div id="webHelpprepopulatedTags" class="form-group" style="margin-top:10px">
                 <div id="webHelpappNameTag" class="btn btn-sm btn-primary" data-toggle="tooltip" data-placement="bottom" data-delay="500" title="This tag was created based on selections above"></div>
