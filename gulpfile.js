@@ -54,6 +54,11 @@ gulp.task('webpack', ['html2js'], function () {
 				filename: 'AladdinHelp.js',
 				libraryTarget: 'var',
 				library: 'WebHelp'
+			},
+			module:{
+				loaders:[
+					{test: /\.json$/,loader:"json-loader"}
+				]
 			}
 		};
 		var minifiedConfig = _.cloneDeep(unminifiedConfig);
@@ -105,12 +110,12 @@ gulp.task('webpack', ['html2js'], function () {
 	var unminifiedBuild = gulp
 												.src(configs.unminifiedConfig.entry)
 												.pipe(webpackStream(configs.unminifiedConfig))
-												.pipe(gulp.dest('dist/'));
+												.pipe(gulp.dest('dist/js/'));
 
 	var minifiedBuild = gulp
 											.src(configs.minifiedConfig.entry)
 											.pipe(webpackStream(configs.minifiedConfig))
-											.pipe(gulp.dest('dist/'));
+											.pipe(gulp.dest('dist/js/'));
 
 	/*Merge both webpack task streams so that we only return from this function when they're complete*/
 	return mergeStream(unminifiedBuild, minifiedBuild);

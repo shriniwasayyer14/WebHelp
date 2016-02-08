@@ -29,8 +29,9 @@ module.exports = {
 			jQuery(navbarButtonElement).after(webHelpInstance.ui.webHelpButton);
 		}
 		$(document).keydown(function(event){
-			event.preventDefault();
+			//event.preventDefault();
 			if((event.ctrlKey || event.metaKey) && event.shiftKey && event.keyCode === 191 ){
+				event.preventDefault();
 				webHelpInstance.showSequenceConsumptionModal();
 			}
 

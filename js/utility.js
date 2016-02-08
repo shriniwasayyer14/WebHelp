@@ -113,16 +113,105 @@ module.exports = {
 		var utility = this;
 		consumption._addHelpIcon(webHelpInstance, webHelpInstance.helpIconPosition);
 		webHelpInstance.ui.webHelpMainContent = jQuery("#webHelpMainContent");
+		//var issuesFileName = "../"+webHelpInstance.issuesJsonFile;
 		if (webHelpInstance.ui.webHelpMainContent.length <= 0) {
+			var issues = require("../issues.json");
+			var issue_keys = Object.keys(issues);
 			var modalContent = jQuery(WebHelpTemplates.WebHelpContent);
 			var webHelpContent = jQuery(WebHelpTemplates.WebHelpConsumption);
+			var webHelpContact = jQuery(WebHelpTemplates.WebHelpContactUs);
 			utility._attachIcons(webHelpInstance);
 			var $body = jQuery("body");
 			$body.append(modalContent);
 			$body.append(webHelpContent);
+			$body.append(webHelpContact);
+			jQuery('#webHelpissueSelected').hide();
+			jQuery('#webHelpnotHelpful').hide();
+			for(i = 0; i< issue_keys.length; i++){
+				$("#webHelpissueTag").append('<li>'+issue_keys[i]+'</li>');
+			}
+			$(document).ready(function(){
+				$("#webHelpissueTag").on("click","li",function(e){
+					jQuery('#webHelpissueSelected').hide();
+					jQuery('#webHelpnotHelpful').hide();
+					$("#webHelpissueButton").text($(this).text());
+					var issueSolution = issues[$("#webHelpissueButton").text()].suggestion;
+					$("#webHelpsuggestedSolutions").text(issueSolution);
+					$('.btn-success').remove();
+					jQuery('#webHelpissueSelected').show();
+				});
+
+				$("#webHelpissueSelected").on("click","#webHelpthumbsUp",function(e){
+						alert('close modal');
+				});
+
+				$("#webHelpissueSelected").on("click","#webHelpthumbsDown",function(e){
+					jQuery('#webHelpissueSelected').hide();
+					$("#webHelpmessageArea").val(issues[$("#webHelpissueButton").text()].msg);
+					$("#webHelpappNameTag").text("#"+webHelpInstance.appName);
+					$("#webHelpissueNameTag").text("#"+$("#webHelpissueButton").text());
+					var tags = issues[$("#webHelpissueButton").text()].hashtag.split(",");
+					for(i = 0; i<tags.length;i++){
+						$("#webHelpsuggestedTag").append('<span style="cursor:pointer;color:blue;">#'+tags[i]+'</span>&nbsp;');
+					}
+					$("#webHelprecommendedMethod").text((issues[$("#webHelpissueButton").text()].method).toUpperCase());
+					jQuery('#webHelpnotHelpful').show();
+				});
+
+				$("#webHelpsuggestedTag").on("click","span",function(e){
+					$("#webHelpprepopulatedTags").append('<div style="margin-right: 4px;" class="btn btn-sm btn-success" data-placement="bottom">'+$(this).text()
+						+'<button type="button" class="close" onclick="$(this).parent().remove()" aria-hidden="true">×</button></div>');
+					$(this).hide();
+				});
+
+				$("#webHelptagentrybtn").click(function(e){
+					if($("#webHelphashtagEntry").val().trim() != ""){
+						$("#webHelpprepopulatedTags").append('<div style="margin-right: 4px;" class="btn btn-sm btn-success" data-placement="bottom">#'+$("#webHelphashtagEntry").val()
+							+'<button type="button" class="close" onclick="$(this).parent().remove()" aria-hidden="true">×</button></div>');
+					}
+				});
+
+				$(document).keydown(function(event){
+					//event.preventDefault();
+					if(event.keyCode === 13 ){
+						event.preventDefault();
+						if($("#webHelphashtagEntry").val().trim() != ""){
+							$("#webHelpprepopulatedTags").append('<div style="margin-right: 4px;" class="btn btn-sm btn-success" data-placement="bottom">#'+$("#webHelphashtagEntry").val()
+								+'<button type="button" class="close" onclick="$(this).parent().remove()" aria-hidden="true">×</button></div>');
+							$("#webHelphashtagEntry").val("");
+						}
+					}
+
+				});
+
+				jQuery("#webHelpContactEmail").click(function () {
+					if(webHelpInstance.supportEmail){
+						email = webHelpInstance.supportEmail;
+						email = email.replace(",", ";");
+						appName = webHelpInstance.appName;
+						issue = $("#webHelpissueButton").text();
+						var textMessage = document.getElementById("webHelpmessageArea").value;
+						var subject = jQuery("#webHelpprepopulatedTags").children().text();
+
+						var link = document.createElement('a');
+						var emailBody = 'Question: %0D%0A'+textMessage+'%0D%0A%0D%0AIssue: '+issue+'%0D%0A%0D%0A%0D%0ALink: ' + encodeURIComponent(window.location.href) + '%0D%0A%0D%0AApp Name:'
+							+ appName;
+						link.setAttribute('href', 'mailto:' + email + '&subject='+subject+ '&body=' + emailBody);
+						link.click();
+					}
+					else{
+						//print a message.
+					}
+
+				});
+
+			});
 			webHelpInstance.ui.webHelpMainContent = jQuery("#webHelpMainContent");
+			webHelpInstance.ui.webHelpContactUs = jQuery("#contactConsumptionModal");
 		}
 		webHelpInstance.ui.webHelpMainContent.appendTo("#contentConsumptionModal .modal-body");
+		webHelpInstance.ui.webHelpContactUs.appendTo("#contactUsContent");
+
 		jQuery('.nav-tabs a[href=#addSequence]').hide();
 		jQuery('#globalWebHelpCreatorActionsWell').hide();
 		utility._refreshWhatsNew(webHelpInstance).then(function () {

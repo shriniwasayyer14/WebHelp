@@ -68,6 +68,7 @@ WebHelp = (function () {
 			getSequencesCallback: apiCallbacks.getSequencesCallback,
 			getVisitedCallback: apiCallbacks.getVisitedCallback,
 			setVisitedCallback: apiCallbacks.setVisitedCallback,
+			issuesJsonFile: 'issues.json',
 			onSequenceClose: function () {
 				return; //dummy function to be overridden
 			},
