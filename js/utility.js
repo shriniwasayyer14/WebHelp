@@ -136,6 +136,7 @@ module.exports = {
 					jQuery('#webHelpnotHelpful').hide();
 					jQuery("#webHelpissueButton").text(jQuery(this).text());
 					var issueSolution = issues[jQuery("#webHelpissueButton").text()].suggestion;
+					issueSolution = issueSolution.replace(/\\n/g,'<br/>');
 					jQuery("#webHelpsuggestedSolutions").text(issueSolution);
 					jQuery('.btn-success').remove();
 					jQuery('#webHelpissueSelected').show();

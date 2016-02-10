@@ -1,14 +1,21 @@
 {
-  "Issue1":{
-        "msg":"Message1",
-        "hashtag":"Hashtag1",
-        "method": "Chat",
-        "suggestion": "blah blah blah blah"
+  "Missing SecGroup":{
+        "msg":"A secGroup is missing for client GAFG",
+        "hashtag":"CRE,DEBT,*.*",
+        "method": "Email",
+        "suggestion": "From the GUI add a '*.*' secGroup which can later be changed from the backend."
   },
-  "Issue2":{
-        "msg":"Message2",
-        "hashtag":"Hashtag2",
-        "method":"Chat",
-        "suggestion": "not blah okay?"
+  "Other":{
+        "msg":"Please tell us about this new issue",
+        "hashtag":"New Issue",
+        "method":"Email",
+        "suggestion": "Please proceed further to tell us more about your issue."
+  },
+  "Unable to Promote to PROD":{
+    "msg":"When trying to Promote to PROD from TEST, an error message is displayed saying that no differences exist.",
+    "hashtag":"Promote to PROD, Display Error",
+    "method":"Email",
+    "suggestion":"Try the following steps:\n1:Go to version TEST, and make a change. (Eg - Add an asset bucket, or a switch to an existing asset bucket)\n2:Save the changes.\n3:Click on the Promote to PROD button.\n4:You should see the modal displaying all the changes."
+
   }
 }
