@@ -1,9 +1,14 @@
 <div id="contactConsumptionModal">
     Please fill out the form below in order to contact Aladdin Support.
     <hr style="width: 100%; color: #aaa; height: 1px; background-color: #aaa;">
+    <div>
+        <strong class="col-lg-6 col-md-6 col-sm-6 col-xs-6">App Name</strong>
+        <label class="col-lg-6 col-md-6 col-sm-6 col-xs-6" id="webHelpappName"></label>
+        <br/>
+    </div>
     <div id="webHelpissueNames">
-        <strong>Please tell us more about your issue</strong><br>
-        <div class="dropdown">
+        <strong class="col-lg-6 col-md-6 col-sm-6 col-xs-6">Please tell us more about your issue</strong>
+        <div class="dropdown col-lg-6 col-md-6 col-sm-6 col-xs-6">
             <button class="btn btn-default dropdown-toggle" type="button" style="width:100%" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                 <span id="webHelpissueButton">Select Issue</span>
                 <span class="caret"></span>
@@ -11,8 +16,9 @@
             <ul class="dropdown-menu" style="width:100%;cursor: pointer;font-size:13px" id="webHelpissueTag">
             </ul>
         </div>
+        <br/>
     </div>
-
+    <div class="row"></div>
     <div id="webHelpissueSelected" style="display:none">
         <div class="alert alert-info" role="alert">
             <h4><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span> Have you tried</h4>
@@ -51,14 +57,14 @@
                 <span class="input-group-addon">#</span>
                 <input type="text" style="height: 39px;border-radius: 0px; border-color: gainsboro" class="form-control" id="webHelphashtagEntry"/>
                 <span class="input-group-btn">
-                    <button class="btn btn-default" id="webHelptagentrybtn" type="button" style="height: 39px;margin: 0px;">
+                    <button class="btn btn-default" id="webHelptagentrybtn" type="button" style="height: 39px;margin: 0px;width:32px;">
                     <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
                     </button>
                 </span>
             </div>
             <div id="webHelpprepopulatedTags" class="form-group" style="margin-top:10px">
-                <div id="webHelpappNameTag" class="btn btn-sm btn-primary" data-toggle="tooltip" data-placement="bottom" data-delay="500" title="This tag was created based on selections above"></div>
-                <div id="webHelpissueNameTag" class="btn btn-sm btn-primary" data-toggle="tooltip" data-placement="bottom" data-delay="500" title="This tag was created based on selections above"></div>
+                <div id="webHelpappNameTag" style="padding-top: 7px;" class="btn btn-sm btn-primary" data-toggle="tooltip" data-placement="bottom" data-delay="500" title="This tag was created based on selections above"></div>
+                <div id="webHelpissueNameTag" style="padding-top: 7px;" class="btn btn-sm btn-primary" data-toggle="tooltip" data-placement="bottom" data-delay="500" title="This tag was created based on selections above"></div>
             </div>
 
             <p class="italic" style="margin:0">
@@ -74,6 +80,16 @@
             </div>
         </div>
         <div class="btn-group btn-group-justified" role="group">
+            <div class="btn-group" role="group">
+                <button type="button" class="btn btn-info btn-lg" disabled>
+                    <span class="glyphicon glyphicon-comment" aria-hidden="true"></span> Chat Me
+                </button>
+            </div>
+            <div class="btn-group" role="group">
+                <button type="button" class="btn btn-info btn-lg" disabled>
+                    <span class="glyphicon glyphicon-earphone" aria-hidden="true"></span> Call Me
+                </button>
+            </div>
             <div class="btn-group" role="group">
                 <button type="button" class="btn btn-info btn-lg" id="webHelpContactEmail">
                     <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> E-mail Me

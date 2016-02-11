@@ -125,6 +125,7 @@ module.exports = {
 			$body.append(modalContent);
 			$body.append(webHelpContent);
 			$body.append(webHelpContact);
+			jQuery('#webHelpappName').text(webHelpInstance.appName);
 			jQuery('#webHelpissueSelected').hide();
 			jQuery('#webHelpnotHelpful').hide();
 			for(var i = 0; i< issue_keys.length; i++){
@@ -154,20 +155,20 @@ module.exports = {
 					jQuery("#webHelpissueNameTag").text("#"+jQuery("#webHelpissueButton").text());
 					var tags = issues[jQuery("#webHelpissueButton").text()].hashtag.split(",");
 					for(var i = 0; i<tags.length;i++){
-						jQuery("#webHelpsuggestedTag").append('<span style="cursor:pointer;color:blue;">#'+tags[i]+'</span>&nbsp;');
+						jQuery("#webHelpsuggestedTag").append('<button class="btn btn-default" >#'+tags[i]+'</button>&nbsp;');
 					}
 					jQuery("#webHelprecommendedMethod").text((issues[jQuery("#webHelpissueButton").text()].method).toUpperCase());
 					jQuery('#webHelpnotHelpful').show();
 				});
 
-				jQuery("#webHelpsuggestedTag").on("click","span",function(){
-					jQuery("#webHelpprepopulatedTags").append('<div style="margin-right: 4px;" class="btn btn-sm btn-success" data-placement="bottom">'+jQuery(this).text()+'<button type="button" class="close" onclick="jQuery(this).parent().remove()" aria-hidden="true">×</button></div>');
+				jQuery("#webHelpsuggestedTag").on("click","button",function(){
+					jQuery("#webHelpprepopulatedTags").append('<div style="margin-right: 4px;padding-top: 7px;" class="btn btn-sm btn-success" data-placement="bottom">'+jQuery(this).text()+'<button type="button" class="close" onclick="jQuery(this).parent().remove()" aria-hidden="true">×</button></div>');
 					jQuery(this).hide();
 				});
 
 				jQuery("#webHelptagentrybtn").click(function(){
 					if(jQuery("#webHelphashtagEntry").val().trim() !== ""){
-						jQuery("#webHelpprepopulatedTags").append('<div style="margin-right: 4px;" class="btn btn-sm btn-success" data-placement="bottom">#'+jQuery("#webHelphashtagEntry").val()+'<button type="button" class="close" onclick="jQuery(this).parent().remove()" aria-hidden="true">×</button></div>');
+						jQuery("#webHelpprepopulatedTags").append('<div style="margin-right: 4px;padding-top: 7px;" class="btn btn-sm btn-success" data-placement="bottom">#'+jQuery("#webHelphashtagEntry").val()+'<button type="button" class="close" onclick="jQuery(this).parent().remove()" aria-hidden="true">×</button></div>');
 					}
 				});
 
@@ -176,7 +177,7 @@ module.exports = {
 					if(event.keyCode === 13 ){
 						event.preventDefault();
 						if(jQuery("#webHelphashtagEntry").val().trim() !== ""){
-							jQuery("#webHelpprepopulatedTags").append('<div style="margin-right: 4px;" class="btn btn-sm btn-success" data-placement="bottom">#'+jQuery("#webHelphashtagEntry").val()+'<button type="button" class="close" onclick="jQuery(this).parent().remove()" aria-hidden="true">×</button></div>');
+							jQuery("#webHelpprepopulatedTags").append('<div style="margin-right: 4px;padding-top: 7px;" class="btn btn-sm btn-success" data-placement="bottom">#'+jQuery("#webHelphashtagEntry").val()+'<button type="button" class="close" onclick="jQuery(this).parent().remove()" aria-hidden="true">×</button></div>');
 							jQuery("#webHelphashtagEntry").val("");
 						}
 					}
@@ -207,8 +208,12 @@ module.exports = {
 			webHelpInstance.ui.webHelpMainContent = jQuery("#webHelpMainContent");
 			webHelpInstance.ui.webHelpContactUs = jQuery("#contactConsumptionModal");
 		}
+		if(!webHelpInstance.supportEmail){
+			jQuery('#webHelpContactUsPane').hide();
+		}
 		webHelpInstance.ui.webHelpMainContent.appendTo("#contentConsumptionModal .modal-body");
 		webHelpInstance.ui.webHelpContactUs.appendTo("#contactUsContent");
+
 
 		jQuery('.nav-tabs a[href=#addSequence]').hide();
 		jQuery('#globalWebHelpCreatorActionsWell').hide();
