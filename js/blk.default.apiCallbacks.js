@@ -77,6 +77,38 @@ function setVisitedCallback (key, val, webHelpInstance) {
 	});
 }
 
+
+///**
+// * Refresh and get all sequences from the given filename via RESTful call
+// *
+// * @param {WebHelp} webHelpInstance
+// * @param {String} webHelpInstance.sequencesBaseUrl The base of the URL to call for the sequence file from
+// * @param {String=} filename
+// * @returns {promise} When the AJAX call is complete
+// * @private
+// */
+//function getFAQCallback(webHelpInstance, filename) {
+//	webHelpInstance.sequences = {};
+//	if (!filename) {
+//		filename = webHelpInstance.sequencesBaseUrl + webHelpInstance.webHelpName + 'FAQ' +'.json';
+//	}
+//	return jQuery.ajax({
+//		url: filename,
+//		xhrFields: {
+//			withCredentials: true
+//		},
+//		cache: false,
+//		type: 'GET',
+//		dataType: 'json',
+//		success: function (data) {
+//			webHelpInstance.sequences = data;
+//		},
+//		error: function () {
+//			console.error("Failed to load the sequences!");
+//		}
+//	});
+//}
+
 module.exports = {
 	getSequencesCallback: getSequencesCallback,
 	getVisitedCallback: getVisitedCallback,
